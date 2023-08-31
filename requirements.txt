@@ -11,6 +11,9 @@ archlinux-logout-git # lock & shutdown menu
 pavucontrol   # audo volume controll
 rofi          # App menu
 
+catppuccin-cursors-mocha
+catppuccin-gtk-theme-mocha
+
 waybar        # taskbar
 swayidle      # automatic lock screen 
 wofi          # taskbar
