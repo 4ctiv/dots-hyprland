@@ -11,6 +11,7 @@ archlinux-logout-git # lock & shutdown menu
 pavucontrol   # audo volume controll
 rofi          # App menu
 brightnessctl # monitor brightness settings
+nm-applt      # Wifi icon 
 
 catppuccin-cursors-mocha
 catppuccin-gtk-theme-mocha
