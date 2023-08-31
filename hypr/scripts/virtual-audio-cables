@@ -1,0 +1,49 @@
+#!/bin/bash
+# See https://gitlab.freedesktop.org/pipewire/pipewire/-/wikis/Migrate-PulseAudio
+# This is intended to easily split audio into sub devices, making it easy to seperate audio for e.g. obs-studio
+
+### Pulse (pactl)
+pulse(){
+    # Create 3 virtual audio cables
+    # pactl unload-module module-null-sink && pactl load-module module-loopback
+    sleep 0.5s &&\
+    SOURCE1=$(pactl load-module module-null-sink sink_name="GAME_SINK" sink_properties="device.description='MAIN_Sink'") &&\
+    sleep 0.5s &&\
+    MODULE1=$(pactl load-module module-loopback source="GAME_SINK.monitor" latency_msec=4) &&\
+    sleep 0.5s &&\
+    SOURCE2=$(pactl load-module module-null-sink sink_name="COMS_SINK" sink_properties="device.description='COMS_Sink'") &&\
+    sleep 0.5s &&\
+    MODULE2=$(pactl load-module module-loopback source="COMS_SINK.monitor" latency_msec=4) &&\
+    sleep 0.5s &&\
+    SOURCE3=$(pactl load-module module-null-sink sink_name="MISC_SINK" sink_properties="device.description='MISC_Sink'") &&\
+    sleep 0.5s &&\
+    MODULE3=$(pactl load-module module-loopback source="MISC_SINK.monitor" latency_msec=4)
+}
+
+### Pipewire
+pipewire(){
+    # Create 3 virtual audio cables
+    # systemctl --user restart pipewire pipewire-pulse # Restart pipewire
+    pw-loopback \
+        --capture-props='media.class=Audio/Sink node.name=MAIN_SINK node.description=GAME_Sink audio.position=[FL FR]' \
+        --playback-props='audio.position=[FL FR]' & \
+    pw-loopback \
+        --capture-props='media.class=Audio/Sink node.name=COMS_SINK node.description=COMS_Sink audio.position=[FL FR]' \
+        --playback-props='audio.position=[FL FR]' & \
+    pw-loopback \
+        --capture-props='media.class=Audio/Sink node.name=MISC_SINK node.description=MISC_Sink audio.position=[FL FR]' \
+        --playback-props='audio.position=[FL FR}' &
+}
+
+main(){
+        if [[ "$(pactl info | grep "Server Name:" | grep -o "on PipeWire")" == "on PipeWire" ]]; then
+                pipewire
+        else
+                pulse
+        fi
+        sleep 1s
+        disown -a
+}
+
+main "$@"
+exit 0

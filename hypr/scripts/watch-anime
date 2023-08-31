@@ -1,0 +1,92 @@
+#!/bin/sh
+
+# This script wraps the popular ani-cli application 
+# in a proton-vpn vpn for simplicity
+
+kill_apps(){
+        if [[ "$(where steam | grep -o steam | head -1)" == "steam" ]]; then
+                closedSteam="True"
+                steam steam://friends/status/offline
+                #kill $(pidof steam | awk '{print $2}')
+        else
+                closedSteam="False"
+        fi
+}
+
+restore_apps(){
+        #Restore Steam if it was closed before
+        if [[ "$closedSteam" == "True" ]]; then
+                steam steam://friends/status/online
+                # nohup steam-native -silent > /dev/null 2>&1 &
+                # disown
+        fi
+}
+
+connect_vpn(){
+        protonvpn-cli c --cc US -p tcp
+        seq -s_ $COLUMNS|tr -d '[:digit:]'
+
+        echo "$(protonvpn-cli s)"
+        seq -s_ $COLUMNS|tr -d '[:digit:]'
+
+        sleep 1
+}
+
+disconnect_vpn(){
+        protonvpn-cli d
+        seq -s_ $COLUMNS|tr -d '[:digit:]'
+        sleep 1
+}
+
+anime_view(){
+        if [[ "$(protonvpn-cli s | grep "No active")" != *"No active"* ]]; then
+                ani-cli "$@"
+        else
+                echo "Proton VPN not active!"
+                exit 1
+        fi
+        seq -s_ $COLUMNS|tr -d '[:digit:]'
+
+        echo "Killing mpv if still open"
+        if [[ "$(pidof mpv | awk '{print $1}')" != "" ]]; then
+                kill $(pidof mpv | awk '{print $1}')
+        fi
+        sleep 1
+}
+
+main(){
+
+case "$1" in
+    "-h"|"--help")
+        echo "This is the help page of this script."
+        echo "Special Argument Options:"
+        echo "-c | --clean      Delete ani-cli history"
+        echo "-h | --help       Display this help message"
+        echo "-p | --history    Selection of previously watched shows in ani-cli"
+        echo "[other args]      Search anime on ani-cli"
+        ;;
+    "-c"|"--clean")
+        echo "Deleting ani-cli history ..."
+        ani-cli -D
+        ;;
+    "-p"|"--history")
+        echo "Opening ani-cli history ..."
+        ani-cli -c
+        ;;
+    *)
+        kill_apps;
+        connect_vpn;
+        continue_watching="y"
+        while [[ "$continue_watching" == "y" ]]; do
+            anime_view;
+            read -n1 -p "Continue watching ? [y/n]" continue_watching
+        done
+        disconnect_vpn;
+        restore_apps;
+        ;;
+esac
+}
+
+main "$@"
+
+exit 0

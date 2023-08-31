@@ -9,6 +9,7 @@ pamac-aur            # graphical package manager
 xf86-input-libinput  # touch input etc.
 archlinux-logout-git # lock & shutdown menu
 pavucontrol   # audo volume controll
+rofi          # App menu
 
 waybar        # taskbar
 swayidle      # automatic lock screen 
