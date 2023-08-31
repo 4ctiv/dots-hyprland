@@ -1,0 +1,42 @@
+wayland
+lib32-wayland
+xorg-wayland
+hyprland-dev
+hyprpicker-git
+xdg-desktop-portal-hyprland
+systemctl
+pamac-aur            # graphical package manager
+xf86-input-libinput  # touch input etc.
+archlinux-logout-git # lock & shutdown menu
+pavucontrol   # audo volume controll
+
+waybar        # taskbar
+swayidle      # automatic lock screen 
+wofi          # taskbar
+# conky       # widgets
+swaybg        # image wallpaper
+mpvpaper      # video wallpaper
+
+kitty         # terminal
+thunar        # main file-manager
+nemo          # alt  file-manager
+brave         # main brower
+google-chrome # alt  browser
+firefox       # alt  browser
+evolution     # mail-client
+code          # code-editor
+meld          # file-differences
+
+virt-manager  # popular vm manager 
+qemu-desktop  # vm hypervisor
+quickemu      # fast vm setups
+quickgui      # graphical fast vm manager
+
+spotify       # music player
+mpv           # video player
+inkscape      # image editing (vector graphics)
+gimp          # image editing
+
+noisetorch    # noise supression software
+
+# flameshot   #(Alternative screenshot tool)
