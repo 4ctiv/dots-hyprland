@@ -13,5 +13,5 @@
 
   "modules-left": ["custom/menu", "wlr/workspaces","wlr/taskbar", "cpu", "memory", "disk", "network", "battery"],
   // "modules-center": ["custom/weather"],
-  "modules-right": ["custom/updater", "tray", "clock", "pulseaudio", "backlight", "custom/keybindings", "custom/power"],
+  "modules-right": [ "backlight", "custom/updater", "tray", "clock", "pulseaudio", "custom/keybindings", "custom/power"],
 }

@@ -4,7 +4,7 @@
     "align": 0,
     "rotate": 0,
       "format": "{icon} {percent}",
-      "format-icons": ["", "", "", ""],
+      "format-icons": ["󰃞 ", "󰃝 ", "󰃟 ", "󰃠 "],
       "on-click": "",
       "on-click-middle": "",
       "on-click-right": "",
@@ -84,6 +84,21 @@
     "tooltip": true,
     "on-click-right": "~/.config/hypr/scripts/glassmorphismToggle"
   },
+
+  "custom/battery": {
+    "format": "<span font='Font Awesome 5 Free 11'>{icon}</span>  {capacity}% - {time}",
+    "format-icons": ["", "", "", "", ""],
+    "format-time": "{H}h{M}m",
+    "format-charging": "<span font='Font Awesome 5 Free'></span>  <span font='Font Awesome 5 Free 11'>{icon}</span>  {capacity}% - {time}",
+    "format-full": "<span font='Font Awesome 5 Free'></span>  <span font='Font Awesome 5 Free 11'>{icon}</span>  Charged",
+    "interval": 30,
+    "states": {
+        "warning": 25,
+        "critical": 10
+    },
+    "tooltip": false,
+    "on-click": "gnome-power-statistics"
+},
 
   "clock": {
     "interval": 60,
