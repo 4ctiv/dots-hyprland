@@ -42,3 +42,5 @@ nohup telegram-desktop &>/dev/null
 nohup discord &>/dev/null
 
 # XDG_CURRENT_DESKTOP=wayland flameshot
+
+notify-send "Programm startup completed"
