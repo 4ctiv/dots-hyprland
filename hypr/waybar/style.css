@@ -3,7 +3,7 @@
     border-radius: 5px; /* 5px */
     font-family: "JetBrainsMono NFM:style=Bold", "Noto Sans", "Roboto Condensed", sans-serif;
     font-size: 14px;
-    min-height: 14px;
+    min-height: 20px;
 }
 
 @import "themes/Catppuccin-Mocha.css";

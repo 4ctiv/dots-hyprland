@@ -1,3 +1,4 @@
 #!/bin/sh
-kitty -e vim ~/.config/hypr/keybinds.conf
-# kitty -e vim ~/.config/hypr/cheatsheet.md
+
+ kitty -e vim ~/.config/hypr/keybinds.conf
+#kitty -e vim ~/.config/hypr/cheatsheet.md

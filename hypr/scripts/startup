@@ -29,18 +29,16 @@ ${SCRIPTSDIR}/xauthority &
 # dex: https://github.com/jceb/dex (generate and execute DesktopEntry files)
 dex $HOME/.config/autostart/arcolinux-welcome-app.desktop &
 
-sleep 2s
+# Timeout, so apps show in tray
+sleep 3s;
 
-nohup nm-applet --indicator &>/dev/null
-nohup openrgb --startminimized &>/dev/null
-
+# insync start &
 nohup nextcloud &>/dev/null
-nohup keepassxc &>/dev/null
-
-nohup steam -pipewire -pipewire-dmabuf &>/dev/null
-nohup telegram-desktop &>/dev/null
-nohup discord &>/dev/null
-
-# XDG_CURRENT_DESKTOP=wayland flameshot
-
-notify-send "Programm startup completed"
+#Communication
+# whatsapp-natifier &
+# signal &
+# telegram-desktop &
+# discord &
+ nohup steam -pipewire -pipewire-dmabuf &>/dev/null
+ nohup keepassxc &>/def/null
+ nm-applet --indicator # network tray icon
