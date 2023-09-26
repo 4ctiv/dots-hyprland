@@ -32,13 +32,19 @@ dex $HOME/.config/autostart/arcolinux-welcome-app.desktop &
 # Timeout, so apps show in tray
 sleep 3s;
 
-# insync start &
-nohup nextcloud &>/dev/null
-#Communication
-# whatsapp-natifier &
-# signal &
-# telegram-desktop &
-# discord &
- nohup steam -pipewire -pipewire-dmabuf &>/dev/null
- nohup keepassxc &>/def/null
- nm-applet --indicator # network tray icon
+if [[ "$(lsusb | grep 'WLAN Adapter (Driver CDROM Mode)'" == "" ]]; then
+	usb_modeswitch -KW -v $(lsusb | grep "WLAN Adapter (Driver CDROM Mode)" | awk '{ print $6}' | sed 's/:..../ /g') -p $(lsusb | grep "WLAN Adapter (Driver CDROM Mode)" | awk '{ print $6}' | sed 's/....:/ /g'
+
+#nohup nm-applet --indicator &>/dev/null
+#nohup openrgb --startminimized &>/dev/null
+#
+#nohup nextcloud &>/dev/null
+#nohup keepassxc &>/dev/null
+#
+#nohup steam &>/dev/null # -pipewire -pipewire-dmabuf
+#nohup telegram-desktop &>/dev/null
+#nohup discord &>/dev/null
+
+# XDG_CURRENT_DESKTOP=wayland flameshot
+
+notify-send "Startup completed"

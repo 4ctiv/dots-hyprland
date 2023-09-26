@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Note: xdg-desktop-portal: https://wiki.archlinux.org/title/XDG_Desktop_Portal
+#       Framework used primarly by Flatpack apps for data access
+
+sleep 4
+killall xdg-desktop-portal-hyprland
+killall xdg-desktop-portal
+/usr/lib/xdg-desktop-portal-hyprland &
+sleep 4
+/usr/lib/xdg-desktop-portal &
