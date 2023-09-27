@@ -32,6 +32,7 @@ dex $HOME/.config/autostart/arcolinux-welcome-app.desktop &
 # Timeout, so apps show in tray
 sleep 3s;
 
+# Fix for USB wifi adapter CDROM mode
 if [[ "$(lsusb | grep 'WLAN Adapter (Driver CDROM Mode)')" == "" ]] ; then
 	usb_modeswitch -KW -v $(lsusb | grep "WLAN Adapter (Driver CDROM Mode)" | awk '{ print $6}' | sed 's/:..../ /g') -p $(lsusb | grep "WLAN Adapter (Driver CDROM Mode)" | awk '{ print $6}' | sed 's/....:/ /g') ;
 fi
