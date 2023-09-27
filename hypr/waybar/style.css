@@ -2,8 +2,8 @@
     border: none;
     border-radius: 5px; /* 5px */
     font-family: "JetBrainsMono NFM:style=Bold", "Noto Sans", "Roboto Condensed", sans-serif;
-    font-size: 20px;
-    min-height: 20px;
+    font-size: 16px;  /* default: 14px */
+    min-height: 16px; /* default: 14px */
 }
 
 @import "themes/Catppuccin-Mocha.css";
