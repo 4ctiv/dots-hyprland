@@ -2,10 +2,15 @@
 
 ## Set GTK Themes, Icons, Cursor and Fonts
 
-THEME='Arc-Dark'
+THEME='Catppuccin-Mocha-Standard-Lavender-Dark'
+    # 'Arc-Dark'
+    #get avalable themes with 'ls /usr/share/themes'
 ICONS='a-candy-beauty-icon-theme'
-FONT='Noto Sans 11'
-CURSOR='Bibata-Modern-Ice'
+    # 'a-candy-beauty-icon-theme'
+FONT='Inter 11'
+    # 'Noto Sans 11'
+CURSOR='Catppuccin-Lavender-Cursors'
+    # 'Bibata-Modern-Ice'
 
 SCHEMA='gsettings set org.gnome.desktop.interface'
 

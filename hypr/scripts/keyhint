@@ -1,4 +1,4 @@
 #!/bin/sh
 
- kitty -e vim ~/.config/hypr/keybinds.conf
+ kitty -e vim +50 ~/.config/hypr/hyprland-keybinds.conf
 #kitty -e vim ~/.config/hypr/cheatsheet.md

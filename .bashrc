@@ -5,6 +5,7 @@
  export PAGER='most'
  export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
  export VKD3D_CONFIG=dxr11,dxr # Intel Arc hw-raytracing support
+ export QT_QPA_PLATFORM=wayland
 #export TERM=vt100 # Fix for unrecognized terminal while using ssh (sets generic term., not recommended)
 
 #Ibus settings if you need them
@@ -148,6 +149,8 @@ alias list-packs="         sudo pacman -Qqe"               # List of explicitly 
 alias list-packs-explicit="sudo pacman -Qqet"              # List of explicitly installed packages without deps
 alias list-packs-aur="     sudo pacman -Qqem"              # List of AUR packages
 alias list-packs-size="expac -H M '%m\t%n' | sort -h | nl" # List of package sizes
+function_depends()  { search=$(echo "$1"); sudo pacman -Sii $search | grep "Required" | sed -e "s/Required By     : //g" | sed -e "s/  /\n/g";}
+alias list-packs-depends='function_depends'
 alias list-session-xorg="   ls /usr/share/xsessions"        # List xorg    sessions
 alias list-session-wayland="ls /usr/share/wayland-sessions" # List wayland sessions
 #Reading logs (bat)
@@ -174,12 +177,6 @@ alias sprdd=' sudo pacman -Rdd'
 alias spqo='  sudo pacman -Qo'
 alias spsii=' sudo pacman -Sii'
 alias update='sudo pacman -Syyu'
-# show the list of packages that need this package - depends mpv as example
-function_depends()  {
-    search=$(echo "$1")
-    sudo pacman -Sii $search | grep "Required" | sed -e "s/Required By     : //g" | sed -e "s/  /\n/g"
-    }
-alias depends='function_depends'
 #skip integrity check
 alias paruskip='paru -S --mflags --skipinteg'
 alias trizenskip='trizen -S --skipinteg'
