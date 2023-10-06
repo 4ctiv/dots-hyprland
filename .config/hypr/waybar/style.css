@@ -164,3 +164,13 @@ tooltip {
     margin-left: 9px;
     padding-left: 3px;
 }
+
+#custom-protonmail.unread {
+    color: white;
+}
+#custom-protonmail.inaccurate {
+    color: darkorange;
+}
+#custom-protonmail.error {
+    color: darkred;
+}

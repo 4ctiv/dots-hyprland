@@ -220,7 +220,7 @@
 
   "tray": {
     "icon-size": 18,
-    "spacing": 6
+    "spacing": 6,
   },
 
   "hyprland/window": {
@@ -263,4 +263,11 @@
 			"firefoxdeveloperedition": "firefox-developer-edition"
 		}
 	},
+  "custom/protonmail": {
+    "exec": "bar-protonmail",
+    "return-type": "json",
+    "interval": 10,
+    "tooltip": false,
+    "on-click": "xdg-open https://mail.proton.me/u/0/inbox"
+  },
 }
