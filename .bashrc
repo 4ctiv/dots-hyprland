@@ -44,6 +44,7 @@ shopt -s expand_aliases # expand aliases
 #################
 
 ### Usefull redirections ###
+alias ssh='clear && ssh'
 ## redirect obvious typo's
 alias cd..='cd ..'
 alias udpate='sudo pacman -Syyu'
