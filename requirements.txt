@@ -13,8 +13,10 @@ rofi          # App menu
 brightnessctl # monitor brightness settings
 nm-applt      # Wifi icon 
 
-catppuccin-cursors-mocha
+# Catppuccin Theme
+catppuccin-cursors-git
 catppuccin-gtk-theme-mocha
+kvantum-theme-catppuccin-git
 
 waybar        # taskbar
 swayidle      # automatic lock screen 

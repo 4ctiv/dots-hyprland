@@ -169,7 +169,7 @@
     "format": "   {}",
     "exec": "checkupdates | wc -l",
     "exec-if": "[[ $(checkupdates | wc -l) ]]",
-    "interval": 10800,
+    "interval": 7200,
     "on-click": "kitty --class update -T update -o font_size=13 -e yay -Syu --noconfirm && notify-send 'The system has been updated' "
   },
 
@@ -177,7 +177,7 @@
     "format": "   {}",
     "exec": "checkupdates | wc -l",
     "exec-if": "[[ $(checkupdates | wc -l) ]]",
-    "interval": 10800,
+    "interval": 7200,
     "on-click": "kitty --class update -T update -o font_size=13 -e yay -Syu; pkill -RTMIN+8 waybar"
   },
 
