@@ -283,30 +283,19 @@ printDevider() {
 if [[ $(tput lines) -ge 25 ]]; then # min term hight 25
   # terminal reporting tools
   neofetch --source ~/.config/neofetch/great-wave-transparent-2.png --size 400px
-  #screenfetch
-  #alsi
-  #paleofetch
-  #fetch
-  #hfetch
-  #sfetch
-  #ufetch
-  #ufetch-arco
-  #pfetch
-  #sysinfo
-  #sysinfo-retro
-  #cpufetch
-  #colorscript random
 
   printDevider
 
   if [[ $(tput lines) -ge 50 ]]; then # min term hight 50
 
     # List IP information:
-    #echo   "Local  IPv4-Address: $(ip -4 addr | grep global | sed -e's/^.*inet \([^ ]*\)\/.*$/\1/;t;d' | head -1)"
-    #echo   "Global IPv4-Address: $(dig    TXT +short ch whoami.cloudflare @1.0.0.1           | sed 's/"//g')"
+    # Get ip via Local machine
+     echo   "Local  IPv4-Address: $(ip -4 addr | grep global | sed -e's/^.*inet \([^ ]*\)\/.*$/\1/;t;d' | head -1)"
     #printf "Global IPv6-Address: $(ip -6 addr | grep global | sed -e's/^.*inet6 \([^ ]*\)\/.*$/\1/;t;d'  | head -1)"
+    # Get ip via External provider
+    #echo   "Global IPv4-Address: $(dig    TXT +short ch whoami.cloudflare @1.0.0.1           | sed 's/"//g')"
     #printf "Global IPv6-Address: $(dig -6 TXT +short o-o.myaddr.l.google.com @ns1.google.com | sed 's/"//g')"
-	#printDevider
+	 printDevider
 
     if systemctl is-active --quiet docker; then
 	  # Docker installed
@@ -333,3 +322,7 @@ if [[ $(tput lines) -ge 25 ]]; then # min term hight 25
 
     fi # ENDOF min term hight 50
 fi # ENDOF min term hight 25
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH=$BUN_INSTALL/bin:$PATH
