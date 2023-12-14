@@ -4,8 +4,6 @@ CONFIG="$HOME/.config/hypr/wofifull/config"
 STYLE="$HOME/.config/hypr/wofifull/style.css"
 COLORS="$HOME/.config/hypr/wofifull/colors"
 
-# eval $(ssh-agent) # Launched apps get ssh-agent access
-
 if [[ ! $(pidof wofi) ]]; then
 	wofi --show drun --prompt 'Search...' --conf ${CONFIG} --style ${STYLE} --color ${COLORS}
 else

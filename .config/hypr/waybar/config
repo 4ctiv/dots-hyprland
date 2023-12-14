@@ -11,7 +11,7 @@
   "margin-left": 0,
   "margin-right": 0,
 
-  "modules-left": ["custom/menu", "wlr/workspaces","wlr/taskbar", "cpu", "memory", "disk", "network", "battery"],
+  "modules-left": ["custom/menu", "hyprland/workspaces","wlr/taskbar", "cpu", "memory", "disk", "network", "battery"],
   // "modules-center": ["custom/weather"],
   "modules-right": [ "backlight", "custom/protonmail", "custom/updater", "tray", "clock", "pulseaudio", "custom/keybindings", "custom/power"],
 }

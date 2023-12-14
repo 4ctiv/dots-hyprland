@@ -4,7 +4,7 @@
  export HISTCONTROL=ignoreboth:erasedups
  export PAGER='most'
  export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
- export VKD3D_CONFIG=dxr11,dxr # Intel Arc hw-raytracing support
+#export VKD3D_CONFIG=dxr11,dxr # Intel Arc hw-raytracing support
  export QT_QPA_PLATFORM=wayland
 #export TERM=vt100 # Fix for unrecognized terminal while using ssh (sets generic term., not recommended)
 
@@ -17,7 +17,7 @@
 
 PS1='[\u@\h \W]\$ '
 
-## If not running interactively, don't do anything
+# If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
 if [ -d "$HOME/.bin" ] ;
@@ -31,14 +31,6 @@ fi
 #ignore upper and lowercase when TAB completion
 bind "set completion-ignore-case on"
 
-#shopt "Additional Shell Options"
-shopt -s autocd # change to named directory
-shopt -s cdspell # autocorrects cd misspellings
-shopt -s cmdhist # save multi-line commands in history as single line
-shopt -s dotglob
-shopt -s histappend # do not overwrite history
-shopt -s expand_aliases # expand aliases
-
 #################
  #### ALIASES ####
 #################
@@ -47,6 +39,7 @@ shopt -s expand_aliases # expand aliases
 alias ssh='clear && ssh'
 ## redirect obvious typo's
 alias cd..='cd ..'
+alias pdw='pwd'
 alias udpate='sudo pacman -Syyu'
 alias upate='sudo pacman -Syyu'
 alias updte='sudo pacman -Syyu'
@@ -74,6 +67,7 @@ alias update-bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
 #keyboard
 alias give-me-qwerty-us="sudo localectl set-x11-keymap us"
 alias give-me-qwerty-de="sudo localectl set-x11-keymap de"
+
 #locale (language, keyboard)
 alias setlocale="sudo localectl set-locale LANG=en_US.UTF-8"
 alias setlocales="sudo localectl set-x11-keymap de && sudo localectl set-locale LANG=en_US.UTF-8"
@@ -169,15 +163,9 @@ alias sysfailed="systemctl list-units --failed"
 alias probe="sudo -E hw-probe -all -upload"
 alias free="free -mt"
 
-### Aliases for software managment ###
-#pacman
-alias sps='   sudo pacman -S'     # install package
-alias spr='   sudo pacman -R'     # remove  package
-alias sprs='  sudo pacman -Rs'
-alias sprdd=' sudo pacman -Rdd'
-alias spqo='  sudo pacman -Qo'
-alias spsii=' sudo pacman -Sii'
-alias update='sudo pacman -Syyu'
+#audio check pulseaudio or pipewire
+alias audio="pactl info | grep 'Server Name'"
+
 #skip integrity check
 alias paruskip='paru -S --mflags --skipinteg'
 alias trizenskip='trizen -S --skipinteg'
@@ -226,6 +214,7 @@ alias unlock="sudo rm /var/lib/pacman/db.lck"
 alias rmpacmanlock="sudo rm /var/lib/pacman/db.lck"
 #logout unlock (arcolinux logout)
 alias rmlogoutlock="sudo rm /tmp/arcologout.lock"
+
 ## key related fixes
 alias keyfix="/usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
 alias key-fix="/usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
@@ -234,13 +223,16 @@ alias fixkey="/usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
 alias fixkeys="/usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
 alias fix-key="/usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
 alias fix-keys="/usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
+
 ## config related fixes
 alias fix-sddm-config="/usr/local/bin/arcolinux-fix-sddm-config"
 alias fix-pacman-conf="/usr/local/bin/arcolinux-fix-pacman-conf"
 alias fix-pacman-keyserver="/usr/local/bin/arcolinux-fix-pacman-gpg-conf"
 alias fix-grub="/usr/local/bin/arcolinux-fix-grub"
 alias fixgrub="/usr/local/bin/arcolinux-fix-grub"
+
 ## application specific fixes
+
 #git
 alias rmgitcache="rm -r ~/.cache/git"
 alias grh="git reset --hard"
@@ -251,15 +243,18 @@ alias downgrad-arco="sudo downgrade --ala-url https://ant.seedhost.eu/arcolinux/
 #wayland aliases
 alias wsimplescreen="wf-recorder -a"
 alias wsimplescreenrecorder="wf-recorder -a -c h264_vaapi -C aac -d /dev/dri/renderD128 --file=recording.mp4"
+
 #btrfs aliases
 alias btrfsfs="sudo btrfs filesystem df /"
 alias btrfsli="sudo btrfs su li / -t"
+
 #snapper aliases
 alias snapcroot="sudo snapper -c root create-config /"
 alias snapchome="sudo snapper -c home create-config /home"
 alias snapli="sudo snapper list"
 alias snapcr="sudo snapper -c root create"
 alias snapch="sudo snapper -c home create"
+
 #Leftwm aliases
 alias lti="leftwm-theme install"
 alias ltu="leftwm-theme uninstall"
