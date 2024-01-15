@@ -18,6 +18,7 @@ catppuccin-cursors-git
 catppuccin-gtk-theme-mocha
 kvantum-theme-catppuccin-git
 
+# Menu & Eye Candy
 waybar        # taskbar
 swayidle      # automatic lock screen 
 wofi          # taskbar
@@ -25,7 +26,9 @@ wofi          # taskbar
 swaybg        # image wallpaper
 mpvpaper      # video wallpaper
 
+# Basics
 kitty         # terminal
+fish          # shell (alternative to bash)
 thunar        # main file-manager
 nemo          # alt  file-manager
 brave         # main brower
@@ -35,16 +38,29 @@ evolution     # mail-client
 code          # code-editor
 meld          # file-differences
 
+# Virtualization
 virt-manager  # popular vm manager 
 qemu-desktop  # vm hypervisor
 quickemu      # fast vm setups
 quickgui      # graphical fast vm manager
 
+# Media
 spotify       # music player
 mpv           # video player
 inkscape      # image editing (vector graphics)
 gimp          # image editing
-
 noisetorch    # noise supression software
+flameshot     # (Alt. screenshot tool)
 
-# flameshot   #(Alternative screenshot tool)
+# File system management
+btrfs-assistant     # btrfs helper
+btrfs-progs         # btrfs helper 2
+timeshift           # snapshots tool (rollbacks)
+timeshift-autosnap  # auto snapshots
+
+# Office & PDF
+xournalpp            # handwritten notes
+rnote                # handwritten notes (inf canvas)
+libreoffice          # office suite
+pdfmixtool           # pdf stitching
+masterpdfeditor-free # pdf bookmarks

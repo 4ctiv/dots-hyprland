@@ -27,6 +27,6 @@ Remember though that if you boot into a snapshot they are still *ro*, meaning if
 ### Things to be done
 - [ ] Adding more application configurations (e.g. xournalpp)
 - [ ] Document install process using *archlinux* and *archinstall* for a cleaner install
-  - [ ] Add disk encryption (at least for home drive) to increase the security of this setup
-  - [ ] Add grub password protection (grub modification should use a pwd to prevent exploits e.g. boot into root shell)
+  - [ ] Add universal disk encryption guide (at least for home drive) to increase the security of this setup
+  - [ ] Add grub password protection guide (grub modification should use a pwd to prevent exploits e.g. boot into root shell)
   - [ ] Better README (structure, example images, more docs, ...)
