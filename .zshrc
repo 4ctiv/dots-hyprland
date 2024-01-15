@@ -1,24 +1,128 @@
-### EXPORT ###
- export EDITOR='nano'
- export VISUAL='nano'
- export HISTCONTROL=ignoreboth:erasedups
- export PAGER='most'
- export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
- export VKD3D_CONFIG=dxr11,dxr # Intel Arc hw-raytracing support
- export QT_QPA_PLATFORM=wayland
-#export TERM=vt100 # Fix for unrecognized terminal while using ssh (sets generic term., not recommended)
+###
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-#Ibus settings if you need them
-#type ibus-setup in terminal to change settings and start the daemon
-#delete the hashtags of the next lines and restart
-#export GTK_IM_MODULE=ibus
-#export QT_IM_MODULE=ibus
-#export XMODIFIERS=@im=dbus
+# Path to your oh-my-zsh installation.
+#installation via script from github
+#export ZSH="/home/$USER/.oh-my-zsh"
+#installation via paru -S oh-my-zsh-git
+export ZSH=/usr/share/oh-my-zsh/
 
-PS1='[\u@\h \W]\$ '
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+# if you installed the package oh-my-zsh-powerline-theme-git then you type here "powerline" as zsh theme
+ZSH_THEME="agnoster"
 
-## If not running interactively, don't do anything
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# If set to an empty array, this variable will have no effect.
+
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# ZSH_THEME_RANDOM_IGNORED=(pygmalion tjkirch_mod)
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS=true
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git)
+
+if [ -f $ZSH/oh-my-zsh.sh ]; then
+  source $ZSH/oh-my-zsh.sh
+fi
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+
+####   ARCOLINUX SETTINGS   ####
+export PAGER='most'
+
+if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+setopt GLOB_DOTS
+#share commands between terminal instances or not
+unsetopt SHARE_HISTORY
+#setopt SHARE_HISTORY
+
+# If not running interactively, don't do anything
 [[ $- != *i* ]] && return
+
+export HISTCONTROL=ignoreboth:erasedups
+
+# Make nano the default editor
+
+export EDITOR='nano'
+export VISUAL='nano'
+
+#PS1='[\u@\h \W]\$ '
 
 if [ -d "$HOME/.bin" ] ;
   then PATH="$HOME/.bin:$PATH"
@@ -28,16 +132,7 @@ if [ -d "$HOME/.local/bin" ] ;
   then PATH="$HOME/.local/bin:$PATH"
 fi
 
-#ignore upper and lowercase when TAB completion
-bind "set completion-ignore-case on"
-
-#shopt "Additional Shell Options"
-shopt -s autocd # change to named directory
-shopt -s cdspell # autocorrects cd misspellings
-shopt -s cmdhist # save multi-line commands in history as single line
-shopt -s dotglob
-shopt -s histappend # do not overwrite history
-shopt -s expand_aliases # expand aliases
+### ALIASES ###
 
   ########################
  ### Typo redirection ###
@@ -51,22 +146,7 @@ alias upqll='paru -Syu --noconfirm'
 alias upal='paru -Syu --noconfirm'
 alias claer="clear"
 #redirect windows commands
- alias dir='ls'
-
-  ###########################
- ### Enable themed text  ###
-###########################
-# Colorize the grep command output for ease of use (good for log files)##
-alias grep='grep --color=auto'
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias pacman='sudo pacman --color auto'
-#readable output
-alias df='df -h'
-#update fonts
-alias update-fc='sudo fc-cache -fv'
-#update betterlockscreen images
-alias update-bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
+alias dir='ls'
 
   #################################################
  ### Aliases for Input & Basic system settings ###
@@ -75,7 +155,6 @@ alias update-bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
 alias give-me-qwerty-us="sudo localectl set-x11-keymap us"
 alias give-me-qwerty-de="sudo localectl set-x11-keymap de"
 #locale (language, keyboard)
-alias setlocale="sudo localectl set-locale LANG=en_US.UTF-8"
 alias setlocales="sudo localectl set-x11-keymap de && sudo localectl set-locale LANG=en_US.UTF-8"
 
   ######################################
@@ -83,9 +162,7 @@ alias setlocales="sudo localectl set-x11-keymap de && sudo localectl set-locale 
 #######################################
 #ls (Quicker directory listing)
 alias l='ls'
-alias ls='ls --color=auto'
-alias la='ls -a'
-alias ll='ls -alFh'
+alias la='ls -la'
 # ssh cleanup
 alias ssh='clear && TERM=vt100 ssh'
 #grub update
@@ -103,15 +180,31 @@ alias ytv-mp4="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestau
 #hblock (web tracking block via hosts file)
 alias unhblock="hblock -S none -D none"
 
+  ################################
+ ### Colorfull terminal apps  ###
+################################
+alias ls='ls --color=auto'
+# Colorize the grep command output for ease of use (good for log files)##
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias pacman='sudo pacman --color auto'
+#readable output
+alias df='df -h'
+#add new fonts
+alias update-fc='sudo fc-cache -fv'
+#update betterlockscreen images
+alias update-bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
+
   ######################################
  ### Aliases for System Information ###
 ######################################
 ## Check Stuff
-alias checkhw="hwinfo --short"                                   #check hardware (short summary)
-alias checklog="journalctl -p 3 -xb"                             #check logs
-alias checkaudio="pactl info | grep 'Server Name'"               #check audio (pulseaudio or pipewire)
-alias checkcpu="cpuid -i | grep uarch | head -n 1"               #check cpu
-alias checkmc='grep . /sys/devices/system/cpu/vulnerabilities/*' #check microcode vulnerabilities
+alias check-hw="hwinfo --short"                                   #check hardware (short summary)
+alias check-log="journalctl -p 3 -xb"                             #check systemlogs
+alias check-audio="pactl info | grep 'Server Name'"               #check audio (pulseaudio or pipewire)
+alias check-cpu="cpuid -i | grep uarch | head -n 1"               #check cpu
+alias check-mc='grep . /sys/devices/system/cpu/vulnerabilities/*' #check microcode vulnerabilities
 ## List Stuff
 # EXTENDED USAGE: pacman -S --needed - < my-list-of-packages.txt # Install packages from a list
 alias list-users="cut -d: -f1 /etc/passwd | sort" # List of existing useres on the machine
@@ -130,8 +223,8 @@ alias log-pacman="   bat /var/log/pacman.log"
 alias log-xorg="     bat /var/log/Xorg.0.log"
 alias log-xorg-old=" bat /var/log/Xorg.0.log.old"
 #Recent Installed Packages
-alias rip="    expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
-alias riplong="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
+alias list-recent="    expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
+alias list-recent-extended="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
 #Graphics card information
 alias whichvga="/usr/local/bin/arcolinux-which-vga"
 #systeminfo
@@ -149,55 +242,41 @@ alias app-owner='sudo pacman -Qo'
 alias app-deps='sudo pacman -Sii'
 alias app-update='sudo pacman -Syyu'
 alias app-cleanup='sudo pacman -Rns $(pacman -Qtdq)' # Cleanup orphaned packages
-#skip integrity check
+#skip integrity check (unsave !!!)
 alias yayskip='yay -S --mflags --skipinteg'
-#get fastest mirrors in your neighborhood
-alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
-alias mirrord="sudo reflector --latest 30 --number 10 --sort delay --save /etc/pacman.d/mirrorlist"
-alias mirrors="sudo reflector --latest 30 --number 10 --sort score --save /etc/pacman.d/mirrorlist"
-alias mirrora="sudo reflector --latest 30 --number 10 --sort age --save /etc/pacman.d/mirrorlist"
 #receive developer keys
-alias gpg-retrieve="gpg2 --keyserver-options auto-key-retrieve --receive-keys"
 alias fix-gpg-retrieve="gpg2 --keyserver-options auto-key-retrieve --receive-keys"
 alias fix-keyserver="[ -d ~/.gnupg ] || mkdir ~/.gnupg ; cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ ; echo 'done'"
 #verify signature for isos
-alias gpg-check="gpg2 --keyserver-options auto-key-retrieve --verify"
-alias fix-gpg-check="gpg2 --keyserver-options auto-key-retrieve --verify"
+alias check-gpg="gpg2 --keyserver-options auto-key-retrieve --verify"
 
   #########################
  ### Aliases for fixes ###
 #########################
-
-# package-manager fixes
+## package-manager fixes ##
 alias fix-lock-pamac="sudo rm /var/tmp/pamac/dbs/db.lock"
 alias fix-lock-pacman="sudo rm /var/lib/pacman/db.lck"
 alias fix-lock-logout="sudo rm /tmp/arcologout.lock"
-
 alias fix-conf-pacman="/usr/local/bin/arcolinux-fix-pacman-conf"
-
 alias fix-keys="/usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
 alias fix-keys-pacman="/usr/local/bin/arcolinux-fix-pacman-gpg-conf"
-
 ## config related fixes ##
-
 # restore shell configs
 alias restore-default-bash='cp /etc/skel/.bashrc                  ~/.bashrc                  && exec bash'
 alias restore-default-zsh=' cp /etc/skel/.zshrc                   ~/.zshrc                   && echo "Copied."'
 alias restore-default-fish='cp /etc/skel/.config/fish/config.fish ~/.config/fish/config.fish && echo "Copied."'
 alias fix-sddm-config="/usr/local/bin/arcolinux-fix-sddm-config"
 alias fix-grub="/usr/local/bin/arcolinux-fix-grub"
-
 # permission fixes
 alias fix-permissions="sudo chown -R $USER:$USER ~/.config ~/.local"
-
-## application specific fixes
+## application specific fixes ##
 #git
 alias rmgitcache="rm -r ~/.cache/git"
 alias grh="git reset --hard"
+
   ############################################
  ### Aliases for Maintenace & File System ###
 ############################################
-
 #maintenance
 alias downgrad-arco="sudo downgrade --ala-url https://ant.seedhost.eu/arcolinux/"
 #btrfs aliases
@@ -214,61 +293,4 @@ alias personal='cp -Rf /personal/* ~'
 # extend this config using personal config in '~/' named '.bashrc-personal' (not overwritten on skel restore)
 [[ -f ~/.bashrc-personal ]] && . ~/.bashrc-personal
 
-  #######################
- ### Terminal output ###
-#######################
-
-printDevider() {
-  printf "\n"
-  printf %"$COLUMNS"s  | tr " " "-"
-}
-# clear # Clear all previous text from terminal for a cleaner look (not always recommended)
-if [[ $(tput lines) -ge 25 ]]; then # min term hight 25
-  # terminal reporting tools
-  neofetch --source ~/.config/neofetch/great-wave-transparent-2.png --size 400px
-
-  printDevider
-
-  if [[ $(tput lines) -ge 50 ]]; then # min term hight 50
-
-    # List IP information:
-    # Get ip via Local machine
-     echo   "Local  IPv4-Address: $(ip -4 addr | grep global | sed -e's/^.*inet \([^ ]*\)\/.*$/\1/;t;d' | sed -e :a -e '/$/N; s/\n/\ ; /; ta' )"
-    #printf "Global IPv6-Address: $(ip -6 addr | grep global | sed -e's/^.*inet6 \([^ ]*\)\/.*$/\1/;t;d'  | head -1)"
-    # Get ip via External provider
-    #echo   "Global IPv4-Address: $(dig    TXT +short ch whoami.cloudflare @1.0.0.1           | sed 's/"//g')"
-    #printf "Global IPv6-Address: $(dig -6 TXT +short o-o.myaddr.l.google.com @ns1.google.com | sed 's/"//g')"
-	 printDevider
-
-    if systemctl is-active --quiet docker; then
-	  # Docker installed
-      echo "Docker Containers (Running): "
-      echo -e "| ID \t\t| Image \t\t| Names \t| Ports \t\t\t\t| Mounts \t\t\t\t|"
-      docker ps --filter status=running --format '| {{.ID}}\t| {{ .Image }}\t| {{.Names}}\t| {{ .Ports }}\t|{{.Mounts}}\t|' | sed 's/0.0.0.0://g' | sed 's/:::..->........//g' | sed 's/:::...->.........//g' | sed 's/:::....->........, //g' | sed 's/, :::.............*//g' | sed 's/\/tcp/ /g'
-      echo ""
-      echo "Docker Containers (Exited): "
-      docker ps -a --filter status=exited --format '| {{.ID}}\t| {{ .Image }}\t| {{.Names}}\t| {{.Mounts}}\t|'
-      printDevider
-
-      # echo \n"Docker Containers (Stats):"
-      # docker stats --no-stream
-      # printDevider
-    fi # End of docker installed
-
-    #echo "Drives and Mountpoints:"
-    #lsblk -fs
-    #printDevider
-
-    # echo "Port Services & Connections"
-    # netstat -antop | awk '{ print($4"\t"$6" |\t")}' | grep -o :.* # Note printf => same line ; print => ne>
-    # printDevider
-
-    fi # ENDOF min term hight 50
-fi # ENDOF min term hight 25
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH=$BUN_INSTALL/bin:$PATH
-
-# Load Angular CLI autocompletion.
-source <(ng completion script)
+neofetch --source ~/.config/neofetch/great-wave-transparent-2.png --size 400px

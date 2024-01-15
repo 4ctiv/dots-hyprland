@@ -1,60 +1,94 @@
-* {
-    font-family: "Noto Sans";
+/* Mocha Maroon */
+@define-color accent #eba0ac;
+@define-color txt #cad3f5;
+@define-color bg #24273a;
+@define-color bg2 #494d64;
+
+ * {
+    font-family: 'JetBrains Mono Nerd Font',monospace;
     font-size: 14px;
-}
+ }
 
-#window {
-	background-color: --wofi-color0;
-	color: --wofi-color2;
-	border: 2px solid --wofi-color1;
-	border-radius: 0px;
-}
+ /* Window */
+ window {
+    margin: 0px;
+    padding: 10px;
+    border: 3px solid @accent;
+    border-radius: 7px;
+    background-color: @bg;
+    animation: slideIn 0.5s ease-in-out both;
+ }
 
-#outer-box {
-	padding: 20px;
-}
+ /* Slide In */
+ @keyframes slideIn {
+    0% {
+       opacity: 0;
+    }
 
-#input {
-	background-color: --wofi-color1;
-	border: 0px solid --wofi-color3;
-	padding: 8px 12px;
-}
+    100% {
+       opacity: 1;
+    }
+ }
 
-#scroll {
-	margin-top: 20px;
-	margin-bottom: 20px;
-}
+ /* Inner Box */
+ #inner-box {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    background-color: @bg;
+    animation: fadeIn 0.5s ease-in-out both;
+ }
 
-#inner-box {
-}
+ /* Fade In */
+ @keyframes fadeIn {
+    0% {
+       opacity: 0;
+    }
 
-#img {
-	padding-right: 8px;
-}
+    100% {
+       opacity: 1;
+    }
+ }
 
-#text {
-	color: --wofi-color2;
-}
+ /* Outer Box */
+ #outer-box {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    background-color: @bg;
+ }
 
-#text:selected {
-	color: --wofi-color0;
-}
+ /* Scroll */
+ #scroll {
+    margin: 0px;
+    padding: 10px;
+    border: none;
+ }
 
-#entry {
-	padding: 6px;
-}
+ /* Input */
+ #input {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    color: @accent;
+    background-color: @bg2;
+    animation: fadeIn 0.5s ease-in-out both;
+ }
 
-#entry:selected {
-	background-color: --wofi-color3;
-	color: --wofi-color0;
-}
+ /* Text */
+ #text {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    color: @txt;
+    animation: fadeIn 0.5s ease-in-out both;
+ }
 
-#unselected {
-}
+ /* Selected Entry */
+ #entry:selected {
+   background-color: @accent;
+ }
 
-#selected {
-}
-
-#input, #entry:selected {
-	border-radius: 4px;
-}
+ #entry:selected #text {
+    color: @bg2;
+ }
