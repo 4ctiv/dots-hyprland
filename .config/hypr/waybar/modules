@@ -152,6 +152,7 @@
     "format-disabled": "睊 Disabled",
     "format-alt": " {bandwidthUpBits} |  {bandwidthDownBits}",
     "tooltip-format": " {ifname} via {gwaddr}",
+    "on-click-right": "~/.config/hypr/scripts/toggle_wireless.sh"
   },
 
   "custom/weather": {
