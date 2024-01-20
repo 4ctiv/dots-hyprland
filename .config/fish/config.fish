@@ -74,24 +74,21 @@ alias check-audio="pactl info | grep 'Server Name'"               #check audio (
 alias check-cpu="cpuid -i | grep uarch | head -n 1"               #check cpu
 alias check-mc='grep . /sys/devices/system/cpu/vulnerabilities/*' #check microcode vulnerabilities
 ## List Stuff
+alias list-net-ipv4="nmap $(ip -4 addr list  | awk '/inet.*brd/ {print $2}' | head -1) -F --open -oG - | cut -d ' ' -f 2-3 | grep Ports:"
+#Lists of Installed Packages
 # EXTENDED USAGE: pacman -S --needed - < my-list-of-packages.txt # Install packages from a list
-alias list-users="cut -d: -f1 /etc/passwd | sort" # List of existing useres on the machine
 alias list-packs="         sudo pacman -Qqe"               # List of explicitly installed packages
 alias list-packs-explicit="sudo pacman -Qqet"              # List of explicitly installed packages without deps
 alias list-packs-aur="     sudo pacman -Qqem"              # List of AUR packages
 alias list-packs-size="expac -H M '%m\t%n' | sort -h | nl" # List of package sizes
 alias list-packs-depends='function_depends'
-alias list-session-xorg="   ls /usr/share/xsessions"        # List xorg    sessions
-alias list-session-wayland="ls /usr/share/wayland-sessions" # List wayland sessions
-alias list-net-ipv4="nmap $(ip -4 addr list  | awk '/inet.*brd/ {print $2}' | head -1) -F --open -oG - | cut -d ' ' -f 2-3 | grep Ports:"
+alias list-packs-recent="    expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
+alias list-packs-recent-extended="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
 #Reading logs (bat)
 alias log-calamares="bat /var/log/Calamares.log"
 alias log-pacman="   bat /var/log/pacman.log"
 alias log-xorg="     bat /var/log/Xorg.0.log"
 alias log-xorg-old=" bat /var/log/Xorg.0.log.old"
-#Recent Installed Packages
-alias list-recent="    expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
-alias list-recent-extended="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
 #Graphics card information
 alias whichvga="/usr/local/bin/arcolinux-which-vga"
 #systeminfo
@@ -146,8 +143,15 @@ alias grh="git reset --hard"
 ############################################
 #maintenance
 alias downgrad-arco="sudo downgrade --ala-url https://ant.seedhost.eu/arcolinux/"
-#btrfs aliases
-alias list-btrfs-fs="sudo btrfs filesystem df /"
-alias list-btrfs-li="sudo btrfs su li / -t"
+# Filesystem (btrfs)
+alias list-btrfs-snapshots="sudo timeshift --list"
+alias list-btrfs-filesystem="sudo btrfs filesystem df /"
+alias list-btrfs-subvolumes="sudo btrfs su li -t /"
+alias btrfs-compress="sudo btrfs filesystem defragment -r -v -czstd"
+alias btrfs-balance="sudo btrfs balance start -dusage=66"
+# Session info
+alias list-users="cut -d: -f1 /etc/passwd | sort" # List of existing useres on the machine
+alias list-session-xorg="   ls /usr/share/xsessions"        # List xorg    sessions
+alias list-session-wayland="ls /usr/share/wayland-sessions" # List wayland sessions
 
 neofetch --source ~/.config/neofetch/great-wave-transparent-2.png --size 400px

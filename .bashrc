@@ -112,17 +112,15 @@ alias checklog="journalctl -p 3 -xb"                             #check logs
 alias checkaudio="pactl info | grep 'Server Name'"               #check audio (pulseaudio or pipewire)
 alias checkcpu="cpuid -i | grep uarch | head -n 1"               #check cpu
 alias checkmc='grep . /sys/devices/system/cpu/vulnerabilities/*' #check microcode vulnerabilities
-## List Stuff
+## List installed packages
 # EXTENDED USAGE: pacman -S --needed - < my-list-of-packages.txt # Install packages from a list
-alias list-users="cut -d: -f1 /etc/passwd | sort" # List of existing useres on the machine
 alias list-packs="         sudo pacman -Qqe"               # List of explicitly installed packages
 alias list-packs-explicit="sudo pacman -Qqet"              # List of explicitly installed packages without deps
 alias list-packs-aur="     sudo pacman -Qqem"              # List of AUR packages
 alias list-packs-size="expac -H M '%m\t%n' | sort -h | nl" # List of package sizes
 function_depends()  { search=$(echo "$1"); sudo pacman -Sii $search | grep "Required" | sed -e "s/Required By     : //g" | sed -e "s/  /\n/g";}
 alias list-packs-depends='function_depends'
-alias list-session-xorg="   ls /usr/share/xsessions"        # List xorg    sessions
-alias list-session-wayland="ls /usr/share/wayland-sessions" # List wayland sessions
+# List network
 alias list-net-ipv4="nmap $(ip -4 addr list  | awk '/inet.*brd/ {print $2}' | head -1) -F --open -oG - | cut -d ' ' -f 2-3 | grep Ports:"
 #Reading logs (bat)
 alias log-calamares="bat /var/log/Calamares.log"
@@ -200,9 +198,16 @@ alias grh="git reset --hard"
 
 #maintenance
 alias downgrad-arco="sudo downgrade --ala-url https://ant.seedhost.eu/arcolinux/"
-#btrfs aliases
-alias list-btrfs-fs="sudo btrfs filesystem df /"
-alias list-btrfs-li="sudo btrfs su li / -t"
+# File system management
+alias list-btrfs-snapshots="sudo timeshift --list"
+alias list-btrfs-filesystem="sudo btrfs filesystem df /"
+alias list-btrfs-subvolumes="sudo btrfs su li / -t"
+alias btrfs-compress="sudo btrfs defragment -r -v -czstd"    # compress using zstd
+alias btrfs-balance="sudo btrfs balance start -dusage=66"
+# List session info
+alias list-users="cut -d: -f1 /etc/passwd | sort" # List of existing useres on the machine
+alias list-session-xorg="   ls /usr/share/xsessions"        # List xorg    sessions
+alias list-session-wayland="ls /usr/share/wayland-sessions" # List wayland sessions
 
   #############
  ### Other ###

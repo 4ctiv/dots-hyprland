@@ -280,8 +280,11 @@ alias grh="git reset --hard"
 #maintenance
 alias downgrad-arco="sudo downgrade --ala-url https://ant.seedhost.eu/arcolinux/"
 #btrfs aliases
-alias list-btrfs-fs="sudo btrfs filesystem df /"
-alias list-btrfs-li="sudo btrfs su li / -t"
+alias list-btrfs-snapshots="sudo timeshift --list"
+alias list-btrfs-filesystem="sudo btrfs filesystem df /"
+alias list-btrfs-subvolumes="sudo btrfs su li / -t"
+alias btrfs-compress="sudo btrfs defragment -r -v -czstd"
+alias btrfs-balance="sudo btrfs balance start -dusage=66"
 
   #############
  ### Other ###
