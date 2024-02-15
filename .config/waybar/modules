@@ -82,7 +82,7 @@
     "format-icons": ["", "", "", "", ""],
     "format-time": "{H}h {M}min",
     "tooltip": true,
-    "on-click-right": "~/.config/hypr/scripts/glassmorphismToggle"
+	"on-click-right": "gnome-power-statistics"
   },
 
   "custom/battery": {
@@ -116,6 +116,7 @@
     "interval": 1,
     "format": "{icon0}{icon1}{icon2}{icon3} {usage:>2}% ",
     "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
+    "on-click": "kitty htop",
   },
            
   "custom/menu": {
@@ -139,6 +140,7 @@
   "memory": {
     "interval": 10,
     "format": "  {used:0.1f}G",
+    "onclick": "kitty htop"
   },
 
   "network": {
@@ -217,7 +219,7 @@
 
   "tray": {
     "icon-size": 18,
-    "spacing": 6
+    "spacing": 6,
   },
 
   "hyprland/window": {
@@ -260,4 +262,11 @@
 			"firefoxdeveloperedition": "firefox-developer-edition"
 		}
 	},
+  "custom/protonmail": {
+    "exec": "bar-protonmail",
+    "return-type": "json",
+    "interval": 10,
+    "tooltip": false,
+    "on-click": "xdg-open https://mail.proton.me/u/0/inbox"
+  },
 }

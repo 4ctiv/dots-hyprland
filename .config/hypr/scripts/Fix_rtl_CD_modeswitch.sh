@@ -7,7 +7,7 @@ PRODUCT_ID="$(echo $DEVICE_ID | sed 's/:/ /g' | awk '{print $2}' )"
 if [[ "$DEVICE_ID" != "" ]]; then
   echo "$(lsusb | grep '$DEVICE_ID')"
   notify-send "$(lsusb | grep $DEVICE_ID)"
-  gksudo "usb_modeswitch -K --default-vendor $VENDOR_ID --default-product $PRODUCT_ID"
+  gksudo "timeout -s KILL 10s usb_modeswitch -K --default-vendor $VENDOR_ID --default-product $PRODUCT_ID"
   lsusb | grep "$VENDOR_ID"
 else
   echo "No Dongle in usb-mode found:"

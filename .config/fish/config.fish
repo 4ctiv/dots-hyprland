@@ -33,6 +33,7 @@ alias l='ls'
 alias la='ls -la'
 # ssh cleanup
 alias ssh-universal='clear && TERM=vt100 ssh'
+#alias ssh=function_ssh # Will not work as it breaks rekursively
 #grub update
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 alias install-grub-efi="sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi" #grub issue 08/2022
@@ -74,14 +75,14 @@ alias check-audio="pactl info | grep 'Server Name'"               #check audio (
 alias check-cpu="cpuid -i | grep uarch | head -n 1"               #check cpu
 alias check-mc='grep . /sys/devices/system/cpu/vulnerabilities/*' #check microcode vulnerabilities
 ## List Stuff
-alias list-net-ipv4="nmap $(ip -4 addr list  | awk '/inet.*brd/ {print $2}' | head -1) -F --open -oG - | cut -d ' ' -f 2-3 | grep Ports:"
+alias list-net-ipv4="nmap $(ip -4 addr list  | awk '/inet.*brd/ {print $2}' | head -1) -F --open -oG - | cut -d ' ' -f 2-3 | grep Ports: | sed 's/Ports://g'"
 #Lists of Installed Packages
 # EXTENDED USAGE: pacman -S --needed - < my-list-of-packages.txt # Install packages from a list
 alias list-packs="         sudo pacman -Qqe"               # List of explicitly installed packages
 alias list-packs-explicit="sudo pacman -Qqet"              # List of explicitly installed packages without deps
 alias list-packs-aur="     sudo pacman -Qqem"              # List of AUR packages
 alias list-packs-size="expac -H M '%m\t%n' | sort -h | nl" # List of package sizes
-alias list-packs-depends='function_depends'
+alias list-packs-depends=function_depends
 alias list-packs-recent="    expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 alias list-packs-recent-extended="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
 #Reading logs (bat)
@@ -149,6 +150,7 @@ alias list-btrfs-filesystem="sudo btrfs filesystem df /"
 alias list-btrfs-subvolumes="sudo btrfs su li -t /"
 alias btrfs-compress="sudo btrfs filesystem defragment -r -v -czstd"
 alias btrfs-balance="sudo btrfs balance start -dusage=66"
+alias list-filesize="sudo du -shc"
 # Session info
 alias list-users="cut -d: -f1 /etc/passwd | sort" # List of existing useres on the machine
 alias list-session-xorg="   ls /usr/share/xsessions"        # List xorg    sessions

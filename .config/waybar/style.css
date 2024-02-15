@@ -2,8 +2,8 @@
     border: none;
     border-radius: 5px; /* 5px */
     font-family: "JetBrainsMono NFM:style=Bold", "Noto Sans", "Roboto Condensed", sans-serif;
-    font-size: 14px;
-    min-height: 14px;
+    font-size: 16px;  /* default: 14px */
+    min-height: 16px; /* default: 14px */
 }
 
 @import "themes/Catppuccin-Mocha.css";
@@ -163,4 +163,14 @@ tooltip {
     border-radius: 7px 0px 0px 7px; /*7px 0px 0px 7px;*/
     margin-left: 9px;
     padding-left: 3px;
+}
+
+#custom-protonmail.unread {
+    color: white;
+}
+#custom-protonmail.inaccurate {
+    color: darkorange;
+}
+#custom-protonmail.error {
+    color: darkred;
 }

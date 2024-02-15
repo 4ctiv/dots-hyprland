@@ -1,0 +1,79 @@
+#!/bin/bash
+# See https://gitlab.freedesktop.org/pipewire/pipewire/-/wikis/Migrate-PulseAudio
+
+### Pulse (pactl)
+pulse(){
+	# pactl unload-module module-null-sink && pactl load-module module-loopback
+	sleep 0.5s &&\
+	SOURCE1=$(pactl load-module module-null-sink sink_name="01_COMS_SINK" sink_properties="device.description='01_COMS_Sink'") &&\
+	sleep 0.5s &&\
+	MODULE1=$(pactl load-module module-loopback source="01_COMS_SINK.monitor" latency_msec=4) &&\
+	sleep 0.5s &&\
+	SOURCE2=$(pactl load-module module-null-sink sink_name="02_GAME_SINK" sink_properties="device.description='02_Game_Sink'") &&\
+	sleep 0.5s &&\
+	MODULE2=$(pactl load-module module-loopback source="02_GAME_SINK.monitor" latency_msec=4) &&\
+	sleep 0.5s &&\
+	SOURCE3=$(pactl load-module module-null-sink sink_name="03_MISC_SINK" sink_properties="device.description='03_MISC_Sink'") &&\
+	sleep 0.5s &&\
+	MODULE3=$(pactl load-module module-loopback source="03_MISC_SINK.monitor" latency_msec=4)
+}
+### Pipewire
+pipewire_pactl(){
+  pactl load-module module-remap-sink sink_name="01_COMS_Sink" &&\
+    sleep 0.5s &&\
+  pactl load-module module-remap-sink sink_name="02_GAME_Sink" &&\
+    sleep 0.5s &&\
+  pactl load-module module-remap-sink sink_name="03_MISC_Sink" &&\
+    sleep 0.5s
+}
+
+pipewire_pactl_v2(){
+  pactl load-module module-null-sink sink_name="01_COMS_Sink" &&\
+  pactl load-module module-loopback source="01_COMS_Sink.monitor" sink=@DEFAULT_SINK@ &&\
+  sleep 0.5s &&\
+  pactl load-module module-null-sink sink_name="02_GAME_Sink" &&\
+  pactl load-module module-loopback source="02_GAME_Sink.monitor" sink=@DEFAULT_SINK@ &&\
+  sleep 0.5s &&\
+  pactl load-module module-null-sink sink_name="03_MISC_SINK" &&\
+  pactl load-module module-loopback source="03_MISC_SINK.monitor" sink=@DEFAULT_SINK@ &&\
+  sleep 0.5s
+}
+
+pipewire_pw-loopback(){
+	# systemctl --user restart pipewire pipewire-pulse # Restart pipewire
+	pw-loopback \
+        -m '[[FL FR]]' \
+		--capture-props='media.class=Audio/Sink node.name=01_COMS_SINK node.description=01_COMS_Sink audio.position=[FL FR]' \
+        --capture-props='[media.class=Audio/Sink]' \
+		--playback-props='audio.position=[FL FR]' &&\
+	sleep 0.5s &&\
+	pw-loopback \
+        -m '[[FL FR]]' \
+		--capture-props='media.class=Audio/Sink node.name=02_GAME_SINK node.description=02_GAME_Sink audio.position=[FL FR]' \
+		--capture-props='[media.class=Audio/Sink]' \
+        --playback-props='audio.position=[FL FR]' &&\
+	sleep 0.5s &&\
+	pw-loopback \
+		-m '[[FL FR]]' \
+		--capture-props='media.class=Audio/Sink node.name=03_MISC_SINK node.description=03_MISC_Sink audio.position=[FL FR]' \
+        --capture-props='[media.class=Audio/Sink]' \
+		--playback-props='audio.position=[FL FR}' &&\
+    sleep 0.5s
+}
+
+main(){
+	if [[ "$(pactl info | grep "Server Name:" | grep -o "on PipeWire")" == "on PipeWire" ]]; then
+	  echo "Setting up pipewire audio sinks"
+      #systemctl --user restart pipewire.service # Reset configuration to boot config
+      pipewire_pactl
+	else
+      echo "Setting up pulse audio sinks"
+	  #systemctl --user restart pulseaudio # Reset configuration to boot config
+      pulse
+	fi
+	sleep 1s
+	disown -a
+}
+
+main "$@"
+exit 0

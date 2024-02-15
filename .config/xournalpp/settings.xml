@@ -6,7 +6,7 @@
   <property name="pressureMultiplier" value="1"/>
   <property name="zoomGesturesEnabled" value="false"/>
   <property name="selectedToolbar" value="take notes vertical"/>
-  <property name="lastSavePath" value="/home/activ/Downloads"/>
+  <property name="lastSavePath" value="/home/$USER/Documents"/>
   <property name="lastOpenPath" value="/home/activ/Nextcloud/Notes/Templates"/>
   <property name="lastImagePath" value="file:///home/activ/Documents/Xournal++%20Note%20Template"/>
   <property name="edgePanSpeed" value="19"/>
@@ -14,12 +14,12 @@
   <property name="zoomStep" value="10"/>
   <property name="zoomStepScroll" value="2"/>
   <property name="displayDpi" value="157"/>
-  <property name="mainWndWidth" value="1072"/>
-  <property name="mainWndHeight" value="933"/>
+  <property name="mainWndWidth" value="1280"/>
+  <property name="mainWndHeight" value="720"/>
   <property name="maximized" value="true"/>
   <property name="showToolbar" value="true"/>
-  <property name="showSidebar" value="false"/>
-  <property name="sidebarWidth" value="50"/>
+  <property name="showSidebar" value="true"/>
+  <property name="sidebarWidth" value="144"/>
   <property name="sidebarNumberingStyle" value="1"/>
   <property name="sidebarOnRight" value="false"/>
   <property name="scrollbarOnLeft" value="true"/>
@@ -306,7 +306,7 @@
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="text">
-      <attribute name="color" type="hex" value="00c0ff"/>
+      <attribute name="color" type="hex" value="ff1a5fb4"/>
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="verticalSpace">
