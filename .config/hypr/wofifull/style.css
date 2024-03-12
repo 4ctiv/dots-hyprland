@@ -82,7 +82,7 @@
     margin: 5px;
     padding: 10px;
     border: none;
-    color: @txt;
+    color: @accent; /*color: @txt;*/
     animation: fadeIn 0.5s ease-in-out both;
  }
 

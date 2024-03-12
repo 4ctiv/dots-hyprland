@@ -7,7 +7,7 @@ COLORS="$HOME/.config/hypr/wofifull/colors"
 # eval $(ssh-agent) # Launched apps get ssh-agent access
 
 if [[ ! $(pidof wofi) ]]; then
-	wofi --show drun --prompt 'Search...' --conf ${CONFIG} --style ${STYLE} --color ${COLORS}
+	wofi --modi drun,run,window --show drun --prompt 'Search...' --conf ${CONFIG} --style ${STYLE} --color ${COLORS}
 else
 	pkill wofi
 fi

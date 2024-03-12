@@ -1,0 +1,11 @@
+#!/bin/bash
+
+case "$(hyprctl activewindow -j | jq -r ".class")" in
+  "steam"|"Microsoft Teams - Preview")
+	notify-send "Minimizing App -  $(hyprctl activewindow -j | jq -r ".class")"
+    xdotool getactivewindow windowunmap
+  ;;
+  *)
+    hyprctl dispatch killactive ""
+  ;;
+esac

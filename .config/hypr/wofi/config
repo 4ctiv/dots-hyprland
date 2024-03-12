@@ -31,7 +31,8 @@ insensitive=false
 ## Other
 hide_scroll=true
 no_actions=true
-sort_order=default
+#sort_order=default
+sort_order=alphabetical
 gtk_dark=true
 filter_rate=100
 
