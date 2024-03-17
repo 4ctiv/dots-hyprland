@@ -49,3 +49,5 @@ main() {
 }
 main $@;
 exit 1;
+
+trap cleanup EXIT
