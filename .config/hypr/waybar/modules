@@ -221,6 +221,8 @@
   "tray": {
     "icon-size": 18,
     "spacing": 6,
+    "on-click": "",
+    "on-click-right": "",
   },
 
   "hyprland/window": {
