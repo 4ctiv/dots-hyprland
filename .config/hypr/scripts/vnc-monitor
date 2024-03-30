@@ -4,7 +4,7 @@
 function cleanup() {
   # Note: hyprctl does remove the output but does not lift the output's desktop bind
   hyprctl output remove $(hyprctl monitors | grep -E -o 'HEADLESS-[0-9]+');
-  adb shell dumpsys battery set ac 1; adb shell dumpsys battery set usb 1;
+  #adb shell dumpsys battery set ac 1; adb shell dumpsys battery set usb 1;
   echo "Cleanup complete"
 }
 
@@ -15,14 +15,14 @@ function android_usb(){
     # Forward port to android device
     adb reverse 5900 5900;
   fi
-  adb shell dumpsys battery set ac 0; adb shell dumpsys battery set usb 0;
+  #adb shell dumpsys battery set ac 0; adb shell dumpsys battery set usb 0;
 }
 
   notify-send "Connect to vnc via $(ip -c -4 addr | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | grep -v "127.0.0.1")";
   echo "Connect to vnc via $(ip -c -4 addr | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | grep -v "127.0.0.1")" &&\
   hyprctl output add headless &&\
     android_usb &&\
-    nohup wayvnc &>/dev/null &&\
+    nohup wayvnc --gpu --performance $1 &>/dev/null &&\
       cleanup
 
 # trap cleanup EXIT #force run cleanup on exit (even strg + c)
