@@ -11,6 +11,7 @@ function cleanup() {
 # Enable vnc via usb cable (adb) on android (address: localhost:5900)
 # Note: Default VNC port is 5900
 function android_usb(){
+  adb killserver ; adb devices > /dev/null # start adb deaon if not already running
   if [[ "$(adb devices | grep -v 'List of devices')" != "" ]]; then
     # Forward port to android device
     adb reverse 5900 5900;
@@ -18,11 +19,11 @@ function android_usb(){
   #adb shell dumpsys battery set ac 0; adb shell dumpsys battery set usb 0;
 }
 
-  notify-send "Connect to vnc via $(ip -c -4 addr | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | grep -v "127.0.0.1")";
-  echo "Connect to vnc via $(ip -c -4 addr | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | grep -v "127.0.0.1")" &&\
-  hyprctl output add headless &&\
-    android_usb &&\
+trap cleanup EXIT #force run cleanup on exit (even strg + c)
+
+notify-send "Connect to vnc via $(ip -c -4 addr | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | grep -v '127.0.0.1' | head -n 1)";
+echo "Connect to vnc via $(ip -c -4 addr | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | grep -v '127.0.0.1'  | head -n 1)" &&\
+hyprctl output add headless &&\
+  android_usb &&\
     nohup wayvnc --gpu --performance $1 &>/dev/null &&\
       cleanup
-
-# trap cleanup EXIT #force run cleanup on exit (even strg + c)

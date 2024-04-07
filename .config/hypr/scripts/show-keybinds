@@ -1,0 +1,19 @@
+# COLORS
+NCL='\033[0m'       # Text Reset
+RED='\033[0;31m'    # Red
+GRE='\033[0;32m'    # Green
+BLU='\033[0;34m'    # Blue
+
+# Output
+{\
+  echo -e "${RED}[Win]${NCL}" &&\
+    cat .hyprland-keybindings | grep "^[^#]bind = \$mainMod  "       | sed 's/^.bind =//g'   | sort ;\
+  echo -e "${RED}[Win] + [CTRL]${NCL}" &&\
+    cat .hyprland-keybindings | grep "^[^#]bind = \$mainMod CTRL  "  | sed 's/^.bind =//g'   | sort ;\
+  echo -e "${RED}[Win] + [SHIFT]${NCL}" &&\
+    cat .hyprland-keybindings | grep "^[^#]bind = \$mainMod SHIFT  " | sed 's/^.bind =//g'   | sort ;\
+  echo -e "${RED}[Win] + [ALT]${NCL}" &&\
+    cat .hyprland-keybindings | grep "^[^#]bind = \$mainMod ALT  "   | sed 's/^.bind =//g'   | sort ;\
+} | sed 's/$mainMod/WIN/g' | less -R --chop-long-lines
+
+exit 0

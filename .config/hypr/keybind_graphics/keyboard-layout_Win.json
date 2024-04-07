@@ -1,0 +1,336 @@
+[
+  {
+    "backcolor": "#adacac"
+  },
+  [
+    {
+      "c": "#f7f2ea"
+    },
+    "Esc",
+    {
+      "x": 1,
+      "c": "#00a4a9"
+    },
+    "F1\nKeys\n\n\n\n\ninfo",
+    {
+      "c": "#7fa580"
+    },
+    "F2\nAPPS",
+    "F3\nAPPS",
+    "F4\nAPPS",
+    {
+      "x": 0.5
+    },
+    "F5\nAPPS",
+    "F6\nAPPS",
+    "F7\nAPPS",
+    "F8\nAPPS",
+    {
+      "x": 0.5
+    },
+    "F9\nAPPS",
+    "F10\nAPPS",
+    "F11\nAPPS",
+    "F12\nAPPS",
+    {
+      "x": 0.25
+    },
+    "PrtSc\nflame...",
+    {
+      "c": "#cccccc"
+    },
+    "Scroll Lock",
+    "Paus"
+  ],
+  [
+    {
+      "y": 0.5,
+      "c": "#00a4a9"
+    },
+    "^\nWS-1",
+    "1\nWS 1",
+    "2\nWS 2",
+    "3\nWS 3",
+    "4\nWS 4",
+    "5\nWS 5",
+    "6\nWS 6",
+    "7\nWS 7",
+    "8\nWS 8",
+    "9\nWS 9",
+    "0\nWS+1",
+    {
+      "c": "#c5c7ca"
+    },
+    "ß",
+    "´",
+    {
+      "w": 2
+    },
+    "Backspace",
+    {
+      "x": 0.25
+    },
+    "Insert",
+    "Home",
+    "PgUp",
+    {
+      "x": 0.25
+    },
+    "Num Lock",
+    "/",
+    "*",
+    "-"
+  ],
+  [
+    {
+      "c": "#00a4a9",
+      "w": 1.5
+    },
+    "Tab\nWS\n\n\n\n\nnext",
+    {
+      "c": "#c87e74"
+    },
+    "Q\nQuit",
+    {
+      "c": "#00a4a9"
+    },
+    "W\nscratch\n\n\n\n\ntoggle",
+    {
+      "c": "#7fa580"
+    },
+    "E\nfiles",
+    {
+      "c": "#c87e74"
+    },
+    "R\nRadio\n\n\n\n\ntoggle",
+    {
+      "c": "#7fa580"
+    },
+    "T\nterm",
+    "Z\ncava",
+    {
+      "c": "#c5c7ca"
+    },
+    "U",
+    {
+      "c": "#c87e74"
+    },
+    "I\nwindow\n\n\n\n\ninfo",
+    {
+      "c": "#689b34"
+    },
+    "O\nobsid...",
+    {
+      "c": "#00a4a9"
+    },
+    "P\nPin",
+    {
+      "c": "#c5c7ca"
+    },
+    "ü",
+    "+",
+    {
+      "x": 0.25,
+      "c": "#7fa580",
+      "w": 1.25,
+      "h": 2,
+      "w2": 1.5,
+      "h2": 1,
+      "x2": -0.25
+    },
+    "Enter\nterm",
+    {
+      "x": 0.25,
+      "c": "#c5c7ca"
+    },
+    "Delete",
+    "End",
+    "PgDn",
+    {
+      "x": 0.25,
+      "c": "#0084c2"
+    },
+    "NUM7\nVM",
+    "NUM8\nVM",
+    "NUM9\nVM",
+    {
+      "c": "#c5c7ca",
+      "h": 2
+    },
+    "+"
+  ],
+  [
+    {
+      "c": "#f7f2ea",
+      "w": 1.75
+    },
+    "Caps Lock",
+    {
+      "c": "#7fa580"
+    },
+    "A\naudio",
+    {
+      "c": "#00a4a9"
+    },
+    "S\nscratch\n\n\n\n\ntoggle",
+    {
+      "c": "#c87e74"
+    },
+    "D\nLayout\n\n\n\n\ntoggle",
+    {
+      "c": "#00a4a9"
+    },
+    "F\nfullscreen",
+    {
+      "c": "#c87e74"
+    },
+    "G\ngroup\n\n\n\n\ntoggle",
+    {
+      "c": "#00a4a9"
+    },
+    "H\nwindow\n\n\n\n\nlast",
+    {
+      "c": "#c5c7ca"
+    },
+    "J",
+    {
+      "c": "#c87e74"
+    },
+    "K\nkeylog\n\n\n\n\ninfo",
+    {
+      "c": "#c5c7ca"
+    },
+    "L",
+    "ö",
+    "ä",
+    "#",
+    {
+      "x": 4.75,
+      "c": "#0084c2"
+    },
+    "NUM4\nVM",
+    "NUM5\nVM",
+    "NUM6\nVM"
+  ],
+  [
+    {
+      "c": "#f7f2ea",
+      "w": 1.25
+    },
+    "Shift",
+    {
+      "c": "#c5c7ca"
+    },
+    "<",
+    {
+      "c": "#7fa580"
+    },
+    "Y\napp's",
+    {
+      "c": "#c5c7ca"
+    },
+    "X",
+    {
+      "c": "#c87e74"
+    },
+    "C\nColor\n\n\n\n\ninfo",
+    {
+      "c": "#7fa580"
+    },
+    "V\nsearch",
+    "B\nBT",
+    "N\nfiles",
+    {
+      "c": "#c87e74"
+    },
+    "M\nscreen\n\n\n\n\ninfo",
+    {
+      "c": "#00a4a9"
+    },
+    ",\nprev WS",
+    ".\nnext WS",
+    {
+      "c": "#c5c7ca"
+    },
+    "-",
+    {
+      "w": 2.75
+    },
+    "Shift",
+    {
+      "x": 1.25,
+      "c": "#00a4a9"
+    },
+    "↑\nwin_U\n\n\n\n\nswitch",
+    {
+      "x": 1.25,
+      "c": "#0084c2"
+    },
+    "NUM1\nVM",
+    "NUM2\nVM",
+    "NUM3\nVM",
+    {
+      "c": "#c5c7ca",
+      "h": 2
+    },
+    "Enter"
+  ],
+  [
+    {
+      "c": "#f7f2ea",
+      "w": 1.25
+    },
+    "Ctrl",
+    {
+      "c": "#91867a",
+      "w": 1.25
+    },
+    "Win",
+    {
+      "c": "#f7f2ea",
+      "w": 1.25
+    },
+    "Alt",
+    {
+      "c": "#00a4a9",
+      "w": 6.25
+    },
+    "\nfloating\n\n\n\n\ntoggle",
+    {
+      "c": "#f7f2ea",
+      "w": 1.25
+    },
+    "AltGr",
+    {
+      "c": "#91867a",
+      "w": 1.25
+    },
+    "Win",
+    {
+      "c": "#f7f2ea",
+      "w": 1.25
+    },
+    "Menu",
+    {
+      "w": 1.25
+    },
+    "Ctrl",
+    {
+      "x": 0.25,
+      "c": "#00a4a9"
+    },
+    "←\nwin_L\n\n\n\n\nswitch",
+    "↓\nwin_D\n\n\n\n\nswitch",
+    "→\nwin_R\n\n\n\n\nswitch",
+    {
+      "x": 0.25,
+      "c": "#0084c2",
+      "w": 2
+    },
+    "NUM 0",
+    {
+      "c": "#c5c7ca"
+    },
+    ","
+  ]
+]
