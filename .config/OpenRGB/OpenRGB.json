@@ -1258,13 +1258,14 @@
         "theme": "dark"
     },
     "UserInterface": {
+        "RunZoneChecks": true,
         "exit_profile": {
             "profile_name": "Cold North",
             "set_on_exit": false
         },
         "geometry": {
             "height": 0,
-            "load_geometry": false,
+            "load_geometry": true,
             "save_on_exit": false,
             "width": 0,
             "x": 0,
@@ -1272,6 +1273,6 @@
         },
         "greyscale_tray_icon": true,
         "language": "default",
-        "minimize_on_close": false
+        "minimize_on_close": true
     }
 }
