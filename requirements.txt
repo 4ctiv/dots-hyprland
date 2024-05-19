@@ -14,6 +14,8 @@ brightnessctl # monitor brightness settings
 nm-applt      # Wifi icon 
 
 # Catppuccin Theme
+kvantum-qt5 
+kvantummanager 
 catppuccin-cursors-git
 catppuccin-gtk-theme-mocha
 kvantum-theme-catppuccin-git

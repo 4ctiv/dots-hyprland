@@ -1,20 +1,26 @@
 #!/bin/bash -l
 
+# Note: Default VNC port is 5900
+export VNC_PORT=5900
+
 # Restore state of  system before the script was executed
 function cleanup() {
   # Note: hyprctl does remove the output but does not lift the output's desktop bind
+  adb forward --remove tcp:$VNC_PORT
+  pkill wayvnc # Should already be closed
   hyprctl output remove $(hyprctl monitors | grep -E -o 'HEADLESS-[0-9]+');
-  #adb shell dumpsys battery set ac 1; adb shell dumpsys battery set usb 1;
+  #adb shell dumpsys battery set ac 1; adb shell dumpsys battery set usb 1; # Enable cahrging device
+  clear VNC_PORT
   echo "Cleanup complete"
 }
 
 # Enable vnc via usb cable (adb) on android (address: localhost:5900)
 # Note: Default VNC port is 5900
 function android_usb(){
-  adb killserver ; adb devices > /dev/null # start adb deaon if not already running
+  adb kill-server ; adb devices > /dev/null # also (re-)start adb deamon
   if [[ "$(adb devices | grep -v 'List of devices')" != "" ]]; then
     # Forward port to android device
-    adb reverse 5900 5900;
+    adb reverse tcp:$VNC_PORT tcp:$VNC_PORT;
   fi
   #adb shell dumpsys battery set ac 0; adb shell dumpsys battery set usb 0;
 }
@@ -23,7 +29,8 @@ trap cleanup EXIT #force run cleanup on exit (even strg + c)
 
 notify-send "Connect to vnc via $(ip -c -4 addr | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | grep -v '127.0.0.1' | head -n 1)";
 echo "Connect to vnc via $(ip -c -4 addr | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | grep -v '127.0.0.1'  | head -n 1)" &&\
-hyprctl output add headless &&\
+ hyprctl output create headless name "VNC" &&\
   android_usb &&\
+    echo "To exit vnc monitor use [CTRL] + [C]"
     nohup wayvnc --gpu --performance $1 &>/dev/null &&\
       cleanup
