@@ -2,6 +2,9 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
+# SSH auth set
+#export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
   ########################
  ### Typo redirection ###
 ########################
@@ -31,7 +34,7 @@ alias set-locales="sudo localectl set-x11-keymap de && sudo localectl set-locale
 #ls (Quicker directory listing)
 alias l='ls'
 alias la='ls -la'
-# ssh cleanup
+# ssh unknown terminal on ssh sessions
 alias ssh-universal='clear && TERM=vt100 ssh'
 #alias ssh=function_ssh # Will not work as it breaks rekursively
 #grub update
@@ -106,7 +109,6 @@ alias list-packs-size="expac -H M '%m\t%n' | sort -h | nl" # List of package siz
 alias list-packs-depends=function_depends
 alias list-packs-recent="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 alias list-packs-recent-extended="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
-alias list-packs-desktop="echo \"$(ls /usr/share/applications/ /usr/local/share/applications/ ~/.local/share/applications/)\" | grep .desktop | sed 's/.desktop//g' | sort -h"
 
 ##########################
 ### Software managment ###
@@ -121,8 +123,6 @@ alias app-cleanup='sudo pacman -Rns $(pacman -Qtdq)' # Cleanup orphaned packages
 alias yayskip='yay -S --mflags --skipinteg'
 #verify signature for isos
 alias check-gpg="gpg2 --keyserver-options auto-key-retrieve --verify"
-#Downgrade system
-alias downgrad-arco="sudo downgrade --ala-url https://ant.seedhost.eu/arcolinux/"
 
   #########################
  ### Aliases for fixes ###
@@ -151,6 +151,8 @@ alias fix-permissions="sudo chown -R $USER:$USER ~/.config ~/.local"
 #git
 alias rmgitcache="rm -r ~/.cache/git"
 alias grh="git reset --hard"
+# Fix QT platform issues
+alias fix-qt-platform="QT_QPA_PLATFORM=wayland;xcb"
 
 ###############################
 ### File System  Maintenace ###
@@ -162,6 +164,10 @@ alias list-btrfs-subvolumes="sudo btrfs su li -t /"
 alias btrfs-compress="sudo btrfs filesystem defragment -r -v -czstd"
 alias btrfs-balance="sudo btrfs balance start -dusage=66"
 alias list-filesize="sudo du -shc"
+# Session info
+alias list-users="cut -d: -f1 /etc/passwd | sort" # List of existing useres on the machine
+alias list-session-xorg="   ls /usr/share/xsessions"        # List xorg    sessions
+alias list-session-wayland="ls /usr/share/wayland-sessions" # List wayland sessions
 
   ####################
  ### Shell prompt ###
