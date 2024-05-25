@@ -1,9 +1,16 @@
 if status is-interactive
-    # Commands to run in interactive sessions can go here
-end
-
-# SSH auth set
-#export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+  ### SSH-Agent ###
+  export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+  #if [ "$(pgrep ssh-agent -o)" ]
+  # set -Ux SSH_AGENT_PID "$(pgrep ssh-agent -o)"
+  #else
+  # eval (ssh-agent -c)
+  # set -Ux SSH_AGENT_PID $SSH_AGENT_PID
+  # set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
+  #end
+  ### Shell prompt ###
+  neofetch --source ~/.config/neofetch/great-wave-transparent-2.png --size 400px
+end # End interactive only code-block
 
   ########################
  ### Typo redirection ###
@@ -34,8 +41,8 @@ alias set-locales="sudo localectl set-x11-keymap de && sudo localectl set-locale
 #ls (Quicker directory listing)
 alias l='ls'
 alias la='ls -la'
-# ssh unknown terminal on ssh sessions
-alias ssh-universal='clear && TERM=vt100 ssh'
+# set ssh generic terminal
+alias ssh-generic='clear && TERM=vt100 ssh'
 #alias ssh=function_ssh # Will not work as it breaks rekursively
 #grub update
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
@@ -109,6 +116,7 @@ alias list-packs-size="expac -H M '%m\t%n' | sort -h | nl" # List of package siz
 alias list-packs-depends=function_depends
 alias list-packs-recent="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 alias list-packs-recent-extended="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
+alias list-packs-desktop="ls /usr/share/applications/ /usr/local/share/applications/ ~/.local/share/applications/ | grep .desktop | sed 's/.desktop//g'"
 
 ##########################
 ### Software managment ###
@@ -123,6 +131,8 @@ alias app-cleanup='sudo pacman -Rns $(pacman -Qtdq)' # Cleanup orphaned packages
 alias yayskip='yay -S --mflags --skipinteg'
 #verify signature for isos
 alias check-gpg="gpg2 --keyserver-options auto-key-retrieve --verify"
+#Downgrade system
+alias downgrad-arco="sudo downgrade --ala-url https://ant.seedhost.eu/arcolinux/"
 
   #########################
  ### Aliases for fixes ###
@@ -151,8 +161,8 @@ alias fix-permissions="sudo chown -R $USER:$USER ~/.config ~/.local"
 #git
 alias rmgitcache="rm -r ~/.cache/git"
 alias grh="git reset --hard"
-# Fix QT platform issues
-alias fix-qt-platform="QT_QPA_PLATFORM=wayland;xcb"
+# Set QT platform
+alias set-qt-platform="QT_QPA_PLATFORM=wayland;xcb"
 
 ###############################
 ### File System  Maintenace ###
@@ -169,7 +179,3 @@ alias list-users="cut -d: -f1 /etc/passwd | sort" # List of existing useres on t
 alias list-session-xorg="   ls /usr/share/xsessions"        # List xorg    sessions
 alias list-session-wayland="ls /usr/share/wayland-sessions" # List wayland sessions
 
-  ####################
- ### Shell prompt ###
-####################
-neofetch --source ~/.config/neofetch/great-wave-transparent-2.png --size 400px
