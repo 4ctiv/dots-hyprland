@@ -1,6 +1,6 @@
 wayland
 lib32-wayland
-xorg-wayland
+xorg-wayland         # X11 apps support
 hyprland-dev
 hyprpicker-git
 xdg-desktop-portal-hyprland
@@ -8,10 +8,10 @@ systemctl
 pamac-aur            # graphical package manager
 xf86-input-libinput  # touch input etc.
 archlinux-logout-git # lock & shutdown menu
-pavucontrol   # audo volume controll
-rofi          # App menu
-brightnessctl # monitor brightness settings
-nm-applt      # Wifi icon 
+pavucontrol          # audo volume controll
+rofi                 # App menu
+brightnessctl        # monitor brightness settings
+nm-applt             # Wifi icon 
 
 # Catppuccin Theme
 kvantum-qt5 
@@ -22,11 +22,12 @@ kvantum-theme-catppuccin-git
 
 # Menu & Eye Candy
 waybar        # taskbar
-swayidle      # automatic lock screen 
-wofi          # taskbar
-# conky       # widgets
-swaybg        # image wallpaper
+wofi          # (app) menus
+hyprlock      # Lockscreen
+hypridle      # Automatic lock & suspention
+hyprpaper     # image backgrounds
 mpvpaper      # video wallpaper
+# conky       # widgets
 
 # Basics
 kitty         # terminal
