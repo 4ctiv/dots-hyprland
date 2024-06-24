@@ -14,6 +14,6 @@ BLU='\033[0;34m'    # Blue
     cat .hyprland-keybindings | grep "^[^#]bind = \$mainMod SHIFT  " | sed 's/^.bind =//g'   | sort ;\
   echo -e "${RED}[Win] + [ALT]${NCL}" &&\
     cat .hyprland-keybindings | grep "^[^#]bind = \$mainMod ALT  "   | sed 's/^.bind =//g'   | sort ;\
-} | sed 's/$mainMod/WIN/g' | less -R --chop-long-lines
+} | sed 's/$mainMod[ ]*/WIN /g;s/ , / | /g' | less -R --chop-long-lines
 
 exit 0
