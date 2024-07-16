@@ -215,7 +215,7 @@
   "custom/keybindings": {
   "format":" 󰘳 ",
   "tooltip": false,
-  "on-click": "~/.config/hypr/scripts/keyhint",
+  "on-click": "kitty sh -c \"~/.config/hypr/scripts/show-keybinds\"",
   },
 
   "tray": {
