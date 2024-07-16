@@ -1,6 +1,6 @@
 # dots-hyprland
 
-[Hyprland desktop Preview](https://www.deviantart.com/4ctiv/art/Arcolinux-Custom-Hyprland-desktop-waybar-984360872)
+![Hyprland desktop Preview](https://www.deviantart.com/4ctiv/art/Arcolinux-Custom-Hyprland-desktop-waybar-984360872)
 
 This is a collection for an arch linux + btrfs + hyperland setup.
 
