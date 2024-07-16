@@ -1,0 +1,9 @@
+#!/bin/bash
+
+out_of_date_packs="$(pacman -Qu | wc -l)"
+
+# Only update if >= 50 packages are out of date (idea: stabe system intervalls)
+if [ out_of_date_packs -ge 50 ]]; then
+  kitty --name "Auto_Update" --title "Auto_Update" sh -c "pacman -Syu --noconfirm" &&\
+  echo "Auto Update Success" || echo "Auto Update Failed"
+fi
