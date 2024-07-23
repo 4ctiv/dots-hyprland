@@ -38,6 +38,9 @@ alias set-locales="sudo localectl set-x11-keymap de && sudo localectl set-locale
   ######################################
  ### Aliases for Software (Controll) ###
 #######################################
+# replace docker with podman
+alias docker="podman"
+alias docker-compose="podman-compose"
 #ls (Quicker directory listing)
 alias l='ls'
 alias la='ls -la'
@@ -58,6 +61,7 @@ alias ytv-best="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+besta
 alias ytv-mp4="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
 #hblock (web tracking block via hosts file)
 alias unhblock="hblock -S none -D none"
+alias app-web="brave --app"
 
   ################################
  ### Colorfull terminal apps  ###
@@ -74,6 +78,7 @@ alias df='df -h'
 alias update-fc='sudo fc-cache -fv'
 #update betterlockscreen images
 alias update-bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
+alias highlight='grep -A100' # Usage: COMMAND | highlight"
 
   #####################################
  ### Aliases for System Management ###
@@ -116,17 +121,17 @@ alias list-packs-size="expac -H M '%m\t%n' | sort -h | nl" # List of package siz
 alias list-packs-depends=function_depends
 alias list-packs-recent="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 alias list-packs-recent-extended="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
-alias list-packs-desktop="ls /usr/share/applications/ /usr/local/share/applications/ ~/.local/share/applications/ | grep .desktop | sed 's/.desktop//g'"
+alias list-packs-desktop="ls /usr/share/applications/ /usr/local/share/applications/ ~/.local/share/applications/ | sed 's/.desktop//g'"
 
 ##########################
 ### Software managment ###
 ##########################
-alias app-setup='  sudo pacman -S'
-alias app-remove=' sudo pacman -R'
-alias app-owner='  sudo pacman -Qo'
-alias app-deps='   sudo pacman -Sii'
-alias app-update=' sudo pacman -Syyu'
-alias app-cleanup='sudo pacman -Rns $(pacman -Qtdq)' # Cleanup orphaned packages
+alias packs-setup='  sudo pacman -S'
+alias packs-remove=' sudo pacman -R'
+alias packs-owner='  sudo pacman -Qo'
+alias packs-deps='   sudo pacman -Sii'
+alias packs-update=' sudo pacman -Syyu'
+alias packs-cleanup='sudo pacman -Rns $(pacman -Qtdq)' # Cleanup orphaned packages
 #skip integrity check (unsave !!!)
 alias yayskip='yay -S --mflags --skipinteg'
 #verify signature for isos
@@ -137,6 +142,8 @@ alias downgrad-arco="sudo downgrade --ala-url https://ant.seedhost.eu/arcolinux/
   #########################
  ### Aliases for fixes ###
 #########################
+#fix sudo pwd reject
+alias fix-sudo="faillock --reset"
 #receive developer keys
 alias fix-gpg-retrieve="gpg2 --keyserver-options auto-key-retrieve --receive-keys"
 alias fix-keyserver="[ -d ~/.gnupg ] || mkdir ~/.gnupg ; cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ ; echo 'done'"
@@ -161,8 +168,12 @@ alias fix-permissions="sudo chown -R $USER:$USER ~/.config ~/.local"
 #git
 alias rmgitcache="rm -r ~/.cache/git"
 alias grh="git reset --hard"
+#systemd
+#https://www.tecmint.com/disable-suspend-and-hibernation-in-linux/
+alias hibernation-enable="sudo systemctl unmask hibernate.target"
+alias hibernation-disable="sudo systemctl mask hibernate.target"
 # Set QT platform
-alias set-qt-platform="QT_QPA_PLATFORM=wayland;xcb"
+alias fix-qt-platform="QT_QPA_PLATFORM=wayland;xcb"
 
 ###############################
 ### File System  Maintenace ###
