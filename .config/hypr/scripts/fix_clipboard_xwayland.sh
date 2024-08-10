@@ -6,7 +6,7 @@
 # Dependency checks
 which xclip        && echo "clipnotify dependency satisfied"   || kitty sh -c "yay -S xclip";
 which clipnotify   && echo "clipnotify dependency satisfied"   || kitty sh -c "yay -S clipnotify";
-which wl-clipboard && echo "wl-clipboard dependency satisfied" || kitty sh -c "yay -S clipboard";
+which wl-copy      && echo "wl-clipboard dependency satisfied" || kitty sh -c "yay -S wl-clipboard";
 
 # Sync clipboard (this will run continiously)
 while clipnotify; do

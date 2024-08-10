@@ -3,7 +3,9 @@
 
 ### Pulse (pactl)
 pulse(){
-	# pactl unload-module module-null-sink && pactl load-module module-loopback
+    which pactl && echo "pactl dependency satisfied" || kitty sh -c "yay -S libpulse"
+
+    # pactl unload-module module-null-sink && pactl load-module module-loopback
 	sleep 0.5s &&\
 	SOURCE1=$(pactl load-module module-null-sink sink_name="01_COMS_SINK" sink_properties="device.description='01_COMS_Sink'") &&\
 	sleep 0.5s &&\
@@ -28,6 +30,8 @@ pipewire_pactl(){
 }
 
 pipewire_pactl_v2(){
+  which pactl && echo "pactl dependency satisfied" || kitty sh -c "yay -S libpulse"
+
   pactl load-module module-null-sink sink_name="01_COMS_Sink" &&\
   pactl load-module module-loopback source="01_COMS_Sink.monitor" sink=@DEFAULT_SINK@ &&\
   sleep 0.5s &&\
@@ -62,15 +66,17 @@ pipewire_pw-loopback(){
 }
 
 main(){
-	if [[ "$(pactl info | grep "Server Name:" | grep -o "on PipeWire")" == "on PipeWire" ]]; then
-	  echo "Setting up pipewire audio sinks"
+  which pactl && echo "pactl dependency satisfied" || kitty sh -c "yay -S libpulse"
+
+  if [[ "$(pactl info | grep "Server Name:" | grep -o "on PipeWire")" == "on PipeWire" ]]; then
+    echo "Setting up pipewire audio sinks"
       #systemctl --user restart pipewire.service # Reset configuration to boot config
       pipewire_pactl
-	else
-      echo "Setting up pulse audio sinks"
-	  #systemctl --user restart pulseaudio # Reset configuration to boot config
-      pulse
-	fi
+  else
+    echo "Setting up pulse audio sinks"
+    #systemctl --user restart pulseaudio # Reset configuration to boot config
+    pulse
+  fi
 	sleep 1s
 	disown -a
 }
