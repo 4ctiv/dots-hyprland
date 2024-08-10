@@ -13,6 +13,12 @@ if status is-interactive
 end # End interactive only code-block
 
   ########################
+ ###     Theming      ###
+########################
+# set fish_color_... "0xfffffff"
+
+
+  ########################
  ### Typo redirection ###
 ########################
 alias cd..='cd ..'
@@ -23,6 +29,7 @@ alias updqte='sudo pacman -Syyu'
 alias upqll='paru -Syu --noconfirm'
 alias upal='paru -Syu --noconfirm'
 alias claer="clear"
+alias gtop="btop"
 #redirect windows commands
 alias dir='ls'
 
@@ -111,6 +118,7 @@ alias list-session-xorg="   ls /usr/share/xsessions"        # List xorg    sessi
 alias list-session-wayland="ls /usr/share/wayland-sessions" # List wayland sessions
 # Network
 alias list-net-ipv4="nmap $(ip -4 addr list  | awk '/inet.*brd/ {print $2}' | head -1) -F --open -oG - | cut -d ' ' -f 2-3 | grep Ports: | sed 's/Ports://g'"
+alias list-net-port="sudo netstat -tunlp"
 # Packages
 # HOW 2 (EXTENDED USAGE): pacman -S --needed - < my-list-of-packages.txt # E.g. install packages from a list
 alias list-packs="         sudo pacman -Qqe"               # List of explicitly installed packages
@@ -122,6 +130,7 @@ alias list-packs-depends=function_depends
 alias list-packs-recent="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 alias list-packs-recent-extended="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
 alias list-packs-desktop="ls /usr/share/applications/ /usr/local/share/applications/ ~/.local/share/applications/ | sed 's/.desktop//g'"
+alias list-packs-desktop-all="find / -iname \"*desktop\" -type f -not -path \"/media*\" 2> /dev/null"
 
 ##########################
 ### Software managment ###
@@ -179,6 +188,7 @@ alias fix-qt-platform="QT_QPA_PLATFORM=wayland;xcb"
 ### File System  Maintenace ###
 ###############################
 # Filesystem (btrfs)
+alias list-drive-busy="sudo lsof"
 alias list-btrfs-snapshots="sudo timeshift --list"
 alias list-btrfs-filesystem="sudo btrfs filesystem df /"
 alias list-btrfs-subvolumes="sudo btrfs su li -t /"

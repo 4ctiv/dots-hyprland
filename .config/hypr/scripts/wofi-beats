@@ -19,67 +19,110 @@ notification(){
 }
 
 menu(){
-  printf "1. Lofi Girl\n"
-  printf "2. Chillhop\n"
-  printf "3. Box Lofi\n"
-  printf "4. The Bootleg Boy\n"
-  printf "5. Radio Spinner\n"
-  printf "6. SmoothChill\n"
-  printf "7. Little Soul\n"
-  printf "8. Fasetya\n"
-  printf "9. Lofi Zone"
+  printf "00. Gute Musik\n"
+  printf "01. 1Live\n"
+  printf "02. Lo-Fi Loft\n"
+  printf "11. Study\n"
+  printf "12. Vibe\n"
+  printf "13. Relax\n"
+  printf "14. Rebel\n"
+  printf "21. Bar\n"
+  printf "22. Fantasy\n"
+  printf "23. Ship\n"
+  printf "24. Space\n"
+  printf "31. Stream\n"
+  printf "32. Workout\n"
+  printf "33. Old\n"
 }
 
 main() {
   choice=$(menu | ${wofi_command} | cut -d. -f1)
 
   case $choice in
-    1)
+    00) 
+      # Gute Musik
       notification
-      mpv "https://play.streamafrica.net/lofiradio"
+      mpv --vid=no "https://music.youtube.com/playlist?list=PLhb3OfKIelBAQpoEWqvVaS5ux9r5K29x2"
       return
       ;;
-    2)
+    01)
+      notification ;
+      mpv --vid=no "https://www1.wdr.de/radio/player/einslive-radioplayer-100~_layout-popupVersion.html"
+      return
+      ;;
+    02)
+      notification ;
+      mpv --vid=no "https://music.youtube.com/playlist?list=RDCLAK5uy_kb7EBi6y3GrtJri4_ZH56Ms786DFEimbM&playnext=1&si=slttHtVgY0CgVTsR"
+      return
+      ;;
+    11)
+      # Study
       notification
-      mpv "http://stream.zeno.fm/fyn8eh3h5f8uv"
+      mpv --vid=no "https://music.youtube.com/playlist?list=PLhb3OfKIelBD4L-4Y-Utz9P7IgIPkAK7B&si=p14hdTx2_VI81n4Z"
       return
       ;;
-    3)
+    12)
+      # Vibe
       notification
-      mpv "http://stream.zeno.fm/f3wvbbqmdg8uv"
+      mpv --vid=no "https://music.youtube.com/playlist?list=PLhb3OfKIelBD16ngVY4A7Lk8N6gcsmRLD&si=atefCVnCPzWCJEGO"
       return
       ;;
-    4)
-      notification ;
-      mpv "http://stream.zeno.fm/0r0xa792kwzuv"
+    13)
+      # Relax
+      notification
+      mpv --vid=no "https://music.youtube.com/playlist?list=PLhb3OfKIelBAeH90uhlkRqZCTokSE7MPa&si=YOlulMVX-tfFm0Ax"
       return
       ;;
-    5)
-      notification ;
-      mpv "https://live.radiospinner.com/lofi-hip-hop-64"
+    14)
+      # Rebel
+      notification
+      mpv --vid=no "https://music.youtube.com/playlist?list=PLhb3OfKIelBBuf6SgusY_Pm1ROC6H38-r&si=18doYBZUcfAM4v-9"
       return
       ;;
-    6)
+    21)
+      # Bar
       notification ;
-      mpv "https://media-ssl.musicradio.com/SmoothChill"
+      mpv --vid=no --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBA1QX1RDSMe9tUtKrZF7Nb1&si=9PU2s9JW1NBWgNYp"
       return
       ;;
-    7)
+    22)
+      # Fantasy
       notification ;
-      mpv --vid=no "https://www.youtube.com/watch?v=NiOxSuEJaTI"
+      mpv --vid=no --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBB52aSKc1fdtmNKHML335wX&si=t78yCGGK-N2M5zww"
       return
       ;;
-    8)
+    23)
+      # Ship
       notification ;
-      mpv --shuffle --ytdl-raw-options="cookies=/tmp/cookies.txt" --vid=no https://www.youtube.com/playlist\?list\=PLusoefCj_Mkn6dRQMc3MxUGFHLeYT4y49
+      mpv --vid=no --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBBqZPAz49RZvLJ_9iWRRHiW&si=NwvxndGTfg7pJT3L"
       return
       ;;
-    9)
+    24)
+      # Space
       notification ;
-      mpv --shuffle --ytdl-raw-options="cookies=/tmp/cookies.txt" --vid=no https://www.youtube.com/watch?v=GaW13eDQO6s
+      mpv --vid=no --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBCh-2IANQJWy9AUzn3CXFpb&si=ElD7SCkhA2X-kK5c"
+      return
+      ;;
+    31)
+      # Stream
+      notification ;
+      mpv --vid=no --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBDZvBW8L7LsCAHUXBh_3b0p&si=VmmMc5mU2ncLyNIt"
+      return
+      ;;
+    32)
+      # Workout
+      notification ;
+      mpv --vid=no --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBDNf_GPn_tzLPCTEaXo3mEG&si=kFMQvrP0A83OQI9F"
+      return
+      ;;
+    33)
+      # Old
+      notification ;
+      mpv --vid=no --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBALv2NWtOR0dELUvnZ-krXR&si=G1jdtEf5FbtCeZLJ"
       return
       ;;
   esac
+
 }
 
 pkill -f http && notify-send "Lofi Radio stopped" || main
