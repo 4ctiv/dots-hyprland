@@ -173,7 +173,7 @@ alias grh="git reset --hard"
 alias hibernation-enable="sudo systemctl unmask hibernate.target"
 alias hibernation-disable="sudo systemctl mask hibernate.target"
 # Set QT platform
-alias fix-qt-platform="QT_QPA_PLATFORM=wayland;xcb"
+alias fix-qt-platform="export QT_QPA_PLATFORM=wayland;xcb"
 
 ###############################
 ### File System  Maintenace ###
