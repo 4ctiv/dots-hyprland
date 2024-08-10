@@ -1,0 +1,18 @@
+#!/bin/bash
+
+rotate() {
+  # $1: display
+  # $2: orientation [1...4]
+  hyprctl --batch "keyword monitor $1,transform,$2; keyword input:touchdevice:transform $2; keyword input:tablet:transform $2"
+}
+
+main() {
+
+  [[ -z "$1" ]] && display="$1" || export display=eDP-1
+  [[ -z "$2" ]] && orientation="$2" || export orientation=0
+
+  rotate display orientation
+}
+
+main $@
+exit 0

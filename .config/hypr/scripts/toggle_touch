@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# see: https://www.reddit.com/r/hyprland/comments/1bqohmd/dynamically_enabledisable_device/
+
+export TOUCH_DEVICE="wacom-pen-and-multitouch-sensor-finger"
+export STATUS_FILE="$XDG_RUNTIME_DIR/touchscreen.status"
+
+enable_touchpad() {
+    printf "enabled" > "$STATUS_FILE"
+    notify-send -u normal "Touchpad enabled"
+    hyprctl keyword input:touchdevice:enabled true
+    hyprctl keyword "device[$TOUCH_DEVICE]:enabled" true
+}
+
+disable_touchpad() {
+    printf "disabled" > "$STATUS_FILE"
+    notify-send -u normal "Touchpad disabled"
+    hyprctl keyword input:touchdevice:enabled false
+    hyprctl keyword "device[$TOUCH_DEVICE]:enabled" false
+}
+
+if ! [ -f "$STATUS_FILE" ]; then
+  disable_touchpad
+else
+  if [ $(cat "$STATUS_FILE") = "enabled" ]; then
+    disable_touchpad
+  elif [ $(cat "$STATUS_FILE") = "disabled" ]; then
+    enable_touchpad
+  fi
+fi
+
+unset TOUCH_DEVICE
+unset STATUS_FILE
