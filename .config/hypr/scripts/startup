@@ -36,17 +36,3 @@ sleep 3s;
 if [[ "$(lsusb | grep 'WLAN Adapter (Driver CDROM Mode)')" == "" ]] ; then
 	usb_modeswitch -KW -v $(lsusb | grep "WLAN Adapter (Driver CDROM Mode)" | awk '{ print $6}' | sed 's/:..../ /g') -p $(lsusb | grep "WLAN Adapter (Driver CDROM Mode)" | awk '{ print $6}' | sed 's/....:/ /g') ;
 fi
-
-#nohup nm-applet --indicator &>/dev/null
-#nohup openrgb --startminimized &>/dev/null
-#
-#nohup nextcloud &>/dev/null
-#nohup keepassxc &>/dev/null
-#
-#nohup steam &>/dev/null # -pipewire -pipewire-dmabuf
-#nohup telegram-desktop &>/dev/null
-#nohup discord &>/dev/null
-
-# XDG_CURRENT_DESKTOP=wayland flameshot
-
-notify-send "Startup completed"
