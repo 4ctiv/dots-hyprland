@@ -34,6 +34,7 @@ kitty         # terminal
 fish          # shell (alternative to bash)
 thunar        # main file-manager
 nemo          # alt  file-manager
+links         # commandline browser
 brave         # main brower
 google-chrome # alt  browser
 firefox       # alt  browser
@@ -54,6 +55,9 @@ inkscape      # image editing (vector graphics)
 gimp          # image editing
 noisetorch    # noise supression software
 flameshot     # (Alt. screenshot tool)
+obs-studio    # Video Recorder
+wlrobs        # Enable Desktop capture
+obs-vaapi     # Extend avalable formats
 
 # File system management
 btrfs-assistant     # btrfs helper
