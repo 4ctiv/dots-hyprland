@@ -14,6 +14,7 @@ The required packages are listed in requirements.txt
 2) Install Depedencies from `requirements.txt` e.g. via `pacman`: `pacman -S - < requirements.txt`
 3) Setup `timeshift` for automatic backups (I generally use max 3 daily backups)
   - I generally do manual backups as follows: 1 after first setup `install complete`& 1 after finishing all the app-logins `setup complete` (& 1 After doing major changes and booting once with them `MAIJOR_CHANGE`)
+  - Tip: remember to check that `systemctl status cronie.service` is enabled (required for timeshift intervall backups), if not run thefollowing `systemctl enable --now cronie.service`
 4) Apply configurations  (before you modify anything you may want to create a **manual backup in timeshift**)
    1) Replace all `~/.config` folders (with the same name) with the folders in the git repos `/.config` folder
    2) Replace `~/.bashrc` with the provided git `/.bashrc` config
@@ -25,8 +26,8 @@ From there you can open timeshift and restore your system to an older snapshot.
 Remember though that if you boot into a snapshot they are still *ro*, meaning if you reboot most changes are not kept in the system.
 
 ### Things to be done
-- [ ] Adding more application configurations (e.g. xournalpp)
+- [ ] Adding more applications
 - [ ] Document install process using *archlinux* and *archinstall* for a cleaner install
   - [ ] Add universal disk encryption guide (at least for home drive) to increase the security of this setup
   - [ ] Add grub password protection guide (grub modification should use a pwd to prevent exploits e.g. boot into root shell)
-  - [ ] Better README (structure, example images, more docs, ...)
+  - [ ] Create image for easy insatllation via [archiso](https://wiki.archlinux.org/title/Archiso) or similar
