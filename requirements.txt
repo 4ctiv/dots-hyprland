@@ -23,11 +23,11 @@ kvantum-theme-catppuccin-git
 # Menu & Eye Candy
 waybar        # taskbar
 wofi          # (app) menus
+mako          # Notification deamon
 hyprlock      # Lockscreen
 hypridle      # Automatic lock & suspention
 hyprpaper     # image backgrounds
 mpvpaper      # video wallpaper
-# conky       # widgets
 
 # Basics
 kitty         # terminal
@@ -38,7 +38,7 @@ links         # commandline browser
 brave         # main brower
 google-chrome # alt  browser
 firefox       # alt  browser
-evolution     # mail-client
+mailspring    # mail-client
 code          # code-editor
 meld          # file-differences
 
@@ -47,6 +47,11 @@ virt-manager  # popular vm manager
 qemu-desktop  # vm hypervisor
 quickemu      # fast vm setups
 quickgui      # graphical fast vm manager
+
+# Security (!needs user setup!)
+ufw           # Firewall, Tipp: ufw default deny incomming && ufw default allow outgoing && sudo ufw enable
+clamav        # Antivirus, Tipp: systemctl enable clamav-freshclam
+clamtk        # Antivirus GUI
 
 # Media
 spotify       # music player

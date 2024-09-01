@@ -46,8 +46,8 @@ alias set-locales="sudo localectl set-x11-keymap de && sudo localectl set-locale
  ### Aliases for Software (Controll) ###
 #######################################
 # replace docker with podman
-alias docker="podman"
-alias docker-compose="podman-compose"
+#alias docker="podman"
+#alias docker-compose="podman-compose"
 #ls (Quicker directory listing)
 alias l='ls'
 alias la='ls -la'
