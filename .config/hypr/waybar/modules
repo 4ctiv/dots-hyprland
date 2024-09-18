@@ -101,6 +101,7 @@
 },
 
   "clock": {
+    "timezone": "Europe/Berlin",
     "interval": 60,
     "align": 0,
     "rotate": 0,
