@@ -5,7 +5,7 @@ out_of_date_packs=$(checkupdates | wc -l)
 
 # Only update if >= 30 packages are out of date (idea: stabe system intervalls)
 if [[ $out_of_date_packs -ge 30 ]]; then
-  kitty --name "Auto_Update" --title "Auto_Update" sh -c "echo 'Requesting System upgrade';sudo pacman -Syu --noconfirm" &&\
+  kitty --name "Auto_Update" --title "Auto_Update" sh -c "echo 'Requesting System upgrade';sudo pacman -Syu --noconfirm; read -n 1 -s -p 'Press [ANY]-key to continue ...' dummy;" &&\
   echo "Auto Update Success" || echo "Auto Update Failed"
 else
   echo "All packages up to date"
