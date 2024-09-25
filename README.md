@@ -31,3 +31,8 @@ Remember though that if you boot into a snapshot they are still *ro*, meaning if
   - [ ] Add universal disk encryption guide (at least for home drive) to increase the security of this setup
   - [ ] Add grub password protection guide (grub modification should use a pwd to prevent exploits e.g. boot into root shell)
   - [ ] Create image for easy insatllation via [archiso](https://wiki.archlinux.org/title/Archiso) or similar
+
+#### PS: Tip for intel arc users
+ - `sudo lspci -v | grep -A 15 VGA` ~ check what driver you are using (xe is the "new" driver)
+ - `lspci -nn | grep VGA` ~ Get your graphics card id (e.g. '56a0')
+ - `GRUB_CMDLINE_LINUX="i915.force_probe=!56a0 xe.force_probe=56a0"` ~ Use `xe` driver by default
