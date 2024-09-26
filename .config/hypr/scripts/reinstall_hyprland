@@ -1,0 +1,45 @@
+#!/bin/bash
+
+REPO="extra"  # Common Options: "extra" "aur"
+POST=""       # Common Options: "" "-git" ("-bin")
+
+# Remove existing hyprland (#REDO this)
+ yay -R --noconfirm \
+        hyprland-git \
+        hypridle-git \
+        hyprlang-git \
+        hyprlock-git \
+        hyprutils-git \
+        hyprpaper-git \
+        hyprpicker-git \
+        hyprcursor-git \
+        hyprwayland-scanner-git \
+        xdg-desktop-portal-hyprland-git\
+        | tee update.log
+
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
+
+# Install hyprland
+yay -S --noconfirm $@ \
+       $REPO/hyprland$POST \
+       $REPO/hypridle$POST \
+       $REPO/hyprlang$POST \
+       $REPO/hyprlock$POST \
+       $REPO/hyprutils$POST \
+       $REPO/hyprwayland-scanner$POST \
+       $REPO/xdg-desktop-portal-hyprland$POST\
+       | tee -a update.log
+
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
+
+yay -S --noconfirm \
+       $REPO/hyprpaper$POST \
+       $REPO/hyprcursor$POST \
+       aur/hyprpicker$POST \
+       aur/hyprshot$POST \
+       | tee -a update.log
+
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
+
+yay -Ss hypr | grep "(Installed)" &&\
+exit 0
