@@ -5,6 +5,7 @@ POST=""       # Common Options: "" "-git" ("-bin")
 
 # Remove existing hyprland (#REDO this)
  yay -R --noconfirm \
+        aquamarine-git \
         hyprland-git \
         hypridle-git \
         hyprlang-git \
