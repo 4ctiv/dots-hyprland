@@ -1,5 +1,2 @@
 [General]
-theme=Catppuccin-Mocha-Lavender
-
-[Applications]
-KvGnomeDark=virtualbox
+theme=kva_catppuccin-mocha-maroon
