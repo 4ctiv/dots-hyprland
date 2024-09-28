@@ -26,9 +26,6 @@ ${SCRIPTSDIR}/statusbar &
 # Xauthority
 ${SCRIPTSDIR}/xauthority &
 
-# dex: https://github.com/jceb/dex (generate and execute DesktopEntry files)
-dex $HOME/.config/autostart/arcolinux-welcome-app.desktop &
-
 # Timeout, so apps show in tray
 sleep 3s;
 

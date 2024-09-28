@@ -14,7 +14,7 @@ catppuccin_theme() {
   SCHEMA='gsettings set org.gnome.desktop.interface'
 
   ### Custom app theming ###
-  
+
 }
 
 rose-pine_teme() {
