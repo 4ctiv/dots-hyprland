@@ -66,8 +66,7 @@ alias yta-best="yt-dlp --extract-audio --audio-format best "
 alias yta-mp3="yt-dlp --extract-audio --audio-format mp3 "
 alias ytv-best="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
 alias ytv-mp4="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
-#hblock (web tracking block via hosts file)
-alias unhblock="hblock -S none -D none"
+#web access
 alias app-web="brave --app"
 
   ################################
@@ -107,6 +106,7 @@ alias list-log-calamares="bat /var/log/Calamares.log"
 alias list-log-pacman="   bat /var/log/pacman.log"
 alias list-log-xorg="     bat /var/log/Xorg.0.log"
 alias list-log-xorg-old=" bat /var/log/Xorg.0.log.old"
+alias list-notification-history="makoctl history | jq '.data[0][].body.data'"
 # System info
 alias whichvga="/usr/local/bin/arcolinux-which-vga"
 alias sysfailed="systemctl list-units --failed"
@@ -127,6 +127,7 @@ alias list-packs-aur="     sudo pacman -Qqem"              # List of AUR package
 alias list-packs-broken="  sudo pacman -Qk 2>/dev/null | grep -v ' 0 missing files' | cut -d: -f1" 
 alias list-packs-size="expac -H M '%m\t%n' | sort -h | nl" # List of package sizes
 alias list-packs-depends=function_depends
+alias list-packs-depends-tree="pactree -r"
 alias list-packs-recent="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 alias list-packs-recent-extended="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
 alias list-packs-desktop="ls /usr/share/applications/ /usr/local/share/applications/ ~/.local/share/applications/ | sed 's/.desktop//g'"
@@ -140,6 +141,8 @@ alias packs-remove=' sudo pacman -R'
 alias packs-owner='  sudo pacman -Qo'
 alias packs-deps='   sudo pacman -Sii'
 alias packs-update=' sudo pacman -Syyu'
+alias packs-as-explicit='pacman -D --asexplicit'
+alias packs-as-dependecy='pacman -D --asdeps'
 alias packs-cleanup='sudo pacman -Rns $(pacman -Qtdq)' # Cleanup orphaned packages
 #skip integrity check (unsave !!!)
 alias yayskip='yay -S --mflags --skipinteg'
@@ -163,7 +166,7 @@ alias fix-lock-logout="sudo rm /tmp/arcologout.lock"
 alias fix-conf-pacman="/usr/local/bin/arcolinux-fix-pacman-conf"
 alias fix-keys="       /usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
 alias fix-keys-pacman="/usr/local/bin/arcolinux-fix-pacman-gpg-conf"
-alias fix-packs-broken="sudo pacman -S (list-packs-broken | tr '\n' ' ')"
+alias fix-packs-broken="sudo pacman -S \$(sudo pacman -Qk 2>/dev/null | grep -v ' 0 missing files' | cut -d: -f1)"
 ## config related fixes ##
 # restore shell configs
 alias restore-default-bash='cp /etc/skel/.bashrc                  ~/.bashrc                  && exec bash'
