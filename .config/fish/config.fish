@@ -1,6 +1,7 @@
 if status is-interactive
   ### SSH-Agent ###
   export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+  export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/docker.sock" // Docker userland
   #if [ "$(pgrep ssh-agent -o)" ]
   # set -Ux SSH_AGENT_PID "$(pgrep ssh-agent -o)"
   #else
@@ -9,7 +10,8 @@ if status is-interactive
   # set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
   #end
   ### Shell prompt ###
-  neofetch --source ~/.config/neofetch/great-wave-transparent-2.png --size 400px
+  fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 20
+  #docker stats 
 end # End interactive only code-block
 
   ########################
@@ -30,6 +32,7 @@ alias upqll='paru -Syu --noconfirm'
 alias upal='paru -Syu --noconfirm'
 alias claer="clear"
 alias gtop="btop"
+alias neofetch="fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 20"
 #redirect windows commands
 alias dir='ls'
 
