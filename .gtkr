@@ -4,14 +4,14 @@
 include "/home/$USER/.gtkrc-2.0.mine"
 gtk-theme-name="gtk_catppuccin-mocha-maroon"
 gtk-icon-theme-name="a-candy-beauty-icon-theme"
-gtk-font-name="JetBrainsMonoNL Nerd Font Mono Medium 12"
+gtk-font-name="JetBrainsMono Nerd Font Bold 12"
 gtk-cursor-theme-name="cur_bibata-modern-ice"
 gtk-cursor-theme-size=24
 gtk-toolbar-style=GTK_TOOLBAR_ICONS
-gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
+gtk-toolbar-icon-size=GTK_ICON_SIZE_MENU
 gtk-button-images=1
 gtk-menu-images=1
-gtk-enable-event-sounds=1
+gtk-enable-event-sounds=0
 gtk-enable-input-feedback-sounds=0
 gtk-xft-antialias=1
 gtk-xft-hinting=1

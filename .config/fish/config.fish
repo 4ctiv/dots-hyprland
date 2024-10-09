@@ -71,6 +71,7 @@ alias ytv-best="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+besta
 alias ytv-mp4="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
 #web access
 alias app-web="brave --app"
+alias unhblock="hblock -S none -D none"
 
   ################################
  ### Colorfull terminal apps  ###
@@ -147,6 +148,7 @@ alias packs-update=' sudo pacman -Syyu'
 alias packs-as-explicit='pacman -D --asexplicit'
 alias packs-as-dependecy='pacman -D --asdeps'
 alias packs-cleanup='sudo pacman -Rns $(pacman -Qtdq)' # Cleanup orphaned packages
+alias packs-missing="pacman -Dkk"
 #skip integrity check (unsave !!!)
 alias yayskip='yay -S --mflags --skipinteg'
 #verify signature for isos
