@@ -1,24 +1,36 @@
-wayland
-lib32-wayland
+# Core system
+wayland              # Desktop backend
+lib32-wayland        # Optional: Support 32-Bit (recommended)
 xorg-wayland         # X11 apps support
-hyprland-dev
-hyprpicker-git
+hypridle             # Auto Lock/Suspend/...
+hyprland             # Window manager
+hyprlang             # Configuration language
+hyprlock             # Lockscreen
+hyprshot             # Screenshots
+hyprpaper            # Wallpaper
+hyprutils            # Windowmanager cmd interface
+iio-hyprland-git     # Auto rotation support
+hyprwayland-scanner
 xdg-desktop-portal-hyprland
-systemctl
-pamac-aur            # graphical package manager
-xf86-input-libinput  # touch input etc.
-archlinux-logout-git # lock & shutdown menu
+systemctl            # Systemd
+pamac-aur            # Optional: graphical package manager
+xf86-input-libinput  # touch input support
+wl-logout            # power menu
 pavucontrol          # audo volume controll
 rofi                 # App menu
+htop                 # cli task manager
 brightnessctl        # monitor brightness settings
 nm-applt             # Wifi icon 
 
-# Catppuccin Theme
-kvantum-qt5 
-kvantummanager 
-catppuccin-cursors-git
-catppuccin-gtk-theme-mocha
-kvantum-theme-catppuccin-git
+# Theme
+kvantum-qt5                  # Unified theme support
+qt5ct                        # Optional: qt(5) theme manager
+nwg-look                     # Optional: gtk theme manager
+kvantummanager               # Optional: kvantum theme manager
+lxappearance                 # Optional: Universal theme manager (may not find all themes)
+catppuccin-cursors-git       # Optional: (also included in repo)
+catppuccin-gtk-theme-mocha   # Optional: (also included in repo)
+kvantum-theme-catppuccin-git # Optional: (also included in repo)
 
 # Menu & Eye Candy
 waybar        # taskbar
@@ -33,7 +45,6 @@ mpvpaper      # video wallpaper
 kitty         # terminal
 fish          # shell (alternative to bash)
 thunar        # main file-manager
-nemo          # alt  file-manager
 links         # commandline browser
 brave         # main brower
 google-chrome # alt  browser
