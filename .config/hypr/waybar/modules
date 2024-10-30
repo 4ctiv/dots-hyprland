@@ -1,4 +1,10 @@
 {
+  "custom/separator": {
+    "format": "|",
+    "interval": "once",
+    "tooltip": false
+  },
+
   "backlight": {
     "interval": 2,
     "align": 0,
