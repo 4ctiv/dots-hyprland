@@ -44,6 +44,7 @@ mpvpaper      # video wallpaper
 # Basics
 kitty         # terminal
 fish          # shell (alternative to bash)
+fzf           # fuzzy finder
 thunar        # main file-manager
 links         # commandline browser
 brave         # main brower
