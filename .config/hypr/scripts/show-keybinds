@@ -9,6 +9,7 @@ BLU='\033[0;34m'    # Blue
 
 # Output
 {\
+  echo "Press [STRG]+[C] -> [Q] to exit; Press [/] to search"
   echo -e "${RED}[Win]${NCL}" &&\
     cat $KEYBINDS | grep "^[^#]bind = \$mainMod  "       | sed 's/^.bind =//g'   | sort ;\
   echo -e "${RED}[Win] + [CTRL]${NCL}" &&\
