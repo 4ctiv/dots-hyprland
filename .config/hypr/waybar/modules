@@ -234,7 +234,7 @@
   "custom/pen": {
     "format":" 🖊",
     "tooltip": false,
-    "on-click": "pidof gromit-mpx && pkill  gromit-mpx || gromit-mpx"
+    "on-click": "hyprctl dispatch togglespecialworkspace gromit"
   },
 
   "tray": {
