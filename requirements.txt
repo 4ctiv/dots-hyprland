@@ -19,6 +19,7 @@ wl-logout            # power menu
 pavucontrol          # audo volume controll
 rofi                 # App menu
 htop                 # cli task manager
+jq                   # Json terminal tools (hyprctl can output json)
 brightnessctl        # monitor brightness settings
 nm-applt             # Wifi icon 
 
