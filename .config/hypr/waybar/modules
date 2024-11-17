@@ -1,3 +1,6 @@
+/**
+ * Waybar moduels see: https://man.archlinux.org/man/waybar.5.en
+*/
 {
   "custom/separator": {
     "format": "|",
@@ -222,7 +225,7 @@
   "custom/keybindings": {
     "format":" 󰘳 ",
     "tooltip": false,
-    "on-click": "kitty sh -c \"~/.config/hypr/scripts/show-keybinds\""
+    "on-click": "kitty --title keyhint sh -c \"~/.config/hypr/scripts/show-keybinds\""
   },
 
   "custom/keyboard": {
@@ -237,6 +240,13 @@
     "on-click": "hyprctl dispatch togglespecialworkspace gromit"
   },
 
+  "custom/touch": {
+    "format":" 🖙 ", // 🖛 
+    "format-alt": " 🖛 ",
+    "tooltip": false,
+    "on-click": "bash ~/.config/hypr/scripts/toggle_touch"
+  },
+
   "tray": {
     "icon-size": 18,
     "spacing": 6,
@@ -245,18 +255,10 @@
   },
 
   "hyprland/window": {
-    "format": "  {}",
+    "format": "",
+    "icon": true,
     "separate-outputs": true,
-    "rewrite": {
-        "${USER}@${set_sysname}:(.*)": "$1 ",
-        "(.*) — Mozilla Firefox": "$1 󰈹",
-        "(.*)Mozilla Firefox": "Firefox 󰈹",
-        "(.*) - Visual Studio Code": "$1 󰨞",
-        "(.*)Visual Studio Code": "Code 󰨞",
-        "(.*) — Dolphin": "$1 󰉋",
-        "(.*)Spotify": "Spotify 󰓇",
-        "(.*)Steam": "Steam 󰓓"
-    }
+    "rewrite": {}
   },
 
   "custom/gpuinfo": {
