@@ -12,6 +12,6 @@
   "margin-right": 0,
 
   "modules-left":  ["custom/menu", "hyprland/workspaces", "wlr/taskbar", "custom/separator", "tray"],
-  "modules-center": ["clock"],
-  "modules-right": ["disk", "memory", "cpu", "network", "battery", "backlight", "pulseaudio", "custom/updater", "custom/keyboard", "custom/pen", "custom/keybindings", "custom/power"],
+  "modules-center": ["clock", "hyprland/window"],
+  "modules-right": ["disk", "memory", "cpu", "network", "battery", "backlight", "pulseaudio", "custom/updater", "custom/keyboard", "custom/touch", "custom/pen", "custom/keybindings", "custom/power"],
 }
