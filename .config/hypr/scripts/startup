@@ -26,6 +26,9 @@ ${SCRIPTSDIR}/statusbar &
 # Xauthority
 ${SCRIPTSDIR}/xauthority &
 
+# XDG
+#${SCRIPTSDIR}/xdg_setup.sh &
+
 # Timeout, so apps show in tray
 sleep 3s;
 
