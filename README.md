@@ -1,6 +1,15 @@
 # dots-hyprland
 
-![Hyprland desktop Preview](https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/62ef402d-6a55-4c15-849f-c10c385bec8a/dga29pk-6135b6e5-97fd-48ae-8b20-30bfdc34d663.png/v1/fill/w_1192,h_670,q_70,strp/_arcolinux__custom_hyprland_desktop___waybar_by_4ctiv_dga29pk-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6IlwvZlwvNjJlZjQwMmQtNmE1NS00YzE1LTg0OWYtYzEwYzM4NWJlYzhhXC9kZ2EyOXBrLTYxMzViNmU1LTk3ZmQtNDhhZS04YjIwLTMwYmZkYzM0ZDY2My5wbmciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.t_im16wkD9uYLkTnWkQqQGtQaBcXbdEm03FXXnc5Rc0)
+<div style="float: center">
+  <img style="width: 100%" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/62ef402d-6a55-4c15-849f-c10c385bec8a/dga29pk-6135b6e5-97fd-48ae-8b20-30bfdc34d663.png/v1/fill/w_1192,h_670,q_70,strp/_arcolinux__custom_hyprland_desktop___waybar_by_4ctiv_dga29pk-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6IlwvZlwvNjJlZjQwMmQtNmE1NS00YzE1LTg0OWYtYzEwYzM4NWJlYzhhXC9kZ2EyOXBrLTYxMzViNmU1LTk3ZmQtNDhhZS04YjIwLTMwYmZkYzM0ZDY2My5wbmciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.t_im16wkD9uYLkTnWkQqQGtQaBcXbdEm03FXXnc5Rc0" alt="HyprlandDesktop preview"/>
+</div>
+
+|                                                                                 |                                                                                 |
+| :-----------------------------------------------------------------------------: | :-----------------------------------------------------------------------------: |
+| ![Shortcuts (WIN)](./.config/hypr/keybind_graphics/win_kb-layout.png)             | ![Shortcuts (WIN+SHIFT)](./.config/hypr/keybind_graphics/win-shift_kb-layout.png) | 
+| ![Shortcuts (Win+CTRL)](./.config/hypr/keybind_graphics/win-ctrl_kb-layout.png) | ![Shortcuts (Win+CTRL)](./.config/hypr/keybind_graphics/win-ctrl-shift_kb-layout.png) | 
+| ![Shortcuts (Win+ALT)](./.config/hypr/keybind_graphics/win-alt_kb-layout.png)   | ![Shortcuts (Win+ALT)](./.config/hypr/keybind_graphics/win-alt-shift_kb-layout.png) | 
+
 
 This is a collection for an arch linux + btrfs + hyperland setup.
 
