@@ -23,7 +23,7 @@
       "smooth-scrolling-threshold": 1
     },
 
-	"wlr/workspaces-cn": {
+  "wlr/workspaces-cn": {
     "format": "{icon}",
     "on-click": "activate",
     "all-outputs": true,
@@ -68,15 +68,15 @@
     "on-scroll-up": "hyprctl dispatch workspace e+1",
     "on-scroll-down": "hyprctl dispatch workspace e-1"
   },
-	
+
   "battery": {
-		"interval": 60,
-		"align": 0,
-		"rotate": 0,
-		//"bat": "BAT1",
-		//"adapter": "ACAD",
-		"full-at": 100,
-		"design-capacity": false,
+    "interval": 60,
+    "align": 0,
+    "rotate": 0,
+    //"bat": "BAT1",
+    //"adapter": "ACAD",
+    "full-at": 100,
+    "design-capacity": false,
     "states": {
       "good": 95,
       "warning": 30,
@@ -91,7 +91,7 @@
     "format-icons": ["", "", "", "", ""],
     "format-time": "{H}h {M}min",
     "tooltip": true,
-	"on-click-right": "kitty bash -c 'echo \"Opening powertop ...\" && sudo powertop'"
+  "on-click-right": "kitty bash -c 'echo \"Opening powertop ...\" && sudo powertop'"
   },
 
   "custom/battery": {
@@ -126,9 +126,9 @@
     "interval": 1,
     "format": "{icon0}{icon1}{icon2}{icon3} {usage:>2}% ",
     "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
-    "on-click": "kitty htop --user $USER",
+    "on-click": "kitty htop --user $USER"
   },
-           
+
   "custom/menu": {
     "format": " 󰍜 ",
     "tooltip": false,
@@ -144,7 +144,7 @@
   "disk": {
     "interval": 30,
     "format": "🖪 {free}", // 🖫 , 🖬
-	"on-click": "filelight"
+  "on-click": "filelight"
   },
 
   "memory": {
@@ -180,7 +180,7 @@
     "exec": "checkupdates | wc -l",
     "exec-if": "[[ $(checkupdates | wc -l) ]]",
     "interval": 7200,
-    "on-click": "kitty --class update -T update -o font_size=13 -e yay -Syu --noconfirm && notify-send 'The system has been updated' || notify-send 'Updates could not complete' "
+    "on-click": "kitty --class update -T update -o font_size=13 -e yay -Syu --noconfirm && notify-send -a 'waybar' 'The system has been updated' || notify-send -a 'waybar' 'Updates could not complete' "
   },
 
   "custom/updater-improved":{
@@ -258,7 +258,8 @@
     "format": "",
     "icon": true,
     "separate-outputs": true,
-    "rewrite": {}
+    "rewrite": {},
+    "on-click": "~/.config/hypr/scripts/kill-active && notify-send -a 'waybar' 'Killed active window'"
   },
 
   "custom/gpuinfo": {
@@ -270,22 +271,22 @@
   },
 
   "wlr/taskbar": {
-		"format": "{icon}",
-		"icon-size": 18,
-		"icon-theme": "${i_theme}",
+    "format": "{icon}",
+    "icon-size": 18,
+    "icon-theme": "${i_theme}",
         "spacing": 0,
-		"tooltip-format": "{title}",
-		"on-click": "activate",
-		"on-click-middle": "close",
-		"ignore-list": [
-			"Alacritty",
-			"Kitty",
-			"Waybar"
-		],
-		"app_ids-mapping": {
-			"firefoxdeveloperedition": "firefox-developer-edition"
-		}
-	},
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close",
+    "ignore-list": [
+      "Alacritty",
+      "Kitty",
+      "Waybar"
+    ],
+    "app_ids-mapping": {
+      "firefoxdeveloperedition": "firefox-developer-edition"
+    }
+  },
 
   "custom/protonmail": {
     "exec": "bar-protonmail",
@@ -293,5 +294,5 @@
     "interval": 10,
     "tooltip": false,
     "on-click": "xdg-open https://mail.proton.me/u/0/inbox"
-  },
+  }
 }
