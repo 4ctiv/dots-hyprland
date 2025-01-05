@@ -1,12 +1,15 @@
 [
+  {
+    "backcolor": "#adacac"
+  },
   [
     {
-      "c": "#2db2cf"
+      "c": "#7fa580"
     },
-    "Esc\nmanag\n\n\n\n\ntask",
+    "Esc\nterm",
     {
       "x": 1,
-      "c": "#cccccc"
+      "c": "#c5c7ca"
     },
     "F1",
     "F2",
@@ -18,13 +21,9 @@
     "F5",
     "F6",
     "F7",
+    "F8",
     {
-      "c": "#c2c46c"
-    },
-    "F8\ngromit\n\n\n\n\nredo",
-    {
-      "x": 0.5,
-      "c": "#cccccc"
+      "x": 0.5
     },
     "F9",
     "F10",
@@ -35,31 +34,29 @@
     },
     "PrtSc",
     "Scroll Lock",
-    "Pause"
+    "Paus"
   ],
   [
     {
-      "y": 0.5
+      "y": 0.5,
+      "c": "#00a4a9"
     },
-    "^",
+    "^\nWS-1",
+    "1\nWS 1\n\n\n\n\nMove",
+    "2\nWS 2",
+    "3\nWS 3",
+    "4\nWS 4",
+    "5\nWS 5",
+    "6\nWS 6",
+    "7\nWS 7",
+    "8\nWS 8",
+    "9\nWS 9",
+    "0\nWS+1",
     {
-      "c": "#1ac995"
+      "c": "#c5c7ca"
     },
-    "1\nto ws\n\n\n\n\nmove",
-    "2\nto ws\n\n\n\n\nmove",
-    "3\nto ws\n\n\n\n\nmove",
-    "4\nto ws\n\n\n\n\nmove",
-    "5\nto ws\n\n\n\n\nmove",
-    "6\nto ws\n\n\n\n\nmove",
-    "7\nto ws\n\n\n\n\nmove",
-    "8\nto ws\n\n\n\n\nmove",
-    "9\nto ws\n\n\n\n\nmove",
-    {
-      "c": "#cccccc"
-    },
-    "0",
     "ß",
-    "'",
+    "´",
     {
       "w": 2
     },
@@ -76,39 +73,34 @@
     "Num Lock",
     "/",
     "*",
-    {
-      "c": "#1ac995"
-    },
-    "-\nws -1\n\n\n\n\nmove"
+    "-"
   ],
   [
     {
+      "c": "#00a4a9",
       "w": 1.5
     },
-    "Tab\ngroup\n\n\n\n\ncycle",
+    "Tab\nWS-1",
+    "Q\nkill",
     {
-      "c": "#cc5e5e"
+      "c": "#c5c7ca"
     },
-    "Q\nactive\n\n\n\n\nkill",
+    "W",
     {
-      "c": "#1ac995"
-    },
-    "W\nto scr.\n\n\n\n\nmove",
-    {
-      "c": "#2db2cf"
+      "c": "#7fa580"
     },
     "E\nfiles",
     {
-      "c": "#cccccc"
+      "c": "#c5c7ca"
     },
     "R",
     "T",
-    "Y",
+    "Z",
     "U",
     "I",
     "O",
     "P",
-    "Ü",
+    "ü",
     "+",
     {
       "x": 0.25,
@@ -128,81 +120,70 @@
     {
       "x": 0.25
     },
-    "7",
-    "8",
-    "9",
+    "NUM7",
+    "NUM8",
+    "NUM9",
     {
-      "c": "#1ac995",
       "h": 2
     },
-    "+\nws +1\n\n\n\n\nmove"
+    "+"
   ],
   [
     {
-      "c": "#cccccc",
       "w": 1.75
     },
     "Caps Lock",
     {
-      "c": "#c2c46c"
+      "c": "#7fa580"
     },
-    "A\ndenoise\n\n\n\n\nmic",
-    "S\ncapture\n\n\n\n\nregion",
+    "A\naudio effects",
+    "S\nflame...",
     {
-      "c": "#cccccc"
+      "c": "#c5c7ca"
     },
     "D",
-    {
-      "c": "#1ac995"
-    },
-    "F\nf'scren\n\n\n\n\nfake",
-    "G\nmode\n\n\n\n\ngame",
-    {
-      "c": "#cccccc"
-    },
+    "F",
+    "G",
     "H",
     "J",
     "K",
-    {
-      "c": "#cc5e5e"
-    },
-    "L\nlock\n\n\n\n\nscreen",
-    {
-      "c": "#cccccc"
-    },
-    "Ö",
-    "Ä",
+    "L",
+    "ö",
+    "ä",
     "#",
     {
       "x": 4.75
     },
-    "4",
-    "5",
-    "6"
+    "NUM4",
+    "NUM5",
+    "NUM6"
   ],
   [
     {
-      "c": "#397fbf",
+      "c": "#9b9284",
       "w": 1.25
     },
     "Shift",
     {
-      "c": "#cccccc"
+      "c": "#c5c7ca"
     },
     "<",
-    "Z",
+    {
+      "c": "#7fa580"
+    },
+    "Y\nclock",
+    {
+      "c": "#c5c7ca"
+    },
     "X",
     {
-      "c": "#c2c46c"
+      "c": "#00a4a9"
     },
-    "C\npick\n\n\n\n\ncolor",
+    "C\nwindow\n\n\n\n\ncenter",
     {
-      "c": "#2db2cf"
+      "c": "#c5c7ca"
     },
-    "V\nhist\n\n\n\n\nclip",
-    {
-      "c": "#cccccc"
-    },
+    "V",
     "B",
     "N",
     "M",
@@ -220,9 +201,9 @@
     {
       "x": 1.25
     },
-    "1",
-    "2",
-    "3",
+    "NUM1",
+    "NUM2",
+    "NUM3",
     {
       "h": 2
     },
@@ -230,36 +211,37 @@
   ],
   [
     {
+      "c": "#f7f2ea",
       "w": 1.25
     },
     "Ctrl",
     {
-      "c": "#397fbf",
+      "c": "#9b9284",
       "w": 1.25
     },
     "Win",
     {
-      "c": "#cccccc",
+      "c": "#f7f2ea",
       "w": 1.25
     },
     "Alt",
     {
-      "c": "#1ac995",
-      "a": 5,
+      "c": "#7fa580",
       "w": 6.25
     },
-    "\ntoggle floating",
+    "\nfloating\n\n\n\n\ntoggle",
     {
-      "c": "#cccccc",
-      "a": 4,
+      "c": "#f7f2ea",
       "w": 1.25
     },
     "AltGr",
     {
+      "c": "#9b9284",
       "w": 1.25
     },
     "Win",
     {
+      "c": "#f7f2ea",
       "w": 1.25
     },
     "Menu",
@@ -268,7 +250,8 @@
     },
     "Ctrl",
     {
-      "x": 0.25
+      "x": 0.25,
+      "c": "#c5c7ca"
     },
     "←",
     "↓",
@@ -277,7 +260,7 @@
       "x": 0.25,
       "w": 2
     },
-    "0",
-    "."
+    "NUM 0",
+    ","
   ]
 ]
