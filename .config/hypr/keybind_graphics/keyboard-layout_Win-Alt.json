@@ -1,12 +1,14 @@
 [
+  {
+    "backcolor": "#adacac"
+  },
   [
     {
-      "c": "#2db2cf"
+      "c": "#c5c7ca"
     },
-    "Esc\nmanag\n\n\n\n\ntask",
+    "Esc",
     {
-      "x": 1,
-      "c": "#cccccc"
+      "x": 1
     },
     "F1",
     "F2",
@@ -18,13 +20,9 @@
     "F5",
     "F6",
     "F7",
+    "F8",
     {
-      "c": "#c2c46c"
-    },
-    "F8\ngromit\n\n\n\n\nredo",
-    {
-      "x": 0.5,
-      "c": "#cccccc"
+      "x": 0.5
     },
     "F9",
     "F10",
@@ -35,31 +33,25 @@
     },
     "PrtSc",
     "Scroll Lock",
-    "Pause"
+    "Paus"
   ],
   [
     {
       "y": 0.5
     },
     "^",
-    {
-      "c": "#1ac995"
-    },
-    "1\nto ws\n\n\n\n\nmove",
-    "2\nto ws\n\n\n\n\nmove",
-    "3\nto ws\n\n\n\n\nmove",
-    "4\nto ws\n\n\n\n\nmove",
-    "5\nto ws\n\n\n\n\nmove",
-    "6\nto ws\n\n\n\n\nmove",
-    "7\nto ws\n\n\n\n\nmove",
-    "8\nto ws\n\n\n\n\nmove",
-    "9\nto ws\n\n\n\n\nmove",
-    {
-      "c": "#cccccc"
-    },
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
     "0",
     "ß",
-    "'",
+    "´",
     {
       "w": 2
     },
@@ -76,39 +68,30 @@
     "Num Lock",
     "/",
     "*",
-    {
-      "c": "#1ac995"
-    },
-    "-\nws -1\n\n\n\n\nmove"
+    "-"
   ],
   [
     {
       "w": 1.5
     },
-    "Tab\ngroup\n\n\n\n\ncycle",
+    "Tab",
+    "Q",
     {
-      "c": "#cc5e5e"
+      "c": "#7fa580"
     },
-    "Q\nactive\n\n\n\n\nkill",
+    "W\nscratch\n\n\n\n\nopen",
     {
-      "c": "#1ac995"
+      "c": "#c5c7ca"
     },
-    "W\nto scr.\n\n\n\n\nmove",
-    {
-      "c": "#2db2cf"
-    },
-    "E\nfiles",
-    {
-      "c": "#cccccc"
-    },
+    "E",
     "R",
     "T",
-    "Y",
+    "Z",
     "U",
     "I",
     "O",
     "P",
-    "Ü",
+    "ü",
     "+",
     {
       "x": 0.25,
@@ -128,82 +111,79 @@
     {
       "x": 0.25
     },
-    "7",
-    "8",
-    "9",
+    "NUM7",
+    "NUM8",
+    "NUM9",
     {
-      "c": "#1ac995",
       "h": 2
     },
-    "+\nws +1\n\n\n\n\nmove"
+    "+"
   ],
   [
     {
-      "c": "#cccccc",
       "w": 1.75
     },
     "Caps Lock",
     {
-      "c": "#c2c46c"
+      "c": "#7fa580"
     },
-    "A\ndenoise\n\n\n\n\nmic",
-    "S\ncapture\n\n\n\n\nregion",
+    "A\nnoise reduce",
+    "S\nmove scratch",
     {
-      "c": "#cccccc"
+      "c": "#c5c7ca"
     },
     "D",
     {
-      "c": "#1ac995"
+      "c": "#00a4a9"
     },
-    "F\nf'scren\n\n\n\n\nfake",
-    "G\nmode\n\n\n\n\ngame",
+    "F\nwaybar\n\n\n\n\ntoggle",
     {
-      "c": "#cccccc"
+      "c": "#c87e74"
+    },
+    "G\ngame mode",
+    {
+      "c": "#c5c7ca"
     },
     "H",
     "J",
     "K",
     {
-      "c": "#cc5e5e"
+      "c": "#c87e74"
     },
-    "L\nlock\n\n\n\n\nscreen",
+    "L\nlock",
     {
-      "c": "#cccccc"
+      "c": "#c5c7ca"
     },
-    "Ö",
-    "Ä",
+    "ö",
+    "ä",
     "#",
     {
       "x": 4.75
     },
-    "4",
-    "5",
-    "6"
+    "NUM4",
+    "NUM5",
+    "NUM6"
   ],
   [
     {
-      "c": "#397fbf",
       "w": 1.25
     },
     "Shift",
-    {
-      "c": "#cccccc"
-    },
     "<",
-    "Z",
+    "Y",
     "X",
     {
-      "c": "#c2c46c"
+      "c": "#00a4a9"
     },
-    "C\npick\n\n\n\n\ncolor",
+    "C\ncenter window",
     {
-      "c": "#2db2cf"
+      "c": "#7fa580"
     },
-    "V\nhist\n\n\n\n\nclip",
+    "V",
+    "B\nbonsai",
     {
-      "c": "#cccccc"
+      "c": "#c5c7ca"
     },
-    "B",
     "N",
     "M",
     ",",
@@ -220,9 +200,9 @@
     {
       "x": 1.25
     },
-    "1",
-    "2",
-    "3",
+    "NUM1",
+    "NUM2",
+    "NUM3",
     {
       "h": 2
     },
@@ -234,23 +214,21 @@
     },
     "Ctrl",
     {
-      "c": "#397fbf",
+      "c": "#91867a",
       "w": 1.25
     },
     "Win",
     {
-      "c": "#cccccc",
       "w": 1.25
     },
     "Alt",
     {
-      "c": "#1ac995",
-      "a": 5,
+      "c": "#c5c7ca",
+      "a": 7,
       "w": 6.25
     },
-    "\ntoggle floating",
+    "",
     {
-      "c": "#cccccc",
       "a": 4,
       "w": 1.25
     },
@@ -277,7 +255,7 @@
       "x": 0.25,
       "w": 2
     },
-    "0",
-    "."
+    "NUM 0",
+    ","
   ]
 ]
