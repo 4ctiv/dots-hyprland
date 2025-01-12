@@ -19,17 +19,14 @@ end # End interactive only code-block
 ########################
 # set fish_color_... "0xfffffff"
 
-
   ########################
  ### Typo redirection ###
 ########################
 alias cd..='cd ..'
 alias udpate='sudo pacman -Syyu'
-alias upate='sudo pacman -Syyu'
-alias updte='sudo pacman -Syyu'
+alias upate=' sudo pacman -Syyu'
+alias updte=' sudo pacman -Syyu'
 alias updqte='sudo pacman -Syyu'
-alias upqll='paru -Syu --noconfirm'
-alias upal='paru -Syu --noconfirm'
 alias claer="clear"
 alias gtop="btop"
 alias neofetch="fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 20"
@@ -56,7 +53,6 @@ alias l='ls'
 alias la='ls -la'
 # set ssh generic terminal
 alias ssh-generic='clear && TERM=vt100 ssh'
-#alias ssh=function_ssh # Will not work as it breaks rekursively
 #grub update
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 alias install-grub-efi="sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi" #grub issue 08/2022
@@ -64,35 +60,37 @@ alias install-grub-efi="sudo grub-install --target=x86_64-efi --efi-directory=/b
 alias wget="wget -c"
 # ps (running process tree)
 alias psa="ps auxf"
-#yt-dpl download (youtube vid's)
-alias yta-best="yt-dlp --extract-audio --audio-format best "
-alias yta-mp3="yt-dlp --extract-audio --audio-format mp3 "
-alias ytv-best="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
-alias ytv-mp4="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
+#yt-dpl (youtube)
+alias yt-audio="yt-dlp --extract-audio --audio-format best "
+alias yt-mp3=" yt-dlp --extract-audio --audio-format mp3 "
+alias yt-video="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
+alias yt-mp4=" yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
 #web access
 alias app-web="brave --app"
 alias unhblock="hblock -S none -D none"
 
-  ################################
- ### Colorfull terminal apps  ###
-################################
+  ###############################
+ ### Beautify terminal apps  ###
+###############################
+alias highlight='grep -A100' # Usage: COMMAND | highlight"
 alias ls='ls --color=auto'
 # Colorize the grep command output for ease of use (good for log files)##
-alias grep='grep --color=auto'
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
+alias grep='   grep --color=auto'
+alias egrep=' egrep --color=auto'
+alias fgrep=' fgrep --color=auto'
 alias pacman='sudo pacman --color auto'
 #readable output
 alias df='df -h'
-#add new fonts
-alias update-fc='sudo fc-cache -fv'
-#update betterlockscreen images
-alias update-bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
-alias highlight='grep -A100' # Usage: COMMAND | highlight"
+alias lsblk='lsblk -fs'
 
   #####################################
  ### Aliases for System Management ###
 #####################################
+##################
+## Update Stuff ##
+##################
+alias update-font='sudo fc-cache -fv'
+alias update-lockscreen="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
 #################
 ## Check Stuff ##
 #################
@@ -159,50 +157,48 @@ alias downgrad-arco="sudo downgrade --ala-url https://ant.seedhost.eu/arcolinux/
   #########################
  ### Aliases for fixes ###
 #########################
-#fix sudo pwd reject
-alias fix-sudo="faillock --reset"
+alias fix-sudo="faillock --reset" # fix sudo pwd reject
+alias fix-permissions="sudo chown -R $USER:$USER ~/.config ~/.local"
 #receive developer keys
 alias fix-gpg-retrieve="gpg2 --keyserver-options auto-key-retrieve --receive-keys"
 alias fix-keyserver="[ -d ~/.gnupg ] || mkdir ~/.gnupg ; cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ ; echo 'done'"
 ## package-manager fixes ##
-alias fix-lock-pamac=" sudo rm /var/tmp/pamac/dbs/db.lock"
-alias fix-lock-pacman="sudo rm /var/lib/pacman/db.lck"
-alias fix-lock-logout="sudo rm /tmp/arcologout.lock"
-alias fix-conf-pacman="/usr/local/bin/arcolinux-fix-pacman-conf"
-alias fix-keys="       /usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
-alias fix-keys-pacman="/usr/local/bin/arcolinux-fix-pacman-gpg-conf"
+alias fix-yay-lock="    sudo rm /var/lib/pacman/db.lck"
+alias fix-pamac-lock="  sudo rm /var/tmp/pamac/dbs/db.lock"
+alias fix-pacman-lock=" sudo rm /var/lib/pacman/db.lck"
+alias fix-pacman-conf="         /usr/local/bin/arcolinux-fix-pacman-conf"
+alias fix-keys="                /usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
+alias fix-keys-pacman="         /usr/local/bin/arcolinux-fix-pacman-gpg-conf"
 alias fix-packs-broken="sudo pacman -S \$(sudo pacman -Qk 2>/dev/null | grep -v ' 0 missing files' | cut -d: -f1)"
 ## config related fixes ##
+alias fix-qt="export QT_QPA_PLATFORM='wayland;xcb'"
 # restore shell configs
 alias restore-default-bash='cp /etc/skel/.bashrc                  ~/.bashrc                  && exec bash'
 alias restore-default-zsh=' cp /etc/skel/.zshrc                   ~/.zshrc                   && echo "Copied."'
 alias restore-default-fish='cp /etc/skel/.config/fish/config.fish ~/.config/fish/config.fish && echo "Copied."'
-alias fix-sddm-config="/usr/local/bin/arcolinux-fix-sddm-config"
-alias fix-grub="       /usr/local/bin/arcolinux-fix-grub"
 # permission fixes
-alias fix-permissions="sudo chown -R $USER:$USER ~/.config ~/.local"
 ## application specific fixes ##
+alias fix-grub="       /usr/local/bin/arcolinux-fix-grub"
+alias fix-sddm-config="/usr/local/bin/arcolinux-fix-sddm-config"
 #git
-alias rmgitcache="rm -r ~/.cache/git"
-alias grh="git reset --hard"
+alias git-reset="git reset --hard"
+alias git-clean-cache="rm -r ~/.cache/git"
 #systemd
 #https://www.tecmint.com/disable-suspend-and-hibernation-in-linux/
 alias hibernation-enable="sudo systemctl unmask hibernate.target"
 alias hibernation-disable="sudo systemctl mask hibernate.target"
-# Set QT platform
-alias fix-qt-platform="export QT_QPA_PLATFORM='wayland;xcb'"
 
 ###############################
 ### File System  Maintenace ###
 ###############################
-# Filesystem (btrfs)
+# Filesystem
+alias list-filesize="sudo du -shc"
 alias list-drive-busy="sudo lsof"
 alias list-btrfs-snapshots="sudo timeshift --list"
 alias list-btrfs-filesystem="sudo btrfs filesystem df /"
 alias list-btrfs-subvolumes="sudo btrfs su li -t /"
 alias btrfs-compress="sudo btrfs filesystem defragment -r -v -czstd"
 alias btrfs-balance="sudo btrfs balance start -dusage=66"
-alias list-filesize="sudo du -shc"
 # Session info
 alias list-users="cut -d: -f1 /etc/passwd | sort" # List of existing useres on the machine
 alias list-session-xorg="   ls /usr/share/xsessions"        # List xorg    sessions
