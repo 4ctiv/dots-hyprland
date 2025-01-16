@@ -1,9 +1,10 @@
 function web-search --description "search <arg> on the web"
-  # This will use `links` web browser to search specified querrys via cmd.
-
-  if not type -q links
-    echo "[WARN] `links` cmd-browser not found, installing via `yay`" 
-    yay -S links
+  # This will use below cmd web browser to search specified querrys via cmd.
+  set browser 'browsh'
+  
+  if not type -q $browser
+    echo "[WARN] `$browser` cmd-browser not found, installing via `yay`" 
+    yay -S $browser
   end
 
   set s_querry "https://duckduckgo.com/"
@@ -15,5 +16,5 @@ function web-search --description "search <arg> on the web"
     set s_querry $(echo "$s_querry"|sed 's/ //g')
   end
   echo "$s_querry"
-  links "$s_querry"
+  $browser "$s_querry"
 end
