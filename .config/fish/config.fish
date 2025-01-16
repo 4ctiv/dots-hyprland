@@ -70,7 +70,7 @@ alias yta-mp3="yt-dlp --extract-audio --audio-format mp3 "
 alias ytv-best="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
 alias ytv-mp4="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
 #web access
-alias app-web="brave --app"
+alias web-app="brave --app"
 alias unhblock="hblock -S none -D none"
 
   ################################
@@ -116,6 +116,7 @@ alias whichvga="/usr/local/bin/arcolinux-which-vga"
 alias sysfailed="systemctl list-units --failed"
 alias probe="sudo -E hw-probe -all -upload"
 alias free="free -mt"
+alias list-fonts="fc-list --format \"%{family}\n\""
 # Session info
 alias list-users="cut -d: -f1 /etc/passwd | sort" # List of existing useres on the machine
 alias list-session-xorg="   ls /usr/share/xsessions"        # List xorg    sessions
@@ -130,31 +131,29 @@ alias list-packs-explicit="sudo pacman -Qqet"              # List of explicitly 
 alias list-packs-aur="     sudo pacman -Qqem"              # List of AUR packages
 alias list-packs-broken="  sudo pacman -Qk 2>/dev/null | grep -v ' 0 missing files' | cut -d: -f1" 
 alias list-packs-size="expac -H M '%m\t%n' | sort -h | nl" # List of package sizes
-alias list-packs-depends=function_depends
-alias list-packs-depends-tree="pactree -r"
 alias list-packs-recent="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 alias list-packs-recent-extended="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
-alias list-packs-desktop="ls /usr/share/applications/ /usr/local/share/applications/ ~/.local/share/applications/ | sed 's/.desktop//g'"
-alias list-packs-desktop-all="find / -iname \"*desktop\" -type f -not -path \"/media*\" 2> /dev/null"
+alias list-packs-desktop="ls /usr/share/applications/* /usr/local/share/applications/* ~/.local/share/applications/* | sed 's/.desktop//g'"
+alias list-packs-desktop-all="find /usr/share/applications/ /usr/local/share/applications/ ~/.local/share/applications/ -type f -name '*.desktop'"
+alias list-pack-owner='  pacman -Qo'
+alias list-pack-info='   pacman -Sii'
+#find / -iname \"*desktop\" -type f -not -path \"/media*\" 2> /dev/null"
 
 ##########################
 ### Software managment ###
 ##########################
-alias packs-setup='  sudo pacman -S'
-alias packs-remove=' sudo pacman -R'
-alias packs-owner='  sudo pacman -Qo'
-alias packs-deps='   sudo pacman -Sii'
+alias set-packs-explicit='pacman -D --asexplicit'
+alias set-packs-dependecy='pacman -D --asdeps'
+alias packs-add-dependency='sudo pacman -S --asdeps'
+alias packs-add='sudo pacman -S'
+alias packs-rm=' sudo pacman -Rns'
 alias packs-update=' sudo pacman -Syyu'
-alias packs-as-explicit='pacman -D --asexplicit'
-alias packs-as-dependecy='pacman -D --asdeps'
 alias packs-cleanup='sudo pacman -Rns $(pacman -Qtdq)' # Cleanup orphaned packages
 alias packs-missing="pacman -Dkk"
 #skip integrity check (unsave !!!)
-alias yayskip='yay -S --mflags --skipinteg'
+alias yay-skip='yay -S --mflags --skipinteg'
 #verify signature for isos
 alias check-gpg="gpg2 --keyserver-options auto-key-retrieve --verify"
-#Downgrade system
-alias downgrad-arco="sudo downgrade --ala-url https://ant.seedhost.eu/arcolinux/"
 
   #########################
  ### Aliases for fixes ###
