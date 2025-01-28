@@ -4,10 +4,10 @@
   <property name="pressureSensitivity" value="false"/>
   <property name="minimumPressure" value="0.05"/>
   <property name="pressureMultiplier" value="1"/>
-  <property name="zoomGesturesEnabled" value="false"/>
+  <property name="zoomGesturesEnabled" value="true"/>
   <property name="selectedToolbar" value="take notes vertical"/>
-  <property name="lastSavePath" value="/home/$USER/Documents"/>
-  <property name="lastOpenPath" value="/home/activ/Nextcloud/Notes/Templates"/>
+  <property name="lastSavePath" value=""/>
+  <property name="lastOpenPath" value=""/>
   <property name="lastImagePath" value="file:///home/activ/Documents/Xournal++%20Note%20Template"/>
   <property name="edgePanSpeed" value="19"/>
   <property name="edgePanMaxMult" value="5"/>
@@ -20,11 +20,11 @@
   <property name="showToolbar" value="true"/>
   <property name="showSidebar" value="true"/>
   <property name="sidebarWidth" value="144"/>
-  <property name="sidebarNumberingStyle" value="1"/>
+  <property name="sidebarNumberingStyle" value="3"/>
   <property name="sidebarOnRight" value="false"/>
   <property name="scrollbarOnLeft" value="true"/>
   <property name="menubarVisible" value="true"/>
-  <property name="filepathShownInTitlebar" value="false"/>
+  <property name="filepathShownInTitlebar" value="true"/>
   <property name="numColumns" value="1"/>
   <property name="numRows" value="1"/>
   <property name="viewFixedRows" value="false"/>
@@ -34,26 +34,27 @@
   <property name="layoutBottomToTop" value="false"/>
   <property name="numPairsOffset" value="0"/>
   <!--The icon theme, allowed values are "disabled", "onDrawOfLastPage", and "onScrollOfLastPage"-->
-  <property name="emptyLastPageAppend" value="disabled"/>
-  <property name="presentationMode" value="true"/>
+  <property name="emptyLastPageAppend" value="onScrollOfLastPage"/>
+  <property name="presentationMode" value="false"/>
   <!--Which GUI elements are shown in default view mode, separated by a colon (,)-->
   <property name="defaultViewModeAttributes" value="showMenubar,showToolbar,showSidebar"/>
   <!--Which GUI elements are shown in fullscreen view mode, separated by a colon (,)-->
   <property name="fullscreenViewModeAttributes" value="goFullscren,showToolbar,showSidebar"/>
   <!--Which GUI elements are shown in presentation view mode, separated by a colon (,)-->
-  <property name="presentationViewModeAttributes" value="goFullscren,showToolbar"/>
+  <property name="presentationViewModeAttributes" value="showToolbar,showSidebar"/>
   <!--The cursor icon used with a stylus, allowed values are "none", "dot", "big", "arrow"-->
   <property name="stylusCursorType" value="dot"/>
   <!--The eraser cursor visibility used with a stylus, allowed values are "never", "always", "hover", "touch"-->
-  <property name="eraserVisibility" value="always"/>
+  <property name="eraserVisibility" value="hover"/>
   <!--The icon theme, allowed values are "iconsColor", "iconsLucide"-->
   <property name="iconTheme" value="iconsColor"/>
-  <property name="highlightPosition" value="false"/>
-  <property name="cursorHighlightColor" value="2164260608"/>
-  <property name="cursorHighlightBorderColor" value="2147483903"/>
-  <property name="cursorHighlightRadius" value="30"/>
-  <property name="cursorHighlightBorderWidth" value="0"/>
-  <property name="darkTheme" value="true"/>
+  <!--Dark/light mode, allowed values are "useSystem", "forceLight", "forceDark"-->
+  <property name="themeVariant" value="useSystem"/>
+  <property name="highlightPosition" value="true"/>
+  <property name="cursorHighlightColor" value="3456106496"/>
+  <property name="cursorHighlightBorderColor" value="2348810240"/>
+  <property name="cursorHighlightRadius" value="0"/>
+  <property name="cursorHighlightBorderWidth" value="1"/>
   <property name="useStockIcons" value="true"/>
   <property name="disableScrollbarFadeout" value="true"/>
   <property name="disableAudio" value="false"/>
@@ -80,8 +81,8 @@
   <property name="touchDrawing" value="false"/>
   <property name="gtkTouchInertialScrolling" value="true"/>
   <property name="pressureGuessing" value="false"/>
-  <property name="selectionBorderColor" value="4294901760"/>
-  <property name="backgroundColor" value="4280363570"/>
+  <property name="selectionBorderColor" value="4294336849"/>
+  <property name="backgroundColor" value="4279900698"/>
   <property name="selectionMarkerColor" value="4285702095"/>
   <property name="touchZoomStartThreshold" value="0"/>
   <property name="pageRerenderThreshold" value="5"/>
@@ -91,16 +92,15 @@
   <property name="preloadPagesAfter" value="3"/>
   <property name="eagerPageCleanup" value="true"/>
   <!--Config for new pages-->
-  <property name="pageTemplate" value="xoj/template&#10;copyLastPageSize=true&#10;copyLastPageSettings=false&#10;size=836.207000x464.874400&#10;backgroundType=graph&#10;backgroundTypeConfig=m1=40,rm=1&#10;backgroundColor=#ff212a32&#10;"/>
+  <property name="pageTemplate" value="xoj/template&#10;copyLastPageSize=true&#10;copyLastPageSettings=true&#10;size=836.207000x464.874400&#10;backgroundType=dotted&#10;backgroundColor=#1a1a1a&#10;"/>
   <property name="sizeUnit" value="cm"/>
-  <property name="audioFolder" value="file:///home/activ/Music/Recordings"/>
+  <property name="audioFolder" value="/home/$USER/Recordings"/>
   <property name="audioInputDevice" value="-1"/>
   <property name="audioOutputDevice" value="-1"/>
   <property name="audioSampleRate" value="44100"/>
   <property name="audioGain" value="1"/>
   <property name="defaultSeekTime" value="5"/>
-  <property name="pluginEnabled" value="ToggleGrid,QuickScreenshot"/>
-  <property name="pluginDisabled" value="MigrateFontSizes"/>
+  <property name="pluginDisabled" value=""/>
   <property name="strokeFilterIgnoreTime" value="150"/>
   <property name="strokeFilterIgnoreLength" value="1"/>
   <property name="strokeFilterSuccessiveTime" value="500"/>
@@ -113,7 +113,7 @@
   <property name="inputSystemTPCButton" value="false"/>
   <property name="inputSystemDrawOutsideWindow" value="false"/>
   <property name="preferredLocale" value=""/>
-  <property name="stabilizerAveragingMethod" value="0"/>
+  <property name="stabilizerAveragingMethod" value="2"/>
   <property name="stabilizerPreprocessor" value="0"/>
   <property name="stabilizerBuffersize" value="20"/>
   <property name="stabilizerSigma" value="0.5"/>
@@ -177,6 +177,14 @@
       <attribute name="deviceClass" type="int" value="0"/>
       <attribute name="deviceSource" type="int" value="0"/>
     </data>
+    <data name="Wacom Co.,Ltd. Pen and multitouch sensor Stylus">
+      <attribute name="deviceClass" type="int" value="2"/>
+      <attribute name="deviceSource" type="int" value="1"/>
+    </data>
+    <data name="Wacom Co.,Ltd. Pen and multitouch sensor Stylus (Eraser)">
+      <attribute name="deviceClass" type="int" value="3"/>
+      <attribute name="deviceSource" type="int" value="2"/>
+    </data>
     <data name="Wacom HID 517F Finger">
       <attribute name="deviceClass" type="int" value="4"/>
       <attribute name="deviceSource" type="int" value="5"/>
@@ -201,6 +209,18 @@
       <attribute name="deviceClass" type="int" value="2"/>
       <attribute name="deviceSource" type="int" value="1"/>
     </data>
+    <data name="Wacom Pen and multitouch sensor Pen">
+      <attribute name="deviceClass" type="int" value="2"/>
+      <attribute name="deviceSource" type="int" value="1"/>
+    </data>
+    <data name="Wacom Pen and multitouch sensor Pen (Eraser)">
+      <attribute name="deviceClass" type="int" value="3"/>
+      <attribute name="deviceSource" type="int" value="2"/>
+    </data>
+    <data name="Wayland Finger Scrolling">
+      <attribute name="deviceClass" type="int" value="1"/>
+      <attribute name="deviceSource" type="int" value="6"/>
+    </data>
     <data name="Wayland Pointer">
       <attribute name="deviceClass" type="int" value="1"/>
       <attribute name="deviceSource" type="int" value="0"/>
@@ -219,8 +239,8 @@
     </data>
   </data>
   <data name="lastUsedPageBgColor">
-    <attribute name="color00" type="hex" value="ff212a32"/>
-    <attribute name="color01" type="hex" value="fffafaf9"/>
+    <attribute name="color00" type="hex" value="ffffffff"/>
+    <attribute name="color01" type="hex" value="ffffffff"/>
     <attribute name="color02" type="hex" value="ffffffff"/>
     <attribute name="color03" type="hex" value="ffffffff"/>
     <attribute name="color04" type="hex" value="ffffffff"/>
@@ -231,7 +251,7 @@
     <attribute name="count" type="int" value="9"/>
   </data>
   <data name="tools">
-    <attribute name="current" type="string" value="selectRegion"/>
+    <attribute name="current" type="string" value="pen"/>
     <data name="drawArrow">
       <attribute name="drawingType" type="string" value="default"/>
     </data>
@@ -253,23 +273,23 @@
     <data name="eraser">
       <attribute name="drawingType" type="string" value="default"/>
       <attribute name="size" type="string" value="THIN"/>
-      <attribute name="type" type="string" value="default"/>
+      <attribute name="type" type="string" value="deleteStroke"/>
     </data>
     <data name="hand">
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="highlighter">
-      <attribute name="color" type="hex" value="00c0ff"/>
+      <attribute name="color" type="hex" value="ffffff"/>
       <attribute name="drawingType" type="string" value="rectangle"/>
       <attribute name="fill" type="int" value="1"/>
       <attribute name="fillAlpha" type="int" value="128"/>
-      <attribute name="size" type="string" value="THIN"/>
+      <attribute name="size" type="string" value="MEDIUM"/>
     </data>
     <data name="image">
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="pen">
-      <attribute name="color" type="hex" value="ffc061cb"/>
+      <attribute name="color" type="hex" value="ffffffff"/>
       <attribute name="drawingType" type="string" value="strokeRecognizer"/>
       <attribute name="fill" type="int" value="0"/>
       <attribute name="fillAlpha" type="int" value="128"/>
@@ -306,7 +326,7 @@
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="text">
-      <attribute name="color" type="hex" value="ff1a5fb4"/>
+      <attribute name="color" type="hex" value="ff000000"/>
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="verticalSpace">
