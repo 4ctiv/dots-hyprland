@@ -42,6 +42,14 @@ Remember though that if you boot into a snapshot they are still *ro*, meaning if
   - [ ] Create image for easy insatllation via [archiso](https://wiki.archlinux.org/title/Archiso) or similar
 
 #### PS: Tip for intel arc users
+[Reddit archlinux arc a770](https://www.reddit.com/r/archlinux/comments/15kiemw/beginners_guide_to_using_intel_arc_gpu/?rdt=60196)
+
+Packages to support functionality: 
+- `yay -R xf86-video-intel`
+- `yay -S intel-media-driver vulkan-intel lib32-vulkan-intel linux-firmware`
+- `yay -S intel-gpu-tools`
+
+"New" intel drivers (experimental, meay work better or worse)
  - `sudo lspci -v | grep -A 15 VGA` ~ check what driver you are using (xe is the "new" driver)
  - `lspci -nn | grep VGA` ~ Get your graphics card id (e.g. '56a0')
  - `GRUB_CMDLINE_LINUX="i915.force_probe=!56a0 xe.force_probe=56a0"` ~ Use `xe` driver by default

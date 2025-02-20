@@ -1,0 +1,36 @@
+{
+    "label" : "lock",
+    "action" : "loginctl lock-session",
+    "text" : "Lock [l]",
+    "keybind" : "l"
+}
+{
+    "label" : "shutdown",
+    "action" : "systemctl poweroff",
+    "text" : "Shutdown [s]",
+    "keybind" : "s"
+}
+{
+    "label" : "logout",
+    "action" : "loginctl terminate-user $USER",
+    "text" : "Logout [e]",
+    "keybind" : "e"
+}
+{
+    "label" : "reboot",
+    "action" : "systemctl reboot",
+    "text" : "Reboot [r]",
+    "keybind" : "r"
+}
+{
+    "label" : "suspend",
+    "action" : "systemctl suspend",
+    "text" : "Suspend [q]",
+    "keybind" : "q"
+}
+{
+    "label" : "reboot",
+    "action" : "gksudo /home/$USER/.config/wlogout/grub_reboot_win.sh",
+    "text" : "Windows [w]",
+    "keybind" : "w"
+}

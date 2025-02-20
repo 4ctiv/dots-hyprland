@@ -10,7 +10,7 @@ if status is-interactive
   # set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
   #end
   ### Shell prompt ###
-  fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 20
+  fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 15
   #docker stats 
 end # End interactive only code-block
 
@@ -131,21 +131,20 @@ alias list-packs-broken="  sudo pacman -Qk 2>/dev/null | grep -v ' 0 missing fil
 alias list-packs-size="expac -H M '%m\t%n' | sort -h | nl" # List of package sizes
 alias list-packs-recent="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 alias list-packs-recent-extended="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
-alias list-packs-desktop="ls /usr/share/applications/* /usr/local/share/applications/* ~/.local/share/applications/* | sed 's/.desktop//g'"
-alias list-packs-desktop-all="find /usr/share/applications/ /usr/local/share/applications/ ~/.local/share/applications/ -type f -name '*.desktop'"
-alias list-pack-owner='  pacman -Qo'
-alias list-pack-info='   pacman -Sii'
+alias list-packs-desktop="ls /usr/share/applications/ /usr/local/share/applications/ ~/.local/share/applications/ | sed 's/.desktop//g'"
+alias list-packs-desktop-all="find / -iname \"*desktop\" -type f -not -path \"/media*\" 2> /dev/null"
 #find / -iname \"*desktop\" -type f -not -path \"/media*\" 2> /dev/null"
 
 ##########################
 ### Software managment ###
 ##########################
-alias set-packs-explicit='pacman -D --asexplicit'
-alias set-packs-dependecy='pacman -D --asdeps'
-alias packs-add-dependency='sudo pacman -S --asdeps'
-alias packs-add='sudo pacman -S'
-alias packs-rm=' sudo pacman -Rns'
+alias packs-setup='  sudo pacman -S'
+alias packs-remove=' sudo pacman -R'
+alias packs-owner='  sudo pacman -Qo'
+alias packs-deps='   sudo pacman -Sii'
 alias packs-update=' sudo pacman -Syyu'
+alias packs-as-explicit='pacman -D --asexplicit'
+alias packs-as-dependecy='pacman -D --asdeps'
 alias packs-cleanup='sudo pacman -Rns $(pacman -Qtdq)' # Cleanup orphaned packages
 alias packs-missing="pacman -Dkk"
 #skip integrity check (unsave !!!)

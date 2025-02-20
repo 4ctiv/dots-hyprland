@@ -3,13 +3,14 @@
 packs_ignored="" # TODO impplement ignore package on error
 which checkupdates && echo "checkupdates dependency satisfied" || sudo pacman -S pacman-contrib;
 out_of_date_packs=$(checkupdates | wc -l)
+OUTDATED_ALLOWED=50
 
 # Only update if >= 30 packages are out of date (idea: stabe system intervalls)
-if [[ $out_of_date_packs -ge 50 ]]; then
-  kitty --name "Auto_Update" --title "Auto_Update" sh -c "echo 'Requesting System upgrade ($out_of_date_packs packages)';sudo pacman -Syu --noconfirm; read -n 1 -s -p 'Press [ANY]-key to continue ...' dummy;" &&\
-  echo "Auto Update Success" || echo "Auto Update Failed"
+if [[ $out_of_date_packs -ge $OUTDATED_ALLOWED ]]; then
+  kitty --name "Auto_Update" --title "Auto_Update" sh -c "echo 'Requesting System upgrade ($out_of_date_packs packages)';sudo pacman -Syu --noconfirm; read -n 1 -s -p 'Press [ANY]-key to continue ...' dummy;"
+  [ $? -ne 0 ] && echo "Auto Update Success" || (echo "Auto Update Failed" && sudo pacman -Syu)
 else
-  echo "All packages up to date"
+  echo "Less than $OUTDATED_ALLOWED packages outdated => skipping update"
 fi
 
 exit 0
