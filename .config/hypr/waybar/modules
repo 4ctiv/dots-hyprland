@@ -235,7 +235,8 @@
   },
 
   "custom/pen": {
-    "format":" 🖊",
+    "format":" 🖉 ",
+    "format-alt":" 🖊 ",
     "tooltip": false,
     "on-click": "hyprctl dispatch togglespecialworkspace gromit"
   },
