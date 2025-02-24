@@ -10,19 +10,27 @@ if status is-interactive
   # set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
   #end
   ### Shell prompt ###
-  fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 15
+  fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 20
   #docker stats 
 end # End interactive only code-block
 
   ########################
+ ###     Paths      ###
+########################
+# Set golang install folder
+# export PATH="$PATH:/usr/local/go/bin"
+
+   ########################
  ###     Theming      ###
 ########################
 # set fish_color_... "0xfffffff"
+
 
   ########################
  ### Typo redirection ###
 ########################
 alias cd..='cd ..'
+alias nano='vim -c "syn on"'  # yes this is a typo as you want syntax highlighting don't u ?
 alias udpate='sudo pacman -Syyu'
 alias upate=' sudo pacman -Syyu'
 alias updte=' sudo pacman -Syyu'
@@ -62,9 +70,7 @@ alias wget="wget -c"
 alias psa="ps auxf"
 #yt-dpl (youtube)
 alias yt-audio="yt-dlp --extract-audio --audio-format best "
-alias yt-mp3=" yt-dlp --extract-audio --audio-format mp3 "
 alias yt-video="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
-alias yt-mp4=" yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
 #web access
 alias web-app="brave --app"
 alias unhblock="hblock -S none -D none"
@@ -90,7 +96,6 @@ alias lsblk='lsblk -fs'
 ## Update Stuff ##
 ##################
 alias update-font='sudo fc-cache -fv'
-alias update-lockscreen="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
 #################
 ## Check Stuff ##
 #################
@@ -131,8 +136,10 @@ alias list-packs-broken="  sudo pacman -Qk 2>/dev/null | grep -v ' 0 missing fil
 alias list-packs-size="expac -H M '%m\t%n' | sort -h | nl" # List of package sizes
 alias list-packs-recent="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 alias list-packs-recent-extended="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
-alias list-packs-desktop="ls /usr/share/applications/ /usr/local/share/applications/ ~/.local/share/applications/ | sed 's/.desktop//g'"
-alias list-packs-desktop-all="find / -iname \"*desktop\" -type f -not -path \"/media*\" 2> /dev/null"
+alias list-packs-desktop="ls /usr/share/applications/* /usr/local/share/applications/* ~/.local/share/applications/* | sed 's/.desktop//g'"
+alias list-packs-desktop-all="find /usr/share/applications/ /usr/local/share/applications/ ~/.local/share/applications/ -type f -name '*.desktop'"
+alias list-pack-owner='  pacman -Qo'
+alias list-pack-info='   pacman -Sii'
 #find / -iname \"*desktop\" -type f -not -path \"/media*\" 2> /dev/null"
 
 ##########################
@@ -151,30 +158,34 @@ alias packs-missing="pacman -Dkk"
 alias yay-skip='yay -S --mflags --skipinteg'
 #verify signature for isos
 alias check-gpg="gpg2 --keyserver-options auto-key-retrieve --verify"
+alias update-systemctl="sudo sysctl --system"
 
   #########################
  ### Aliases for fixes ###
 #########################
-alias fix-sudo="faillock --reset" # fix sudo pwd reject
+#fix docker
+alias fix-docker-unpriv-network="sudo sysctl -w net.ipv4.ip_unprivileged_port_start=$1"
+#fix sudo
+alias fix-sudo="faillock --reset" # password rejects
 alias fix-permissions="sudo chown -R $USER:$USER ~/.config ~/.local"
 #receive developer keys
 alias fix-gpg-retrieve="gpg2 --keyserver-options auto-key-retrieve --receive-keys"
 alias fix-keyserver="[ -d ~/.gnupg ] || mkdir ~/.gnupg ; cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ ; echo 'done'"
 ## package-manager fixes ##
-alias fix-yay-lock="    sudo rm /var/lib/pacman/db.lck"
-alias fix-pamac-lock="  sudo rm /var/tmp/pamac/dbs/db.lock"
-alias fix-pacman-lock=" sudo rm /var/lib/pacman/db.lck"
-alias fix-pacman-conf="         /usr/local/bin/arcolinux-fix-pacman-conf"
+alias fix-lock-yay="    sudo rm /var/lib/pacman/db.lck"
+alias fix-lock-pamac="  sudo rm /var/tmp/pamac/dbs/db.lock"
+alias fix-lock-pacman=" sudo rm /var/lib/pacman/db.lck"
+alias fix-conf-pacman="         /usr/local/bin/arcolinux-fix-pacman-conf"
 alias fix-keys="                /usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
 alias fix-keys-pacman="         /usr/local/bin/arcolinux-fix-pacman-gpg-conf"
 alias fix-packs-broken="sudo pacman -S \$(sudo pacman -Qk 2>/dev/null | grep -v ' 0 missing files' | cut -d: -f1)"
 ## config related fixes ##
-alias fix-qt="export QT_QPA_PLATFORM='wayland;xcb'"
 # restore shell configs
 alias restore-default-bash='cp /etc/skel/.bashrc                  ~/.bashrc                  && exec bash'
 alias restore-default-zsh=' cp /etc/skel/.zshrc                   ~/.zshrc                   && echo "Copied."'
 alias restore-default-fish='cp /etc/skel/.config/fish/config.fish ~/.config/fish/config.fish && echo "Copied."'
 # permission fixes
+alias fix-permissions-user="sudo chown -R $USER:$USER ~/.config ~/.local"
 ## application specific fixes ##
 alias fix-grub="       /usr/local/bin/arcolinux-fix-grub"
 alias fix-sddm-config="/usr/local/bin/arcolinux-fix-sddm-config"
@@ -185,18 +196,21 @@ alias git-clean-cache="rm -r ~/.cache/git"
 #https://www.tecmint.com/disable-suspend-and-hibernation-in-linux/
 alias hibernation-enable="sudo systemctl unmask hibernate.target"
 alias hibernation-disable="sudo systemctl mask hibernate.target"
+# Set QT platform
+alias fix-qt-platform="export QT_QPA_PLATFORM='wayland;xcb'"
 
 ###############################
 ### File System  Maintenace ###
 ###############################
 # Filesystem
-alias list-filesize="sudo du -shc"
 alias list-drive-busy="sudo lsof"
 alias list-btrfs-snapshots="sudo timeshift --list"
 alias list-btrfs-filesystem="sudo btrfs filesystem df /"
 alias list-btrfs-subvolumes="sudo btrfs su li -t /"
 alias btrfs-compress="sudo btrfs filesystem defragment -r -v -czstd"
 alias btrfs-balance="sudo btrfs balance start -dusage=66"
+alias list-size-drive="df -h"
+alias list-size-file="sudo du -shc"
 # Session info
 alias list-users="cut -d: -f1 /etc/passwd | sort" # List of existing useres on the machine
 alias list-session-xorg="   ls /usr/share/xsessions"        # List xorg    sessions

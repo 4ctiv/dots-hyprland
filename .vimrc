@@ -10,14 +10,20 @@ set guifont=JetBrainsMono\ Nerd\ Font\ Mono
 " Tab |-> 2 spaces
  set autoindent
  set expandtab
- set tabstop=2
  set shiftwidth=2
+ set tabstop=2
+" tabstop affect file’s content, softtabstop affect tab/backspace behavior
+" tabstop ~ global setting, softtabstop ~ local to current line
 
 " Highlight special characters
-"set listchars+=space:␣,tab:|>
- set listchars=trail:␣,extends:>,precedes:<
-"set listchars=eol:¬
+ set listchars=tab:—⇥
+"set listchars+=space:␣
+ set listchars+=trail:␣,extends:…,precedes:…
+"set listchars=eol:↵
  set list
 
 " Syntax Highlighting
  syntax on
+
+" list test
+	  ; 
