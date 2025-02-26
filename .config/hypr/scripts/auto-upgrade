@@ -1,9 +1,18 @@
 #!/bin/bash
 
-packs_ignored="" # TODO impplement ignore package on error
-which checkupdates && echo "checkupdates dependency satisfied" || sudo pacman -S pacman-contrib;
+which checkupdates || sudo pacman -S pacman-contrib;
 out_of_date_packs=$(checkupdates | wc -l)
+PACKS_IGNORED=""  # TODO implement ignore package on errora
 OUTDATED_ALLOWED=50
+
+if [ $(which yay 2>/dev/null) ]; then
+  which git || pacman -S git base-devel
+  git clone https://aur.archlinux.org/yay.git yay-setup &&\
+  cd yay-setup &&\
+  makepkg -si &&\
+  cd ..
+  rm -rf yay-setup
+fi
 
 # Only update if >= X packages are out of date (idea: stabe system intervalls)
 if [[ $out_of_date_packs -ge $OUTDATED_ALLOWED ]]; then

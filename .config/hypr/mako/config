@@ -1,4 +1,4 @@
-max-history=100
+max-history=25
 sort=-time
 
 # BINDING OPTIONS

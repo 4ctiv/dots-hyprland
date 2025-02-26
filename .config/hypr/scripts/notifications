@@ -3,5 +3,7 @@
 CONFIG="$HOME/.config/hypr/mako/config"
 
 if [[ ! $(pidof mako) ]]; then
-	mako --config ${CONFIG}
+  which mako || kitty sh -c 'yay -S mako'
+  mako --config ${CONFIG}
 fi
+
