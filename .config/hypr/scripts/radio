@@ -7,11 +7,11 @@ COLORS="$HOME/.config/hypr/wofi/colors"
 
 ## Wofi Command
 wofi_command="wofi --show dmenu \
-			--conf ${CONFIG} --style ${STYLE} --color ${COLORS} \
-			--width=350 --height=380 \
-			--cache-file=/dev/null \
-			--hide-scroll --no-actions \
-			--define=matching=fuzzy"
+      --conf ${CONFIG} --style ${STYLE} --color ${COLORS} \
+      --width=350 --height=380 \
+      --cache-file=/dev/null \
+      --hide-scroll --no-actions \
+      --define=matching=fuzzy"
 
 
 notification(){
@@ -39,18 +39,20 @@ main() {
   choice=$(menu | ${wofi_command} | cut -d. -f1)
 
   case $choice in
-    00) 
+    00)
       # Gute Musik
       notification
       mpv --vid=no "https://music.youtube.com/playlist?list=PLhb3OfKIelBAQpoEWqvVaS5ux9r5K29x2"
       return
       ;;
     01)
+      # Internet Radio "1Live"
       notification ;
       mpv --vid=no "https://www1.wdr.de/radio/player/einslive-radioplayer-100~_layout-popupVersion.html"
       return
       ;;
     02)
+      # Lofi Loft
       notification ;
       mpv --vid=no "https://music.youtube.com/playlist?list=RDCLAK5uy_kb7EBi6y3GrtJri4_ZH56Ms786DFEimbM&playnext=1&si=slttHtVgY0CgVTsR"
       return
@@ -58,7 +60,7 @@ main() {
     11)
       # Study
       notification
-      mpv --vid=no "https://music.youtube.com/playlist?list=PLhb3OfKIelBD4L-4Y-Utz9P7IgIPkAK7B&si=p14hdTx2_VI81n4Z"
+      mpv --vid=no "https://www.youtube.com/playlist?list=PLhb3OfKIelBClj5mlYbCaJv-e0iQtfU-s"
       return
       ;;
     12)
