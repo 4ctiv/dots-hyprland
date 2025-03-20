@@ -1,0 +1,235 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "autosave": "on_focus_change",
+  "base_keymap": "VSCode",
+  "restore_on_startup": "none",
+  "remove_trailing_whitespace_on_save": true,
+  "format_on_save": "on",
+  "formatter": "language_server",
+  // Hotkeys
+  "vim_mode": false,
+  "confirm_quit": false,
+  "soft_wrap": null,
+  "wrap_guides": [
+    80,
+    130
+  ],
+  "show_wrap_guides": true,
+  "preferred_line_length": 100,
+  "tab_size": 2,
+  "use_tabs": false,
+  "auto_indent_on_paste": true,
+  "show_whitespaces": "boundary",
+  "indent_size": 2,
+  "indent_guides": {
+    "enabled": true,
+    "active_line_width": 2,
+    "coloring": "indent_aware",
+    "background_coloring": "disabled"
+  },
+  // look and feel
+  "theme": {
+    "mode": "system",
+    "light": "Ayu Light",
+    "dark": "Ayu Dark"
+  },
+  "icon_theme": {
+    "mode": "system",
+    "light": "Zed (Default)",
+    "dark": "Zed (Default)"
+  },
+  "ui_font_size": 16,
+  "buffer_font_size": 16,
+  "ui_font_family": "JetBrainsMono Nerd Font Mono",
+  "ui_font_features": {
+    "ligatures": true,
+    "calt": true
+  },
+  "buffer_font_family": "JetBrainsMono Nerd Font Mono",
+  "cursor_blink": true,
+  "cursor_shape": "bar",
+  "show_line_numbers": true,
+  "current_line_highlight": "line",
+  "scrollbar": {
+    "show": "auto",
+    "visible": true,
+    "diagnostics": "warning"
+  },
+  "journal": {
+    "hour_format": "hour24"
+  },
+  // Programming language settings
+  "inlay_hints": {
+    "enabled": false,
+    "show_type_hints": true,
+    "show_parameter_hints": true,
+    "show_other_hints": true,
+    "show_background": false,
+    "edit_debounce_ms": 700,
+    "scroll_debounce_ms": 50,
+    "toggle_on_modifiers_press": null
+  },
+  "auto_install_extensions": {
+    "catppuccin": true,
+    "markdown": true,
+    "latex": true,
+    "sql": true,
+    "json": true,
+    "xml": true,
+    "yaml": true,
+    "toml": true,
+    "ini": true,
+    "html": true,
+    "css": true,
+    "javascript": true,
+    "typescript": true,
+    "php": true,
+    "go": true,
+    "java": true,
+    "python": true,
+    "haskell": true,
+    "prolog": true,
+    "dockerfile": true,
+    "docker-compose": true
+  },
+  "file_types": {
+    "markdown": [
+      "markdown"
+    ],
+    "latex": [
+      "tex"
+    ],
+    "sql": [
+      "sqlite"
+    ],
+    "json": [
+      "json",
+      "cjson",
+      "json5"
+    ],
+    "xml": [
+      "xml",
+      "svg"
+    ],
+    "yaml": [
+      "yaml",
+      "yml"
+    ],
+    "toml": [
+      "toml"
+    ],
+    "ini": [
+      "ini",
+      "cfg",
+      "conf",
+      "config"
+    ],
+    "html": [
+      "html"
+    ],
+    "php": [
+      "html",
+      "php"
+    ],
+    "css": [
+      "css"
+    ],
+    "javascript": [
+      "js"
+    ],
+    "typescript": [
+      "ts"
+    ],
+    "go": [
+      "go",
+      "mod"
+    ],
+    "java": [
+      "java",
+      "class",
+      "jar"
+    ],
+    "python": [
+      "py"
+    ],
+    "haskell": [
+      "hs"
+    ],
+    "prolog": [
+      "pl",
+      "pro"
+    ]
+  },
+  "languages": {},
+  "lsp": {},
+  // Pannel configs
+  "terminal": {
+    "font_size": 14,
+    "shell": "system",
+    "working_directory": "first_project_directory",
+    "toolbar": {
+      "breadcrumbs": false // Show terminal name
+    },
+    "font_family": "JetBrainsMono Nerd Font Mono",
+    "env": {
+      "ZED": "1"
+    },
+    "font_features": {
+      "ligatures": true,
+      "calt": true
+    }
+  },
+  "project_panel": {
+    "dock": "left"
+  },
+  "assistant": {
+    "button": true,
+    "dock": "bottom",
+    "version": "1"
+  },
+  "outline_panel": {
+    "button": true,
+    "auto_fold_dirs": true,
+    "dock": "right",
+    "git_status": true,
+    "indent_guides": {
+      "show": "always"
+    }
+  },
+  "git_panel": {
+    "dock": "left",
+    "button": true
+  },
+  "collaboration_panel": {
+    "dock": "bottom",
+    "button": true
+  },
+  "notification_panel": {
+    "dock": "bottom",
+    "button": true
+  },
+  // Additional setups
+  "proxy": null,
+  "use_smartcase_search": true,
+  "search": {
+    "regex": true
+  },
+  "telemetry": {
+    "metrics": false,
+    "diagnostics": false
+  },
+  "calls": {
+    "mute_on_join": true
+  },
+  "features": {
+    "edit_prediction_provider": "zed",
+    "copilot": false
+  }
+}

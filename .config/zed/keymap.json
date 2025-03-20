@@ -1,0 +1,36 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+//
+// Special keys: `secindary-` (ctrl),`super-`,`alt-`,`shift-`,`fn-`
+[
+  {
+    "context": "", // Always active
+    "bindings": {
+      "alt-p": "command_palette::Toggle",
+      "alt-,": "workspace::ToggleLeftDock",
+      "alt-.": "workspace::ToggleBottomDock",
+      "alt--": "workspace::ToggleRightDock",
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      // "project_open": "editor::OpenFile 'README.md'"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-f": "project_panel::NewSearchInDirectory"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {}
+  }
+]
