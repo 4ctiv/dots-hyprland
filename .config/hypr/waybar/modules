@@ -238,7 +238,7 @@
     "format":" 🖉 ",
     "format-alt":" 🖊 ",
     "tooltip": false,
-    "on-click": "hyprctl dispatch togglespecialworkspace gromit"
+    "on-click": "hyprctl dispatch togglespecialworkspace draw"
   },
 
   "custom/touch": {
