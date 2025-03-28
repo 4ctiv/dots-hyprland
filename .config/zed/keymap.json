@@ -26,7 +26,11 @@
   {
     "context": "Editor",
     "bindings": {
-      "ctrl-f": "project_panel::NewSearchInDirectory"
+      "ctrl-f": "project_panel::NewSearchInDirectory",
+      "f1": "editor::GoToTypeDefinitionSplit",
+      "f2": "editor::GoToDefinitionSplit",
+      "f12": "editor::GoToDefinition",
+      "shift-f12": "pane::GoBack"
     }
   },
   {
