@@ -6,7 +6,7 @@ case "$(hyprctl activewindow -j | jq -r ".class")" in
   notify-send "Minimizing App - $(hyprctl activewindow -j | jq -r ".class")"
   xdotool getactivewindow windowunmap
   ;;
-  "thunderbird"|"betterbird")
+  "Mozilla Thunderbird"|"thunderbird"|"betterbird")
     # If not main window just kill it
     if ! [[ "$(hyprctl activewindow -j | jq --raw-output '.initialTitle')" == "Mozilla Thunderbird" ]]; then
       notify-send "Kill non mail primary window";

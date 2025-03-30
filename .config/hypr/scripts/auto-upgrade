@@ -1,23 +1,26 @@
 #!/bin/bash
 
-which checkupdates || sudo pacman -S pacman-contrib;
+which checkupdates > /dev/null || sudo pacman -S pacman-contrib;
+
+old_dir="$(dir)"
 out_of_date_packs=$(checkupdates | wc -l)
-PACKS_IGNORED=""  # TODO implement ignore package on errora
+PACKS_IGNORED=""
 OUTDATED_ALLOWED=50
 
-if [ $(which yay 2>/dev/null) ]; then
-  which git || pacman -S git base-devel
+# Verify yay is installed else install yay
+if [ ! -f "$(which yay 2>/dev/null)" ]; then
+  which git > /dev/null || pacman -S git base-devel
   git clone https://aur.archlinux.org/yay.git yay-setup &&\
   cd yay-setup &&\
   makepkg -si &&\
-  cd ..
+  cd "$old_dir" &&\
   rm -rf yay-setup
 fi
 
 # Only update if >= X packages are out of date (idea: stabe system intervalls)
-if [[ $out_of_date_packs -ge $OUTDATED_ALLOWED ]]; then
-  kitty --hold --name "Auto_Update" --title "Auto_Update" sh -c "echo 'Requesting System upgrade ($out_of_date_packs packages)';sudo pacman -Syu --noconfirm; read -n 1 -s -p 'Press [ANY]-key to continue ...' dummy;"
-  [ $? -ne 0 ] && echo "Auto Update Success" || (echo "Auto Update Failed" && kitty --hold --name "Auto_Update" --title "Auto_Update" sh -c "sudo pacman -Syu")
+if [ $out_of_date_packs -ge $OUTDATED_ALLOWED ]; then
+  kitty --hold --name "Auto_Update" --title "Auto_Update" sh -c "echo 'Requesting System upgrade ($out_of_date_packs packages)';sudo pacman -Syu --noconfirm; read -n 1 -s -p 'Press [ANY]-key to continue ...' dummy;exit $?"
+  [ $? -ne 0 ] && (notify-send "Auto Update Success"; echo "Auto update success") || (notify-send "Auto Update Failed"; echo "Auto update failed"; exit 1)
 else
   echo "Less than $OUTDATED_ALLOWED packages outdated => skipping update"
 fi
