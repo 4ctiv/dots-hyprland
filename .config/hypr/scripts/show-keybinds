@@ -7,24 +7,25 @@ RED='\033[0;31m'    # Red
 GRE='\033[0;32m'    # Green
 BLU='\033[0;34m'    # Blue
 
-# Output
+# Output (markdown compatible)
 {\
-  echo "Press [STRG]+[C] -> [Q] to exit; Press [/] to search"
-  echo ""
-  echo -e "> ${RED}[Win]${NCL}" &&\
+ echo "> To exit   press [STRG]+[C] -> [Q]"
+ echo "> To search press [/]"
+ echo ""
+ echo -e "> ${RED}[SUPER]${NCL}" &&\
     cat $KEYBINDS | grep "^[^#]bind = \$mainMod  "       | sed 's/^.bind =//g'   | sort ;\
   echo ""
-  echo -e "> ${RED}[Win] + [CTRL]${NCL}" &&\
+  echo -e "> ${RED}[SUPER] + [CTRL]${NCL}" &&\
     cat $KEYBINDS | grep "^[^#]bind = \$mainMod CTRL  "  | sed 's/^.bind =//g'   | sort ;\
   echo ""
-  echo -e "> ${RED}[Win] + [SHIFT]${NCL}" &&\
+  echo -e "> ${RED}[SUPER] + [SHIFT]${NCL}" &&\
     cat $KEYBINDS | grep "^[^#]bind = \$mainMod SHIFT  " | sed 's/^.bind =//g'   | sort ;\
   echo ""
-  echo -e "> ${RED}[Win] + [ALT]${NCL}" &&\
+  echo -e "> ${RED}[SUPER] + [ALT]${NCL}" &&\
     cat $KEYBINDS | grep "^[^#]bind = \$mainMod ALT  "   | sed 's/^.bind =//g'   | sort ;\
   echo ""
   echo -e "> ${RED}[CTRL] + [ALT]${NCL}" &&\
     cat $KEYBINDS | grep "^[^#]bind = CTRL ALT  "   | sed 's/^.bind =//g'   | sort ;\
-} | sed 's/|/\\|/g ; s/^ /| /g ; s/[^^]$/|/ ; s/$mainMod[ ]*/WIN /g ; s/ , / | /g' | less -R --chop-long-lines
+} | sed 's/|/\\|/g ; s/^ /| /g ; /[^|]$/s/$/ |/ ; s/][^|] |$//g; s/] |/]/g ; s/\o33\[0m |/\n| Modifier | Key | Action |/g; s/$mainMod[ ]*/WIN /g ; s/ , / | /g' | less -R --chop-long-lines
 
 exit 0

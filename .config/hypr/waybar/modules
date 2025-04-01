@@ -155,6 +155,7 @@
 
   "network": {
     "interval": 5,
+    "family": "ipv4",
     "format-wifi": " {essid}",
     "format-ethernet": " {ipaddr}/{cidr}",
     "format-linked": " {ifname} (No IP)",

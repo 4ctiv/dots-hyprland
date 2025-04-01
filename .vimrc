@@ -16,6 +16,7 @@ set guifont=JetBrainsMono\ Nerd\ Font\ Mono
 " tabstop ~ global setting, softtabstop ~ local to current line
 
 " Highlight special characters
+  "  "	 
  set listchars=tab:—⇥
 "set listchars+=space:␣
  set listchars+=trail:␣,extends:…,precedes:…
@@ -25,5 +26,10 @@ set guifont=JetBrainsMono\ Nerd\ Font\ Mono
 " Syntax Highlighting
  syntax on
 
-" list test
-	  ; 
+" Change line number color based on vim mode
+"  (Note: Visual mode has no events on enter/leave)
+ autocmd InsertLeave * highlight LineNr ctermfg=yellow guibg=black
+"autocmd VisualLeave * highlight LineNr ctermfg=yellow guibg=black
+
+ autocmd InsertEnter * highlight LineNr ctermfg=red    guibg=red
+"autocmd VisualEnter * highlight LineNr ctermfg=cyan   guibg=darkcyan

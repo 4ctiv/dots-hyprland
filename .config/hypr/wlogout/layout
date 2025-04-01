@@ -12,7 +12,7 @@
 }
 {
     "label" : "logout",
-    "action" : "openrgb -c bcbcbc; loginctl terminate-user $USER",
+    "action" : "lsleep 1; hyprctl dispatch exit",
     "text" : "Logout [e]",
     "keybind" : "e"
 }
@@ -30,7 +30,7 @@
 }
 {
     "label" : "reboot",
-    "action" : "gksudo /home/$USER/.config/wlogout/grub_reboot_win.sh",
+    "action" : "gksudo ~/.config/hypr/wlogout/grub_reboot_win.sh",
     "text" : "Windows [w]",
     "keybind" : "w"
 }

@@ -17,13 +17,13 @@ pamac-aur            # Optional: graphical package manager
 xf86-input-libinput  # touch input support
 wl-logout            # power menu
 pavucontrol          # audo volume controll
-rofi                 # App menu
+wofi                 # App menu
 htop                 # cli task manager
 jq                   # Json terminal tools (hyprctl can output json)
 brightnessctl        # monitor brightness settings
-nm-applt             # Wifi icon 
+nm-applet            # Wifi icon 
 
-# Theme
+# Theme (optional)
 kvantum-qt5                  # Unified theme support
 qt5ct                        # Optional: qt(5) theme manager
 nwg-look                     # Optional: gtk theme manager
@@ -46,12 +46,12 @@ mpvpaper      # video wallpaper
 kitty         # terminal
 fish          # shell (alternative to bash)
 fzf           # fuzzy finder
-thunar        # main file-manager
+thunar        # file-manager
 links         # commandline browser
 brave         # main brower
 google-chrome # alt  browser
 firefox       # alt  browser
-mailspring    # mail-client
+thunderbird   # mail-client
 code          # code-editor
 meld          # file-differences
 
@@ -86,6 +86,6 @@ timeshift-autosnap  # auto snapshots
 # Office & PDF
 xournalpp            # handwritten notes
 rnote                # handwritten notes (inf canvas)
-libreoffice          # office suite
+onlyeoffice          # office suite
 pdfmixtool           # pdf stitching
 masterpdfeditor-free # pdf bookmarks
