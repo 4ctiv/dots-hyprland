@@ -30,7 +30,9 @@
       "f1": "editor::GoToTypeDefinitionSplit",
       "f2": "editor::GoToDefinitionSplit",
       "f12": "editor::GoToDefinition",
-      "shift-f12": "pane::GoBack"
+      "shift-f12": "pane::GoBack",
+      "ctrl-alt-up": "editor::AddSelectionAbove",
+      "ctrl-alt-down": "editor::AddSelectionBelow"
     }
   },
   {
