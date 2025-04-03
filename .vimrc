@@ -8,6 +8,7 @@ set guifont=JetBrainsMono\ Nerd\ Font\ Mono
  set relativenumber
 
 " Tab |-> 2 spaces
+ filetype indent on "fix indentation with 'gg=G' (normal mode)
  set autoindent
  set expandtab
  set shiftwidth=2
@@ -23,6 +24,12 @@ set guifont=JetBrainsMono\ Nerd\ Font\ Mono
 "set listchars=eol:↵
  set list
 
+" Code folding
+" use `zc`/`zM` to fold ; `zo`/`zR` to open
+set foldmethod=indent
+set foldnestmax=10
+set foldlevel=2
+set nofoldenable
 " Syntax Highlighting
  syntax on
 
