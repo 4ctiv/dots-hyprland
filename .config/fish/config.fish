@@ -68,6 +68,9 @@ alias install-grub-efi="sudo grub-install --target=x86_64-efi --efi-directory=/b
 alias wget="wget -c"
 # ps (running process tree)
 alias psa="ps auxf"
+# debug
+alias app-debug="coredumpctl debug"
+alias hex-ascii="hexdump -C"
 #yt-dpl (youtube)
 alias yt-audio="yt-dlp --extract-audio --audio-format best "
 alias yt-video="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
@@ -80,6 +83,7 @@ alias unhblock="hblock -S none -D none"
 ###############################
 alias highlight='grep -A100' # Usage: COMMAND | highlight"
 alias ls='ls --color=auto'
+alias ip="ip -c"
 # Colorize the grep command output for ease of use (good for log files)##
 alias grep='   grep --color=auto'
 alias egrep=' egrep --color=auto'
@@ -125,8 +129,8 @@ alias list-users="cut -d: -f1 /etc/passwd | sort" # List of existing useres on t
 alias list-session-xorg="   ls /usr/share/xsessions"        # List xorg    sessions
 alias list-session-wayland="ls /usr/share/wayland-sessions" # List wayland sessions
 # Network
-alias list-net-ipv4="nmap $(ip -4 addr list  | awk '/inet.*brd/ {print $2}' | head -1) -F --open -oG - | cut -d ' ' -f 2-3 | grep Ports: | sed 's/Ports://g'"
-alias list-net-port="sudo netstat -tunlp"
+alias list-net-ipv4="nmap $(ip --color=never -4 addr list  | awk '/inet.*brd/ {print $2}' | head -1) -F --open -oG - | cut -d ' ' -f 2-3 | grep Ports: | sed 's/Ports://g'"
+alias list-net-port="netstat -tunlp | sort -t: -k4 -n | grep LISTEN"
 # Packages
 # HOW 2 (EXTENDED USAGE): pacman -S --needed - < my-list-of-packages.txt # E.g. install packages from a list
 alias list-packs="         sudo pacman -Qqe"               # List of explicitly installed packages
@@ -164,7 +168,7 @@ alias update-systemctl="sudo sysctl --system"
  ### Aliases for fixes ###
 #########################
 #fix docker
-alias fix-docker-unpriv-network="sudo sysctl -w net.ipv4.ip_unprivileged_port_start=$1"
+alias fix-docker-unpriv-network="sudo sysctl -w net.ipv4.ip_unprivileged_port_start=80"
 #fix sudo
 alias fix-sudo="faillock --reset" # password rejects
 alias fix-permissions="sudo chown -R $USER:$USER ~/.config ~/.local"

@@ -4,7 +4,6 @@ which checkupdates > /dev/null || sudo pacman -S pacman-contrib;
 
 old_dir="$(dir)"
 out_of_date_packs=$(checkupdates | wc -l)
-PACKS_IGNORED=""
 OUTDATED_ALLOWED=50
 
 # Verify yay is installed else install yay
