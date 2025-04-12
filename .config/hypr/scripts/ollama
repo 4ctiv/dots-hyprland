@@ -26,11 +26,47 @@ if [ ! $? -eq 0 ]; then
 fi
 
 function ollama_start {
+
+# Create docker volume for ollama models
+if [[ $(docker info -f "{{println .SecurityOptions}}" | grep -o rootless) ]]; then
+  # Docker rootless (per user)
+  OLLAMA_MODELS_HOST_DIR="~/.ollama/models"
+else
+  # Docker non rootless (one for all)
+  OLLAMA_MODELS_HOST_DIR="/opt/ollama/models"
+fi
+docker volume create \
+  --driver local \
+  --opt type=none \
+  --opt device="${OLLAMA_MODELS_HOST_DIR:-'./ollama/models'}" \
+  --opt o=bind \
+  ollama
+
 # Check if ollama container already exists
 if [ -z "$(docker ps -a --format '{{.Names}}' | grep -o -E '[O|o]llama')" ]; then
   # inxi -G  # list graphical devices (human readable)
-  lsmod | grep i915 >/dev/null 2>/dev/null
-  if [ $? ]; then
+ if [[ $(lsmod | grep nvidia) ]]; then
+    # NVIDIA Graphics card
+    # -> https://hub.docker.com/r/ollama/ollama#nvidia
+    sudo nvidia-ctk runtime configure --runtime=docker
+    sudo systemctl restart docker
+    docker run -d \
+      --gpus=all \
+      -v ollama:/root/.ollama \
+      -p 11434:11434 \
+      --name ollama \
+      ollama/ollama
+ elif [[ $(lsmod | grep amdgpu) ]]; then
+    # AMD Graphics card
+    # -> https://hub.docker.com/r/ollama/ollama#amd
+    docker run -d \
+      --device /dev/kfd \
+      --device /dev/dri \
+      -v ollama:/root/.ollama \
+      -p 11434:11434 \
+      --name ollama \
+      ollama/ollama:rocm
+ elif [[ $(lsmod | grep i915) ]]; then
     # Intel ARC driver loaded
     # -> https://dev.to/itlackey/run-ollama-on-intel-arc-gpu-ipex-4e4k
     docker run -d \
@@ -39,7 +75,7 @@ if [ -z "$(docker ps -a --format '{{.Names}}' | grep -o -E '[O|o]llama')" ]; the
        --net=bridge \
        --device=/dev/dri \
        -p 11434:11434 \
-       -v ~/.ollama/models:/root/.ollama/models \
+       -v ollama:/root/.ollama/models \
        -e PATH=/llm/ollama:$PATH \
        -e OLLAMA_HOST=0.0.0.0 \
        -e no_proxy=localhost,127.0.0.1 \
@@ -49,11 +85,17 @@ if [ -z "$(docker ps -a --format '{{.Names}}' | grep -o -E '[O|o]llama')" ]; the
        -e DEVICE=Arc \
        --shm-size="16g" \
        --memory="32G" \
-       intelanalytics/ipex-llm-inference-cpp-xpu:latest \
-       bash -c "cd /llm/scripts/ && source ipex-llm-init --gpu --device Arc && bash /llm/scripts/start-ollama.sh && tail -f /llm/ollama/ollama.log"
+       intelanalytics/ipex-llm-serving-xpu:latest #intelanalytics/ipex-llm-inference-cpp-xpu:latest \
+    bash -c "cd /llm/scripts/ && source ipex-llm-init --gpu --device Arc && bash /llm/scripts/start-ollama.sh && tail -f /llm/ollama/ollama.log"
   else
-    # Software support (may work with amd graphics)
-    docker run -d --gpus=all --name ollama ollama/ollama:latest
+    # Unknown GPU (may only use cpu)
+    printf "\033[0;33m[WARNING]\033[0m Unknown GPU: Using CPU for running ollama\n"
+    lspci -k | grep -EA3 'VGA' # shows some gpu information
+    docker run -d \
+      --gpus=all \
+      --name ollama \
+      -v ~/.ollama/models:/root/.ollama/models \
+      ollama/ollama:latest
   fi
 fi
 
