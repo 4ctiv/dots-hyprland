@@ -1,0 +1,15 @@
+#!/bin/bash
+
+regex_float_pos='^[-]?[0-9]+([\.|,][0-9]+)?$'
+cur_zoom="$(hyprctl getoption cursor:zoom_factor | grep float | awk '{print $2}' | bc -l)"
+
+# Reset zoom if no argument given otherwise add arg to zoom
+[ -z "$1" ] && zoom="$(echo "1 - $cur_zoom" | bc -l)" || zoom="$(echo "$1" | bc -l)"
+if [[ ! "$zoom" =~ $regex_float ]]; then zoom=0; fi
+
+# Set new zoom level (value >= 1)
+echo "$cur_zoom + $zoom" | bc -l | sed 's/^[-|\.].*$/1/g'
+hyprctl keyword cursor:zoom_factor $(echo "$cur_zoom + $zoom" | bc -l | sed 's/^[-|\.].*$/1/g')
+
+exit 0
+
