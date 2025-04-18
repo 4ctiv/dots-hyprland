@@ -81,6 +81,7 @@ alias unhblock="hblock -S none -D none"
   ###############################
  ### Beautify terminal apps  ###
 ###############################
+# NOTE: These are also used by aliases and may break some functionalities
 alias highlight='grep -A100' # Usage: COMMAND | highlight"
 alias ls='ls --color=auto'
 alias ip="ip -c"
@@ -119,6 +120,8 @@ alias list-log-xorg="     bat /var/log/Xorg.0.log"
 alias list-log-xorg-old=" bat /var/log/Xorg.0.log.old"
 alias list-notification-history="makoctl history | jq '.data[0][].body.data'"
 # System info
+alias list-system-usage="top -u nobody -bn1 | head -n 5"
+alias list-system-info="inxi"
 alias whichvga="/usr/local/bin/arcolinux-which-vga"
 alias sysfailed="systemctl list-units --failed"
 alias probe="sudo -E hw-probe -all -upload"
@@ -126,7 +129,10 @@ alias free="free -mt"
 alias list-fonts="fc-list --format \"%{family}\n\""
 alias list-grub-entries='sudo awk -F \\\' \'$1=="menuentry " || $1=="submenu " {print i++ " : " $2}; /\smenuentry / {print "\t" i-1">"j++ " : " $2};\' /boot/grub/grub.cfg'
 # Session info
+alias list-ssh-keys="ssh-add -l"
+alias list-ssh-users="grep --color=none 'AllowedUsers' /etc/ssh/sshd_config{,.d/*} || fish -c \"getent passwd | grep --color=none -v '/nologin' | awk -F ':' '{print $1}'\""
 alias list-users="cut -d: -f1 /etc/passwd | sort" # List of existing useres on the machine
+alias list-users-activ="w -i -p" # add -h for no header (for use in scripts)
 alias list-session-xorg="   ls /usr/share/xsessions"        # List xorg    sessions
 alias list-session-wayland="ls /usr/share/wayland-sessions" # List wayland sessions
 # Network
@@ -169,7 +175,7 @@ alias update-systemctl="sudo sysctl --system"
  ### Aliases for fixes ###
 #########################
 #fix docker
-alias fix-docker-unpriv-network="sudo sysctl -w net.ipv4.ip_unprivileged_port_start=80"
+alias fix-docker-unpriv-network="echo 80 | sudo tee /proc/sys/net/ipv4/ip_unprivileged_port_start"
 #fix sudo
 alias fix-sudo="faillock --reset" # password rejects
 alias fix-permissions="sudo chown -R $USER:$USER ~/.config ~/.local"
@@ -208,7 +214,8 @@ alias fix-qt-platform="export QT_QPA_PLATFORM='wayland;xcb'"
 ### File System  Maintenace ###
 ###############################
 # Filesystem
-alias list-drive-busy="sudo lsof"
+alias list-drive-busy="lsof -R"
+alias list-drive-mounts="df -h | grep -E --color=never '/dev/[^(loop|dm\-0)]|//'"
 alias list-btrfs-snapshots="sudo timeshift --list"
 alias list-btrfs-filesystem="sudo btrfs filesystem df /"
 alias list-btrfs-subvolumes="sudo btrfs su li -t /"
