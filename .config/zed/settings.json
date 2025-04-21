@@ -38,7 +38,7 @@
   "theme": {
     "mode": "system",
     "light": "Ayu Light",
-    "dark": "Catppuccin Mocha (Blue Blur+)"
+    "dark": "Darker Horizon"
   },
   "icon_theme": {
     "mode": "system",
@@ -77,7 +77,9 @@
     "toggle_on_modifiers_press": null
   },
   "auto_install_extensions": {
-    "catppuccin-blur-zed": true,
+    "catppuccin-icons": true,
+    "darker-horizon": true,
+    "catppuccin": true,
     "markdown": true,
     "latex": true,
     "sql": true,
@@ -98,7 +100,8 @@
     "prolog": true,
     "dockerfile": true,
     "docker-compose": true,
-    "powershell": true
+    "powershell": true,
+    "git-firefly": false
   },
   "file_types": {
     "markdown": [
@@ -199,7 +202,7 @@
   },
   "assistant": {
     "button": true,
-    "dock": "bottom",
+    "dock": "right",
     "version": "1"
   },
   "outline_panel": {

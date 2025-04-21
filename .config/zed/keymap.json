@@ -14,7 +14,7 @@
       "alt-p": "command_palette::Toggle",
       "alt-,": "workspace::ToggleLeftDock",
       "alt-.": "workspace::ToggleBottomDock",
-      "alt--": "workspace::ToggleRightDock",
+      "alt--": "workspace::ToggleRightDock"
     }
   },
   {

@@ -7,7 +7,7 @@ function web-search --description "search <arg> on the web"
     yay -S $browser || return 1
   end
 
-  set s_querry "https://duckduckgo.com/"
+  set s_querry "https://lite.duckduckgo.com/lite"
   if count $argv > /dev/null
     set -a s_querry "?q="
     for arg in $argv

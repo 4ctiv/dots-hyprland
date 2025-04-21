@@ -2,6 +2,8 @@
 
 # https://ollama.com/library
 MODEL="deepseek-coder:6.7b"
+CONTAINER_NET="ollama"
+CONTAINER_NAME="ollama"
 #MODEL="deepseek-r1:14b"
 
 HELP_MSG='Help page for '$0'
@@ -17,7 +19,10 @@ Usage: '$(echo $0 | sed 's|.*/||g')' [flag] [model]
 | -s | --stop       ~            "             |
 |----|-----------------------------------------|'
 
-trap 'docker network disconnect bridge ollama; docker stop ollama 2>/dev/null' SIGINT
+# On forced exit always disconnect ollama networks and stop container
+trap 'docker network disconnect bridge ${CONTAINER_NAME:=ollama} & >/dev/null;
+      docker stop ${CONTAINER_NAME:=ollama} 2>/dev/null ; docker stop open-webui   &>/dev/null ;
+      exit 0' SIGINT
 
 docker ps >/dev/null 2>/dev/null
 if [ ! $? -eq 0 ]; then
@@ -25,149 +30,199 @@ if [ ! $? -eq 0 ]; then
   exit 1
 fi
 
+function open-webui_start {
+  docker network create --driver=bridge open-webui > /dev/null
+  docker run -d \
+             -p 172.0.0.1:3000:8080 \
+             -v open-webui:/app/backend/data \
+             --name open-webui \
+             --network open-webui \
+             --network ${CONTAINER_NET:=ollama} \
+             -e OLLAMA_BASE_URL="http://ollama:11434" \
+             ghcr.io/open-webui/open-webui:main >/dev/null &&\
+  xdg-open http://localhost:3000
+
+  #docker network create --driver=bridge traefik > /dev/null
+  #docker run -d \
+  #           --name traefik \
+  #           -p 127.0.0.1:8080:8080 \
+  #           -p 127.0.0.1:11434:11434 \
+  #           --network ollama \
+  #           --network traefik \
+  #           traefik:v3.3 --api.insecure=true --providers.docker > /dev/null
+}
+
 function ollama_start {
 
-# Create docker volume for ollama models
-if [[ $(docker info -f "{{println .SecurityOptions}}" | grep -o rootless) ]]; then
-  # Docker rootless (per user)
-  OLLAMA_MODELS_HOST_DIR="~/.ollama/models"
-else
-  # Docker non rootless (one for all)
-  OLLAMA_MODELS_HOST_DIR="/opt/ollama/models"
-fi
-docker volume create \
-  --driver local \
-  --opt type=none \
-  --opt device="${OLLAMA_MODELS_HOST_DIR:-'./ollama/models'}" \
-  --opt o=bind \
-  ollama
+  # Create docker bridge for ollama container
+  docker network create --internal ${CONTAINER_NET:=ollama} > /dev/null
 
-# Check if ollama container already exists
-if [ -z "$(docker ps -a --format '{{.Names}}' | grep -o -E '[O|o]llama')" ]; then
-  # inxi -G  # list graphical devices (human readable)
- if [[ $(lsmod | grep nvidia) ]]; then
-    # NVIDIA Graphics card
-    # -> https://hub.docker.com/r/ollama/ollama#nvidia
-    sudo nvidia-ctk runtime configure --runtime=docker
-    sudo systemctl restart docker
-    docker run -d \
-      --gpus=all \
-      -v ollama:/root/.ollama \
-      -p 11434:11434 \
-      --name ollama \
-      ollama/ollama
- elif [[ $(lsmod | grep amdgpu) ]]; then
-    # AMD Graphics card
-    # -> https://hub.docker.com/r/ollama/ollama#amd
-    docker run -d \
-      --device /dev/kfd \
-      --device /dev/dri \
-      -v ollama:/root/.ollama \
-      -p 11434:11434 \
-      --name ollama \
-      ollama/ollama:rocm
- elif [[ $(lsmod | grep i915) ]]; then
-    # Intel ARC driver loaded
-    # -> https://dev.to/itlackey/run-ollama-on-intel-arc-gpu-ipex-4e4k
-    docker run -d \
-       --name=ollama \
-       --restart=always \
-       --net=bridge \
-       --device=/dev/dri \
-       -p 11434:11434 \
-       -v ollama:/root/.ollama/models \
-       -e PATH=/llm/ollama:$PATH \
-       -e OLLAMA_HOST=0.0.0.0 \
-       -e no_proxy=localhost,127.0.0.1 \
-       -e ZES_ENABLE_SYSMAN=1 \
-       -e OLLAMA_INTEL_GPU=true \
-       -e ONEAPI_DEVICE_SELECTOR=level_zero:0 \
-       -e DEVICE=Arc \
-       --shm-size="16g" \
-       --memory="32G" \
-       intelanalytics/ipex-llm-serving-xpu:latest #intelanalytics/ipex-llm-inference-cpp-xpu:latest \
-    bash -c "cd /llm/scripts/ && source ipex-llm-init --gpu --device Arc && bash /llm/scripts/start-ollama.sh && tail -f /llm/ollama/ollama.log"
+  # Create docker volume for ollama models
+  if [[ $(docker info -f "{{println .SecurityOptions}}" | grep -o rootless) ]]; then
+    OLLAMA_MODELS_HOST_DIR="~/.ollama/models"   # Per user (docker rootless)
   else
-    # Unknown GPU (may only use cpu)
-    printf "\033[0;33m[WARNING]\033[0m Unknown GPU: Using CPU for running ollama\n"
-    lspci -k | grep -EA3 'VGA' # shows some gpu information
-    docker run -d \
-      --gpus=all \
-      --name ollama \
-      -v ~/.ollama/models:/root/.ollama/models \
-      ollama/ollama:latest
+    OLLAMA_MODELS_HOST_DIR="/opt/ollama/models" # System wide
   fi
-fi
+  mkdir -p ${OLLAMA_MODELS_HOST_DIR:?not set}
+  docker volume create \
+    --driver local \
+    --opt type=none \
+    --opt device="${OLLAMA_MODELS_HOST_DIR:-'./ollama/models'}" \
+    --opt o=bind \
+    ${CONTAINER_NAME:=ollama}
 
-# Start ollama if no already running
-echo "Starting ollama"
-docker start ollama >/dev/null 2>/dev/null
-sleep 3s;
+  # Check if ollama container already exists
+  if [ -z "$(docker ps -a --format '{{.Names}}' | grep -o -E '[O|o]llama')" ]; then
+    # inxi -G  # list graphical devices (human readable)
+    if [[ $(lsmod | grep nvidia) ]]; then
+      # NVIDIA Graphics card
+      # -> https://hub.docker.com/r/ollama/ollama#nvidia
+      sudo nvidia-ctk runtime configure --runtime=docker
+      sudo systemctl restart docker
+      printf "[INFO] Using NVIDIA GPU for running ollama\n"
+      docker run -d \
+        --name ${CONTAINER_NAME:=ollama} \
+        --gpus=all \
+        -v ollama:/root/.ollama/models \
+        -p 127.0.0.1:11434:11434 \
+        ollama/ollama
+    elif [[ $(lsmod | grep amdgpu) ]]; then
+      # AMD Graphics card
+      # -> https://hub.docker.com/r/ollama/ollama#amd
+      printf "[INFO] Using AMD GPU for running ollama\n"
+      docker run -d \
+        --name ${CONTAINER_NAME:=ollama} \
+        --device /dev/kfd \
+        --device /dev/dri \
+        -v ollama:/root/.ollama/models \
+        -p 127.0.0.1:11434:11434 \
+        ollama/ollama:rocm
+    elif [[ $(lsmod | grep i915) ]]; then
+      # Intel ARC driver loaded
+      # -> https://dev.to/itlackey/run-ollama-on-intel-arc-gpu-ipex-4e4k
+      # - Note: image exists but was removed by itel from dockerhub
+      printf "[INFO] Using INTEL GPU for running ollama\n"
+      docker run -d \
+           --name ${CONTAINER_NAME:=ollama} \
+           --hostname ${CONTAINER_NAME:=ollama} \
+           --restart=always \
+           --device=/dev/dri \
+           --network ${CONTAINER_NET:=ollama} \
+           -v ollama:/root/.ollama/models \
+           -p 11434:11434 \
+           -e PATH=/llm/ollama:$PATH \
+           -e OLLAMA_HOST=0.0.0.0 \
+           -e no_proxy=localhost,127.0.0.1 \
+           -e ZES_ENABLE_SYSMAN=1 \
+           -e OLLAMA_INTEL_GPU=true \
+           -e ONEAPI_DEVICE_SELECTOR=level_zero:0 \
+           -e DEVICE=Arc \
+           --shm-size="16g" \
+           --memory="32G" \
+           -label="traefik.enable=true" \
+           -label="traefik.http.services.${CONTAINER_NAME:=ollama}.loadbalancer.server.port=11434" \
+           intelanalytics/ipex-llm-inference-cpp-xpu:latest \
+           bash -c "cd /llm/scripts/ && source ipex-llm-init --gpu --device Arc && bash /llm/scripts/start-ollama.sh && tail -f /llm/ollama/ollama.log"
+    else
+      # Unknown GPU (may only use cpu)
+      printf "\033[0;33m[WARNING]\033[0m Unknown GPU: Using CPU for running ollama\n"
+      lspci -k | grep -EA3 'VGA' # shows some gpu information
+      docker run -d \
+        --name ${CONTAINER_NAME:=ollama} \
+        --gpus=all \
+        -v ollama:/root/.ollama/models \
+        -p 127.0.0.1:11434:11434 \
+        ollama/ollama:latest
+    fi
+  fi
 
-# Start gui for easy access
-#if [ -f "$(which Chatbox)" ]; then
-#  # Note: This will only work if ollama has internet access
-#  # Maybe this can be "fixed" by adding `--add-host=ollama.local:10.0.0.1` to ollama
-#  nohup Chatbox > /dev/null 2>&1 &
-#fi
+  # Start ollama if no already running
+  echo "Starting ollama"
+  docker start ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null &&\
+  docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null # remove container networks (no network access)
+  sleep 3s
+
+  # Start gui for easy access
+  # see: https://chatboxai.app
+  if sleep 3 && curl -s -f 'http://127.0.0.1:11434/api/status' > /dev/null; then
+    # Note: This will only work if ollama port is accessable on host
+    # To access ollama eather give ollama networ access via bridge or remap port via
+    # '-v 127.0.0.1:$OLAMMA_PORT:$OLAMMA_PORT'
+    if [ -f "$(which chatbox)" ]; then
+      nohup chatbox > /dev/null 2>&1 &
+    else
+      curl -o /opt/chabox/chatbox.appimage 'https://chatboxai.app/install_chatbox/linux' &&\
+      ln -s /opt/chabox/chatbox.appimage /bin/chatbox &&\
+      /opt/chabox/chatbox.appimage;
+    fi
+  fi
 }
 
 function ollama_pull {
-# Pull ollama model if required
-echo "Reciving ollama $MODEL"
-docker network connect bridge ollama 2>/dev/null # give container network access
-docker exec -it ollama ollama pull "$MODEL"
-docker network disconnect bridge ollama          # remove container network access
+  # Pull ollama model if required
+  echo "Reciving ollama $MODEL (ollam has temporary internet access)"
+ #docker network connect ${CONTAINER_NET:=ollama} ${CONTAINER_NAME:=ollama} 2>/dev/null # give container network access
+  docker network connect    bridge ${CONTAINER_NAME:=ollama} 2>/dev/null # give container network access
+  docker exec -it ${CONTAINER_NAME:=ollama} ollama pull "$MODEL" >/dev/null
+  docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null # remove container network access
+ #docker network disconnect ${CONTAINER_NET:=ollama} ${CONTAINER_NAME:=ollama} >/dev/null # remove container network access
+  echo "Fineshed reciving ollama $MODEL (temporary network access removed)"
 }
 
 function ollama_run {
-# Run ollama model
-echo "Starting ollama $MODEL"
-docker exec -it ollama ollama run "$MODEL"
+  # Run ollama model
+  echo "Starting ollama $MODEL"
+  docker exec -it ${CONTAINER_NAME:=ollama} ollama run "$MODEL" # repeating ollama is not a typo
 }
 
 function ollama_stop {
-# Shutdown ollama
-echo "Stopping ollama container"
-docker stop ollama >/dev/null 2>/dev/null
-#docker container rm ollama > /dev/null 2>/dev/null
+  # Shutdown ollama
+  echo "Stopping ollama container"
+  docker stop ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null
+  #docker container rm ollama > /dev/null 2>/dev/null
 }
+
+### MAIN CODE ###
 
 if [ ! -z "$1" ]; then
   if [ ! -z "$2" ]; then
     MODEL="$(echo "$2" | awk '{print $NF}')"
   fi
   case "$1" in
-  "-h"|"--help")
+  "-h" | "--help")
     printf "$HELP_MSG"
-   exit 0
-    ;;
-  "-k"|"--kill"|"-s"|"--stop")
-    docker network disconnect bridge ollama;
-    docker stop ollama 2>/dev/null;
+    exit 0
+  ;;
+  "-k" | "--kill"    | "-s" | "--stop")
+    docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null
+    docker stop ${CONTAINER_NAME:=ollama} 2>/dev/null
+    docker stop open-webui 2>/dev/null
     exit $?
-    ;;
-  "-d"|"--detatch"|"-b"|"--background")
+  ;;
+  "-d" | "--detatch" | "-b" | "--background")
     echo "Starting ollama in background"
-    ollama_start;
-    ollama_pull;
-    docker network connect bridge ollama 2>/dev/null
-    echo "[WARNING] Ollama is running in the background and is given access to the internet (to enable frontent api access)"
-    ;;
+    ollama_start
+    ollama_pull
+    docker network connect bridge ${CONTAINER_NAME:=ollama} 2>/dev/null
+    echo "[WARNING] Ollama is running in the background as '${CONTAINER_NAME:=ollama}' and has network access"
+    exit 0
+  ;;
   "*") # Expect model was given
     MODEL="$(echo "$1" | awk '{print $NF}')"
-    ollama_start ;
-    ollama_pull;
-    ollama_run;
-    ollama_stop;
-    ;;
+    ollama_start
+    open-webui_start
+    ollama_pull
+    ollama_run
+    ollama_stop
+    exit 0
+  ;;
   esac
 else
-  ollama_start;
-  ollama_pull;
-  ollama_run;
+  ollama_start
+  open-webui_start
+  ollama_pull
+  ollama_run
   ollama_stop
+  exit 0
 fi
-
-exit 0
-
+exit 1

@@ -124,6 +124,7 @@ alias sysfailed="systemctl list-units --failed"
 alias probe="sudo -E hw-probe -all -upload"
 alias free="free -mt"
 alias list-fonts="fc-list --format \"%{family}\n\""
+alias list-grub-entries='sudo awk -F \\\' \'$1=="menuentry " || $1=="submenu " {print i++ " : " $2}; /\smenuentry / {print "\t" i-1">"j++ " : " $2};\' /boot/grub/grub.cfg'
 # Session info
 alias list-users="cut -d: -f1 /etc/passwd | sort" # List of existing useres on the machine
 alias list-session-xorg="   ls /usr/share/xsessions"        # List xorg    sessions
