@@ -8,7 +8,6 @@ set guifont=JetBrainsMono\ Nerd\ Font\ Mono
  set relativenumber
 
 " Tab |-> 2 spaces
- filetype indent on "fix indentation with 'gg=G' (normal mode)
  set autoindent
  set expandtab
  set shiftwidth=2
@@ -32,6 +31,8 @@ set foldlevel=2
 set nofoldenable
 " Syntax Highlighting
  syntax on
+ setlocal foldmethod=indent "syntax
+ setlocal nofoldenable
 
 " Change line number color based on vim mode
 "  (Note: Visual mode has no events on enter/leave)
@@ -40,3 +41,18 @@ set nofoldenable
 
  autocmd InsertEnter * highlight LineNr ctermfg=red    guibg=red
 "autocmd VisualEnter * highlight LineNr ctermfg=cyan   guibg=darkcyan
+
+" Show read only warning
+augroup FileWritableCheck
+  autocmd!
+  autocmd BufReadPost * if filereadable(expand('%')) && !filewritable(expand('%')) | echohl WarningMsg | echo "Warning: File is not writable!" | echohl None | endif
+augroup END
+
+" HOTKEYS
+" :w !sudo tee % > /dev/null
+"nnoremap <S-C-s> :w !sudo tee % > /dev/null     " Shift+Ctrl+S: Save as admin
+
+ nnoremap <F5> :set number! relativenumber! <CR> " toggle line numbers
+ nnoremap <F6> gg=G <CR> " toggle line numbers   " Auto indent file
+ nnoremap <F3> zm   <CR> " toggle line numbers   " Auto indent file
+ nnoremap <F4> zr   <CR> " toggle line numbers   " Auto indent file
