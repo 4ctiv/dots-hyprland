@@ -31,6 +31,14 @@ set guifont=JetBrainsMono\ Nerd\ Font\ Mono
  setlocal foldmethod=indent "syntax marker indent
  setlocal nofoldenable
 
+" Code Formating
+" https://www.cs.swarthmore.edu/oldhelp/vim/reformatting.html
+ set formatoptions=tcq
+
+" Code ruler
+ set colorcolumn=81
+ highlight ColorColumn ctermbg=232
+
 " Change line number color based on vim mode
 " (Note: Visual mode has no events on enter/leave)
  autocmd InsertLeave * highlight LineNr ctermfg=yellow guibg=black
