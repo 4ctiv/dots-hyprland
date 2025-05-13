@@ -1,7 +1,7 @@
 " 4ctiv's vim config (Note: " marks a comment)
 
 " Set Font with ligerature
-set guifont=JetBrainsMono\ Nerd\ Font\ Mono
+ set guifont=JetBrainsMono\ Nerd\ Font\ Mono
 
 " Relative line numbers
  set number
@@ -48,10 +48,11 @@ set guifont=JetBrainsMono\ Nerd\ Font\ Mono
 "autocmd VisualEnter * highlight LineNr ctermfg=cyan   guibg=darkcyan
 
 " Show read only warning
-augroup FileWritableCheck
-  autocmd!
-  autocmd BufReadPost * if filereadable(expand('%')) && !filewritable(expand('%')) | echohl WarningMsg | echo "Warning: File is not writable!" | echohl None | endif
-augroup END
+ set confirm
+ augroup FileWritableCheck
+   autocmd!
+   autocmd BufReadPost * if filereadable(expand('%')) && !filewritable(expand('%')) | echohl WarningMsg | echo "Warning: File is not writable!" | echohl None | endif
+ augroup END
 
 " HOTKEYS
 " <S-...> Shift ; <A-...> Alt ; <C-...> Strg ; <...>[1;53s AltGr
@@ -59,13 +60,14 @@ augroup END
 "nnoremap <F1> :help <CR>                        " open help page
  nnoremap <F2> :set number! relativenumber! <CR> " toggle line numbers
  nnoremap <F3> :retab <CR>                       " Replace tabs with spaces
- nnoremap <F4> gg=G <CR> " toggle line numbers   " Auto indent file
+ nnoremap <F4> :Rexplore <CR>                    " File browser
+"nnoremap <F4> gg=G <CR>                         " Format file
 
- nnoremap <F5> zc   <CR> " toggle line numbers   " Fold
- nnoremap <S-F5> zM <CR> " toggle line numbers   " Fold all
- nnoremap <C-F5> zM <CR> " toggle line numbers   " Fold all
- nnoremap <F6> zo   <CR> " toggle line numbers   " Un-fold
- nnoremap <S-F6> zR <CR> " toggle line numbers   " Un-fold all
- nnoremap <C-F6> zR <CR> " toggle line numbers   " Un-fold all
+ nnoremap <F5> zc   <CR>                         " Fold
+ nnoremap <S-F5> zM <CR>                         " Fold all
+ nnoremap <C-F5> zM <CR>                         " Fold all
+ nnoremap <F6> zo   <CR>                         " Un-fold
+ nnoremap <S-F6> zR <CR>                         " Un-fold all
+ nnoremap <C-F6> zR <CR>                         " Un-fold all
 
 " nnoremap <C-S-s> :w !sudo tee % > /dev/null <CR> " Save as admin
