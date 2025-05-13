@@ -7,7 +7,7 @@ set guifont=JetBrainsMono\ Nerd\ Font\ Mono
  set number
  set relativenumber
 
-" Tab |-> 2 spaces
+" Code Indentation
  set autoindent
  set expandtab
  set shiftwidth=2

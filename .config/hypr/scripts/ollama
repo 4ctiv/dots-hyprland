@@ -32,8 +32,10 @@ fi
 
 function open-webui_start {
   docker network create --driver=bridge open-webui > /dev/null
+  # use 172.0.0.1:3000:8080 if you use docker with root
+  # use           3000:8080 if docker is unerland
   docker run -d \
-             -p 172.0.0.1:3000:8080 \
+             -p 3000:8080 \
              -v open-webui:/app/backend/data \
              --name open-webui \
              --network open-webui \
