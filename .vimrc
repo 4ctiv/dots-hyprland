@@ -23,19 +23,16 @@ set guifont=JetBrainsMono\ Nerd\ Font\ Mono
 "set listchars=eol:↵
  set list
 
-" Code folding
-" use `zc`/`zM` to fold ; `zo`/`zR` to open
-set foldmethod=indent
-set foldnestmax=10
-set foldlevel=2
-set nofoldenable
 " Syntax Highlighting
  syntax on
- setlocal foldmethod=indent "syntax
+
+" Code Folding
+" https://www.vimfromscratch.com/articles/vim-folding
+ setlocal foldmethod=indent "syntax marker indent
  setlocal nofoldenable
 
 " Change line number color based on vim mode
-"  (Note: Visual mode has no events on enter/leave)
+" (Note: Visual mode has no events on enter/leave)
  autocmd InsertLeave * highlight LineNr ctermfg=yellow guibg=black
 "autocmd VisualLeave * highlight LineNr ctermfg=yellow guibg=black
 
@@ -49,10 +46,18 @@ augroup FileWritableCheck
 augroup END
 
 " HOTKEYS
-" :w !sudo tee % > /dev/null
-"nnoremap <S-C-s> :w !sudo tee % > /dev/null     " Shift+Ctrl+S: Save as admin
+" <S-...> Shift ; <A-...> Alt ; <C-...> Strg ; <...>[1;53s AltGr
 
- nnoremap <F5> :set number! relativenumber! <CR> " toggle line numbers
- nnoremap <F6> gg=G <CR> " toggle line numbers   " Auto indent file
- nnoremap <F3> zm   <CR> " toggle line numbers   " Auto indent file
- nnoremap <F4> zr   <CR> " toggle line numbers   " Auto indent file
+"nnoremap <F1> :help <CR>                        " open help page
+ nnoremap <F2> :set number! relativenumber! <CR> " toggle line numbers
+ nnoremap <F3> :retab <CR>                       " Replace tabs with spaces
+ nnoremap <F4> gg=G <CR> " toggle line numbers   " Auto indent file
+
+ nnoremap <F5> zc   <CR> " toggle line numbers   " Fold
+ nnoremap <S-F5> zM <CR> " toggle line numbers   " Fold all
+ nnoremap <C-F5> zM <CR> " toggle line numbers   " Fold all
+ nnoremap <F6> zo   <CR> " toggle line numbers   " Un-fold
+ nnoremap <S-F6> zR <CR> " toggle line numbers   " Un-fold all
+ nnoremap <C-F6> zR <CR> " toggle line numbers   " Un-fold all
+
+" nnoremap <C-S-s> :w !sudo tee % > /dev/null <CR> " Save as admin
