@@ -11,7 +11,7 @@
   "margin-left": 0,
   "margin-right": 0,
 
-  "modules-left": ["custom/menu", "hyprland/workspaces","wlr/taskbar", "cpu", "memory", "disk", "network", "battery"],
-  // "modules-center": ["custom/weather"],
-  "modules-right": [ "backlight", "custom/updater", "tray", "clock", "pulseaudio", "custom/keybindings", "custom/power"],
+  "modules-left":  ["custom/menu", "hyprland/workspaces", "wlr/taskbar", "custom/separator", "tray"],
+  "modules-center": ["clock", "hyprland/window"],
+  "modules-right": ["disk", "memory", "cpu", "network", "battery", "backlight", "pulseaudio", "custom/updater", "custom/keyboard", "custom/touch", "custom/pen", "custom/keybindings", "custom/power"],
 }

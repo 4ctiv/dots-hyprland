@@ -1,4 +1,12 @@
+/**
+ * Waybar moduels see: https://man.archlinux.org/man/waybar.5.en
+*/
 {
+  "custom/separator": {
+    "format": "|",
+    "interval": "once",
+    "tooltip": false
+  },
   "backlight": {
     "interval": 2,
     "align": 0,
@@ -11,10 +19,10 @@
       "on-update": "",
       "on-scroll-up": "~/.config/hypr/scripts/brightness --inc",
       "on-scroll-down": "~/.config/hypr/scripts/brightness --dec",
-      "smooth-scrolling-threshold": 1,
+      "smooth-scrolling-threshold": 1
     },
 
-	"wlr/workspaces-cn": {
+  "wlr/workspaces-cn": {
     "format": "{icon}",
     "on-click": "activate",
     "all-outputs": true,
@@ -34,7 +42,7 @@
       "default": ""
     },
     "on-scroll-up": "hyprctl dispatch workspace e+1",
-    "on-scroll-down": "hyprctl dispatch workspace e-1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
   },
 
   "wlr/workspaces": {
@@ -57,17 +65,17 @@
       "default": ""
     },
     "on-scroll-up": "hyprctl dispatch workspace e+1",
-    "on-scroll-down": "hyprctl dispatch workspace e-1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
   },
 	
   "battery": {
-		"interval": 60,
-		"align": 0,
-		"rotate": 0,
-		//"bat": "BAT1",
-		//"adapter": "ACAD",
-		"full-at": 100,
-		"design-capacity": false,
+    "interval": 60,
+    "align": 0,
+    "rotate": 0,
+    //"bat": "BAT1",
+    //"adapter": "ACAD",
+    "full-at": 100,
+    "design-capacity": false,
     "states": {
       "good": 95,
       "warning": 30,
@@ -82,7 +90,7 @@
     "format-icons": ["", "", "", "", ""],
     "format-time": "{H}h {M}min",
     "tooltip": true,
-	"on-click-right": "gnome-power-statistics"
+  "on-click-right": "kitty bash -c 'echo \"Opening powertop ...\" && sudo powertop'"
   },
 
   "custom/battery": {
@@ -101,13 +109,14 @@
 },
 
   "clock": {
+    "timezone": "Europe/Berlin",
     "interval": 60,
     "align": 0,
     "rotate": 0,
     "tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>",
     "format": "{:%d %b, %H:%M}",
     "format-alt": " {:%a %b %d, %G}",
-    "on-click-right": "~/.config/hypr/scripts/changeWallpaper",
+    "on-click-right": "~/.config/hypr/scripts/changeWallpaper"
   },
 
   "cpu": {
@@ -116,25 +125,25 @@
     "interval": 1,
     "format": "{icon0}{icon1}{icon2}{icon3} {usage:>2}% ",
     "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
-    "on-click": "kitty htop",
+    "on-click": "kitty htop --user $USER"
   },
            
   "custom/menu": {
     "format": " 󰍜 ",
     "tooltip": false,
-    "on-click": "$HOME/.config/hypr/scripts/menu",
+    "on-click": "$HOME/.config/hypr/scripts/menu"
   },
 
   "custom/power": {
     "format": " 󰐥 ",
     "tooltip": false,
-    "on-click": "archlinux-logout",
+    "on-click": "wlogout"
   },
 
   "disk": {
     "interval": 30,
-    "format": " {free}",
-	"on-click": "filelight"
+    "format": "🖪 {free}", // 🖫 , 🖬
+  "on-click": "filelight"
   },
 
   "memory": {
@@ -145,6 +154,7 @@
 
   "network": {
     "interval": 5,
+    "family": "ipv4",
     "format-wifi": " {essid}",
     "format-ethernet": " {ipaddr}/{cidr}",
     "format-linked": " {ifname} (No IP)",
@@ -152,6 +162,7 @@
     "format-disabled": "睊 Disabled",
     "format-alt": " {bandwidthUpBits} |  {bandwidthDownBits}",
     "tooltip-format": " {ifname} via {gwaddr}",
+    "on-click-right": "~/.config/hypr/scripts/toggle_wireless.sh"
   },
 
   "custom/weather": {
@@ -168,22 +179,22 @@
     "format": "   {}",
     "exec": "checkupdates | wc -l",
     "exec-if": "[[ $(checkupdates | wc -l) ]]",
-    "interval": 10800,
-    "on-click": "kitty --class update -T update -o font_size=13 -e yay -Syu --noconfirm && notify-send 'The system has been updated' "
+    "interval": 7200,
+    "on-click": "kitty --class update -T update -o font_size=13 -e yay -Syu --noconfirm && notify-send -a 'waybar' 'The system has been updated' || notify-send -a 'waybar' 'Updates could not complete' "
   },
 
   "custom/updater-improved":{
     "format": "   {}",
     "exec": "checkupdates | wc -l",
     "exec-if": "[[ $(checkupdates | wc -l) ]]",
-    "interval": 10800,
+    "interval": 7200,
     "on-click": "kitty --class update -T update -o font_size=13 -e yay -Syu; pkill -RTMIN+8 waybar"
   },
 
   "custom/cycle_wall":{
     "format":"",
     "on-click": "~/.config/hypr/scripts/changeWallpaper",
-    "tooltip-format": "Change wallpaper",
+    "tooltip-format": "Change wallpaper"
   },
 
   "pulseaudio": {
@@ -208,18 +219,40 @@
     "on-click-right": "pavucontrol",
     "on-scroll-up": "~/.config/hypr/scripts/volume --inc",
     "on-scroll-down": "~/.config/hypr/scripts/volume --dec",
-    "smooth-scrolling-threshold": 1,
+    "smooth-scrolling-threshold": 1
   },
 
   "custom/keybindings": {
-  "format":" 󰘳 ",
-  "tooltip": false,
-  "on-click": "~/.config/hypr/scripts/keyhint",
+    "format":" 󰘳 ",
+    "tooltip": false,
+    "on-click": "kitty --title keyhint sh -c \"~/.config/hypr/scripts/show-keybinds\""
+  },
+
+  "custom/keyboard": {
+    "format":" ⌨ ",
+    "tooltip": false,
+    "on-click": "pidof wvkbd-mobintl && pkill wvkbd-mobintl || wvkbd-mobintl -L 300"
+  },
+
+  "custom/pen": {
+    "format":" 🖉 ",
+    "format-alt":" 🖊 ",
+    "tooltip": false,
+    "on-click": "hyprctl dispatch togglespecialworkspace draw"
+  },
+
+  "custom/touch": {
+    "format":" 🖙 ", // 🖛 
+    "format-alt": " 🖛 ",
+    "tooltip": false,
+    "on-click": "bash ~/.config/hypr/scripts/toggle_touch"
   },
 
   "tray": {
     "icon-size": 18,
     "spacing": 6,
+    "on-click": "",
+    "on-click-right": ""
   },
 
   "hyprland/window": {
@@ -234,7 +267,8 @@
         "(.*) — Dolphin": "$1 󰉋",
         "(.*)Spotify": "Spotify 󰓇",
         "(.*)Steam": "Steam 󰓓"
-    }
+    },
+    "on-click": "~/.config/hypr/scripts/kill-active && notify-send -a 'waybar' 'Killed active window'"
   },
 
   "custom/gpuinfo": {
@@ -242,31 +276,31 @@
     "return-type": "json",
     "format": " {}",
     "interval": 5, // once every 5 seconds
-    "tooltip": true,
+    "tooltip": true
   },
 
   "wlr/taskbar": {
-		"format": "{icon}",
-		"icon-size": 18,
-		"icon-theme": "${i_theme}",
+    "format": "{icon}",
+    "icon-size": 18,
+    "icon-theme": "${i_theme}",
         "spacing": 0,
-		"tooltip-format": "{title}",
-		"on-click": "activate",
-		"on-click-middle": "close",
-		"ignore-list": [
-			"Alacritty",
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close",
+    "ignore-list": [
+      "Alacritty",
       "Kitty",
-      "Waybar",
-		],
-		"app_ids-mapping": {
-			"firefoxdeveloperedition": "firefox-developer-edition"
-		}
-	},
+      "Waybar"
+    ],
+    "app_ids-mapping": {
+      "firefoxdeveloperedition": "firefox-developer-edition"
+    }
+  },
   "custom/protonmail": {
     "exec": "bar-protonmail",
     "return-type": "json",
     "interval": 10,
     "tooltip": false,
     "on-click": "xdg-open https://mail.proton.me/u/0/inbox"
-  },
+  }
 }

@@ -10,7 +10,7 @@ if status is-interactive
   # set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
   #end
   ### Shell prompt ###
-  fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 20
+  timeout 0.5s fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 14
   #docker stats 
 end # End interactive only code-block
 
@@ -113,12 +113,14 @@ alias check-mc='grep . /sys/devices/system/cpu/vulnerabilities/*' #check microco
 ## List Stuff ##
 ################
 # Logs
-alias list-log-system="sudo dmesg --follow"
-alias list-log-calamares="bat /var/log/Calamares.log"
-alias list-log-pacman="   bat /var/log/pacman.log"
-alias list-log-xorg="     bat /var/log/Xorg.0.log"
-alias list-log-xorg-old=" bat /var/log/Xorg.0.log.old"
-alias list-notification-history="makoctl history | jq '.data[0][].body.data'"
+alias log-system="sudo dmesg; sudo journalctl;"
+alias log-system-now="sudo dmesg --follow-new &; sudo journalctl --follow --since 'now' &;"
+alias log-systemctl-user="systemctl status systemd-logind.service ; systemctl status user@$(id -u).service"
+alias log-calamares="bat /var/log/Calamares.log"
+alias log-pacman="   bat /var/log/pacman.log"
+alias log-xorg="     bat /var/log/Xorg.0.log"
+alias log-xorg-old=" bat /var/log/Xorg.0.log.old"
+alias log-notifications="makoctl history | jq '.data[0][].body.data'"
 # System info
 alias list-system-usage="top -u nobody -bn1 | head -n 5"
 alias list-system-info="inxi"
