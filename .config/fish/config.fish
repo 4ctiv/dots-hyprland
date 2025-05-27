@@ -10,8 +10,13 @@ if status is-interactive
   # set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
   #end
   ### Shell prompt ###
-  timeout 0.5s fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 14
-  #docker stats 
+  if [ "$TERM_PROGRAM" != "vscode" ]
+    timeout 0.5s fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 14
+  else
+    lsb_release -a -s && printf "Shell: $SHELL\n"
+    printf "Active Users: " && who --short | wc -l
+  end
+  #docker stats
 end # End interactive only code-block
 
   ########################
@@ -143,6 +148,7 @@ alias list-net-port="netstat -tunlp | sort -t: -k4 -n | grep LISTEN"
 # Packages
 # HOW 2 (EXTENDED USAGE): pacman -S --needed - < my-list-of-packages.txt # E.g. install packages from a list
 alias list-packs="         sudo pacman -Qqe"               # List of explicitly installed packages
+alias list-packs-repo="    sudo paclist"
 alias list-packs-explicit="sudo pacman -Qqet"              # List of explicitly installed packages without deps
 alias list-packs-aur="     sudo pacman -Qqem"              # List of AUR packages
 alias list-packs-broken="  sudo pacman -Qk 2>/dev/null | grep -v ' 0 missing files' | cut -d: -f1" 
