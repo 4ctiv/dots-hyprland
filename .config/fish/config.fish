@@ -183,7 +183,7 @@ alias update-systemctl="sudo sysctl --system"
  ### Aliases for fixes ###
 #########################
 #fix docker
-alias fix-docker-unpriv-network="echo 80 | sudo tee /proc/sys/net/ipv4/ip_unprivileged_port_start"
+alias fix-docker-unpriv-network="sudo sysctl -w net.ipv4.ip_unprivileged_port_start=80"
 #fix sudo
 alias fix-sudo="faillock --reset" # password rejects
 alias fix-permissions="sudo chown -R $USER:$USER ~/.config ~/.local"

@@ -26,13 +26,24 @@
   {
     "context": "Editor",
     "bindings": {
-      "ctrl-f": "project_panel::NewSearchInDirectory",
-      "f1": "editor::GoToTypeDefinitionSplit",
+      "f1": "editor::GoToDeclarationSplit",
       "f2": "editor::GoToDefinitionSplit",
-      "f12": "editor::GoToDefinition",
-      "shift-f12": "pane::GoBack",
-      "ctrl-alt-up": "editor::AddSelectionAbove",
-      "ctrl-alt-down": "editor::AddSelectionBelow"
+      "shift-f2": "pane::GoBack",
+      "f3": "editor::GoToTypeDefinitionSplit",
+      "f4": "editor::FindAllReferences",
+      "f5": "editor::Format",
+      "f6": "editor::Rename",
+      "f9": "repl::Run",
+      "f10": "debugger::Start",
+      "shift-f10": "debugger::Restart",
+      "f11": "debugger::Pause",
+      "shift-f11": "debugger::Stop",
+      "f12": "debugger::ToggleIgnoreBreakpoints",
+      "ctrl-f": "vim::Search",
+      "ctrl-shift-f": "project_panel::NewSearchInDirectory",
+      "ctrl-p": "command_palette::Toggle",
+      "alt-v": "workspace::ToggleVimMode",
+      "alt-space": "assistant::InlineAssist"
     }
   },
   {

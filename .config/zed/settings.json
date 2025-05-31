@@ -21,6 +21,10 @@
     80,
     130
   ],
+  "minimap": {
+    "show": "auto",
+    "thumb": "hover"
+  },
   "show_wrap_guides": true,
   "preferred_line_length": 100,
   "tab_size": 2,
@@ -42,8 +46,8 @@
   },
   "icon_theme": {
     "mode": "system",
-    "light": "Zed (Default)",
-    "dark": "Zed (Default)"
+    "light": "Catppuccin Latte",
+    "dark": "Catppuccin Latte"
   },
   "ui_font_size": 16,
   "buffer_font_size": 16,
@@ -200,7 +204,17 @@
     "indent_size": 20,
     "show_diagnostics": "errors"
   },
-  "assistant": {
+  "agent": {
+    "provider": {
+      "name": "ollama",
+      "default_model": {
+        "supports_tools": false,
+        "name": "deepseek-coder:1.3b",
+        "display_name": null,
+        "max_tokens": 2048,
+        "keep_alive": -1
+      }
+    },
     "button": true,
     "dock": "right",
     "version": "1"
@@ -238,7 +252,6 @@
     "button": true
   },
   // Additional setups
-  //"proxy": null,
   "use_smartcase_search": true,
   "search": {
     "regex": true
@@ -250,8 +263,13 @@
   "calls": {
     "mute_on_join": true
   },
+  "edit_predictions": {
+    "copilot": {
+      "proxy": "http://localhost:11434", // ollama port
+      "proxy_no_verify": true
+    }
+  },
   "features": {
-    "edit_prediction_provider": "zed",
-    "copilot": false
+    "edit_prediction_provider": "supermaven"
   }
 }
