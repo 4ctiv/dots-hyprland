@@ -154,14 +154,14 @@
   },
 
   "network": {
-    "interval": 5,
+    "interval": 2,
     "family": "ipv4",
     "format-wifi": " {essid}",
-    "format-ethernet": " {ipaddr}/{cidr}",
+    "format-ethernet": " {bandwidthUpBits}  {bandwidthDownBits} ",
     "format-linked": " {ifname} (No IP)",
     "format-disconnected": "睊 Disconnected",
     "format-disabled": "睊 Disabled",
-    "format-alt": " {bandwidthUpBits} |  {bandwidthDownBits}",
+    "format-alt": " {ipaddr}/{cidr}}",
     "tooltip-format": " {ifname} via {gwaddr}",
     "on-click-right": "~/.config/hypr/scripts/toggle_wireless.sh"
   },
