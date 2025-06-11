@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# See: https://wiki.hyprland.org/Hypr-Ecosystem/xdg-desktop-portal-hyprland/
+# Debug: ```systemctl --user status xdg-desktop-portal-hyprland```
+
+sleep 3
+
+# Nuclear script
+killall xdg-desktop-portal
+killall -e xdg-desktop-portal-hyprland
+
+systemctl --user start xdg-desktop-portal-hyprland
+sleep 2
+systemctl --user start xdg-desktop-portal
+
+# Share picker use system theme
+dbus-update-activation-environment --systemd --all &
+systemctl --user import-environment QT_QPA_PLATFORMTHEME &
+
+# Use KDE file picker with XDPH
+if [[ ! -f '~/.config/xdg-desktop-portal/hyprland-portals.conf' ]]; then
+  mkdir -p '~/.config/xdg-desktop-portal/'
+  printf '[preferred]\ndefault = hyprland;gtk\norg.freedesktop.impl.portal.FileChooser = kde' > \
+    '~/.config/xdg-desktop-portal/hyprland-portals.conf'
+fi
+
+hyprctl notify -1 10000 "rgb(ff1ea3)" "XDG setup done!"
+
+exit 0
