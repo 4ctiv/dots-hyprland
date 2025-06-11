@@ -4,10 +4,10 @@
 MODEL="deepseek-coder:6.7b"
 CONTAINER_NET="ollama"
 CONTAINER_NAME="ollama"
-#MODEL="deepseek-r1:14b"
+PORT_PREFIX="127.0.0.1:"  # Only for docker with root -> will limit access to ip
 
 HELP_MSG='Help page for '$0'
-Usage: '$(echo $0 | sed 's|.*/||g')' [flag] [model]
+Usage: '$(echo $0 | sed 's|.*/|./|g')' [flag] [model]
 
 |----------------|
 | Avalable Flags |
@@ -17,11 +17,13 @@ Usage: '$(echo $0 | sed 's|.*/||g')' [flag] [model]
 | -d | --detatch                 "             |
 | -k | --kill       ~ stop ollama container    |
 | -s | --stop       ~            "             |
-|----|-----------------------------------------|'
+| -w | --web        ~ start open-webui         |
+|----|-----------------------------------------|
+'
 
 # On forced exit always disconnect ollama networks and stop container
 trap 'docker network disconnect bridge ${CONTAINER_NAME:=ollama} & >/dev/null;
-      docker stop ${CONTAINER_NAME:=ollama} 2>/dev/null ; docker stop open-webui   &>/dev/null ;
+      docker stop ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null ; docker stop open-webui   &>/dev/null ;
       exit 0' SIGINT
 
 docker ps >/dev/null 2>/dev/null
@@ -31,18 +33,26 @@ if [ ! $? -eq 0 ]; then
 fi
 
 function open-webui_start {
+  if [[ $(docker info -f "{{println .SecurityOptions}}" | grep -o rootless) ]]; then
+    PORT_PREFIX=""  # unset port prefix as it would lead to errors in rootless mode
+  fi
   docker network create --driver=bridge open-webui > /dev/null
   # use 172.0.0.1:3000:8080 if you use docker with root
   # use           3000:8080 if docker is unerland
-  docker run -d \
-             -p 3000:8080 \
+  if [[ -z "$(docker ps -a  grep -o open-webui)" ]]; then
+    docker start open-webui >/dev/null
+  else
+    docker run -d \
+             -p ${PORT_PREFIX}3000:8080 \
              -v open-webui:/app/backend/data \
              --name open-webui \
              --network open-webui \
              --network ${CONTAINER_NET:=ollama} \
              -e OLLAMA_BASE_URL="http://ollama:11434" \
-             ghcr.io/open-webui/open-webui:main >/dev/null &&\
-  xdg-open http://localhost:3000
+             -e WEBUI_AUTH="false" \
+             ghcr.io/open-webui/open-webui:main >/dev/null
+  fi &&\
+  (sleep 5s && xdg-open http://localhost:3000)& >/dev/null 2>/dev/null # opens webpage
 
   #docker network create --driver=bridge traefik > /dev/null
   #docker run -d \
@@ -61,17 +71,18 @@ function ollama_start {
 
   # Create docker volume for ollama models
   if [[ $(docker info -f "{{println .SecurityOptions}}" | grep -o rootless) ]]; then
-    OLLAMA_MODELS_HOST_DIR="~/.ollama/models"   # Per user (docker rootless)
+    OLLAMA_MODELS_HOST_DIR="$HOME/.ollama/models" # Per user (docker rootless)
+    PORT_PREFIX=""  # unset port prefix as it would lead to errors in rootless mode
   else
-    OLLAMA_MODELS_HOST_DIR="/opt/ollama/models" # System wide
+    OLLAMA_MODELS_HOST_DIR="/opt/ollama/models"   # System wide
   fi
-  mkdir -p ${OLLAMA_MODELS_HOST_DIR:?not set}
+  mkdir -p ${OLLAMA_MODELS_HOST_DIR:?not set} && echo "Created ${OLLAMA_MODELS_HOST_DIR}"
   docker volume create \
     --driver local \
     --opt type=none \
     --opt device="${OLLAMA_MODELS_HOST_DIR:-'./ollama/models'}" \
     --opt o=bind \
-    ${CONTAINER_NAME:=ollama}
+    ${CONTAINER_NAME:=ollama} >/dev/null
 
   # Check if ollama container already exists
   if [ -z "$(docker ps -a --format '{{.Names}}' | grep -o -E '[O|o]llama')" ]; then
@@ -86,7 +97,7 @@ function ollama_start {
         --name ${CONTAINER_NAME:=ollama} \
         --gpus=all \
         -v ollama:/root/.ollama/models \
-        -p 127.0.0.1:11434:11434 \
+        -p ${PORT_PREFIX}11434:11434 \
         ollama/ollama
     elif [[ $(lsmod | grep amdgpu) ]]; then
       # AMD Graphics card
@@ -97,7 +108,7 @@ function ollama_start {
         --device /dev/kfd \
         --device /dev/dri \
         -v ollama:/root/.ollama/models \
-        -p 127.0.0.1:11434:11434 \
+        -p ${PORT_PREFIX}11434:11434 \
         ollama/ollama:rocm
     elif [[ $(lsmod | grep i915) ]]; then
       # Intel ARC driver loaded
@@ -111,7 +122,7 @@ function ollama_start {
            --device=/dev/dri \
            --network ${CONTAINER_NET:=ollama} \
            -v ollama:/root/.ollama/models \
-           -p 11434:11434 \
+           -p ${PORT_PREFIX}11434:11434 \
            -e PATH=/llm/ollama:$PATH \
            -e OLLAMA_HOST=0.0.0.0 \
            -e no_proxy=localhost,127.0.0.1 \
@@ -133,7 +144,7 @@ function ollama_start {
         --name ${CONTAINER_NAME:=ollama} \
         --gpus=all \
         -v ollama:/root/.ollama/models \
-        -p 127.0.0.1:11434:11434 \
+        -p ${PORT_PREFIX}11434:11434 \
         ollama/ollama:latest
     fi
   fi
@@ -148,7 +159,7 @@ function ollama_start {
   # see: https://chatboxai.app
   if sleep 3 && curl -s -f 'http://127.0.0.1:11434/api/status' > /dev/null; then
     # Note: This will only work if ollama port is accessable on host
-    # To access ollama eather give ollama networ access via bridge or remap port via
+    # To access ollama eather give ollama network access via bridge or remap port via
     # '-v 127.0.0.1:$OLAMMA_PORT:$OLAMMA_PORT'
     if [ -f "$(which chatbox)" ]; then
       nohup chatbox > /dev/null 2>&1 &
@@ -208,6 +219,9 @@ if [ ! -z "$1" ]; then
     docker network connect bridge ${CONTAINER_NAME:=ollama} 2>/dev/null
     echo "[WARNING] Ollama is running in the background as '${CONTAINER_NAME:=ollama}' and has network access"
     exit 0
+  ;;
+  "-w" | "--web" | "-g" | "--gui")
+    open-webui_start;
   ;;
   "*") # Expect model was given
     MODEL="$(echo "$1" | awk '{print $NF}')"
