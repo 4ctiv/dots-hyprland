@@ -12,6 +12,7 @@ if [ "$HYPRGAMEMODE" = 1 ] ; then
         keyword general:gaps_out 0;\
         keyword general:border_size 1;\
         keyword decoration:rounding 0"
+    hyprctl hyprsunset temperature identitiy # remove blue light filter
     hyprctl notify 1 5000 "rgb(ff1ea3)" "Gamemode [ON]"
     exit 0
 else

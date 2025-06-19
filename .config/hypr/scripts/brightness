@@ -1,52 +1,117 @@
 #!/usr/bin/env bash
 
 iDIR="$HOME/.config/hypr/mako/icons"
+HELP_MSG='
+Help Message of '${0}'
+- Usage: ./'$0' [arg]
+
+| Argument   | Description                 |
+|:----------:|:----------------------------|
+| -h         | This help message           |
+| --get      | Get current gamma level     |
+| --inc      | Increase gamma level by 5%  |
+| --dec      | Decrease gamma level by 5%  |
+| --filter   | Toggle blue light filter    |
+
+Note: This script wil use `hyprsunset` if avalable (all monitors)
+      and will fallback to xbacklight if not installed (not universal)
+'
 
 # Get brightness
 get_backlight() {
-	LIGHT=$(printf "%.0f\n" $(xbacklight -get))
-	echo "${LIGHT}%"
+  if [[ -f "$(which hyprsunset)" ]]; then
+    LIGHT="$(hyprctl hyprsunset gamma | sed 's/\.[0-9]*//g')"
+  else
+    LIGHT=$(printf "%.0f\n" $(xbacklight -get))
+  fi
+  echo "${LIGHT}"
+  return "${LIGHT}"
 }
 
 # Get icons
 get_icon() {
-	backlight="$(get_backlight)"
-	current="${backlight%%%}"
-	if [[ ("$current" -ge "0") && ("$current" -le "20") ]]; then
-		icon="$iDIR/brightness-20.png"
-	elif [[ ("$current" -ge "20") && ("$current" -le "40") ]]; then
-		icon="$iDIR/brightness-40.png"
-	elif [[ ("$current" -ge "40") && ("$current" -le "60") ]]; then
-		icon="$iDIR/brightness-60.png"
-	elif [[ ("$current" -ge "60") && ("$current" -le "80") ]]; then
-		icon="$iDIR/brightness-80.png"
-	elif [[ ("$current" -ge "80") && ("$current" -le "100") ]]; then
-		icon="$iDIR/brightness-100.png"
-	fi
+  backlight="$(get_backlight)"
+  current="${backlight%%%}"
+  if [[ ("$current" -ge "0") && ("$current" -le "20") ]]; then
+    icon="$iDIR/brightness-20.png"
+  elif [[ ("$current" -ge "20") && ("$current" -le "40") ]]; then
+    icon="$iDIR/brightness-40.png"
+  elif [[ ("$current" -ge "40") && ("$current" -le "60") ]]; then
+    icon="$iDIR/brightness-60.png"
+  elif [[ ("$current" -ge "60") && ("$current" -le "80") ]]; then
+    icon="$iDIR/brightness-80.png"
+  elif [[ ("$current" -ge "80") && ("$current" -le "100") ]]; then
+    icon="$iDIR/brightness-100.png"
+  fi
+  return "${icon}"
 }
 
 # Notify
 notify_user() {
-	notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i "$icon" "Brightness : $(get_backlight)"
+  notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i "$icon" "Brightness : $(get_backlight)"
 }
 
 # Increase brightness
 inc_backlight() {
-	xbacklight -inc 5 && get_icon && notify_user
+  if [[ -f "$(which hyprsunset)" ]]; then 
+    hyprctl hyprsunset gamma +5
+  else
+    xbacklight -inc 5
+  fi &&\
+  get_icon && notify_user
 }
 
 # Decrease brightness
 dec_backlight() {
-	xbacklight -dec 5 && get_icon && notify_user
+  if [[ -f "$(which hyprsunset)" ]]; then 
+    if [[ "$(get_backlight)" -ge "6" ]]; then
+      hyprctl hyprsunset gamma -5
+    fi
+  else
+    xbacklight -dec 5
+  fi &&\
+  get_icon && notify_user
 }
+
+enable_blue-light(){
+  if [[ -f "$(which hyprsunset)" ]]; then
+    hyprctl hyprsunset temperature 4000 -q;
+  fi
+}
+
+disable_blue-light(){
+  if [[ -f "$(which hyprsunset)" ]]; then
+    
+    hyprctl hyprsunset identity -q; # Disable blue light filter
+  fi
+}
+
+toggle_blue-light(){
+  if [[ "$(hyprctl hyprsunset temperature)" -le "5999" ]]; then
+    enable_blue-light
+  else
+    hyprctl hyprsunset temperature 6000 -q;
+    disable_blue-light
+  fi
+}
+
+### Main ###
+
+# Print script information
+if [[ "$1" == "-h" ]]; then
+  echo "${HELP_MSG:-Help message not avalable}"
+  exit 0
+fi
 
 # Execute accordingly
 if [[ "$1" == "--get" ]]; then
-	get_backlight
+  get_backlight
 elif [[ "$1" == "--inc" ]]; then
-	inc_backlight
+  inc_backlight
 elif [[ "$1" == "--dec" ]]; then
-	dec_backlight
+  dec_backlight
+elif [[ "$1" == "--filter" ]]; then
+  toggle_blue-light
 else
-	get_backlight
+  get_backlight
 fi
