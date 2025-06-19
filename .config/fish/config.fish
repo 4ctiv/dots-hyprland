@@ -10,14 +10,14 @@ if status is-interactive
   # set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
   #end
   ### Shell prompt ###
-  if [ "$TERM_PROGRAM" != "vscode" ]
+  if test -z $TERM_PROGRAM
     timeout 0.5s fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 14
   else
-    lsb_release -a -s && printf "Shell: $SHELL\n"
-    printf "Active Users: " && who --short | wc -l
+    hostnamectl | grep -E '([Oo]perating System|[Kk]ernel|[A]rchitecture)'
+    echo "Currently $(who -u | wc -l) users are logged in" | grep '[0-9]'
+    vmstat
   end
   #docker stats
-end # End interactive only code-block
 
   ########################
  ###     Paths      ###
@@ -125,7 +125,7 @@ alias log-calamares="bat /var/log/Calamares.log"
 alias log-pacman="   bat /var/log/pacman.log"
 alias log-xorg="     bat /var/log/Xorg.0.log"
 alias log-xorg-old=" bat /var/log/Xorg.0.log.old"
-alias log-notifications="makoctl history | jq '.data[0][].body.data'"
+alias log-notifications="makoctl history # | jq '.data[0][].body.data'"
 # System info
 alias list-system-usage="top -u nobody -bn1 | head -n 5"
 alias list-system-info="inxi"
@@ -155,7 +155,7 @@ alias list-packs-broken="  sudo pacman -Qk 2>/dev/null | grep -v ' 0 missing fil
 alias list-packs-size="expac -H M '%m\t%n' | sort -h | nl" # List of package sizes
 alias list-packs-recent="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 alias list-packs-recent-extended="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
-alias list-packs-desktop="ls /usr/share/applications/* /usr/local/share/applications/* ~/.local/share/applications/* | sed 's/.desktop//g'"
+alias list-packs-desktop="ls /usr/share/applications/* ~/.local/share/applications/* | sed 's/.desktop//g'"
 alias list-packs-desktop-all="find /usr/share/applications/ /usr/local/share/applications/ ~/.local/share/applications/ -type f -name '*.desktop'"
 alias list-pack-owner='  pacman -Qo'
 alias list-pack-info='   pacman -Sii'
