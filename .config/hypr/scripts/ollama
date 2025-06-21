@@ -22,8 +22,9 @@ Usage: '$(echo $0 | sed 's|.*/|./|g')' [flag] [model]
 '
 
 # On forced exit always disconnect ollama networks and stop container
-trap 'docker network disconnect bridge ${CONTAINER_NAME:=ollama} & >/dev/null;
-      docker stop ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null ; docker stop open-webui   &>/dev/null ;
+trap 'docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null;
+      docker stop ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null ;
+      docker stop open-webui   &>/dev/null ;
       exit 0' SIGINT
 
 docker ps >/dev/null 2>/dev/null
@@ -222,6 +223,7 @@ if [ ! -z "$1" ]; then
   ;;
   "-w" | "--web" | "-g" | "--gui")
     open-webui_start;
+    exit 0;
   ;;
   "*") # Expect model was given
     MODEL="$(echo "$1" | awk '{print $NF}')"
