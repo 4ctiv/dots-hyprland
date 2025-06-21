@@ -75,7 +75,8 @@ dec_backlight() {
 
 enable_blue-light(){
   if [[ -f "$(which hyprsunset 2>/dev/null)" ]]; then
-    hyprctl hyprsunset temperature 4000 -q;
+    hyprctl hyprsunset temperature 4500 -q;
+    notify-send "Blue Light Filter [ON]"
   fi
 }
 
@@ -83,11 +84,12 @@ disable_blue-light(){
   if [[ -f "$(which hyprsunset 2>/dev/null)" ]]; then
     
     hyprctl hyprsunset identity -q; # Disable blue light filter
+    notify-send "Blue Light Filter [OFF]"
   fi
 }
 
 toggle_blue-light(){
-  if [[ "$(hyprctl hyprsunset temperature)" -le "5999" ]]; then
+  if [[ ! "$(hyprctl hyprsunset temperature)" -le "5999" ]]; then
     enable_blue-light
   else
     hyprctl hyprsunset temperature 6000 -q;
