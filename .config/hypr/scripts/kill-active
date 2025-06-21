@@ -17,7 +17,11 @@ case "$(hyprctl activewindow -j | jq -r ".class")" in
     # Hide Main Windows via dispatcher ( https://wiki.hyprland.org/Configuring/Dispatchers/ )
     if [[ "$(hyprctl -j monitors | jq --raw-output '.[] | select(.focused==true).activeWorkspace.name')" =~ [M|m]ail ]]; then
       notify-send "Switching Workspace";
+      old_ws="$(hyprctl activeworkspace | head -n 1 | sed -E 's/^workspace ID ([-]?[0-9]+).*/\1/g')"
       hyprctl dispatch workspace previous;
+      if [ "$(old_ws)" == "$(hyprctl activeworkspace | head -n 1 | sed -E 's/^workspace ID ([-]?[0-9]+).*/\1/g')" ]; then
+        hyprctl dispatch workspace 1
+      fi
     else
       notify-send "Move to mail workspace (hide)"
       hyprctl dispatch movetoworkspacesilent name:mail;

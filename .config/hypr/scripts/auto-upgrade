@@ -19,7 +19,7 @@ fi
 # Only update if >= X packages are out of date (idea: stabe system intervalls)
 if [[ $out_of_date_packs -ge $OUTDATED_ALLOWED ]]; then
   kitty --hold --name "Auto_Update" --title "Auto_Update" sh -c "echo 'Requesting System upgrade ($out_of_date_packs packages)'; sudo pacman -Syu --noconfirm; exit_code=$?; read -n 1 -s -p 'Press [ANY]-key to continue ...' dummy;exit $exit_code"
-  [ $? -ne 0 ] && echo "Auto Update Success" || (echo "Auto Update Failed")
+  [ $(checkupdates | wc -l) -eq 0 ] && echo "Auto Update Success" || (echo "Auto Update Failed")
 else
   echo "Less than $OUTDATED_ALLOWED packages outdated => skipping update"
 fi

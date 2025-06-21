@@ -161,7 +161,7 @@
     "format-linked": " {ifname} (No IP)",
     "format-disconnected": "睊 Disconnected",
     "format-disabled": "睊 Disabled",
-    "format-alt": " {ipaddr}/{cidr}}",
+    "format-alt": " {ipaddr}/{cidr}",
     "tooltip-format": " {ifname} via {gwaddr}",
     "on-click-right": "~/.config/hypr/scripts/toggle_wireless.sh"
   },

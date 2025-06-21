@@ -38,9 +38,8 @@ function open-webui_start {
     PORT_PREFIX=""  # unset port prefix as it would lead to errors in rootless mode
   fi
   docker network create --driver=bridge open-webui > /dev/null
-  # use 172.0.0.1:3000:8080 if you use docker with root
-  # use           3000:8080 if docker is unerland
-  if [[ -z "$(docker ps -a  grep -o open-webui)" ]]; then
+
+  if [[ ! -z "$(docker ps -a | grep -o open-webui)" ]]; then
     docker start open-webui >/dev/null
   else
     docker run -d \

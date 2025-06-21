@@ -1,35 +1,94 @@
-#!/bin/bash -l
+#!/bin/bash
 
-# Note: Default VNC port is 5900
-export VNC_PORT=5900
+HELP_MSG='Help message of '$0'
+Usage: ./'$0' [args]
 
-# Restore state of  system before the script was executed
-function cleanup() {
-  # Note: hyprctl does remove the output but does not lift the output's desktop bind
-  adb forward --remove-all; # tcp:$VNC_PORT
-  pkill wayvnc > /dev/null; # Should already be closed
-  hyprctl output remove $(hyprctl monitors | grep -E -o 'VNC') >/dev/null;
-  #adb shell dumpsys battery set ac 1; adb shell dumpsys battery set usb 1; # Enable cahrging device
-  unset VNC_PORT;
-  printf "\nCleanup complete";
-}
+For a list of arguments see "wayvnc --help"
+'
+VNC_PORT="3900"
+VNC_MONITOR="VNC"
+ADB_MSG=""
 
-# Enable vnc via usb cable (adb) on android (address: localhost:5900)
-# Note: Default VNC port is 5900
-function android_usb(){
-  adb start-server > /dev/null 2>/dev/null || sudo adb start-server # (re-)start adb deamon
-  if [[ "$(adb devices | grep -v 'List of devices')" != "" ]]; then
-    # Forward port to android device
-    adb reverse tcp:$VNC_PORT tcp:$VNC_PORT;
+#########################
+### Dependency Checks ###
+#########################
+
+if [[ ! -f "$(which adb)" ]];then
+  # Install ADB
+  yay -S adroid-tools
+fi
+
+if [[ ! -f "$(which wayvnc)" ]]; then
+  # Install wayvnc
+  yay -S wayvnc
+fi
+
+if [[ ! -f "$(which hyprctl)" ]];then
+  echo "You are not running on Hyprland!"
+fi
+
+#################
+### Functions ###
+#################
+
+function start_vnc() {
+  # Create virtual Desktop
+  hyprctl output create headless "${VNC_MONITOR:-VNC}" >/dev/null 2>/dev/null
+  # Start VNC server
+  if [[ -z "$(top -b -n 1| grep -o wayvnc)" ]]; then
+    nohup wayvnc --gpu $@ >/dev/null 2>/dev/null &
   fi
-  #adb shell dumpsys battery set ac 0; adb shell dumpsys battery set usb 0;
+  # Start ADB Server
+  adb devices >/dev/null 2>/dev/null || adb start-server >/dev/null && sleep 1s
+  # Create adb port redirect
+  if [[ ! -z "$(adb devices | grep -v 'List of devices attached')" ]]; then
+    adb reverse tcp:${VNC_PORT:-3900} tcp:${VNC_PORT:-3900} >/dev/null 2>/dev/null
+    ADB_MSG="or your android device"
+  fi
+  # Notify User
+  echo 'VNC is ready to connect (running in background):
+  - localhost:'$VNC_PORT'
+  - '$(ip -4 a | grep -o -E "([0-9]{1,3}\.){3}([0-9]{1,3})" | grep -v -E "(^127|(1|255)$)")':'$VNC_PORT'
+
+  You can use the above addresses to connect to the vnc on this pc '$ADB_MSG''
 }
 
-trap cleanup EXIT #force run cleanup on exit (even strg + c)
+function end_vnc() {
+  # Stop VNC cerver
+  killall wayvnc
+  # Remove virtual Desktop
+  hyprctl output remove $(hyprctl monitors | grep -E -o "${VNC_MONITOR:-VNC}") >/dev/null;
+  # Stop adb port redirect
+  adb reverse --remove tcp:${VNC_PORT:-3900} >/dev/null 2>/dev/null
+  # Stop ADB Server
+  adb kill-server
+  # Notify user
+  echo 'VNC server has been stopped'
+}
 
-notify-send "Connect to vnc via $(ip -c -4 addr | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | grep -v '127.0.0.1' | head -n 1)";
-echo "Connect to vnc via $(ip -c -4 addr | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | grep -v '127.0.0.1'  | head -n 1)" &&\
- hyprctl output create headless "VNC" &&\
-  android_usb &&\
-    echo "To exit vnc monitor use [CTRL] + [C]"
-    nohup wayvnc --gpu --performance $1 &>/dev/null # ; cleanup
+############
+### Main ###
+############
+
+case "$1" in
+  "-h"|"--help")
+   echo "${HELP_MSG:-Help message not avalable}"
+  ;;
+  "-s"|"--start"| \
+  "-c"|"--connect")
+    start_vnc ${@:2}
+  ;;
+  "-k"|"--kill"| \
+  "-d"|"--disconnect")
+    end_vnc ${@:2}
+  ;;
+  *)
+  # Toggle vnc
+  if [[ -z "$(top -b -n 1| grep -o wayvnc)" ]];then
+    start_vnc ${@:2}
+  else
+    end_vnc
+  fi
+  ;;
+esac
+shift 1

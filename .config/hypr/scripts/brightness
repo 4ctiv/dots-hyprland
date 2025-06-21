@@ -19,7 +19,7 @@ Note: This script wil use `hyprsunset` if avalable (all monitors)
 
 # Get brightness
 get_backlight() {
-  if [[ -f "$(which hyprsunset)" ]]; then
+  if [[ -f "$(which hyprsunset 2>/dev/null)" ]]; then
     LIGHT="$(hyprctl hyprsunset gamma | sed 's/\.[0-9]*//g')"
   else
     LIGHT=$(printf "%.0f\n" $(xbacklight -get))
@@ -53,7 +53,7 @@ notify_user() {
 
 # Increase brightness
 inc_backlight() {
-  if [[ -f "$(which hyprsunset)" ]]; then 
+  if [[ -f "$(which hyprsunset 2>/dev/null)" ]]; then
     hyprctl hyprsunset gamma +5
   else
     xbacklight -inc 5
@@ -63,7 +63,7 @@ inc_backlight() {
 
 # Decrease brightness
 dec_backlight() {
-  if [[ -f "$(which hyprsunset)" ]]; then 
+  if [[ -f "$(which hyprsunset 2>/dev/null)" ]]; then
     if [[ "$(get_backlight)" -ge "6" ]]; then
       hyprctl hyprsunset gamma -5
     fi
@@ -74,13 +74,13 @@ dec_backlight() {
 }
 
 enable_blue-light(){
-  if [[ -f "$(which hyprsunset)" ]]; then
+  if [[ -f "$(which hyprsunset 2>/dev/null)" ]]; then
     hyprctl hyprsunset temperature 4000 -q;
   fi
 }
 
 disable_blue-light(){
-  if [[ -f "$(which hyprsunset)" ]]; then
+  if [[ -f "$(which hyprsunset 2>/dev/null)" ]]; then
     
     hyprctl hyprsunset identity -q; # Disable blue light filter
   fi
