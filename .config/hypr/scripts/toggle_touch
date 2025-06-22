@@ -1,24 +1,26 @@
 #!/usr/bin/env bash
 # see: https://www.reddit.com/r/hyprland/comments/1bqohmd/dynamically_enabledisable_device/
 
-export TOUCH_DEVICE="wacom-pen-and-multitouch-sensor-finger"
+export TOUCH_PEN="$(hyprctl devices -j | jq -r '.[].[].name' | grep 'stylus' | head -n 1)"
+export TOUCH_SCREEN="$(hyprctl devices -j | jq -r '.[].[].name' | grep 'touchscreen' | head -n 1)"
+export TOUCH_PAD="$(hyprctl devices -j | jq -r '.[].[].name' | grep 'touchpad' | head -n 1)"
 
-enable_touchpad() {
-    hyprctl notify 1 5000 "rgb(ff1ea3)" "Touchpad enabled"
+enable_touch() {
+    hyprctl notify 1 5000 "rgb(ff1ea3)" "Touchscreen enabled"
     hyprctl keyword input:touchdevice:enabled true
-    hyprctl keyword "device[$TOUCH_DEVICE]:enabled" true
+    hyprctl keyword "device[${1:?No device}]:enabled" true
 }
 
-disable_touchpad() {
-    hyprctl notify 1 5000 "rgb(ff1ea3)" "Touchpad disabled"
+disable_touch() {
+    hyprctl notify 1 5000 "rgb(ff1ea3)" "Touchscreen disabled"
     hyprctl keyword input:touchdevice:enabled false
-    hyprctl keyword "device[$TOUCH_DEVICE]:enabled" false
+    hyprctl keyword "device[${1:?No device}]:enabled" false
 }
 
 if [ "$(hyprctl getoption input:touchdevice:enabled | grep int | awk '{print $2}')" == "1" ]; then
-  disable_touchpad
+  disable_touch "$TOUCH_SCREEN"
 else
-  enable_touchpad
+  enable_touch "$TOUCH_SCREEN"
 fi
 
 unset TOUCH_DEVICE

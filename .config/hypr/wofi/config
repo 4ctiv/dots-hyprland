@@ -20,7 +20,7 @@ dynamic_lines=false
 ## Images
 allow_markup=true
 allow_images=true
-image_size=24
+image_size=32
 
 ## Search
 exec_search=false
@@ -29,7 +29,7 @@ parse_search=false
 insensitive=false
 
 ## Other
-hide_scroll=true
+hide_scroll=false
 no_actions=true
 #sort_order=default
 sort_order=alphabetical

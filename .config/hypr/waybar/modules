@@ -1,6 +1,6 @@
 /**
  * Waybar moduels see: https://man.archlinux.org/man/waybar.5.en
-*/
+ */
 {
   "custom/separator": {
     "format": "|",
@@ -14,7 +14,7 @@
     "rotate": 0,
       "format": "{icon} {percent}",
       "format-icons": ["󰃞 ", "󰃝 ", "󰃟 ", "󰃠 "],
-      "on-click": "",
+      "on-click": "~/.config/hypr/scripts/brightness --filter",
       "on-click-middle": "",
       "on-click-right": "",
       "on-update": "",
@@ -40,7 +40,7 @@
       "9": "九",
       "10": "十",
       "focused": "",
-      "default": ""
+      "default": "",
     },
     "on-scroll-up": "hyprctl dispatch workspace e+1",
     "on-scroll-down": "hyprctl dispatch workspace e-1"
@@ -130,14 +130,14 @@
   },
 
   "custom/menu": {
-    "format": " 󰍜 ",
-    "tooltip": false,
+    "format": "☰",
+    "tooltip-format": "App menu",
     "on-click": "$HOME/.config/hypr/scripts/menu"
   },
 
   "custom/power": {
     "format": " 󰐥 ",
-    "tooltip": false,
+    "tooltip-format": "Power menu",
     "on-click": "wlogout"
   },
 
@@ -276,7 +276,7 @@
     "format": "{icon}",
     "icon-size": 18,
     "icon-theme": "${i_theme}",
-        "spacing": 0,
+        "spacing": 3,
     "tooltip-format": "{title}",
     "on-click": "activate",
     "on-click-middle": "close",
