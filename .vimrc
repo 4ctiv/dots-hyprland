@@ -8,19 +8,22 @@
  set relativenumber
 
 " Code Indentation
- set autoindent
- set expandtab
- set shiftwidth=2
- set tabstop=2
-" tabstop affect file’s content, softtabstop affect tab/backspace behavior
-" tabstop ~ global setting, softtabstop ~ local to current line
+" [Reference](https://vim.fandom.com/wiki/Indenting_source_code#Methods%20for20automatic20indentation)
+ if has("autocmd")
+   " Load indent files, to automatically do language-dependent indenting.
+   " Configuration Files: `~/.vim/after/ftplugin/EXTENSION_TYP.vim`
+   filetype plugin indent on
+ endif
+ set expandtab    " Always insert spaces instead of tabs
+ set shiftwidth=2 " Tab ~ 2 Spaces
+ set tabstop=2 " Note: softtabstop ~ local ; tabstop ~ global
 
 " Highlight special characters
-  "  "	 
+" Test:   	 
  set listchars=tab:—⇥
 "set listchars+=space:␣
  set listchars+=trail:␣,extends:…,precedes:…
-"set listchars=eol:↵
+"set listchars+=eol:↵
  set list
 
 " Syntax Highlighting
@@ -57,17 +60,17 @@
 " HOTKEYS
 " <S-...> Shift ; <A-...> Alt ; <C-...> Strg ; <...>[1;53s AltGr
 
-"nnoremap <F1> :help <CR>                        " open help page
- nnoremap <F2> :set number! relativenumber! <CR> " toggle line numbers
- nnoremap <F3> :retab <CR>                       " Replace tabs with spaces
- nnoremap <F4> :Rexplore <CR>                    " File browser
-"nnoremap <F4> gg=G <CR>                         " Format file
+ nnoremap <F1> :help <CR>                        " open help page
+ nnoremap <F2> :Rexplore <CR>                    " File browser
+ nnoremap <F3> :set number! relativenumber! <CR> " toggle line numbers
+ nnoremap <F4> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>  :retab <CR>                       " tab replacement & remove trailing whitespace
 
- nnoremap <F5> zc   <CR>                         " Fold
- nnoremap <S-F5> zM <CR>                         " Fold all
- nnoremap <C-F5> zM <CR>                         " Fold all
- nnoremap <F6> zo   <CR>                         " Un-fold
- nnoremap <S-F6> zR <CR>                         " Un-fold all
- nnoremap <C-F6> zR <CR>                         " Un-fold all
+ nnoremap <F5> gg=G <CR>                         " Format file
+ nnoremap <F6> zc   <CR>                         " Fold
+ nnoremap <S-F6> zM <CR>                         " Fold all
+ nnoremap <C-F6> zM <CR>                         " Fold all
+ nnoremap <F7> zo   <CR>                         " Un-fold
+ nnoremap <S-F7> zR <CR>                         " Un-fold all
+ nnoremap <C-F7> zR <CR>                         " Un-fold all
 
 " nnoremap <C-S-s> :w !sudo tee % > /dev/null <CR> " Save as admin
