@@ -48,29 +48,38 @@ get_icon() {
 
 # Notify
 notify_user() {
-  notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i "$icon" "Brightness : $(get_backlight)"
+  notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i "$(get_icon)" "Brightness : $(get_backlight)"
+  #hyprctl notify 1 2000 "rgb(84AEF2)" "Brightness : $(get_backlight)"
 }
 
 # Increase brightness
 inc_backlight() {
+  old_backlight="$(get_backlight)"
   if [[ -f "$(which hyprsunset 2>/dev/null)" ]]; then
-    hyprctl hyprsunset gamma +5
+      if [[ "$(get_backlight)" -ge "100" ]]; then
+        hyprctl hyprsunset gamma 100
+      else
+        hyprctl hyprsunset gamma +5
+      fi
   else
     xbacklight -inc 5
   fi &&\
-  get_icon && notify_user
+  notify_user
 }
 
 # Decrease brightness
 dec_backlight() {
+  old_backlight="$(get_backlight)"
   if [[ -f "$(which hyprsunset 2>/dev/null)" ]]; then
-    if [[ "$(get_backlight)" -ge "6" ]]; then
+    if [[ "$(get_backlight)" -le "10" ]]; then
+      hyprctl hyprsunset gamma 10
+    else
       hyprctl hyprsunset gamma -5
     fi
   else
     xbacklight -dec 5
   fi &&\
-  get_icon && notify_user
+  notify_user
 }
 
 enable_blue-light(){
