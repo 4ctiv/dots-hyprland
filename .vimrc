@@ -29,12 +29,12 @@
 " Syntax Highlighting
  syntax on
 
-" Code Folding
+"""Folding"""
 " https://www.vimfromscratch.com/articles/vim-folding
  setlocal foldmethod=indent "syntax marker indent
  setlocal nofoldenable
 
-" Code Formating
+"""Code Formating"""
 " https://www.cs.swarthmore.edu/oldhelp/vim/reformatting.html
  set formatoptions=tcq
 
@@ -50,6 +50,7 @@
  autocmd InsertEnter * highlight LineNr ctermfg=red    guibg=red
 "autocmd VisualEnter * highlight LineNr ctermfg=cyan   guibg=darkcyan
 
+"""WARNINGS"""
 " Show read only warning
  set confirm
  augroup FileWritableCheck
@@ -57,13 +58,15 @@
    autocmd BufReadPost * if filereadable(expand('%')) && !filewritable(expand('%')) | echohl WarningMsg | echo "Warning: File is not writable!" | echohl None | endif
  augroup END
 
-" HOTKEYS
-" <S-...> Shift ; <A-...> Alt ; <C-...> Strg ; <...>[1;53s AltGr
+"""HOTKEYS"""
+" <S-...> Shift ; <M-...> Alt ; <C-...> Strg ; <...>[1;53s AltGr
+" NOTE: MAC maynot work with <A-...>, use [ALT] + [KEY] resulting letter instead
 
- nnoremap <F1> :help <CR>                        " open help page
- nnoremap <F2> :Rexplore <CR>                    " File browser
- nnoremap <F3> :set number! relativenumber! <CR> " toggle line numbers
- nnoremap <F4> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>  :retab <CR>                       " tab replacement & remove trailing whitespace
+"nnoremap <F1> :help <CR>                        " open help page
+ nnoremap <F1> :Explore <CR>                     " File browser
+ nnoremap <F2> :set number! relativenumber! <CR> " toggle line numbers
+ nnoremap <F3> :set wrap! <CR>                   " toggle line wrap
+ nnoremap <F4> :<C-u>retab!<CR>:keepjumps keeppatterns %s/\s\+$//e<CR> " replace tabs & remove trailing whitespace
 
  nnoremap <F5> gg=G <CR>                         " Format file
  nnoremap <F6> zc   <CR>                         " Fold
@@ -72,5 +75,13 @@
  nnoremap <F7> zo   <CR>                         " Un-fold
  nnoremap <S-F7> zR <CR>                         " Un-fold all
  nnoremap <C-F7> zR <CR>                         " Un-fold all
+
+ " Syntax highlight overides
+ " NOTE: You can use `:setfiletype` instead of `:set syntax=` to also use
+ " language features (e.g. indentation)
+ noremap <C-S-r> :set syntax=ON <CR>             " Set syntax to automatic detection
+ noremap <C-S-j> :set syntax=json5 <CR>          " Set syntax to json5 (json with comments)
+ noremap <C-S-m> :set syntax=markdown <CR>       " Set syntax to markdown (form of rich text)
+ noremap <C-S-x> :set syntax=xml <CR>            " Set syntax to xml (structured text, e.g. html)
 
 " nnoremap <C-S-s> :w !sudo tee % > /dev/null <CR> " Save as admin
