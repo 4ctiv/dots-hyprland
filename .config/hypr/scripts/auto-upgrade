@@ -21,7 +21,14 @@ if [[ $out_of_date_packs -ge $OUTDATED_ALLOWED ]]; then
   kitty --hold --name "Auto_Update" --title "Auto_Update" sh -c "echo 'Requesting System upgrade ($out_of_date_packs packages)'; sudo pacman -Syu --noconfirm; exit_code=$?; read -n 1 -s -p 'Press [ANY]-key to continue ...' dummy;exit $exit_code"
   [ $(checkupdates | wc -l) -eq 0 ] && echo "Auto Update Success" || (echo "Auto Update Failed")
 else
-  echo "Less than $OUTDATED_ALLOWED packages outdated => skipping update"
+  msg="Less than $OUTDATED_ALLOWED packages outdated => skipping update"
+  if [[ "$(tty)" =~ "not a tty" ]]; then
+    notify-send "$msg"
+  else
+    echo "$msg"
+  fi
 fi
+
+pkill -RTMIN+8 waybar >/dev/null 2>/dev/null # Update waybar displayed packages
 
 exit 0

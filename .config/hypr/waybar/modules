@@ -181,15 +181,7 @@
     "exec": "checkupdates | wc -l",
     "exec-if": "[[ $(checkupdates | wc -l) ]]",
     "interval": 7200,
-    "on-click": "kitty --class update -T update -o font_size=13 -e yay -Syu --noconfirm && notify-send -a 'waybar' 'The system has been updated' || notify-send -a 'waybar' 'Updates could not complete' "
-  },
-
-  "custom/updater-improved":{
-    "format": "   {}",
-    "exec": "checkupdates | wc -l",
-    "exec-if": "[[ $(checkupdates | wc -l) ]]",
-    "interval": 7200,
-    "on-click": "kitty --class update -T update -o font_size=13 -e yay -Syu; pkill -RTMIN+8 waybar"
+    "on-click": "/home/activ/.config/hypr/scripts/auto-upgrade || notify-send 'System could not update'"
   },
 
   "custom/cycle_wall":{
