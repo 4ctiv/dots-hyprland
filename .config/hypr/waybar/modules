@@ -91,7 +91,8 @@
     "format-icons": ["", "", "", "", ""],
     "format-time": "{H}h {M}min",
     "tooltip": true,
-  "on-click-right": "kitty bash -c 'echo \"Opening powertop ...\" && sudo powertop'"
+    "on-click-right": "kitty bash -c 'echo \"Opening powertop ...\" && sudo powertop'",
+    "on-update": "[[ -f '/sys/class/power_supply/BAT0/capacity' && $(cat /sys/class/power_supply/BAT0/capacity) -le 20 ]] && notify-send --urgency=critical 'Battery low' 'Battery is < 20%'"
   },
 
   "custom/battery": {
