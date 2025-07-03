@@ -18,6 +18,7 @@ if status is-interactive
     vmstat
   end
   #docker stats
+end # End interactive only code-block
 
   ########################
  ###     Paths      ###
@@ -155,8 +156,9 @@ alias list-packs-broken="  sudo pacman -Qk 2>/dev/null | grep -v ' 0 missing fil
 alias list-packs-size="expac -H M '%m\t%n' | sort -h | nl" # List of package sizes
 alias list-packs-recent="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 alias list-packs-recent-extended="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
-alias list-packs-desktop="ls /usr/share/applications/* ~/.local/share/applications/* | sed 's/.desktop//g'"
+alias list-packs-desktop="ls /usr/share/applications/* /usr/local/share/applications/* ~/.local/share/applications/* | sed 's/.desktop//g'"
 alias list-packs-desktop-all="find /usr/share/applications/ /usr/local/share/applications/ ~/.local/share/applications/ -type f -name '*.desktop'"
+alias list-packs-outdated="checkupdates"
 alias list-pack-owner='  pacman -Qo'
 alias list-pack-info='   pacman -Sii'
 #find / -iname \"*desktop\" -type f -not -path \"/media*\" 2> /dev/null"
@@ -183,7 +185,7 @@ alias update-systemctl="sudo sysctl --system"
  ### Aliases for fixes ###
 #########################
 #fix docker
-alias fix-docker-unpriv-network="sudo sysctl -w net.ipv4.ip_unprivileged_port_start=80"
+alias fix-docker-unpriv-network="sudo sysctl -w net.ipv4.ip_unprivileged_port_start=80" // /proc/sys/net/ipv4/ip_unprivileged_port_start
 #fix sudo
 alias fix-sudo="faillock --reset" # password rejects
 alias fix-permissions="sudo chown -R $USER:$USER ~/.config ~/.local"
