@@ -12,16 +12,28 @@
     "interval": 2,
     "align": 0,
     "rotate": 0,
-      "format": "{icon} {percent}",
-      "format-icons": ["󰃞 ", "󰃝 ", "󰃟 ", "󰃠 "],
-      "on-click": "~/.config/hypr/scripts/brightness --filter",
-      "on-click-middle": "",
-      "on-click-right": "",
-      "on-update": "",
-      "on-scroll-up": "~/.config/hypr/scripts/brightness --inc",
-      "on-scroll-down": "~/.config/hypr/scripts/brightness --dec",
-      "smooth-scrolling-threshold": 1
-    },
+    "format": "{icon} {percent}",
+    "format-icons": ["󰃞 ", "󰃝 ", "󰃟 ", "󰃠 "],
+    "on-click": "~/.config/hypr/scripts/brightness --filter",
+    "on-update": "",
+    "on-scroll-up": "~/.config/hypr/scripts/brightness --inc",
+    "on-scroll-down": "~/.config/hypr/scripts/brightness --dec",
+    "smooth-scrolling-threshold": 1
+  },
+
+  "custom/backlight": {
+    "interval": 2,
+    "align": 0,
+    "rotate": 0,
+    "format": "{icon} {text}%",
+    "format-icons": ["󰃞 ", "󰃝 ", "󰃟 ", "󰃠 "],
+    "exec": "hyprctl hyprsunset gamma",
+    "on-click": "~/.config/hypr/scripts/brightness --filter",
+    "on-update": "",
+    "on-scroll-up": "~/.config/hypr/scripts/brightness --inc",
+    "on-scroll-down": "~/.config/hypr/scripts/brightness --dec",
+    "smooth-scrolling-threshold": 1
+  },
 
   "wlr/workspaces-cn": {
     "format": "{icon}",
@@ -108,7 +120,7 @@
     },
     "tooltip": false,
     "on-click": "gnome-power-statistics"
-},
+  },
 
   "clock": {
     "timezone": "Europe/Berlin",
