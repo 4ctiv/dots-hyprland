@@ -92,7 +92,7 @@
     "format-time": "{H}h {M}min",
     "tooltip": true,
     "on-click-right": "kitty bash -c 'echo \"Opening powertop ...\" && sudo powertop'",
-    "on-update": "[[ -f '/sys/class/power_supply/BAT0/capacity' && $(cat /sys/class/power_supply/BAT0/capacity) -le 20 ]] && notify-send --urgency=critical 'Battery low' 'Battery is < 20%'"
+    "on-update": "[[ -f '/sys/class/power_supply/BAT0/capacity' ]] && case $(cat '/sys/class/power_supply/BAT0/capacity') in 20|10|5|1) notify-send --urgency=critical 'Battery low' 'Battery is < 20%';; *) :;; esac"
   },
 
   "custom/battery": {
@@ -236,7 +236,7 @@
   },
 
   "custom/touch": {
-    "format":" 🖙 ", // 🖛 
+    "format":" 🖙 ",
     "format-alt": " 🖛 ",
     "tooltip": false,
     "on-click": "bash ~/.config/hypr/scripts/toggle_touch"
@@ -261,7 +261,7 @@
     "exec": " ~/.config/hypr/scripts/gpuinfo.sh",
     "return-type": "json",
     "format": " {}",
-    "interval": 5, // once every 5 seconds
+    "interval": 5,
     "tooltip": true
   },
 
