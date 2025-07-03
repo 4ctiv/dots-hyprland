@@ -92,7 +92,7 @@
     "format-time": "{H}h {M}min",
     "tooltip": true,
     "on-click-right": "kitty bash -c 'echo \"Opening powertop ...\" && sudo powertop'",
-    "on-update": "[[ -f '/sys/class/power_supply/BAT0/capacity' ]] && case $(cat '/sys/class/power_supply/BAT0/capacity') in 20|10|5|1) notify-send --urgency=critical 'Battery low' 'Battery is < 20%';; *) :;; esac"
+    "on-update": "[[ -f '/sys/class/power_supply/BAT0/capacity' && $(cat /sys/class/power_supply/BAT0/status) =~ ^[Cc]harging ]] && case $(cat '/sys/class/power_supply/BAT0/capacity') in 20|10|5|1) notify-send --urgency=critical 'Battery low' 'Battery is < 20%';; *) :;; esac"
   },
 
   "custom/battery": {
