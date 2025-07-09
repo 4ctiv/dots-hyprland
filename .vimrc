@@ -61,6 +61,16 @@ set shell=/bin/bash
    autocmd!
    autocmd BufReadPost * if filereadable(expand('%')) && !filewritable(expand('%')) | echohl WarningMsg | echo "Warning: File is not writable!" | echohl None | endif
  augroup END
+" Highlight git conflicts
+ highlight git_conflict ctermbg=red ctermfg=white
+
+ "syn region git_conflict_S start=/^<<<<<<< .*$/ end=/^\\ze\$$=======$\\||||||||\$$/
+"syn region git_conflict_M start=/^||||||| .*$/ end=/^\\ze=======$/
+"syn region git_conflict_E start=/^\$$=======$\\||||||| |\$$/ end=/^>>>>>>> .*$/
+
+syntax match git_conflict /^<<<<<<<.*$/
+ syntax match git_conflict /^=======.*$/
+ syntax match git_conflict /^>>>>>>>.*$/
 
 """HOTKEYS"""
 " <S-...> Shift ; <M-...> Alt ; <C-...> Strg ; <...>[1;53s AltGr
