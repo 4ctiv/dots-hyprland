@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # https://ollama.com/library
-MODEL="deepseek-coder:6.7b"
+MODEL="gemma3:4b" # "deepseek-coder:6.7b"
 CONTAINER_NET="ollama"
 CONTAINER_NAME="ollama"
 PORT_PREFIX="127.0.0.1:"  # Only for docker with root -> will limit access to ip
@@ -207,7 +207,7 @@ if [ ! -z "$1" ]; then
     exit 0
   ;;
   "-k" | "--kill"    | "-s" | "--stop")
-    docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null
+    docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null
     docker stop ${CONTAINER_NAME:=ollama} 2>/dev/null
     docker stop open-webui 2>/dev/null
     exit $?
