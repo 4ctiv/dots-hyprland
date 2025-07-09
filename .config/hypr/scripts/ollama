@@ -37,8 +37,9 @@ function open-webui_start {
   if [[ $(docker info -f "{{println .SecurityOptions}}" | grep -o rootless) ]]; then
     PORT_PREFIX=""  # unset port prefix as it would lead to errors in rootless mode
   fi
-  docker network create --driver=bridge open-webui > /dev/null
+  docker network create --driver=bridge open-webui > /dev/null 2>/dev/null
 
+  docker pull ghcr.io/open-webui/open-webui:main >/dev/null 2>/dev/null
   if [[ ! -z "$(docker ps -a | grep -o open-webui)" ]]; then
     docker start open-webui >/dev/null
   else
@@ -176,7 +177,7 @@ function ollama_pull {
   echo "Reciving ollama $MODEL (ollam has temporary internet access)"
  #docker network connect ${CONTAINER_NET:=ollama} ${CONTAINER_NAME:=ollama} 2>/dev/null # give container network access
   docker network connect    bridge ${CONTAINER_NAME:=ollama} 2>/dev/null # give container network access
-  docker exec -it ${CONTAINER_NAME:=ollama} ollama pull "$MODEL" >/dev/null
+  docker exec -it ${CONTAINER_NAME:=ollama} ollama pull "$MODEL"
   docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null # remove container network access
  #docker network disconnect ${CONTAINER_NET:=ollama} ${CONTAINER_NAME:=ollama} >/dev/null # remove container network access
   echo "Fineshed reciving ollama $MODEL (temporary network access removed)"

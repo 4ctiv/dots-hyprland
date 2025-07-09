@@ -1,5 +1,9 @@
 " 4ctiv's vim config (Note: " marks a comment)
 
+" Set shell while using vim
+" This is relevant for e.g. :! or :shell
+set shell=/bin/bash
+
 " Set Font with ligerature
  set guifont=JetBrainsMono\ Nerd\ Font\ Mono
 

@@ -22,14 +22,23 @@
   },
 
   "custom/backlight": {
+    "format": " 󰃟  {}",
+    "exec": "~/.config/hypr/scripts/brightness --get",
+    "exec-if": "exit 0",
     "interval": 2,
-    "align": 0,
-    "rotate": 0,
-    "format": "{icon} {text}%",
-    "format-icons": ["󰃞 ", "󰃝 ", "󰃟 ", "󰃠 "],
-    "exec": "hyprctl hyprsunset gamma",
     "on-click": "~/.config/hypr/scripts/brightness --filter",
-    "on-update": "",
+    "on-scroll-up": "~/.config/hypr/scripts/brightness --inc",
+    "on-scroll-down": "~/.config/hypr/scripts/brightness --dec",
+    "smooth-scrolling-threshold": 1
+  },
+
+  "custom/backlight": {
+    "format": " 󰃟  {}",
+    "exec": "~/.config/hypr/scripts/brightness --get",
+    "exec-if": "exit 0",
+    "interval": 2,
+  //"format-icons": ["󰃞 ", "󰃝 ", "󰃟 ", "󰃠 "],
+    "on-click": "~/.config/hypr/scripts/brightness --filter",
     "on-scroll-up": "~/.config/hypr/scripts/brightness --inc",
     "on-scroll-down": "~/.config/hypr/scripts/brightness --dec",
     "smooth-scrolling-threshold": 1
@@ -170,7 +179,7 @@
     "interval": 2,
     "family": "ipv4",
     "format-wifi": " {essid}",
-    "format-ethernet": " {bandwidthUpBits}  {bandwidthDownBits} ",
+    "format-ethernet": "{bandwidthUpBits}  {bandwidthDownBits}",
     "format-linked": " {ifname} (No IP)",
     "format-disconnected": "睊 Disconnected",
     "format-disabled": "睊 Disabled",
@@ -194,7 +203,7 @@
     "exec": "checkupdates | wc -l",
     "exec-if": "[[ $(checkupdates | wc -l) ]]",
     "interval": 7200,
-    "on-click": "/home/activ/.config/hypr/scripts/auto-upgrade || notify-send 'System could not update'"
+    "on-click": "~/.config/hypr/scripts/auto-upgrade || notify-send 'System could not update'"
   },
 
   "custom/cycle_wall":{
