@@ -1,6 +1,6 @@
 if status is-interactive
   ### SSH-Agent ###
-  export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+  export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket" # ssh daemon userland
   export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/docker.sock" # Docker userland
   #if [ "$(pgrep ssh-agent -o)" ]
   # set -Ux SSH_AGENT_PID "$(pgrep ssh-agent -o)"
@@ -11,14 +11,14 @@ if status is-interactive
   #end
   ### Shell prompt ###
   if test -z $TERM_PROGRAM
-    timeout 0.5s fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 14
+    fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 14 &
   else
     hostnamectl | grep -E '([Oo]perating System|[Kk]ernel|[A]rchitecture)'
     echo "Currently $(who -u | wc -l) users are logged in" | grep '[0-9]'
+    echo ""
     vmstat
+    git status --short 2>/dev/null # Only output status if in git repo
   end
-  #docker stats
-end # End interactive only code-block
 
   ########################
  ###     Paths      ###
@@ -36,7 +36,7 @@ end # End interactive only code-block
  ### Typo redirection ###
 ########################
 alias cd..='cd ..'
-alias nano='vim -c "syn on"'  # yes this is a typo as you want syntax highlighting don't u ?
+alias nano='vim'
 alias udpate='sudo pacman -Syyu'
 alias upate=' sudo pacman -Syyu'
 alias updte=' sudo pacman -Syyu'
@@ -130,12 +130,13 @@ alias log-notifications="makoctl history # | jq '.data[0][].body.data'"
 # System info
 alias list-system-usage="top -u nobody -bn1 | head -n 5"
 alias list-system-info="inxi"
+alias list-systemd-failed="systemctl list-units --state=failed"
 alias whichvga="/usr/local/bin/arcolinux-which-vga"
 alias sysfailed="systemctl list-units --failed"
 alias probe="sudo -E hw-probe -all -upload"
 alias free="free -mt"
 alias list-fonts="fc-list --format \"%{family}\n\""
-alias list-grub-entries='sudo awk -F \\\' \'$1=="menuentry " || $1=="submenu " {print i++ " : " $2}; /\smenuentry / {print "\t" i-1">"j++ " : " $2};\' /boot/grub/grub.cfg'
+alias list-grub-entries='sudo awk -F \\\' \'$1=="menuentry " || $1=="submenu " {print i++ " : " $2}; /\smenuentry / {print "\t" i-1">"j++ " : " $2};\' /boot/grub/grub.cfg
 # Session info
 alias list-ssh-keys="ssh-add -l"
 alias list-ssh-users="grep --color=none 'AllowedUsers' /etc/ssh/sshd_config{,.d/*} || fish -c \"getent passwd | grep --color=none -v '/nologin' | awk -F ':' '{print $1}'\""
@@ -156,7 +157,7 @@ alias list-packs-broken="  sudo pacman -Qk 2>/dev/null | grep -v ' 0 missing fil
 alias list-packs-size="expac -H M '%m\t%n' | sort -h | nl" # List of package sizes
 alias list-packs-recent="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 alias list-packs-recent-extended="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
-alias list-packs-desktop="ls /usr/share/applications/* /usr/local/share/applications/* ~/.local/share/applications/* | sed 's/.desktop//g'"
+alias list-packs-desktop="ls /usr/share/applications/* ~/.local/share/applications/* | sed 's/.desktop//g'"
 alias list-packs-desktop-all="find /usr/share/applications/ /usr/local/share/applications/ ~/.local/share/applications/ -type f -name '*.desktop'"
 alias list-packs-outdated="checkupdates"
 alias list-pack-owner='  pacman -Qo'
@@ -185,7 +186,7 @@ alias update-systemctl="sudo sysctl --system"
  ### Aliases for fixes ###
 #########################
 #fix docker
-alias fix-docker-unpriv-network="sudo sysctl -w net.ipv4.ip_unprivileged_port_start=80" // /proc/sys/net/ipv4/ip_unprivileged_port_start
+alias fix-docker-unpriv-network="sudo sysctl -w net.ipv4.ip_unprivileged_port_start=80"
 #fix sudo
 alias fix-sudo="faillock --reset" # password rejects
 alias fix-permissions="sudo chown -R $USER:$USER ~/.config ~/.local"
@@ -238,3 +239,4 @@ alias list-users="cut -d: -f1 /etc/passwd | sort" # List of existing useres on t
 alias list-session-xorg="   ls /usr/share/xsessions"        # List xorg    sessions
 alias list-session-wayland="ls /usr/share/wayland-sessions" # List wayland sessions
 
+end # End of interactive prompt config
