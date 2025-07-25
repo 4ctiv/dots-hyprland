@@ -13,10 +13,14 @@ if status is-interactive
   if test -z $TERM_PROGRAM
     fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 14 &
   else
+    clear
     hostnamectl | grep -E '([Oo]perating System|[Kk]ernel|[A]rchitecture)'
     echo "Currently $(who -u | wc -l) users are logged in" | grep '[0-9]'
     echo ""
-    vmstat
+    echo "CPU usage: $(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {printf "%02d%%\n", int(0.5+usage)}')"
+    echo "RAM usage: $(printf "%02d%%\n" $(math --scale 0 "($(grep 'MemFree' /proc/meminfo | awk '{print $2}') / $(grep 'MemTotal' /proc/meminfo | awk '{print $2}')) * 100"))"
+    echo "GPU usage: $(echo "??" 2>/dev/null)%"
+    echo ""
     git status --short 2>/dev/null # Only output status if in git repo
   end
 
@@ -77,6 +81,7 @@ alias psa="ps auxf"
 # debug
 alias app-debug="coredumpctl debug"
 alias hex-ascii="hexdump -C"
+alias free="free -mt"
 #yt-dpl (youtube)
 alias yt-audio="yt-dlp --extract-audio --audio-format best "
 alias yt-video="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
@@ -111,10 +116,13 @@ alias update-font='sudo fc-cache -fv'
 ## Check Stuff ##
 #################
 alias check-hw="hwinfo --short"                                   #check hardware (short summary)
-alias check-log="journalctl -p 3 -xb"                             #check systemlogs
 alias check-audio="pactl info | grep 'Server Name'"               #check audio (pulseaudio or pipewire)
 alias check-cpu="cpuid -i | grep uarch | head -n 1"               #check cpu
+alias check-memory="free -mt"
 alias check-mc='grep . /sys/devices/system/cpu/vulnerabilities/*' #check microcode vulnerabilities
+alias check-disk-speed="sudo hdparm -tT"
+alias check-system-probe="sudo -E hw-probe -check -minimal -all -show"
+#alias check-fish-startup="time fish --profile-startup /tmp/startup.prof -c exit && sort -nk2 /tmp/startup.prof | less"
 ################
 ## List Stuff ##
 ################
@@ -131,12 +139,8 @@ alias log-notifications="makoctl history # | jq '.data[0][].body.data'"
 alias list-system-usage="top -u nobody -bn1 | head -n 5"
 alias list-system-info="inxi"
 alias list-systemd-failed="systemctl list-units --state=failed"
-alias whichvga="/usr/local/bin/arcolinux-which-vga"
-alias sysfailed="systemctl list-units --failed"
-alias probe="sudo -E hw-probe -all -upload"
-alias free="free -mt"
 alias list-fonts="fc-list --format \"%{family}\n\""
-alias list-grub-entries='sudo awk -F \\\' \'$1=="menuentry " || $1=="submenu " {print i++ " : " $2}; /\smenuentry / {print "\t" i-1">"j++ " : " $2};\' /boot/grub/grub.cfg
+alias list-grub-entries='sudo awk -F \\\' \'$1=="menuentry " || $1=="submenu " {print i++ " : " $2}; /\smenuentry / {print "\t" i-1">"j++ " : " $2};\' /boot/grub/grub.cfg'
 # Session info
 alias list-ssh-keys="ssh-add -l"
 alias list-ssh-users="grep --color=none 'AllowedUsers' /etc/ssh/sshd_config{,.d/*} || fish -c \"getent passwd | grep --color=none -v '/nologin' | awk -F ':' '{print $1}'\""
@@ -145,7 +149,7 @@ alias list-users-activ="w -i -p" # add -h for no header (for use in scripts)
 alias list-session-xorg="   ls /usr/share/xsessions"        # List xorg    sessions
 alias list-session-wayland="ls /usr/share/wayland-sessions" # List wayland sessions
 # Network
-alias list-net-ipv4="nmap $(ip --color=never -4 addr list  | awk '/inet.*brd/ {print $2}' | head -1) -F --open -oG - | cut -d ' ' -f 2-3 | grep Ports: | sed 's/Ports://g'"
+#func list-net-ipv4
 alias list-net-port="netstat -tunlp | sort -t: -k4 -n | grep LISTEN"
 # Packages
 # HOW 2 (EXTENDED USAGE): pacman -S --needed - < my-list-of-packages.txt # E.g. install packages from a list
@@ -167,14 +171,14 @@ alias list-pack-info='   pacman -Sii'
 ##########################
 ### Software managment ###
 ##########################
-alias packs-setup='  sudo pacman -S'
+alias packs-add='  sudo pacman -S'
 alias packs-remove=' sudo pacman -R'
 alias packs-owner='  sudo pacman -Qo'
 alias packs-deps='   sudo pacman -Sii'
 alias packs-update=' sudo pacman -Syyu'
 alias packs-as-explicit='pacman -D --asexplicit'
 alias packs-as-dependecy='pacman -D --asdeps'
-alias packs-cleanup='sudo pacman -Rns $(pacman -Qtdq)' # Cleanup orphaned packages
+alias packs-cleanup='sudo pacman -Rns $(pacman -Qtdq)' # Clean orphaned packages
 alias packs-missing="pacman -Dkk"
 #skip integrity check (unsave !!!)
 alias yay-skip='yay -S --mflags --skipinteg'
@@ -203,15 +207,16 @@ alias fix-keys-pacman="         /usr/local/bin/arcolinux-fix-pacman-gpg-conf"
 alias fix-packs-broken="sudo pacman -S \$(sudo pacman -Qk 2>/dev/null | grep -v ' 0 missing files' | cut -d: -f1)"
 ## config related fixes ##
 # restore shell configs
-alias restore-default-bash='cp /etc/skel/.bashrc                  ~/.bashrc                  && exec bash'
-alias restore-default-zsh=' cp /etc/skel/.zshrc                   ~/.zshrc                   && echo "Copied."'
-alias restore-default-fish='cp /etc/skel/.config/fish/config.fish ~/.config/fish/config.fish && echo "Copied."'
+alias restore-default-bash='cp /etc/skel/.bashrc                  ~/.bashrc                  && echo "Restored bash"'
+alias restore-default-zsh=' cp /etc/skel/.zshrc                   ~/.zshrc                   && echo "Restored zsh"'
+alias restore-default-fish='cp /etc/skel/.config/fish/config.fish ~/.config/fish/config.fish && echo "Restored fish"'
 # permission fixes
 alias fix-permissions-user="sudo chown -R $USER:$USER ~/.config ~/.local"
 ## application specific fixes ##
 alias fix-grub="       /usr/local/bin/arcolinux-fix-grub"
 alias fix-sddm-config="/usr/local/bin/arcolinux-fix-sddm-config"
 #git
+alias git-pull="git stash push -m 'Pre pull $(date +%F_%H-%M)' && git pull --rebase && git stash pop"
 alias git-reset="git reset --hard"
 alias git-clean-cache="rm -r ~/.cache/git"
 #systemd
