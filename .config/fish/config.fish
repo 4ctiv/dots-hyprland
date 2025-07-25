@@ -140,7 +140,7 @@ alias list-system-usage="top -u nobody -bn1 | head -n 5"
 alias list-system-info="inxi"
 alias list-systemd-failed="systemctl list-units --state=failed"
 alias list-fonts="fc-list --format \"%{family}\n\""
-alias list-grub-entries='sudo awk -F \\\' \'$1=="menuentry " || $1=="submenu " {print i++ " : " $2}; /\smenuentry / {print "\t" i-1">"j++ " : " $2};\' /boot/grub/grub.cfg'
+alias list-grub-entries="sudo awk -F \' '$1==\"menuentry \" || $1==\"submenu \" {print i++ \"     : \" $2}; /\smenuentry / {print \"\t\" i-1\">\"j++ \" : \" $2};' /boot/grub/grub.cfg"
 # Session info
 alias list-ssh-keys="ssh-add -l"
 alias list-ssh-users="grep --color=none 'AllowedUsers' /etc/ssh/sshd_config{,.d/*} || fish -c \"getent passwd | grep --color=none -v '/nologin' | awk -F ':' '{print $1}'\""
