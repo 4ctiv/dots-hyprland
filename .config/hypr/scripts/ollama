@@ -1,4 +1,6 @@
 #!/bin/bash
+# Author: 4ctiv
+# Version: 2025-2
 
 # https://ollama.com/library
 MODEL="gemma3:4b" # "deepseek-coder:6.7b"
@@ -19,6 +21,8 @@ Usage: '$(echo $0 | sed 's|.*/|./|g')' [flag] [model]
 | -s | --stop       ~            "             |
 | -w | --web        ~ start open-webui         |
 |----|-----------------------------------------|
+
+If no flags are specified ollama will run in terminal
 '
 
 # On forced exit always disconnect ollama networks and stop container
@@ -49,20 +53,14 @@ function open-webui_start {
              --name open-webui \
              --network open-webui \
              --network ${CONTAINER_NET:=ollama} \
-             -e OLLAMA_BASE_URL="http://ollama:11434" \
+             -e OLLAMA_BASE_URL="http://${CONTAINER_NET:=ollama}.ollama:11434" \
              -e WEBUI_AUTH="false" \
+             -e ENABLE_IMAGE_GENERATION=True \
+             -e ENABLE_OPENAI_API=False \
+             -e ENABLE_OLLAMA_API=True \
              ghcr.io/open-webui/open-webui:main >/dev/null
   fi &&\
   (sleep 5s && xdg-open http://localhost:3000)& >/dev/null 2>/dev/null # opens webpage
-
-  #docker network create --driver=bridge traefik > /dev/null
-  #docker run -d \
-  #           --name traefik \
-  #           -p 127.0.0.1:8080:8080 \
-  #           -p 127.0.0.1:11434:11434 \
-  #           --network ollama \
-  #           --network traefik \
-  #           traefik:v3.3 --api.insecure=true --providers.docker > /dev/null
 }
 
 function ollama_start {
@@ -133,10 +131,8 @@ function ollama_start {
            -e DEVICE=Arc \
            --shm-size="16g" \
            --memory="32G" \
-           -label="traefik.enable=true" \
-           -label="traefik.http.services.${CONTAINER_NAME:=ollama}.loadbalancer.server.port=11434" \
            intelanalytics/ipex-llm-inference-cpp-xpu:latest \
-           bash -c "cd /llm/scripts/ && source ipex-llm-init --gpu --device Arc && bash /llm/scripts/start-ollama.sh && tail -f /llm/ollama/ollama.log"
+           bash -c "cd /llm/scripts/ && source ipex-llm-init --gpu --device Arc && bash /llm/scripts/start-ollama.sh && tail -f /llm/ollama/ollama.log" >/dev/null
     else
       # Unknown GPU (may only use cpu)
       printf "\033[0;33m[WARNING]\033[0m Unknown GPU: Using CPU for running ollama\n"
@@ -176,8 +172,8 @@ function ollama_pull {
   # Pull ollama model if required
   echo "Reciving ollama $MODEL (ollam has temporary internet access)"
  #docker network connect ${CONTAINER_NET:=ollama} ${CONTAINER_NAME:=ollama} 2>/dev/null # give container network access
-  docker network connect    bridge ${CONTAINER_NAME:=ollama} 2>/dev/null # give container network access
-  docker exec -it ${CONTAINER_NAME:=ollama} ollama pull "$MODEL"
+  docker network connect    bridge ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null # give container network access
+  docker exec -it ${CONTAINER_NAME:=ollama} ollama pull "$MODEL" >/dev/null
   docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null # remove container network access
  #docker network disconnect ${CONTAINER_NET:=ollama} ${CONTAINER_NAME:=ollama} >/dev/null # remove container network access
   echo "Fineshed reciving ollama $MODEL (temporary network access removed)"
@@ -208,6 +204,7 @@ if [ ! -z "$1" ]; then
     exit 0
   ;;
   "-k" | "--kill"    | "-s" | "--stop")
+    echo "Killing ollama & open-webui"
     docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null
     docker stop ${CONTAINER_NAME:=ollama} 2>/dev/null
     docker stop open-webui 2>/dev/null
@@ -217,15 +214,17 @@ if [ ! -z "$1" ]; then
     echo "Starting ollama in background"
     ollama_start
     ollama_pull
-    docker network connect bridge ${CONTAINER_NAME:=ollama} 2>/dev/null
-    echo "[WARNING] Ollama is running in the background as '${CONTAINER_NAME:=ollama}' and has network access"
+    # docker network connect bridge ${CONTAINER_NAME:=ollama} 2>/dev/null
+    # echo "[WARNING] Ollama is running in the background as '${CONTAINER_NAME:=ollama}' and has network access"
     exit 0
   ;;
   "-w" | "--web" | "-g" | "--gui")
+    echo "Starting open-webui"
     open-webui_start;
     exit 0;
   ;;
   "*") # Expect model was given
+    echo "Starting ollama with user specified model: $1"
     MODEL="$(echo "$1" | awk '{print $NF}')"
     ollama_start
     open-webui_start
@@ -236,6 +235,7 @@ if [ ! -z "$1" ]; then
   ;;
   esac
 else
+  echo "Running ollama in forground (terminal) using default model"
   ollama_start
   open-webui_start
   ollama_pull

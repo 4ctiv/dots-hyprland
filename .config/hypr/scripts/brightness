@@ -56,13 +56,15 @@ notify_user() {
 inc_backlight() {
   old_backlight="$(get_backlight)"
   if [[ -f "$(which hyprsunset 2>/dev/null)" ]]; then
-      if [[ "$(get_backlight)" -ge "100" ]]; then
-        hyprctl hyprsunset gamma 100
-      else
-        hyprctl hyprsunset gamma +5
-      fi
+    brightnessctl set "$(brightnessctl max)" >/dev/null 2>/dev/null # fix brightnessctl setting
+    if [[ "$(get_backlight)" -ge "100" ]]; then
+      hyprctl hyprsunset gamma 100
+    else
+      hyprctl hyprsunset gamma +5
+    fi
   else
-    xbacklight -inc 5
+    brightnessctl 5%+
+   #xbacklight -inc 5
   fi &&\
   notify_user
 }
@@ -77,7 +79,8 @@ dec_backlight() {
       hyprctl hyprsunset gamma -5
     fi
   else
-    xbacklight -dec 5
+    brightnessctl 5%-
+   #xbacklight -dec 5
   fi &&\
   notify_user
 }

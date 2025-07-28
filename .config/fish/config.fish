@@ -11,7 +11,7 @@ if status is-interactive
   #end
   ### Shell prompt ###
   if test -z $TERM_PROGRAM
-    fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 14 &
+    fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 12 &
   else
     clear
     hostnamectl | grep -E '([Oo]perating System|[Kk]ernel|[A]rchitecture)'
@@ -129,7 +129,7 @@ alias check-system-probe="sudo -E hw-probe -check -minimal -all -show"
 # Logs
 alias log-system="sudo dmesg; sudo journalctl;"
 alias log-system-now="sudo dmesg --follow-new &; sudo journalctl --follow --since 'now' &;"
-alias log-systemctl-user="systemctl status systemd-logind.service ; systemctl status user@$(id -u).service"
+alias log-systemd-user="systemctl status systemd-logind.service ; systemctl status user@$(id -u).service"
 alias log-calamares="bat /var/log/Calamares.log"
 alias log-pacman="   bat /var/log/pacman.log"
 alias log-xorg="     bat /var/log/Xorg.0.log"
@@ -178,7 +178,7 @@ alias packs-deps='   sudo pacman -Sii'
 alias packs-update=' sudo pacman -Syyu'
 alias packs-as-explicit='pacman -D --asexplicit'
 alias packs-as-dependecy='pacman -D --asdeps'
-alias packs-cleanup='sudo pacman -Rns $(pacman -Qtdq)' # Clean orphaned packages
+alias packs-cleanup='sudo pacman -Rns $(pacman -Qtdq)' # Cleanup orphaned packages
 alias packs-missing="pacman -Dkk"
 #skip integrity check (unsave !!!)
 alias yay-skip='yay -S --mflags --skipinteg'
@@ -239,6 +239,8 @@ alias btrfs-compress="sudo btrfs filesystem defragment -r -v -czstd"
 alias btrfs-balance="sudo btrfs balance start -dusage=66"
 alias list-size-drive="df -h"
 alias list-size-file="sudo du -shc"
+alias check-file-info="stat"
+alias list-file-mime="file --mime-type"
 # Session info
 alias list-users="cut -d: -f1 /etc/passwd | sort" # List of existing useres on the machine
 alias list-session-xorg="   ls /usr/share/xsessions"        # List xorg    sessions
