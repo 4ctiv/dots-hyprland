@@ -1,0 +1,14 @@
+#!/bin/bash
+
+to_install=""
+
+which jq         || to_install="$to_install jq"
+which fish       || to_install="$to_install fish"
+which mako       || to_install="$to_install mako"
+which kitty      || to_install="$to_install kitty"
+which hypridle   || to_install="$to_install hypridle"
+which hyprsunset || to_install="$to_install hyprsunset"
+which hyprpaper  || to_install="$to_install hyprpaper"
+which pipewire   || to_install="$to_install pipewire"
+
+kitty sh -c "yay -S --no-confirm $to_install || pacman -S -y which $to_install"
