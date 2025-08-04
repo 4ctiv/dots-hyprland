@@ -1,91 +1,164 @@
-# Core system
-wayland              # Desktop backend
+#!/bin/bash
+#to_install=""
+#while read row; do
+#  if [[ "${row}" =~ "^#" ]] || [[ -z "${row}" ]];then
+#    continue;
+#  else
+#    to_install="${to_install} $(echo "${row}" | awk '{print $1}')"
+#  fi
+#done < requirements.txt
+#yay -Syu --noconfirm $to_install;
+#exit 0
+
+# System core
+grub                 # Boot manager
+systemctl            # Init system
+gnome-keyring        # keyring (session secrets)
+sddm                 # display manager
+wayland              # window manager backend
 lib32-wayland        # Optional: Support 32-Bit (recommended)
-xorg-wayland         # X11 apps support
-hypridle             # Auto Lock/Suspend/...
-hyprland             # Window manager
-hyprlang             # Configuration language
-hyprlock             # Lockscreen
-hyprshot             # Screenshots
-hyprpaper            # Wallpaper
-hyprutils            # Windowmanager cmd interface
-iio-hyprland-git     # Auto rotation support
-hyprwayland-scanner
+xorg-wayland         # Optional: X11 compatability
+hyprland             # window manager
+iio-hyprland-git     # Optional: Screen rotation
+xf86-input-libinput  # Optional: Touch input
 xdg-desktop-portal-hyprland
-systemctl            # Systemd
-pamac-aur            # Optional: graphical package manager
-xf86-input-libinput  # touch input support
-wl-logout            # power menu
-pavucontrol          # audo volume controll
-wofi                 # App menu
-htop                 # cli task manager
-jq                   # Json terminal tools (hyprctl can output json)
-brightnessctl        # monitor brightness settings
-nm-applet            # Wifi icon 
+ntp                  # Network time syncronisation
+htop                 # task manager (TUI)
 
+# Hyprland desktop core
+hypridle             # idle manager
+hyprlock             # lockscreen (GUI)
+hyprpaper            # wallpaper manager
+mpvpaper             # Optional: video wallpaper
+hyprsunset           # brightness controll
+wl-logout            # power menu (GUI)
+waybar               # taskbar provider (GUI)
+wofi                 # menu provider (GUI)
+mako                 # notification daemon
+wl-clipboard         # clipboard tools
+cliphist             # clipboard manager
+nemo                 # file browser
+kitty                # terminal emulator
+fish                 # shell
+flameshot            # screenshot tool
+brave                # web-brower
+thunderbird          # mail-client
+jq                   # Json parser (terminal)
+# Audio
+pipewire             # audio provider
+pipewire-alsa        # Optional: 
+pipewire-pulse       # Optional: 
+pavucontrol          # Optional: audio controll (GUI)
+#easyeffects         # Optional: audio effects (GUI)
+noisetorch           # Optional: noise reduction (GUI)
+# Network & Connectivity
+nmap                 # network scans
+net-tools            # traceroute, arp, whois
+wireshark            # sniffing
+networkmanager       # network cli
+nm-connection-editor # network manager (GUI)
+wireguard-tools      # VPN tool
+blueman              # Bluetooth manager (GUI)
+# File system
+testdisk             # Data recovery tool (CLI)
+gparted              # Partititon manager (GUI)
+gnome-disk-utility   # Disk mount manager (GUI)
+btrfs-assistant      # btrfs helper (GUI)
+btrfs-progs          # btrfs tools
+cifs-utils           # network fileshare tools
+davfs2               # network storage
+ntfs-3g              # NTF driver
+timeshift            # snapshots tool (rollbacks)
+timeshift-autosnap   # auto snapshots
+# Security
+keepassxc            # Password manager (GUI)
+ufw                  # Firewall
+#gufw                # Optional: UFW manager (GUI)
+seahorse             # Keyring manager (GUI)
+gnugpg               # GPG tools
+kleopatra            # Optional: GPG manager (GUI)
+clamav               # Antivirus
+clamtk               # Antivirus (GUI)
+aurscan-git          # Optional: Scan AUR for mailware on install
+cryptsetup           # Encryted partition support
+clevis               # Optional: Luks unlock methods (e.g. TPM)
 # Theme (optional)
-kvantum-qt5                  # Unified theme support
-qt5ct                        # Optional: qt(5) theme manager
-nwg-look                     # Optional: gtk theme manager
-kvantummanager               # Optional: kvantum theme manager
-lxappearance                 # Optional: Universal theme manager (may not find all themes)
-catppuccin-cursors-git       # Optional: (also included in repo)
-catppuccin-gtk-theme-mocha   # Optional: (also included in repo)
-kvantum-theme-catppuccin-git # Optional: (also included in repo)
+kvantum-qt5                   # Unified theme support
+qt5ct                         # Optional: qt5 theme manager
+nwg-look                      # Optional: gtk theme manager
+#kvantummanager               # Optional: kvantum theme manager
+#lxappearance                 # Optional: Universal theme manager (may not find all themes)
+ttf-jetbrains-mono-nerd       # Optional: Font (support ligatures)
+#catppuccin-cursors-git       # Optional: (also included in repo)
+#catppuccin-gtk-theme-mocha   # Optional: (also included in repo)
+#kvantum-theme-catppuccin-git # Optional: (also included in repo)
 
-# Menu & Eye Candy
-waybar        # taskbar
-wofi          # (app) menus
-mako          # Notification deamon
-hyprlock      # Lockscreen
-hypridle      # Automatic lock & suspention
-hyprpaper     # image backgrounds
-mpvpaper      # video wallpaper
-
-# Basics
-kitty         # terminal
-fish          # shell (alternative to bash)
-fzf           # fuzzy finder
-thunar        # file-manager
-links         # commandline browser
-brave         # main brower
-google-chrome # alt  browser
-firefox       # alt  browser
-thunderbird   # mail-client
-code          # code-editor
-meld          # file-differences
-
-# Virtualization
-virt-manager  # popular vm manager 
-qemu-desktop  # vm hypervisor
-quickemu      # fast vm setups
-quickgui      # graphical fast vm manager
-
-# Security (!needs user setup!)
-ufw           # Firewall, Tipp: ufw default deny incomming && ufw default allow outgoing && sudo ufw enable
-clamav        # Antivirus, Tipp: systemctl enable clamav-freshclam
-clamtk        # Antivirus GUI
-
-# Media
-spotify       # music player
-mpv           # video player
-inkscape      # image editing (vector graphics)
-gimp          # image editing
-noisetorch    # noise supression software
-flameshot     # (Alt. screenshot tool)
-obs-studio    # Video Recorder
-wlrobs        # Enable Desktop capture
-obs-vaapi     # Extend avalable formats
-
-# File system management
-btrfs-assistant     # btrfs helper
-btrfs-progs         # btrfs helper 2
-timeshift           # snapshots tool (rollbacks)
-timeshift-autosnap  # auto snapshots
-
+# Development and Text
+git                   # Version controll tool
+vim                   # code-editor (cli)
+#zed                  # code-editor
+code                  # code-editor (GUI)
+go                    # Golang
+ghc                   # Haskell
+gcc                   # C, C++, ...
+rust                  # Rust
+miktex                # LaTeX
+python                # Python
+jre-openjdk           # Java
+#typescript           # Typescript (Javascript)
 # Office & PDF
-xournalpp            # handwritten notes
-rnote                # handwritten notes (inf canvas)
-onlyeoffice          # office suite
-pdfmixtool           # pdf stitching
-masterpdfeditor-free # pdf bookmarks
+masterpdfeditor       # pdf bookmarks
+onlyoffice-bin        # office suite
+pdfmixtool            # pdf stitching
+xournalpp             # handwritten notes
+#rnote                # handwritten notes
+obsidian              # markdown notes
+papers                # pdf reader
+# Media
+mixxx                 # audio player
+gimp                  # photo editing
+inkscape              # photo editing (vector graphics)
+mpv                   # video player
+shotcut               # video editor
+handbreak             # video transcoder
+obs-studio            # Video recorder
+obs-backgroundremoval # Optional: obs cam backgeound removal
+v4l2loopback-dkms     # Optional: obs virtual webcam
+wlrobs-hg             # Optional: Wayland Desktop capture
+obs-vaapi             # Optional: Extend recording formats
+blender               # 3D modeling
+# Virtualization & Remote
+qemu-desktop          # vm hypervisor (GUI)
+virt-manager          # vm manager
+looking-glass         # Optional: VM Hardware acceleration
+#quickgui             # vm manager (GUI, preconfigured vm's)
+#quickemu             # vm setup (pre-configured vm's)
+remmina               # Remote Desktop (Client)
+wayvnc                # Remote desktop (local  Server)
+parsec                # Remote Desktop (Global Server)
+openssh               # Remote terminal
+docker-rootless-extras-bin # Rootless docker
+
+# Nice 2 have
+google-chrome         # Alt: browser
+firefox               # Alt: browser
+owncloud-client       # Selfhosted Cloud
+element-desktop       # Matrix chat client
+discord               # Voice/Vido chat client
+steam                 # Game store
+
+# Fun
+tea                   # Gitea cli tool
+fzf                   # fuzzy finder (cli)
+glow                  # Markdown viwer (cli)
+cava                  # msuic equalizer
+meld                  # difference tool
+lynks                 # terminal browser
+yt-dlp                # Video downloader
+cbonsai               # screen saver
+glances               # hw statistics
+tty-clock             # clock
+ventoy-bin            # multiboot usb
+gromit-mpx            # Scren annotations
+showmethekey          # key press overlay
+wvkbd-mobintl         # virtual keyboard

@@ -1,7 +1,8 @@
 if status is-interactive
   ### SSH-Agent ###
-  export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket" # ssh daemon userland
-  export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/docker.sock" # Docker userland
+  source ~/.profile
+  #export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket" # ssh daemon userland
+  #export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/docker.sock" # Docker userland
   #if [ "$(pgrep ssh-agent -o)" ]
   # set -Ux SSH_AGENT_PID "$(pgrep ssh-agent -o)"
   #else
