@@ -39,7 +39,8 @@ wofi                 # menu provider (GUI)
 mako                 # notification daemon
 wl-clipboard         # clipboard tools
 cliphist             # clipboard manager
-nemo                 # file browser
+nemo                 # file browser (GUI)
+file-roller          # archive manager (GUI)
 kitty                # terminal emulator
 fish                 # shell
 flameshot            # screenshot tool
@@ -77,7 +78,7 @@ keepassxc            # Password manager (GUI)
 ufw                  # Firewall
 #gufw                # Optional: UFW manager (GUI)
 seahorse             # Keyring manager (GUI)
-gnugpg               # GPG tools
+gnupg                # GPG manager
 kleopatra            # Optional: GPG manager (GUI)
 clamav               # Antivirus
 clamtk               # Antivirus (GUI)

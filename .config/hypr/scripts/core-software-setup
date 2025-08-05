@@ -1,14 +1,30 @@
 #!/bin/bash
+#
+# This script is intended to run at startup and isntalling
+# Software related to the hyprland config
 
 to_install=""
 
-which jq         || to_install="$to_install jq"
-which fish       || to_install="$to_install fish"
-which mako       || to_install="$to_install mako"
-which kitty      || to_install="$to_install kitty"
-which hypridle   || to_install="$to_install hypridle"
-which hyprsunset || to_install="$to_install hyprsunset"
-which hyprpaper  || to_install="$to_install hyprpaper"
-which pipewire   || to_install="$to_install pipewire"
+which wvkbd-mobintl || to_install="$to_install wvkbd"
+which thunderbird   || to_install="$to_install thunderbird"
+which hyprsunset    || to_install="$to_install hyprsunset"
+which gromit-mpx    || to_install="$to_install gromit-mpx"
+which tty-clock     || to_install="$to_install tty-clock"
+which hyprpaper     || to_install="$to_install hyprpaper"
+which hypridle      || to_install="$to_install hypridle"
+which pipewire      || to_install="$to_install pipewire"
+which inkscape      || to_install="$to_install inkscape"
+which shotcut       || to_install="$to_install shotcut"
+which waybar        || to_install="$to_install waybar"
+which kitty         || to_install="$to_install kitty"
+which brave         || to_install="$to_install brave-bin"
+which wofi          || to_install="$to_install wofi"
+which fish          || to_install="$to_install fish"
+which mako          || to_install="$to_install mako"
+which nemo          || to_install="$to_install nemo"
+which cava          || to_install="$to_install cava"
+which gimp          || to_install="$to_install gimp"
+which vim           || to_install="$to_install vim"
+which jq            || to_install="$to_install jq"
 
 kitty sh -c "yay -S --no-confirm $to_install || pacman -S -y which $to_install"
