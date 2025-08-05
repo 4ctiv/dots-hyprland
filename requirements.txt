@@ -4,7 +4,7 @@
 #  if [[ "${row}" =~ "^#" ]] || [[ -z "${row}" ]];then
 #    continue;
 #  else
-#    to_install="${to_install} $(echo "${row}" | awk '{print $1}')"
+#    to_install="${to_install} $(echo "${row}" | sed 's/#.*$//g')"
 #  fi
 #done < requirements.txt
 #yay -Syu --noconfirm $to_install;
@@ -12,6 +12,8 @@
 
 # System core
 grub                 # Boot manager
+polkit               # 
+clutter              # 
 systemctl            # Init system
 gnome-keyring        # keyring (session secrets)
 sddm                 # display manager
@@ -83,15 +85,16 @@ aurscan-git          # Optional: Scan AUR for mailware on install
 cryptsetup           # Encryted partition support
 clevis               # Optional: Luks unlock methods (e.g. TPM)
 # Theme (optional)
+ttf-jetbrains-mono-nerd       # Font (nerdfont, ligatures)
 kvantum-qt5                   # Unified theme support
 qt5ct                         # Optional: qt5 theme manager
 nwg-look                      # Optional: gtk theme manager
 #kvantummanager               # Optional: kvantum theme manager
-#lxappearance                 # Optional: Universal theme manager (may not find all themes)
-ttf-jetbrains-mono-nerd       # Optional: Font (support ligatures)
-#catppuccin-cursors-git       # Optional: (also included in repo)
-#catppuccin-gtk-theme-mocha   # Optional: (also included in repo)
-#kvantum-theme-catppuccin-git # Optional: (also included in repo)
+dracula-icons                 # Optional: Icon   theme
+dracula-cursors               # Optional: Cursor theme
+catppuccin-qt5ct              # Optional: Color  theme
+catppuccin-sddm-theme-mocha   # Optional: Login  theme
+catppuccin-mocha-grub-theme   # Optional: Grub   theme
 
 # Development and Text
 git                   # Version controll tool
@@ -135,7 +138,7 @@ looking-glass         # Optional: VM Hardware acceleration
 #quickemu             # vm setup (pre-configured vm's)
 remmina               # Remote Desktop (Client)
 wayvnc                # Remote desktop (local  Server)
-parsec                # Remote Desktop (Global Server)
+parsec-bin            # Remote Desktop (Global Server)
 openssh               # Remote terminal
 docker-rootless-extras-bin # Rootless docker
 
