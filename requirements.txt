@@ -1,25 +1,26 @@
 #!/bin/bash
 #to_install=""
 #while read row; do
-#  if [[ "${row}" =~ "^#" ]] || [[ -z "${row}" ]];then
+#  if [[ -z "$(echo ${row} | grep -v '^#')" ]];then
 #    continue;
 #  else
 #    to_install="${to_install} $(echo "${row}" | sed 's/#.*$//g')"
 #  fi
 #done < requirements.txt
-#yay -Syu --noconfirm $to_install;
+#paru -Syu --needed --noconfirm $to_install;
 #exit 0
 
 # System core
 grub                 # Boot manager
-polkit               # 
-clutter              # 
-systemctl            # Init system
+polkit               # permission management
+gstreamer            # audio and video streams
+systemd              # Init system
 gnome-keyring        # keyring (session secrets)
 sddm                 # display manager
 wayland              # window manager backend
 lib32-wayland        # Optional: Support 32-Bit (recommended)
-xorg-wayland         # Optional: X11 compatability
+xorg-xwayland        # Optional: X11 compatability (render)
+xorg-xhost           # Optional: X11 compatability (permissions)
 hyprland             # window manager
 iio-hyprland-git     # Optional: Screen rotation
 xf86-input-libinput  # Optional: Touch input
@@ -33,19 +34,20 @@ hyprlock             # lockscreen (GUI)
 hyprpaper            # wallpaper manager
 mpvpaper             # Optional: video wallpaper
 hyprsunset           # brightness controll
-wl-logout            # power menu (GUI)
+wlogout              # power menu (GUI)
 waybar               # taskbar provider (GUI)
 wofi                 # menu provider (GUI)
 mako                 # notification daemon
 wl-clipboard         # clipboard tools
 cliphist             # clipboard manager
 nemo                 # file browser (GUI)
+nemo-seahorse        # support encrypt & sign context-menu
 file-roller          # archive manager (GUI)
 kitty                # terminal emulator
 fish                 # shell
 flameshot            # screenshot tool
-brave                # web-brower
 thunderbird          # mail-client
+brave-bin            # web-brower
 jq                   # Json parser (terminal)
 # Audio
 pipewire             # audio provider
@@ -57,7 +59,7 @@ noisetorch           # Optional: noise reduction (GUI)
 # Network & Connectivity
 nmap                 # network scans
 net-tools            # traceroute, arp, whois
-wireshark            # sniffing
+wireshark-qt         # sniffing
 networkmanager       # network cli
 nm-connection-editor # network manager (GUI)
 wireguard-tools      # VPN tool
@@ -69,7 +71,6 @@ gnome-disk-utility   # Disk mount manager (GUI)
 btrfs-assistant      # btrfs helper (GUI)
 btrfs-progs          # btrfs tools
 cifs-utils           # network fileshare tools
-davfs2               # network storage
 ntfs-3g              # NTF driver
 timeshift            # snapshots tool (rollbacks)
 timeshift-autosnap   # auto snapshots
@@ -86,16 +87,16 @@ aurscan-git          # Optional: Scan AUR for mailware on install
 cryptsetup           # Encryted partition support
 clevis               # Optional: Luks unlock methods (e.g. TPM)
 # Theme (optional)
-ttf-jetbrains-mono-nerd       # Font (nerdfont, ligatures)
-kvantum-qt5                   # Unified theme support
-qt5ct                         # Optional: qt5 theme manager
-nwg-look                      # Optional: gtk theme manager
-#kvantummanager               # Optional: kvantum theme manager
-dracula-icons                 # Optional: Icon   theme
-dracula-cursors               # Optional: Cursor theme
-catppuccin-qt5ct              # Optional: Color  theme
-catppuccin-sddm-theme-mocha   # Optional: Login  theme
-catppuccin-mocha-grub-theme   # Optional: Grub   theme
+ttf-jetbrains-mono-nerd         # Font (nerdfont, ligatures)
+kvantum-qt5                     # Unified theme support
+qt5ct-kde                       # Optional: qt5 theme manager
+nwg-look                        # Optional: gtk theme manager
+#kvantummanager                 # Optional: kvantum theme manager
+dracula-icons                   # Optional: Icon   theme
+dracula-cursors                 # Optional: Cursor theme
+catppuccin-qt5ct-git            # Optional: Color  theme
+catppuccin-sddm-theme-mocha     # Optional: Login  theme
+catppuccin-mocha-grub-theme-git # Optional: Grub   theme
 
 # Development and Text
 git                   # Version controll tool
@@ -124,11 +125,11 @@ gimp                  # photo editing
 inkscape              # photo editing (vector graphics)
 mpv                   # video player
 shotcut               # video editor
-handbreak             # video transcoder
+handbrake             # video transcoder
 obs-studio            # Video recorder
 obs-backgroundremoval # Optional: obs cam backgeound removal
 v4l2loopback-dkms     # Optional: obs virtual webcam
-wlrobs-hg             # Optional: Wayland Desktop capture
+#wlrobs-hg             # Optional: Wayland Desktop capture
 obs-vaapi             # Optional: Extend recording formats
 blender               # 3D modeling
 # Virtualization & Remote
@@ -157,7 +158,7 @@ fzf                   # fuzzy finder (cli)
 glow                  # Markdown viwer (cli)
 cava                  # msuic equalizer
 meld                  # difference tool
-lynks                 # terminal browser
+lynx                  # terminal browser
 yt-dlp                # Video downloader
 cbonsai               # screen saver
 glances               # hw statistics
@@ -165,4 +166,4 @@ tty-clock             # clock
 ventoy-bin            # multiboot usb
 gromit-mpx            # Scren annotations
 showmethekey          # key press overlay
-wvkbd-mobintl         # virtual keyboard
+wvkbd                 # virtual keyboard
