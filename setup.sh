@@ -55,14 +55,14 @@ echo "Setup defaults ..."
 echo "Setup systemd services ..."
 sudo systemctl enable --now clamav-daemon.service &&\
 sudo systemctl enable --now clamav-freshclam-once.service &&\
-sudo systemctl enable --now wol.service &&\
+sudo systemctl enable --now wol.service || \
   (echo "[ERROR] Starting systemd system services failed!"; exit 1)
-sudo systemctl enable --now --user ssh-agent.service &&\
-sudo systemctl enable --now --user hypridle.service &&\
-sudo systemctl enable --now --user hyprpaper.service &&\
-sudo systemctl enable --now --user hyprsunset.service &&\
-sudo systemctl enable --now --user xdg-desktop-portal-hyprland.service &&\
-sudo systemctl enable --now --user docker.service &&\
+systemctl enable --now --user ssh-agent.service &&\
+systemctl enable --now --user hypridle.service &&\
+systemctl enable --now --user hyprpaper.service &&\
+systemctl enable --now --user hyprsunset.service &&\
+systemctl enable --now --user xdg-desktop-portal-hyprland.service &&\
+systemctl enable --now --user docker.service &&\
   (echo "[ERROR] Starting user services failed!"; exit 1)
 
 echo "Setup themes ..."
