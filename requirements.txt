@@ -10,9 +10,14 @@
 #paru -Syu --needed --noconfirm $to_install;
 #exit 0
 
+# Package manager
+octopi               # GUI package manager
+paru
+yay
 # System core
 grub                 # Boot manager
 polkit               # permission management
+libsecret            # Secure storage interface
 gstreamer            # audio and video streams
 systemd              # Init system
 gnome-keyring        # keyring (session secrets)

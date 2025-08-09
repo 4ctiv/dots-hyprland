@@ -84,4 +84,6 @@ sudo timeshift --create --yes --comments "$(date %Y-%m-%d %H:%M:%S) install fini
 
 echo "Setup finished successfully,\n A restart is recommended"
 notify-send "setup" "Setup finished successfully,\n A restart is recommended"
+
 exit 0
+
