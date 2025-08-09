@@ -9,8 +9,8 @@
 [init]
   defaultBranch = main
 [core]
-  filemode = false
-  editor = "vim"
+  fileMode = false
+  editor = vim
 [pull]
   rebase = true
 [gpg]
