@@ -1,0 +1,23 @@
+[user]
+  name = "$USER"
+  email = "noreply.$USER@example.de"
+  signingkey = "$HOME/.ssh/signing-key.pub"
+[credential]
+  helper = /usr/lib/git-core/git-credential-libsecret
+[color]
+  ui = auto
+[init]
+  defaultBranch = main
+[core]
+  filemode = false
+  editor = "vim"
+[pull]
+  rebase = true
+[gpg]
+  format = ssh
+[commit]
+  gpgsign = true
+[tag]
+  gpgsign = true
+[safe]
+  directory = "$HOME/Develop"
