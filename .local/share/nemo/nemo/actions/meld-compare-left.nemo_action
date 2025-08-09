@@ -1,0 +1,8 @@
+[Nemo Action]
+Active=true
+Name=Compare later
+Comment=Remember file (meld left compare)
+Exec=<meld-compare.sh save %F>
+Icon-Name=meld
+Selection=S
+Extensions=any

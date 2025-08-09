@@ -147,6 +147,7 @@ docker-rootless-extras-bin # Rootless docker
 # Nice 2 have
 google-chrome         # Alt: browser
 firefox               # Alt: browser
+vivaldi               # Alt: browser
 owncloud-client       # Selfhosted Cloud
 element-desktop       # Matrix chat client
 discord               # Voice/Vido chat client
@@ -167,3 +168,5 @@ ventoy-bin            # multiboot usb
 gromit-mpx            # Scren annotations
 showmethekey          # key press overlay
 wvkbd                 # virtual keyboard
+bt-dualboot           # Share bluetooth profiles with windows
+
