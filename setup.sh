@@ -61,7 +61,6 @@ systemctl enable --now --user ssh-agent.service &&\
 systemctl enable --now --user hypridle.service &&\
 systemctl enable --now --user hyprpaper.service &&\
 systemctl enable --now --user hyprsunset.service &&\
-systemctl enable --now --user xdg-desktop-portal-hyprland.service &&\
 systemctl enable --now --user docker.service &&\
   (echo "[ERROR] Starting user services failed!"; exit 1)
 
