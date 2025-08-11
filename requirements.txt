@@ -66,6 +66,7 @@ nmap                 # network scans
 net-tools            # traceroute, arp, whois
 wireshark-qt         # sniffing
 networkmanager       # network cli
+etwork-manager-applet # network tray icon
 nm-connection-editor # network manager (GUI)
 wireguard-tools      # VPN tool
 blueman              # Bluetooth manager (GUI)
@@ -157,6 +158,7 @@ owncloud-client       # Selfhosted Cloud
 element-desktop       # Matrix chat client
 discord               # Voice/Vido chat client
 steam                 # Game store
+heroic-games-launcher # Game store
 
 # Fun
 tea                   # Gitea cli tool

@@ -27,7 +27,7 @@ cp    ./.vimrc  "$HOME" &&\
 cp    ./.gtkr   "$HOME" &&\
 cp ./.gtkrc-2.0 "$HOME" &&\
 cp ./.profile   "$HOME" &&\
-cp ./etc/systemd/system/wol.service /etc/systemd/system/wol.service || \
+sudo cp ./etc/systemd/system/wol.service /etc/systemd/system/wol.service || \
   (echo "[ERROR] Config file deployment failed!"; exit 1)
 # Fix faulty permissions of config files
 sudo chown -R "$USER:$USER" "$HOME/{.config,.icons,.local,.themes,.vimrc,.gtkr,.gtkrc-2.0,.profile}" &&\
@@ -51,6 +51,14 @@ echo "Setup defaults ..."
 [[ -f "$(which nemo)" ]] &&\
   gsettings set org.cinnamon.desktop.default-applications.terminal exec kitty &&\
   gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg fish
+# Setup sddm theme
+[[ -f "/lib/sddm/sddm.conf.d/default.conf"]] && \
+  sddm_theme_folder="$(cat /lib/sddm/sddm.conf.d/default.conf | awk '/ThemeDir=/{split($0,a,"="); print a[2]}')"
+  [[ -d "${sddm_theme_folder:?sddm theme not set}/catppuccin-mocha" ]] && \
+    sudo sed -i -e "s@Current=@Current=\"${sddm_theme_folder:?sddm theme not set}/catppuccin-mocha\"@" /lib/sddm/sddm.conf.d/default.conf
+# Setup grub theme
+[[ -f "/etc/default/grub" ]] && [[ -f "/usr/share/grub/themes/catppuccin-mocha/theme.txt" ]] &&\
+  sudo sed -s -i 's@^[ #]*GRUB_THEME=.*@GRUB_THEME="/usr/share/grub/themes/catppuccin-mocha/theme.txt"@' /etc/default/grub
 
 echo "Setup systemd services ..."
 sudo systemctl enable --now clamav-daemon.service &&\
