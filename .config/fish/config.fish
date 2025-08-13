@@ -48,9 +48,9 @@ alias updte=' sudo pacman -Syyu'
 alias updqte='sudo pacman -Syyu'
 alias claer="clear"
 alias gtop="btop"
-alias neofetch="fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 20"
 #redirect windows commands
 alias dir='ls'
+alias diskmgmt="sudo cfdisk"
 
   #################################################
  ### Aliases for Input & Basic system settings ###
@@ -109,6 +109,8 @@ alias lsblk='lsblk -fs'
   #####################################
  ### Aliases for System Management ###
 #####################################
+alias gksudo="pkexec" # policy kit (polkit) exec
+alias neofetch="fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 20"
 ##################
 ## Update Stuff ##
 ##################

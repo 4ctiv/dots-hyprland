@@ -3,7 +3,7 @@
 # Version: 2025-2
 
 # https://ollama.com/library
-MODEL="gemma3:4b" # "deepseek-coder:6.7b"
+MODEL="llama3.1:8b" # "deepseek-r1:8b" "deepseek-coder:6.7b"
 CONTAINER_NET="ollama"
 CONTAINER_NAME="ollama"
 PORT_PREFIX="127.0.0.1:"  # Only for docker with root -> will limit access to ip
