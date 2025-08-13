@@ -74,8 +74,15 @@ systemctl enable --now --user docker.service &&\
 
 echo "Setup themes ..."
 if [[ -d "/usr/share/themes/catppuccin-mocha" ]]; then
-  sudo sed -i -e 's@^[ ]*Current=.*$@Current="catppuccin-mocha"@m' /lib/sddm/sddm.conf.d/default.conf || \
-  (echo "[ERROR] Setting sddm theme failed!")
+  if [[ -f '/etc/sddm.conf' ]]; then
+    sudo sed -i -e 's@^[ ]*Current=.*$@Current=catppuccin-mocha@m' /etc/sddm.conf || \
+      sed -i -e 's@^\[Theme\]\nCurrent=.*$@Current=catppuccin-mocha@m' /etc/sddm.conf || \
+      (echo "[THEME]\nCurrent=catppuccin-mocha" | sudo tee -a '/etc/sddm.conf') ||\
+      (echo "[ERROR] Setting sddm theme failed!")
+  else
+    sudo sed -i -e 's@^[ ]*Current=.*$@Current="catppuccin-mocha"@m' /lib/sddm/sddm.conf.d/default.conf || \
+      (echo "[ERROR] Setting sddm theme failed!")
+  fi
 fi
 if [[ -f "/etc/default/grub" ]] && [[ -d /usr/share/grub/themes/catppuccin-mocha ]] ; then
   sudo sed -i -e 's@^[ ]*GRUB_THEME=.*$@GRUB_THEME="/usr/share/grub/themes/catppuccin-mocha/theme.txt"@m' /etc/default/grub &&\
