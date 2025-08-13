@@ -2,9 +2,13 @@
 # Reboots the computer into Windows
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-    notify-send "This script must be run with sudo privilages"
-    echo "This script must be run with sudo privilages"
-    exit
+    pkexec $0 && exit 0
+    if [[ $- == *i* ]];then
+      echo "This script must be run with sudo privilages"
+    else
+      notify-send "This script must be run with sudo privilages"
+    fi
+    exit 1
 fi
 
 # Settings
@@ -26,6 +30,7 @@ export filter="[Ww]indows"
 #grub_num=$(sudo awk -F \' '$1=="menuentry " || $1=="submenu " {print i++ " : " $2}; /\smenuentry / {print "\t" i-1">"j++ " : " $2};' /boot/grub/grub.cfg \
 #                                               | grep -E "${filter}" | awk 'NR==1{print $1}')
 #sudo grub-reboot ${grub_num:?entry id not found} # Set next boot entrie
+
 sudo reboot
 
 exit 0
