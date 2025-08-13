@@ -55,7 +55,7 @@ echo "Setup defaults ..."
 [[ -f "/lib/sddm/sddm.conf.d/default.conf"]] && \
   sddm_theme_folder="$(cat /lib/sddm/sddm.conf.d/default.conf | awk '/ThemeDir=/{split($0,a,"="); print a[2]}')"
   [[ -d "${sddm_theme_folder:?sddm theme not set}/catppuccin-mocha" ]] && \
-    sudo sed -i -e "s@Current=@Current=\"${sddm_theme_folder:?sddm theme not set}/catppuccin-mocha\"@" /lib/sddm/sddm.conf.d/default.conf
+    sudo sed -i -e "s@Current=.*@Current=\"${sddm_theme_folder:?sddm theme not set}/catppuccin-mocha\"@" /lib/sddm/sddm.conf.d/default.conf
 # Setup grub theme
 [[ -f "/etc/default/grub" ]] && [[ -f "/usr/share/grub/themes/catppuccin-mocha/theme.txt" ]] &&\
   sudo sed -s -i 's@^[ #]*GRUB_THEME=.*@GRUB_THEME="/usr/share/grub/themes/catppuccin-mocha/theme.txt"@' /etc/default/grub
