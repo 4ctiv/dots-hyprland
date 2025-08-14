@@ -10,11 +10,22 @@ which checkupdates > /dev/null || sudo pacman -S pacman-contrib;
 old_dir="$(dir)"
 out_of_date_packs=$(checkupdates | wc -l)
 OUTDATED_ALLOWED=50
+PKG_MGR="paru"  # if unset default to pacman (no aur helper)
+
+# Setup aur helper manager: paru
+if [[ "${PKG_MGR}" == "paru" ]] && [[ ! -f "$(which paru)" ]]; then
+  [[ ! -f "$(which git)" ]] || pacman -S git
+  git clone https://aur.archlinux.org/paru.git paru_setup &&\
+    cd paru_setup &&\
+    makepkg -si &&\
+    cd .. &&\
+  rm -rf paru_setup
+fi
 
 # Verify yay is installed else install yay
-if [ ! -f "$(which yay 2>/dev/null)" ]; then
-  which git > /dev/null || pacman -S git base-devel
-  git clone https://aur.archlinux.org/yay.git yay-setup &&\
+if [ "${PKG_MGR}" == "yay" ] && [ ! -f "$(which yay 2>/dev/null)" ]; then
+  [ ! -f $(which git) ] || pacman -S git base-devel
+  git clone https://aur.archlinux.org/yay.git yay_setup &&\
   cd yay-setup &&\
   makepkg -si &&\
   cd "$old_dir" &&\
@@ -23,8 +34,8 @@ fi
 
 # Only update if >= X packages are out of date (idea: stabe system intervalls)
 if [[ $out_of_date_packs -ge $OUTDATED_ALLOWED ]] || [[ "$(tty)" =~ "not a tty" ]]; then
-  kitty --hold --name "Auto_Update" --title "Auto_Update" sh -c \
-   "echo 'Requesting System upgrade ($out_of_date_packs packages)'; yay -Syu --noconfirm; exit_code=$?; read -n 1 -s -p 'Press [ANY] key to continue ...' dummy;exit $exit_code"
+  kitty --name "Auto_Update" --title "Auto_Update" sh -c \
+   "echo 'Requesting System upgrade ($out_of_date_packs packages)'; ${PKG_MGR:-pacman} -Syu --noconfirm; read -n 1 -s -p 'Press [ANY] key to continue ...' dummy; exit 0"
   [ $(checkupdates | wc -l) -eq 0 ] && echo "Auto Update Success" || (echo "Auto Update Failed")
 else
   msg="Less than $OUTDATED_ALLOWED packages outdated => skipping update"

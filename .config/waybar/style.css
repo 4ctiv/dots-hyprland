@@ -21,7 +21,7 @@ tooltip {
 
 #workspaces button {
     box-shadow: none;
-	text-shadow: none;
+    text-shadow: none;
     padding: 0px;
     border-radius: 9px; /* 9px */
     margin-top: 3px;
@@ -55,7 +55,7 @@ tooltip {
 
 #taskbar button {
     box-shadow: none;
-	text-shadow: none;
+    text-shadow: none;
     padding: 0px;
     border-radius: 9px; /* 9px */
     margin-top: 3px;
@@ -100,6 +100,11 @@ tooltip {
 #mpris,
 #network,
 #custom-power,
+#custom-draw,
+#custom-touch,
+#custom-keyboard,
+#custom-backlight,
+#custom-audio,
 #pulseaudio,
 #custom-spotify,
 #taskbar,
@@ -122,6 +127,11 @@ tooltip {
     margin: 4px 0px 4px 0px;
     padding-left: 4px;
     padding-right: 4px;
+}
+
+#custom-menu {
+    margin-left:  20px;
+    margin-right: 15px;
 }
 
 #workspaces,
