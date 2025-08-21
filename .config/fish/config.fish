@@ -12,7 +12,7 @@ if status is-interactive
   #end
   ### Shell prompt ###
   if test -z $TERM_PROGRAM
-    fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 12 &
+    fastfetch -l ~/.config/neofetch/great-wave-transparent-2.png --logo-height 12 &
   else
     clear
     hostnamectl | grep -E '([Oo]perating System|[Kk]ernel|[A]rchitecture)'
@@ -109,6 +109,7 @@ alias lsblk='lsblk -fs'
   #####################################
  ### Aliases for System Management ###
 #####################################
+alias yay="paru"
 alias gksudo="pkexec" # policy kit (polkit) exec
 alias neofetch="fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 20"
 ##################
@@ -133,10 +134,11 @@ alias check-system-probe="sudo -E hw-probe -check -minimal -all -show"
 alias log-system="sudo dmesg; sudo journalctl;"
 alias log-system-now="sudo dmesg --follow-new &; sudo journalctl --follow --since 'now' &;"
 alias log-systemd-user="systemctl status systemd-logind.service ; systemctl status user@$(id -u).service"
-alias log-calamares="bat /var/log/Calamares.log"
-alias log-pacman="   bat /var/log/pacman.log"
-alias log-xorg="     bat /var/log/Xorg.0.log"
-alias log-xorg-old=" bat /var/log/Xorg.0.log.old"
+alias log-calamares="cat /var/log/Calamares.log"
+alias log-pacman="   cat /var/log/pacman.log"
+alias log-xorg="     cat /var/log/Xorg.0.log"
+alias log-xorg-old=" cat /var/log/Xorg.0.log.old"
+alias log-sddm="     cat ~/.local/share/sddm/*.log"
 alias log-notifications="makoctl history # | jq '.data[0][].body.data'"
 # System info
 alias list-system-usage="top -u nobody -bn1 | head -n 5"
@@ -233,6 +235,7 @@ alias fix-qt-platform="export QT_QPA_PLATFORM='wayland;xcb'"
 ### File System  Maintenace ###
 ###############################
 # Filesystem
+alias list-partitions="lsblk -o name,label,fstype,fsuse%,uuid"
 alias list-drive-busy="lsof -R"
 alias list-drive-mounts="df -h | grep -E --color=never '/dev/[^(loop|dm\-0)]|//'"
 alias list-btrfs-snapshots="sudo timeshift --list"
