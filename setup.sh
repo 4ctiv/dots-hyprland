@@ -63,7 +63,7 @@ echo "Setup defaults ..."
 echo "Setup systemd services ..."
 sudo systemctl enable --now clamav-daemon.service &&\
 sudo systemctl enable --now clamav-freshclam-once.service &&\
-sudo systemctl enable --now wol.service || \
+sudo systemctl enable --now libvirtd.service &&\
   (echo "[ERROR] Starting systemd system services failed!"; exit 1)
 systemctl enable --now --user ssh-agent.service &&\
 systemctl enable --now --user hypridle.service &&\
