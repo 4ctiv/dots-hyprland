@@ -11,6 +11,7 @@
 #exit 0
 
 # Package manager
+snapd                # System independend snap packages
 octopi               # GUI package manager
 paru
 yay

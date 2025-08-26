@@ -61,11 +61,14 @@ echo "Setup defaults ..."
   sudo sed -s -i 's@^[ #]*GRUB_THEME=.*@GRUB_THEME="/usr/share/grub/themes/catppuccin-mocha/theme.txt"@' /etc/default/grub
 # Setup virt-manager
 # sudo usermod -a -G libvirt $(whoami) # DANGEROUS: User gains some higher privileges on the system
+# Setup Snap support (allow classic mode)
+[[ -d "/var/lib/snap" ]] && sudo ln -s /var/lib/snapd/snap /snap
 
 echo "Setup systemd services ..."
 sudo systemctl enable --now clamav-daemon.service &&\
 sudo systemctl enable --now clamav-freshclam-once.service &&\
 sudo systemctl enable --now libvirtd.service &&\
+sudo systemctl enable --now snapd &&\
   (echo "[ERROR] Starting systemd system services failed!"; exit 1)
 systemctl enable --now --user ssh-agent.service &&\
 systemctl enable --now --user hypridle.service &&\
