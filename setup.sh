@@ -59,6 +59,8 @@ echo "Setup defaults ..."
 # Setup grub theme
 [[ -f "/etc/default/grub" ]] && [[ -f "/usr/share/grub/themes/catppuccin-mocha/theme.txt" ]] &&\
   sudo sed -s -i 's@^[ #]*GRUB_THEME=.*@GRUB_THEME="/usr/share/grub/themes/catppuccin-mocha/theme.txt"@' /etc/default/grub
+# Setup virt-manager
+# sudo usermod -a -G libvirt $(whoami) # DANGEROUS: User gains some higher privileges on the system
 
 echo "Setup systemd services ..."
 sudo systemctl enable --now clamav-daemon.service &&\

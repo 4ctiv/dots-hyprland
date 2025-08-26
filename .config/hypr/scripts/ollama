@@ -37,6 +37,10 @@ if [ ! $? -eq 0 ]; then
   exit 1
 fi
 
+function open-webui_stop {
+  docker stop open-webui
+}
+
 function open-webui_start {
   if [[ $(docker info -f "{{println .SecurityOptions}}" | grep -o rootless) ]]; then
     PORT_PREFIX=""  # unset port prefix as it would lead to errors in rootless mode
@@ -199,24 +203,23 @@ if [ ! -z "$1" ]; then
   if [ ! -z "$2" ]; then
     MODEL="$(echo "$2" | awk '{print $NF}')"
   fi
+
   case "$1" in
   "-h" | "--help")
     printf "$HELP_MSG"
     exit 0
   ;;
   "-k" | "--kill"    | "-s" | "--stop")
-    echo "Killing ollama & open-webui"
-    docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null
-    docker stop ${CONTAINER_NAME:=ollama} 2>/dev/null
-    docker stop open-webui 2>/dev/null
+    echo "Stopping open-webui"
+    open-webui_stop;
+    echo "Stopping ollama"
+    ollama_stop;
     exit $?
   ;;
   "-d" | "--detatch" | "-b" | "--background")
-    echo "Starting ollama in background"
+    echo "Starting ollama (background)"
     ollama_start
     ollama_pull
-    # docker network connect bridge ${CONTAINER_NAME:=ollama} 2>/dev/null
-    # echo "[WARNING] Ollama is running in the background as '${CONTAINER_NAME:=ollama}' and has network access"
     exit 0
   ;;
   "-w" | "--web" | "-g" | "--gui")
@@ -225,8 +228,7 @@ if [ ! -z "$1" ]; then
     exit 0;
   ;;
   "*") # Expect model was given
-    echo "Starting ollama with user specified model: $1"
-    MODEL="$(echo "$1" | awk '{print $NF}')"
+    echo "Starting ollama with specified model: $1"
     ollama_start
     open-webui_start
     ollama_pull

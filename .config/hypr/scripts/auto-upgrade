@@ -11,6 +11,13 @@ old_dir="$(dir)"
 out_of_date_packs=$(checkupdates | wc -l)
 OUTDATED_ALLOWED=50
 PKG_MGR="paru"  # if unset default to pacman (no aur helper)
+FORCE_UPDATE=0
+
+if [[ "$1" == "--force" ]] || [[ "$1" == "-f" ]];then
+  FORCE_UPDATE=1
+  echo "Forcing update"
+  shift 1;
+fi
 
 # Setup aur helper manager: paru
 if [[ "${PKG_MGR}" == "paru" ]] && [[ ! -f "$(which paru)" ]]; then
@@ -33,9 +40,10 @@ if [ "${PKG_MGR}" == "yay" ] && [ ! -f "$(which yay 2>/dev/null)" ]; then
 fi
 
 # Only update if >= X packages are out of date (idea: stabe system intervalls)
-if [[ $out_of_date_packs -ge $OUTDATED_ALLOWED ]] || [[ "$(tty)" =~ "not a tty" ]]; then
+if [[ $out_of_date_packs -ge $OUTDATED_ALLOWED ]] || [[ $FORCE_UPDATE > 0 ]]; then
   kitty --name "Auto_Update" --title "Auto_Update" sh -c \
-   "echo 'Requesting System upgrade ($out_of_date_packs packages)'; ${PKG_MGR:-pacman} -Syu --noconfirm; read -n 1 -s -p 'Press [ANY] key to continue ...' dummy; exit 0"
+   "echo 'Requesting System upgrade ($out_of_date_packs packages)'; ${PKG_MGR:-pacman} -Syu --noconfirm; read -n 1 -s -p 'Press [ANY] key to continue ...' dummy; exit 0" \
+   > /dev/null
   [ $(checkupdates | wc -l) -eq 0 ] && echo "Auto Update Success" || (echo "Auto Update Failed")
 else
   msg="Less than $OUTDATED_ALLOWED packages outdated => skipping update"
