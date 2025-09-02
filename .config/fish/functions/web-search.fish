@@ -7,20 +7,26 @@ function web-search --description "search <arg> on the web"
     yay -S $browser || return 1
   end
 
-  # Fix lynx confirmation for every cookie 
-  # (cookies are still not persistent between sessions)
-  if $browser -eq "lynx"
+  # Lynx auto accept all cookies (still non persistent)
+  if string match "$browser" "lynx" >/dev/null
     set browser 'lynx -accept_all_cookies'
   end
 
+  # Set base url
   set s_querry "https://lite.duckduckgo.com/lite"
+  if string match --regex '^[a-zA-Z0-9]+://' "$argv[1]" >/dev/null
+    set s_querry "$argv[1]"
+    set argv $argv[2..-1]
+  end
+
+  # Set search args
   if count $argv > /dev/null
     set -a s_querry "?q="
     for arg in $argv
-      set -a s_querry "%20$arg"
+      set -a s_querry (string escape --style=url " $arg")
     end
-    set s_querry $(echo "$s_querry"|sed 's/ //g')
+    set s_querry $(echo "$s_querry" | sed 's/ //g')
   end
-  echo "$s_querry"
-  $browser "$s_querry"
+  echo "$browser $s_querry"
+  eval "$browser $s_querry"
 end
