@@ -25,32 +25,62 @@ Usage: '$(echo $0 | sed 's|.*/|./|g')' [flag] [model]
 If no flags are specified ollama will run in terminal
 '
 
+###############
+### Globals ###
+###############
+
+MODEL="llama3.1:8b" # "deepseek-r1:8b" "deepseek-coder:6.7b"
+CONTAINER_NET="ollama"
+CONTAINER_NAME="ollama"
+if [[ $(docker info -f "{{println .SecurityOptions}}" | grep -o rootless) ]]; then
+  # Docker rootless
+  PORT_PREFIX=""  # unset port prefix as it would lead to errors in rootless mode
+  OLLAMA_MODELS_HOST_DIR="$HOME/.ollama/models" # Per user (docker rootless)
+  PORT_PREFIX=""  # unset port prefix as it would lead to errors in rootless mode
+else
+  # Docker as root
+  PORT_PREFIX="127.0.0.1:"  # Only for docker with root -> will limit access to ip
+  OLLAMA_MODELS_HOST_DIR="/opt/ollama/models"   # System wide
+fi
+
+###############
+### Cleanup ###
+###############
 # On forced exit always disconnect ollama networks and stop container
-trap 'docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null;
-      docker stop ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null ;
-      docker stop open-webui   &>/dev/null ;
-      exit 0' SIGINT
+trap '
+ docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null;
+ docker stop ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null ;
+ docker stop open-webui   &>/dev/null ;
+ exit 0' SIGINT
 
 docker ps >/dev/null 2>/dev/null
 if [ ! $? -eq 0 ]; then
   echo "Please start docker first"
   exit 1
 fi
+#################
+### Functions ###
+#################
 
 function open-webui_stop {
   docker stop open-webui
 }
 
 function open-webui_start {
-  if [[ $(docker info -f "{{println .SecurityOptions}}" | grep -o rootless) ]]; then
-    PORT_PREFIX=""  # unset port prefix as it would lead to errors in rootless mode
+  if [[ ! -z "$(docker ps --format '{{.Names}}' | grep -o open-webui)" ]]; then
+    # Already running
+    return 2;
   fi
+  # Setup container network
   docker network create --driver=bridge open-webui > /dev/null 2>/dev/null
-
+  # Update local image
   docker pull ghcr.io/open-webui/open-webui:main >/dev/null 2>/dev/null
-  if [[ ! -z "$(docker ps -a | grep -o open-webui)" ]]; then
+
+  if [[ ! -z "$(docker ps -a --format '{{.Names}}' | grep -o open-webui)" ]]; then
+    # Container exists
     docker start open-webui >/dev/null
   else
+    # Create container
     docker run -d \
              -p ${PORT_PREFIX}3000:8080 \
              -v open-webui:/app/backend/data \
@@ -66,20 +96,20 @@ function open-webui_start {
   fi &&\
     (timeout 500 bash -c 'while [ "$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:3000")" != "200" ];do sleep 1s; done') &&\
     xdg-open http://localhost:3000& >/dev/null 2>/dev/null # opens webpage
+  # echo "" # Fix prompt not returning to user input
 }
 
 function ollama_start {
 
-  # Create docker bridge for ollama container
+  if [ ! -z "$(docker ps --format '{{.Names}}' | grep -o -E '[O|o]llama')" ];then
+    # Already running
+    return 2;
+  fi
+
+  # Network (internal communication)
   docker network create --internal ${CONTAINER_NET:=ollama} > /dev/null
 
-  # Create docker volume for ollama models
-  if [[ $(docker info -f "{{println .SecurityOptions}}" | grep -o rootless) ]]; then
-    OLLAMA_MODELS_HOST_DIR="$HOME/.ollama/models" # Per user (docker rootless)
-    PORT_PREFIX=""  # unset port prefix as it would lead to errors in rootless mode
-  else
-    OLLAMA_MODELS_HOST_DIR="/opt/ollama/models"   # System wide
-  fi
+  # Volume (ollama config & models)
   mkdir -p ${OLLAMA_MODELS_HOST_DIR:?not set} && echo "Created ${OLLAMA_MODELS_HOST_DIR}"
   docker volume create \
     --driver local \
@@ -89,41 +119,55 @@ function ollama_start {
     ${CONTAINER_NAME:=ollama} >/dev/null
 
   # Check if ollama container already exists
+  # - inxi -G  # list graphical devices (human readable)
   if [ -z "$(docker ps -a --format '{{.Names}}' | grep -o -E '[O|o]llama')" ]; then
-    # inxi -G  # list graphical devices (human readable)
     if [[ $(lsmod | grep nvidia) ]]; then
-      # NVIDIA Graphics card
+      # NVIDIA Graphics
       # -> https://hub.docker.com/r/ollama/ollama#nvidia
       sudo nvidia-ctk runtime configure --runtime=docker
       sudo systemctl restart docker
       printf "[INFO] Using NVIDIA GPU for running ollama\n"
       docker run -d \
-        --name ${CONTAINER_NAME:=ollama} \
-        --gpus=all \
-        -v ollama:/root/.ollama/models \
-        -p ${PORT_PREFIX}11434:11434 \
-        ollama/ollama
+           --name ${CONTAINER_NAME:=ollama} \
+           --hostname ${CONTAINER_NAME:=ollama} \
+           --restart=always \
+           --device=/dev/dri \
+           --gpus=all \
+           --network ${CONTAINER_NET:=ollama} \
+           -v ollama:/root/.ollama/models \
+           -p ${PORT_PREFIX}11434:11434 \
+           -e PATH=/llm/ollama:$PATH \
+           -e OLLAMA_HOST=0.0.0.0 \
+           -e no_proxy=localhost,127.0.0.1 \
+           ollama/ollama
     elif [[ $(lsmod | grep amdgpu) ]]; then
-      # AMD Graphics card
+      # AMD Graphics
       # -> https://hub.docker.com/r/ollama/ollama#amd
       printf "[INFO] Using AMD GPU for running ollama\n"
       docker run -d \
-        --name ${CONTAINER_NAME:=ollama} \
-        --device /dev/kfd \
-        --device /dev/dri \
-        -v ollama:/root/.ollama/models \
-        -p ${PORT_PREFIX}11434:11434 \
-        ollama/ollama:rocm
+           --name ${CONTAINER_NAME:=ollama} \
+           --hostname ${CONTAINER_NAME:=ollama} \
+           --restart=always \
+           --device=/dev/dri \
+           --device /dev/kfd \
+           --gpus=all \
+           --network ${CONTAINER_NET:=ollama} \
+           -v ollama:/root/.ollama/models \
+           -p ${PORT_PREFIX}11434:11434 \
+           -e PATH=/llm/ollama:$PATH \
+           -e OLLAMA_HOST=0.0.0.0 \
+           -e no_proxy=localhost,127.0.0.1 \
+           ollama/ollama:rocm
     elif [[ $(lsmod | grep i915) ]]; then
-      # Intel ARC driver loaded
+      # Intel Graphics (ARC)
       # -> https://dev.to/itlackey/run-ollama-on-intel-arc-gpu-ipex-4e4k
-      # - Note: image exists but was removed by itel from dockerhub
       printf "[INFO] Using INTEL GPU for running ollama\n"
       docker run -d \
            --name ${CONTAINER_NAME:=ollama} \
            --hostname ${CONTAINER_NAME:=ollama} \
            --restart=always \
            --device=/dev/dri \
+           --gpus=all \
            --network ${CONTAINER_NET:=ollama} \
            -v ollama:/root/.ollama/models \
            -p ${PORT_PREFIX}11434:11434 \
@@ -139,14 +183,20 @@ function ollama_start {
            intelanalytics/ipex-llm-inference-cpp-xpu:latest \
            bash -c "cd /llm/scripts/ && source ipex-llm-init --gpu --device Arc && bash /llm/scripts/start-ollama.sh && tail -f /llm/ollama/ollama.log" >/dev/null
     else
-      # Unknown GPU (may only use cpu)
+      # Unknown GPU (may fall back to cpu)
       printf "\033[0;33m[WARNING]\033[0m Unknown GPU: Using CPU for running ollama\n"
       lspci -k | grep -EA3 'VGA' # shows some gpu information
       docker run -d \
         --name ${CONTAINER_NAME:=ollama} \
-        --gpus=all \
+        --hostname ${CONTAINER_NAME:=ollama} \
+        --restart=always \
+        --gpus all \
+        --device=/dev/dri \
+        --network ${CONTAINER_NET:=ollama} \
         -v ollama:/root/.ollama/models \
         -p ${PORT_PREFIX}11434:11434 \
+        -e OLLAMA_HOST=0.0.0.0 \
+        -e no_proxy=localhost,127.0.0.1 \
         ollama/ollama:latest
     fi
   fi
@@ -197,7 +247,9 @@ function ollama_stop {
   #docker container rm ollama > /dev/null 2>/dev/null
 }
 
+#################
 ### MAIN CODE ###
+#################
 
 if [ ! -z "$1" ]; then
   if [ ! -z "$2" ]; then
@@ -210,25 +262,27 @@ if [ ! -z "$1" ]; then
     exit 0
   ;;
   "-k" | "--kill"    | "-s" | "--stop")
-    echo "Stopping open-webui"
-    open-webui_stop;
-    echo "Stopping ollama"
-    ollama_stop;
+    echo "Killing ollama & open-webui"
+    docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null
+    docker stop ${CONTAINER_NAME:=ollama} 2>/dev/null
+    docker stop open-webui 2>/dev/null
     exit $?
   ;;
   "-d" | "--detatch" | "-b" | "--background")
-    echo "Starting ollama (background)"
+    echo "Starting ollama in background"
     ollama_start
     ollama_pull
     exit 0
   ;;
   "-w" | "--web" | "-g" | "--gui")
     echo "Starting open-webui"
+    ollama_start;
     open-webui_start;
     exit 0;
   ;;
   "*") # Expect model was given
-    echo "Starting ollama with specified model: $1"
+    echo "Starting ollama with user specified model: $1"
+    MODEL="$(echo "$1" | awk '{print $NF}')"
     ollama_start
     open-webui_start
     ollama_pull
