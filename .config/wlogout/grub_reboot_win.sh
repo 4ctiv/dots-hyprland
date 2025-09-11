@@ -1,7 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/bash -e
 # Reboots the computer into Windows
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
+    pkexec $0 && exit
     echo "This script must be run with sudo privilages"
     exit
 fi

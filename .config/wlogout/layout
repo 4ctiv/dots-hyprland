@@ -30,7 +30,8 @@
 }
 {
     "label" : "reboot",
-    "action" : "gksudo /home/$USER/.config/wlogout/grub_reboot_win.sh",
+    "action" : "$HOME/.config/wlogout/grub_reboot_win.sh",
     "text" : "Windows [w]",
     "keybind" : "w"
 }
+
