@@ -4,14 +4,15 @@
 CONFIG="$HOME/.config/hypr/wofi/config"
 STYLE="$HOME/.config/hypr/wofi/style.css"
 COLORS="$HOME/.config/hypr/wofi/colors"
+BASE_CMD="mpv --vid=no"
 
 ## Wofi Command
 wofi_command="wofi --show dmenu \
-			--conf ${CONFIG} --style ${STYLE} --color ${COLORS} \
-			--width=350 --height=380 \
-			--cache-file=/dev/null \
-			--hide-scroll --no-actions \
-			--define=matching=fuzzy"
+      --conf ${CONFIG} --style ${STYLE} --color ${COLORS} \
+      --width=350 --height=380 \
+      --cache-file=/dev/null \
+      --hide-scroll --no-actions \
+      --define=matching=fuzzy"
 
 
 notification(){
@@ -39,86 +40,86 @@ main() {
   choice=$(menu | ${wofi_command} | cut -d. -f1)
 
   case $choice in
-    00) 
+    00)
       # Gute Musik
       notification
-      mpv --vid=no "https://music.youtube.com/playlist?list=PLhb3OfKIelBAQpoEWqvVaS5ux9r5K29x2"
+      ${BASE_CMD:-mpv --vid=no} "https://music.youtube.com/playlist?list=PLhb3OfKIelBAQpoEWqvVaS5ux9r5K29x2"
       return
       ;;
     01)
       notification ;
-      mpv --vid=no "https://www1.wdr.de/radio/player/einslive-radioplayer-100~_layout-popupVersion.html"
+      ${BASE_CMD:-mpv --vid=no} "https://www1.wdr.de/radio/player/einslive-radioplayer-100~_layout-popupVersion.html"
       return
       ;;
     02)
       notification ;
-      mpv --vid=no "https://music.youtube.com/playlist?list=RDCLAK5uy_kb7EBi6y3GrtJri4_ZH56Ms786DFEimbM&playnext=1&si=slttHtVgY0CgVTsR"
+      ${BASE_CMD:-mpv --vid=no} "https://music.youtube.com/playlist?list=RDCLAK5uy_kb7EBi6y3GrtJri4_ZH56Ms786DFEimbM&playnext=1&si=slttHtVgY0CgVTsR"
       return
       ;;
     11)
       # Study
       notification
-      mpv --vid=no "https://music.youtube.com/playlist?list=PLhb3OfKIelBD4L-4Y-Utz9P7IgIPkAK7B&si=p14hdTx2_VI81n4Z"
+      ${BASE_CMD:-mpv --vid=no} "https://music.youtube.com/playlist?list=PLhb3OfKIelBD4L-4Y-Utz9P7IgIPkAK7B&si=p14hdTx2_VI81n4Z"
       return
       ;;
     12)
       # Vibe
       notification
-      mpv --vid=no "https://music.youtube.com/playlist?list=PLhb3OfKIelBD16ngVY4A7Lk8N6gcsmRLD&si=atefCVnCPzWCJEGO"
+      ${BASE_CMD:-mpv --vid=no} "https://music.youtube.com/playlist?list=PLhb3OfKIelBD16ngVY4A7Lk8N6gcsmRLD&si=atefCVnCPzWCJEGO"
       return
       ;;
     13)
       # Relax
       notification
-      mpv --vid=no "https://music.youtube.com/playlist?list=PLhb3OfKIelBAeH90uhlkRqZCTokSE7MPa&si=YOlulMVX-tfFm0Ax"
+      ${BASE_CMD:-mpv --vid=no} "https://music.youtube.com/playlist?list=PLhb3OfKIelBAeH90uhlkRqZCTokSE7MPa&si=YOlulMVX-tfFm0Ax"
       return
       ;;
     14)
       # Rebel
       notification
-      mpv --vid=no "https://music.youtube.com/playlist?list=PLhb3OfKIelBBuf6SgusY_Pm1ROC6H38-r&si=18doYBZUcfAM4v-9"
+      ${BASE_CMD:-mpv --vid=no} "https://music.youtube.com/playlist?list=PLhb3OfKIelBBuf6SgusY_Pm1ROC6H38-r&si=18doYBZUcfAM4v-9"
       return
       ;;
     21)
       # Bar
       notification ;
-      mpv --vid=no --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBA1QX1RDSMe9tUtKrZF7Nb1&si=9PU2s9JW1NBWgNYp"
+      ${BASE_CMD:-mpv --vid=no} --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBA1QX1RDSMe9tUtKrZF7Nb1&si=9PU2s9JW1NBWgNYp"
       return
       ;;
     22)
       # Fantasy
       notification ;
-      mpv --vid=no --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBB52aSKc1fdtmNKHML335wX&si=t78yCGGK-N2M5zww"
+      ${BASE_CMD:-mpv --vid=no} --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBB52aSKc1fdtmNKHML335wX&si=t78yCGGK-N2M5zww"
       return
       ;;
     23)
       # Ship
       notification ;
-      mpv --vid=no --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBBqZPAz49RZvLJ_9iWRRHiW&si=NwvxndGTfg7pJT3L"
+      ${BASE_CMD:-mpv --vid=no} --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBBqZPAz49RZvLJ_9iWRRHiW&si=NwvxndGTfg7pJT3L"
       return
       ;;
     24)
       # Space
       notification ;
-      mpv --vid=no --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBCh-2IANQJWy9AUzn3CXFpb&si=ElD7SCkhA2X-kK5c"
+      ${BASE_CMD:-mpv --vid=no} --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBCh-2IANQJWy9AUzn3CXFpb&si=ElD7SCkhA2X-kK5c"
       return
       ;;
     31)
       # Stream
       notification ;
-      mpv --vid=no --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBDZvBW8L7LsCAHUXBh_3b0p&si=VmmMc5mU2ncLyNIt"
+      ${BASE_CMD:-mpv --vid=no} --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBDZvBW8L7LsCAHUXBh_3b0p&si=VmmMc5mU2ncLyNIt"
       return
       ;;
     32)
       # Workout
       notification ;
-      mpv --vid=no --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBDNf_GPn_tzLPCTEaXo3mEG&si=kFMQvrP0A83OQI9F"
+      ${BASE_CMD:-mpv --vid=no} --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBDNf_GPn_tzLPCTEaXo3mEG&si=kFMQvrP0A83OQI9F"
       return
       ;;
     33)
       # Old
       notification ;
-      mpv --vid=no --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBALv2NWtOR0dELUvnZ-krXR&si=G1jdtEf5FbtCeZLJ"
+      ${BASE_CMD:-mpv --vid=no} --shuffle "https://music.youtube.com/playlist?list=PLhb3OfKIelBALv2NWtOR0dELUvnZ-krXR&si=G1jdtEf5FbtCeZLJ"
       return
       ;;
   esac
