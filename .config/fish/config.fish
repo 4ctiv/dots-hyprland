@@ -48,6 +48,7 @@ alias updte=' sudo pacman -Syyu'
 alias updqte='sudo pacman -Syyu'
 alias claer="clear"
 alias gtop="btop"
+alias neofetch="fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 20"
 #redirect windows commands
 alias dir='ls'
 alias diskmgmt="sudo cfdisk"
@@ -80,7 +81,6 @@ alias wget="wget -c"
 # ps (running process tree)
 alias psa="ps auxf"
 # debug
-alias app-debug="coredumpctl debug"
 alias hex-ascii="hexdump -C"
 alias free="free -mt"
 #yt-dpl (youtube)
@@ -111,7 +111,6 @@ alias lsblk='lsblk -fs'
 #####################################
 alias yay="paru"
 alias gksudo="pkexec" # policy kit (polkit) exec
-alias neofetch="fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 20"
 ##################
 ## Update Stuff ##
 ##################
