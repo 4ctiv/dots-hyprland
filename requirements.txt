@@ -10,6 +10,14 @@
 #paru -Syu --needed --noconfirm $to_install;
 #exit 0
 
+# Intel ARC + AMD CPU
+# amd-ucode
+# libva-intel-driver
+# libva-utils
+# libvdpau-va-gl 
+# lib32-vulkan-intel
+# vulkan-intel
+
 # Package manager
 snapd                # System independend snap packages
 octopi               # GUI package manager
@@ -33,6 +41,7 @@ xf86-input-libinput  # Optional: Touch input
 xdg-desktop-portal-hyprland
 ntp                  # Network time syncronisation
 htop                 # task manager (TUI)
+gdb                  # Debugger
 
 # Hyprland desktop core
 hypridle             # idle manager
@@ -127,8 +136,8 @@ xournalpp             # handwritten notes
 obsidian              # markdown notes
 papers                # pdf reader
 # Media
-mixxx                 # audio player
-gimp                  # photo editing
+qmmp                  # audio player  [`mixxx` -> DJ/Mixing]
+gimp                  # photo editing [`krita` -> drawing]
 inkscape              # photo editing (vector graphics)
 mpv                   # video player
 shotcut               # video editor
