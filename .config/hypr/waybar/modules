@@ -196,7 +196,7 @@
     "exec": "checkupdates | wc -l",
     "exec-if": "[[ $(checkupdates | wc -l) ]]",
     "interval": 7200,
-    "on-click": "~/.config/hypr/scripts/auto-upgrade || notify-send 'System could not update'"
+    "on-click": "~/.config/hypr/scripts/auto-upgrade -f || notify-send 'System could not update'"
   },
 
   "custom/cycle_wall":{
