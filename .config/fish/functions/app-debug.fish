@@ -20,9 +20,12 @@ function app-debug -d "GDB debugging executable"
   Common GDB Commands:
       file          Set file to debug (set to passed arg)
       break <func>  Set breakpoint at function
+      info break    View breakpoints
+      disable <id>  Disable specific breakpoint by ID
       run           Start debugging
+      continue      Run till next breakpoint/End
       next          Step to next line
-      next          Step to next Assembly
+      nexti         Step to next Assembly
       step          Step into function
       continue      Continue execution
       print <var>   Print variable value
