@@ -1,0 +1,13 @@
+[Unit]
+# Enable this via 'systemctl enable --user --now playback-info.socket"
+Documentation=monitors audio playback status and writes to ~/.player-info
+Description=Audio Playback Info
+After=pulseaudio.service sound.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h
+ExecStart=%h/.config/hypr/scripts/playback-info.sh --loop -t 60 --file %h/.player-info.txt
+
+[Install]
+WantedBy=audio.target

@@ -10,7 +10,6 @@ catppuccin_theme() {
   ICONS='a-candy-beauty-icon-them'
   FONT='SauceCodeProNerdFont'
   CURSOR='Bibata-Modern-Ice'
-
   SCHEMA='gsettings set org.gnome.desktop.interface'
 
   ### Custom app theming ###
@@ -39,10 +38,10 @@ apply_themes() {
    rose-pine_theme
 
     #export QT_QPA_PLATFORMTHEME=gtk2
-	${SCHEMA} gtk-theme "$THEME"
-	${SCHEMA} icon-theme "$ICONS"
-	${SCHEMA} cursor-theme "$CURSOR"
-	${SCHEMA} font-name "$FONT"
+  ${SCHEMA} gtk-theme "$THEME"
+  ${SCHEMA} icon-theme "$ICONS"
+  ${SCHEMA} cursor-theme "$CURSOR"
+  ${SCHEMA} font-name "$FONT"
 }
 
 apply_themes

@@ -15,7 +15,7 @@ for _prs in "${_ps[@]}"; do
 done
 
 # Apply themes (done in themes)
-#${SCRIPTSDIR}/gtkthemes &
+#${SCRIPTSDIR}/themes &
 
 # Lauch notification daemon (mako)
 ${SCRIPTSDIR}/notifications &
