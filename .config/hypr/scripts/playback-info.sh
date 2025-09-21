@@ -19,12 +19,16 @@ timeout="60"
 
 main () {
   while [[ true ]]; do
-    if [[ ! -z "$(ps aux | grep -o -m 1 qmmp)" ]];then
+    if [[ ! -z "$(ps aux | grep -o -m 1 -E '[Q|q]mmp')" ]];then
       qmmp --nowplaying "%p @ %t" > "$output"
     else
-      title="$(playerctl metadata title)"
-      artist="$(playerctl metadata artist)"
-      echo "$artist @ $title" > "$output"
+      title="$(playerctl metadata title 2>/dev/null)"
+      artist="$(playerctl metadata artist 2>/dev/null)"
+      if [[ -z "$title" ]] || [[ -z "$artist" ]];then
+        echo "" > "$output"
+      else
+        echo "${artist} @ ${title}" > "$output"
+      fi
     fi
     if [[ -z "$loop" ]]; then break; else sleep "$timeout"; fi
   done
