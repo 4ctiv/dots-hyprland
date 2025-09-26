@@ -1,0 +1,9 @@
+[Nemo Action]
+Active=true
+Name=Create Tar Archive
+Comment=Create a tar archive of the selected folder
+Exec=sh -c 'tar -czf "$(dirname %F)/$(basename %F).tar.gz" "%F" && notify-send "Finished archiving $(basename %F).tar.gz"'
+Icon-Name=gnome-mime-application-x-compress
+Selection=any
+Extensions=dir;
+Quote=double
