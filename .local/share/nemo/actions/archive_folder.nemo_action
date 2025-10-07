@@ -2,7 +2,7 @@
 Active=true
 Name=Create Tar Archive
 Comment=Create a tar archive of the selected folder
-Exec=sh -c 'cd %P && tar -czf %e.tar.gz %e && notify-send "Finished archiving %e.tar.gz"'
+Exec=sh -c 'cd "%P" && tar -czf "%e.tar.gz" "%e" && notify-send "Finished archiving %e.tar.gz"'
 Icon-Name=gnome-mime-application-x-compress
 Selection=any
 Extensions=dir;
