@@ -57,7 +57,7 @@ wl-clipboard         # clipboard tools
 cliphist             # clipboard manager
 nemo                 # file browser (GUI)
 nemo-seahorse        # support encrypt & sign context-menu
-file-roller          # archive manager (GUI)
+arc                  # archive manager (GUI)
 kitty                # terminal emulator
 fish                 # shell
 flameshot            # screenshot tool

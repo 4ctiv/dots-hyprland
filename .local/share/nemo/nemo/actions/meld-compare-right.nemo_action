@@ -1,8 +1,0 @@
-[Nemo Action]
-Active=true
-Name=Compare with saved element
-Comment=Compare %F saved file or directory.
-Exec=Compare file (meld right comapre)
-Icon-Name=meld
-Selection=S
-Extensions=any

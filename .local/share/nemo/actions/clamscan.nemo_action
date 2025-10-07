@@ -2,7 +2,7 @@
 Name=Clam Scan
 Comment=Clam Scan
 
-Exec=gnome-terminal -x sh -c "clamscan -r %F | less"
+Exec=kitty --title "clamscan" sh -c "clamscan -r %F | less"
 
 Icon-Name=bug-buddy
 

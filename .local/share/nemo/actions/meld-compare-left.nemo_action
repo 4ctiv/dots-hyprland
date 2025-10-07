@@ -1,0 +1,9 @@
+[Nemo Action]
+Active=true
+Name=Compare left
+Comment=Save file/folder for left compare
+Exec=bash -c '$HOME/.local/share/nemo/actions/meld-compare.sh left %F'
+Icon-Name=meld
+Selection=S
+Extensions=any
+Quote=double
