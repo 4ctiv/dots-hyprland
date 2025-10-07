@@ -1,8 +1,18 @@
 " 4ctiv's vim config (Note: " marks a comment)
 
+" Make vim not fake it beeing "vi"
+" [Reference](https://www.youtube.com/watch?v=XA2WjJbmmoM)
+ set nocompatible
+
+" Enable file browsing
+" Allows recursive search via `:find FILE/FOLDER`
+ filetype plugin on
+ set wildmenu
+ set path+=**
+
 " Set shell while using vim
 " This is relevant for e.g. :! or :shell
-set shell=/bin/bash
+ set shell=/bin/bash
 
 " Set Font with ligerature
  set guifont=JetBrainsMono\ Nerd\ Font\ Mono
@@ -75,6 +85,9 @@ syntax match git_conflict /^<<<<<<<.*$/
 """HOTKEYS"""
 " <S-...> Shift ; <M-...> Alt ; <C-...> Strg ; <...>[1;53s AltGr
 " NOTE: MAC maynot work with <A-...>, use [ALT] + [KEY] resulting letter instead
+
+"Remap autocomplete ([CTRL]+[N] -> [CTRL]+[SPACE])
+ inoremap <C-Space> <C-n>
 
 "nnoremap <F1> :help <CR>                        " open help page
  nnoremap <F1> :Explore <CR>                     " File browser
