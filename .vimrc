@@ -112,14 +112,22 @@
  nnoremap <F7> zo   <CR>                         " Un-fold
  nnoremap <S-F7> zR <CR>                         " Un-fold all
  nnoremap <C-F7> zR <CR>                         " Un-fold all
+ 
+ nnoremap <C-F11> <C-O>                          "Jump back
+ nnoremap <F11> gD                               " Jump to declaration
+ nnoremap <C-F12> <C-O>                          "Jump back
+ nnoremap <F12> gd                               " Jump to definition
 
  " Syntax highlight overides
  " NOTE: You can use `:setfiletype` instead of `:set syntax=` to also use
  " language features (e.g. indentation)
  noremap <C-S-r> :set syntax=ON <CR>             " Set syntax to automatic detection
- noremap <C-S-j> :set syntax=json5 <CR>          " Set syntax to json5 (json with comments)
- noremap <C-S-m> :set syntax=markdown <CR>       " Set syntax to markdown (form of rich text)
- noremap <C-S-x> :set syntax=xml <CR>            " Set syntax to xml (structured text, e.g. html)
+ noremap <C-S-b> :set syntax=bash <CR>           " Set syntax to bash (common linux script language)
+ noremap <C-S-j> :set syntax=json5 <CR>          " Set syntax to json5
+ noremap <C-S-y> :set syntax=yaml <CR>           " Set syntax to yaml
+ noremap <C-S-m> :set syntax=markdown <CR>       " Set syntax to markdown
+ noremap <C-S-p> :set syntax=ps1 <CR>            " Set syntax to powershell
+ noremap <C-S-x> :set syntax=xml <CR>            " Set syntax to xml (~html)
 "noremap <C-S-s> :w !sudo tee % > /dev/null <CR> " Save as admin
 
  " Markdown viewer
