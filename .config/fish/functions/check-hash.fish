@@ -1,4 +1,4 @@
-function csm-verify --description 'Validate a file against a checksum'
+function check-hash --description 'Validate a file against a checksum'
 
    #Arguments: protocoll checksum file
    # Note: Error number match argument, (-1) decodes failed verification
