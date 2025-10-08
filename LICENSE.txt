@@ -1,0 +1,13 @@
+Disclaimer
+
+1. No Warranty
+The dotfiles in this repository are provided "as-is" without any express or implied warranties of any kind. By using these dotfiles, you agree that you do so at your own risk. I make no representations regarding the functionality, compatibility, or reliability of these dotfiles with any specific system, distribution, or configuration. They are provided with no guarantee of correctness or fitness for any particular purpose.
+
+2. Third-Party Resources
+These dotfiles contain configurations, scripts, or other resources that may rely on or integrate with third-party repositories, software, or services. While efforts have been made to ensure compatibility and security, I do not control or maintain these third-party resources. As such, no responsibility is taken for any issues or damage that may arise from their use. Please be aware that these third-party resources are subject to their own licenses, terms of use, and potential changes outside of my control.
+
+3. Limitation of Liability
+In no event shall I be liable for any direct, indirect, incidental, special, or consequential damages arising from the use or inability to use these dotfiles, including but not limited to data loss, system failure, or any other damage that may result from applying these configurations. By using these files, you acknowledge that you are solely responsible for any consequences that result from their use.
+
+4. Modifications and Contributions
+Contributions, suggestions, or modifications to this repository are welcome. However, by submitting them, you acknowledge that you do so voluntarily, and I am not liable for any issues arising from such contributions.
