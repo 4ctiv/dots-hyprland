@@ -1,5 +1,12 @@
 " 4ctiv's vim config (Note: " marks a comment)
 
+" Load theme
+ "let ayucolor="dark"
+ colorscheme rosepine " ~/.vim/colors/ayu.vim
+ " Disable theme background color
+ let g:disable_bg=1
+ let g:disable_float_bg=1
+
 " Make vim not fake it beeing "vi"
 " [Reference](https://www.youtube.com/watch?v=XA2WjJbmmoM)
  set nocompatible
@@ -58,7 +65,7 @@
 
 " Change line number color based on vim mode
 " (Note: Visual mode has no events on enter/leave)
- autocmd InsertLeave * highlight LineNr ctermfg=yellow guibg=black
+ autocmd InsertLeave * highlight LineNr ctermfg=NONE guibg=black
 "autocmd VisualLeave * highlight LineNr ctermfg=yellow guibg=black
 
  autocmd InsertEnter * highlight LineNr ctermfg=red    guibg=red
@@ -74,11 +81,11 @@
 " Highlight git conflicts
  highlight git_conflict ctermbg=red ctermfg=white
 
- "syn region git_conflict_S start=/^<<<<<<< .*$/ end=/^\\ze\$$=======$\\||||||||\$$/
+"syn region git_conflict_S start=/^<<<<<<< .*$/ end=/^\\ze\$$=======$\\||||||||\$$/
 "syn region git_conflict_M start=/^||||||| .*$/ end=/^\\ze=======$/
 "syn region git_conflict_E start=/^\$$=======$\\||||||| |\$$/ end=/^>>>>>>> .*$/
 
-syntax match git_conflict /^<<<<<<<.*$/
+ syntax match git_conflict /^<<<<<<<.*$/
  syntax match git_conflict /^=======.*$/
  syntax match git_conflict /^>>>>>>>.*$/
 
