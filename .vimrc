@@ -1,6 +1,6 @@
 " 4ctiv's vim config (Note: " marks a comment)
 
-" Load theme
+"""Theme"""
  "let ayucolor="dark"
  colorscheme rosepine " ~/.vim/colors/ayu.vim
  " Disable theme background color
@@ -16,6 +16,9 @@
  filetype plugin on
  set wildmenu
  set path+=**
+
+" Make splits open on botton (e.g. :term)
+ set splitbelow
 
 " Set shell while using vim
 " This is relevant for e.g. :! or :shell
@@ -117,5 +120,14 @@
  noremap <C-S-j> :set syntax=json5 <CR>          " Set syntax to json5 (json with comments)
  noremap <C-S-m> :set syntax=markdown <CR>       " Set syntax to markdown (form of rich text)
  noremap <C-S-x> :set syntax=xml <CR>            " Set syntax to xml (structured text, e.g. html)
+"noremap <C-S-s> :w !sudo tee % > /dev/null <CR> " Save as admin
 
-" nnoremap <C-S-s> :w !sudo tee % > /dev/null <CR> " Save as admin
+ " Markdown viewer
+ function! Open_Glow_Right_Split()
+   set nolist
+   rightbelow vertical terminal watch glow %
+   wincmd h
+   set list
+ endfunction
+ noremap <C-p> :call Open_Glow_Right_Split()<CR>
+
