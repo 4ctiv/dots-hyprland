@@ -25,8 +25,10 @@ case "$arg" in
  ;;
  "--wait"|"-w")
   echo "'$@' waiting for waybar"
-  while [[ "$(top -bn1 | grep -m 1 -o waybar)" = "" ]];do sleep 1s; done; sleep 1s;
-  sleep 1s; nohup $@ >/dev/null 2>/dev/null
+  timeout 60 sh -c 'while [[ "$(top -bn1 | grep -m 1 -o waybar)" = "" ]];do sleep 1s; done;' || echo "Reached Timeout, executing program"
+  sleep 1s;
+  nohup $@ >/dev/null 2>/dev/null &
+  disown $(jobs | awk '/nohup/{print $1}' | head -n 1)
 ;;
  "--status"|"-s")
   return $( [[ "$(top -bn1 | grep -m 1 -o waybar)" == "" ]] && return "0" || return "1" )

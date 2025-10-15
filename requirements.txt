@@ -1,4 +1,7 @@
 #!/bin/bash
+# A list of common utilities can be found here:
+# https://wiki.archlinux.org/title/List_of_applications/Utilities
+
 #to_install=""
 #while read row; do
 #  if [[ -z "$(echo ${row} | grep -v '^#')" ]];then

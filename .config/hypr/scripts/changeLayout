@@ -5,10 +5,14 @@ LAYOUT=$(hyprctl -j getoption general:layout | jq '.str' | sed 's/"//g')
 case $LAYOUT in
 "master")
   hyprctl keyword general:layout dwindle
+  #hyprctl keyword unbind SUPER,O
+  #hyprctl keyword bind SUPER,J,layoutmsg,cyclenext
   notify-send "Dwindle Layout"
   ;;
 "dwindle")
   hyprctl keyword general:layout master
+  #hyprctl keyword unbind SUPER,O
+  #hyprctl keyword bind SUPER,J,layoutmsg,cyclenext
   notify-send "Master Layout"
   ;;
 *) ;;
