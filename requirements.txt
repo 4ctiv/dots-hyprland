@@ -43,7 +43,8 @@ iio-hyprland-git     # Optional: Screen rotation
 xf86-input-libinput  # Optional: Touch input
 xdg-desktop-portal-hyprland
 ntp                  # Network time syncronisation
-htop                 # task manager (TUI)
+htop                 # task manager (TUI,CPU)
+nvtop                # task manager (TUI,GPU)
 gdb                  # Debugger
 
 # Hyprland desktop core
@@ -89,6 +90,7 @@ gparted              # Partititon manager (GUI)
 gnome-disk-utility   # Disk mount manager (GUI)
 btrfs-assistant      # btrfs helper (GUI)
 btrfs-progs          # btrfs tools
+grub-btrfs           # BTRFS subvolume support in grub
 cifs-utils           # network fileshare tools
 ntfs-3g              # NTF driver
 timeshift            # snapshots tool (rollbacks)

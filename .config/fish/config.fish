@@ -51,6 +51,7 @@ if status is-interactive
     # processes
     alias process-tree="ps auxf"
     # debug
+    alias check-io="sudo iotop -o -a"
     alias check-dump="coredumpctl gdb"
     alias check-hex-ascii="hexdump -C"
     #yt-dpl (youtube)
@@ -59,6 +60,9 @@ if status is-interactive
     #web
     alias web-app="brave --app"
     alias unhblock="hblock -S none -D none"
+    # environemnts
+    alias docker-cleanup="docker system prune --all --volumes" # && docker volume rm -i $(docker volume ls | awk '{print $3}' | grep -v 'NAME')
+    alias vm-cleanup="virsh undefine --remove-all-storage --delete-snapshots --domain"
 
     ###############################
     ### Beautify terminal apps  ###
@@ -137,7 +141,8 @@ if status is-interactive
     alias list-packs-size="  expac -H M '%m\t%n' | sort -h | nl" # List of package sizes
     alias list-packs-recent="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
     alias list-packs-recent-extended="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
-    alias list-packs-desktop="find /usr/share/applications/ /usr/local/share/applications/ ~/.local/share/applications/ -type f -name '*.desktop' 2>/dev/null"
+    alias list-packs-desktop="find (string split ':' $XDG_DATA_DIRS)/applications -type f -name '*.desktop' 2>/dev/null"
+    alias list-packs-desktop-v2="ls (string split ':' $XDG_DATA_DIRS)/applications"
     alias list-packs-outdated="checkupdates"
     alias list-pack-owner='pacman -Qo'
     alias list-pack-info=' pacman -Sii'
@@ -147,6 +152,8 @@ if status is-interactive
     ##########################
     alias packs-add='    sudo pacman -S'
     alias packs-remove=' sudo pacman -R'
+    alias packs-install='  packs-add'
+    alias packs-uninstall='packs-remove'
     alias packs-owner='  sudo pacman -Qo'
     alias packs-deps='   sudo pacman -Sii'
     alias packs-update=' sudo pacman -Syyu'
@@ -174,9 +181,9 @@ if status is-interactive
     alias fix-gpg-pacman="[ -d ~/.gnupg ] || mkdir ~/.gnupg ; cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ ; echo 'done'"
     alias fix-gpg-database="gpg2 --keyserver-options auto-key-retrieve --receive-keys"
     # package-manager
-    alias fix-lock-yay="    sudo rm /var/lib/pacman/db.lck"
-    alias fix-lock-pamac="  sudo rm /var/tmp/pamac/dbs/db.lock"
-    alias fix-lock-pacman=" sudo rm /var/lib/pacman/db.lck"
+    alias fix-lock-yay="    sudo rm -i /var/lib/pacman/db.lck"
+    alias fix-lock-pamac="  sudo rm -i /var/tmp/pamac/dbs/db.lock"
+    alias fix-lock-pacman=" sudo rm -i /var/lib/pacman/db.lck"
     alias fix-keys="                /usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
     alias fix-keys-pacman="         /usr/local/bin/arcolinux-fix-pacman-gpg-conf"
     alias fix-packs-broken="sudo pacman -S \$(sudo pacman -Qk 2>/dev/null | grep -v ' 0 missing files' | cut -d: -f1)"
@@ -184,7 +191,7 @@ if status is-interactive
     alias fix-conf-grub="/usr/local/bin/arcolinux-fix-grub"
     alias fix-conf-pacman="         /usr/local/bin/arcolinux-fix-pacman-conf"
     alias fix-conf-sddm="/usr/local/bin/arcolinux-fix-sddm-config"
-    alias reset-vim=' cp /etc/skel/.vimrc ~/.vimrc && rm ~/.vim && cp /etc/skel/.vim ~/.vim && echo "Restored vim"'
+    alias reset-vim=' cp /etc/skel/.vimrc ~/.vimrc && rm -i ~/.vim && cp /etc/skel/.vim ~/.vim && echo "Restored vim"'
     alias reset-zsh=' cp /etc/skel/.zshrc                   ~/.zshrc                   && echo "Restored zsh"'
     alias reset-bash='cp /etc/skel/.bashrc                  ~/.bashrc                  && echo "Restored bash"'
     alias reset-fish='cp /etc/skel/.config/fish/config.fish ~/.config/fish/config.fish && echo "Restored fish"'
