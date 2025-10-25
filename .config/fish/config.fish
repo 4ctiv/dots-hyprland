@@ -122,7 +122,7 @@ if status is-interactive
     # Session info
     alias list-keys-ssh="ssh-add -l"
     alias list-users-ssh="grep --color=none 'AllowedUsers' /etc/ssh/sshd_config{,.d/*} || fish -c \"getent passwd | grep --color=none -v '/nologin' | awk -F ':' '{print $1}'\""
-    alias list-users-login="cut -d: -f1 /etc/passwd | sort" # List of existing useres on the machine
+    alias list-users-login="cat /etc/passwd | grep -v nologin" # List of existing useres on the machine
     alias list-groups="cat /etc/group | sed 's/:[^:]*:[^:]*:/\t/g'"
     alias list-session-activ="w -i -p" # add -h for no header (for use in scripts)
     alias list-session-xorg="ls /usr/share/xsessions" # List xorg    sessions
