@@ -24,8 +24,8 @@
 # Package manager
 snapd                # System independend snap packages
 octopi               # GUI package manager
-paru
-yay
+paru                 # alt.: yay
+downgrade            # allow downgrading packages
 # System core
 grub                 # Boot manager
 polkit               # permission management
@@ -59,6 +59,7 @@ wofi                 # menu provider (GUI)
 mako                 # notification daemon
 wl-clipboard         # clipboard tools
 cliphist             # clipboard manager
+filezilla            # Network file browser (GUI)
 nemo                 # file browser (GUI)
 nemo-seahorse        # support encrypt & sign context-menu
 arc                  # archive manager (GUI)
