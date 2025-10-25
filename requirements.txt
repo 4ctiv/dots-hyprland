@@ -122,6 +122,7 @@ catppuccin-mocha-grub-theme-git # Optional: Grub   theme
 
 # Development and Text
 git                   # Version controll tool
+lazygit               # Git (TUI)
 vim                   # code-editor (cli)
 #zed                  # code-editor
 code                  # code-editor (GUI)
@@ -164,7 +165,8 @@ remmina               # Remote Desktop (Client)
 wayvnc                # Remote desktop (local  Server)
 parsec-bin            # Remote Desktop (Global Server)
 openssh               # Remote terminal
-docker-rootless-extras-bin # Rootless docker
+docker-rootless-extras # Container (Docker rootless)
+lazydocker            # Docker (TUI)
 
 # Nice 2 have
 google-chrome         # Alt: browser
