@@ -140,9 +140,8 @@ if status is-interactive
     alias list-packs-owner='pacman -Qo'
     alias list-packs-recent="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
     alias list-packs-recent-extended="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
-    alias list-packs-desktop="find (string split ':' $XDG_DATA_DIRS)/applications -type f -name '*.desktop' 2>/dev/null"
-    alias list-packs-desktop-v2="ls (string split ':' $XDG_DATA_DIRS)/applications"
     alias list-packs-broken="sudo pacman -Qk 2>/dev/null | grep -v ' 0 missing files' | cut -d: -f1"
+    alias list-packs-desktop="find /usr/share/applications/ /usr/local/share/applications/ ~/.local/share/applications/ -type f -name '*.desktop' 2>/dev/null"
     alias list-packs-outdated="checkupdates"
 
 
