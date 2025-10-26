@@ -51,6 +51,7 @@ if status is-interactive
     ### Software Management ###
     ###########################
     # should be defaults (in ineractive mode)
+    alias cp="rsync -ah --no-inc-recursive --info=progress2" # may be slower for single copies
     alias wget="wget -c"
     alias process-tree="ps auxf"
     # debugging commands
@@ -143,7 +144,6 @@ if status is-interactive
     alias list-packs-broken="sudo pacman -Qk 2>/dev/null | grep -v ' 0 missing files' | cut -d: -f1"
     alias list-packs-desktop="find /usr/share/applications/ /usr/local/share/applications/ ~/.local/share/applications/ -type f -name '*.desktop' 2>/dev/null"
     alias list-packs-outdated="checkupdates"
-
 
     ##########################
     ### Software managment ###
