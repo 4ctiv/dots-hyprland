@@ -2,7 +2,7 @@
 # Reboots the computer into Windows
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-    pkexec $0 && exit '$?'
+    pkexec $0 && exit "$?"
     echo "This script must be run with sudo privilages"
     notify-send "$0 script requires sudo privilages"
     exit 1

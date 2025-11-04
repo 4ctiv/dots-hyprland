@@ -12,7 +12,7 @@
 }
 {
     "label" : "logout",
-    "action" : "openrgb -c bcbcbc; loginctl terminate-user $USER",
+    "action" : "openrgb -c bcbcbc; hyprctl dispatch exit || loginctl terminate-user $USER",
     "text" : "Logout [e]",
     "keybind" : "e"
 }
