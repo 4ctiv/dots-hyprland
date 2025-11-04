@@ -176,6 +176,8 @@ element-desktop       # Matrix chat client
 discord               # Voice/Vido chat client
 steam                 # Game store
 heroic-games-launcher # Game store
+gamemode              # Game boost
+lib32-gamemode
 
 # Fun
 tea                   # Gitea cli tool
