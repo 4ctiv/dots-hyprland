@@ -1,13 +1,6 @@
 #!/bin/bash
 # Author: 4ctiv
 # Version: 2025-2
-
-# https://ollama.com/library
-MODEL="gemma3:4b" # "deepseek-r1:8b" "deepseek-coder:6.7b"
-CONTAINER_NET="ollama"
-CONTAINER_NAME="ollama"
-PORT_PREFIX="127.0.0.1:"  # Only for docker with root -> will limit access to ip
-
 HELP_MSG='Help page for '$0'
 Usage: '$(echo $0 | sed 's|.*/|./|g')' [flag] [model]
 
@@ -25,13 +18,11 @@ Usage: '$(echo $0 | sed 's|.*/|./|g')' [flag] [model]
 If no flags are specified ollama will run in terminal
 '
 
-###############
-### Globals ###
-###############
-
-MODEL="llama3.1:8b" # "deepseek-r1:8b" "deepseek-coder:6.7b"
+MODEL="qwen3-vl:4b" # "gemma3:4b-it-qat" # https://ollama.com/library
 CONTAINER_NET="ollama"
 CONTAINER_NAME="ollama"
+PORT_PREFIX="127.0.0.1:"  # Only for docker with root -> will limit access to ip
+
 if [[ $(docker info -f "{{println .SecurityOptions}}" | grep -o rootless) ]]; then
   # Docker rootless
   PORT_PREFIX=""  # unset port prefix as it would lead to errors in rootless mode
@@ -94,8 +85,8 @@ function open-webui_start {
              -e ENABLE_OLLAMA_API=True \
              ghcr.io/open-webui/open-webui:main >/dev/null
   fi &&\
-    (timeout 500 bash -c 'while [ "$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:3000")" != "200" ];do sleep 1s; done') &&\
-    xdg-open http://localhost:3000& >/dev/null 2>/dev/null # opens webpage
+    (timeout 500 bash -c 'while [ "$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:3000?temporary-chat=true")" != "200" ];do sleep 1s; done') &&\
+    xdg-open http://localhost:3000?temporary-chat=true& >/dev/null 2>/dev/null # opens webpage
   # echo "" # Fix prompt not returning to user input
 }
 
@@ -167,7 +158,6 @@ function ollama_start {
            --hostname ${CONTAINER_NAME:=ollama} \
            --restart=always \
            --device=/dev/dri \
-           --gpus=all \
            --network ${CONTAINER_NET:=ollama} \
            -v ollama:/root/.ollama/models \
            -p ${PORT_PREFIX}11434:11434 \
@@ -228,7 +218,7 @@ function ollama_pull {
   echo "Reciving ollama $MODEL (ollam has temporary internet access)"
  #docker network connect ${CONTAINER_NET:=ollama} ${CONTAINER_NAME:=ollama} 2>/dev/null # give container network access
   docker network connect    bridge ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null # give container network access
-  docker exec -it ${CONTAINER_NAME:=ollama} ollama pull "$MODEL" >/dev/null
+  docker exec -it ${CONTAINER_NAME:=ollama} ollama pull "$MODEL" # >/dev/null
   docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null # remove container network access
  #docker network disconnect ${CONTAINER_NET:=ollama} ${CONTAINER_NAME:=ollama} >/dev/null # remove container network access
   echo "Fineshed reciving ollama $MODEL (temporary network access removed)"

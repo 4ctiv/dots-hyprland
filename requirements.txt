@@ -32,7 +32,7 @@ polkit               # permission management
 libsecret            # Secure storage interface
 gstreamer            # audio and video streams
 systemd              # Init system
-gnome-keyring        # keyring (session secrets)
+gnome-keyring        # keyring (session secrets) -> Code-OSS: add `"password-store": "gnome-libsecret"` in `~/.vscode-oss/argv.json`
 sddm                 # display manager
 wayland              # window manager backend
 lib32-wayland        # Optional: Support 32-Bit (recommended)
@@ -125,7 +125,8 @@ git                   # Version controll tool
 lazygit               # Git (TUI)
 vim                   # code-editor (cli)
 #zed                  # code-editor
-code                  # code-editor (GUI)
+code                  # code-editor (GUI) OSS
+code-marketplace      # code-oss enable vscode marketplace
 go                    # Golang
 ghc                   # Haskell
 gcc                   # C, C++, ...
