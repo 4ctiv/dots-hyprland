@@ -65,8 +65,7 @@ if status is-interactive
     alias web-app="brave --app"
     alias unhblock="hblock -S none -D none"
     # environemnts
-    alias docker-cleanup="docker system prune --all --volumes" # && docker volume rm -i $(docker volume ls | awk '{print $3}' | grep -v 'NAME')
-    alias vm-cleanup="virsh undefine --remove-all-storage --delete-snapshots --domain"
+    alias cleanup-vm="virsh undefine --remove-all-storage --delete-snapshots --domain"
 
     ###############################
     ### Beautify terminal apps  ###
