@@ -15,11 +15,12 @@
 
 # Intel ARC + AMD CPU
 # amd-ucode
-# libva-intel-driver
 # libva-utils
-# libvdpau-va-gl 
-# lib32-vulkan-intel
+# libva-intel-driver
+# libvdpau-va-gl
 # vulkan-intel
+# lib32-vulkan-intel
+# intel-compute-runtime
 
 # Package manager
 snapd                # System independend snap packages
@@ -173,7 +174,7 @@ lazydocker            # Docker (TUI)
 google-chrome         # Alt: browser
 firefox               # Alt: browser
 owncloud-client       # Selfhosted Cloud
-element-desktop       # Matrix chat client
+schildichat-desktop   # Matrix chat client
 discord               # Voice/Vido chat client
 steam                 # Game store
 heroic-games-launcher # Game store

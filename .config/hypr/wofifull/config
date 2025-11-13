@@ -6,7 +6,7 @@ prompt=Apps
 normal_window=true
 layer=overlay
 term=kitty
-columns=5
+columns=4
 
 ## Geometry
 width=80%

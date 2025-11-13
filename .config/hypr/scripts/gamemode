@@ -15,10 +15,12 @@ if [ "$HYPRGAMEMODE" = 1 ] ; then
         keyword decoration:rounding 0"
     hyprctl hyprsunset temperature identitiy # remove blue light filter
     hyprctl notify 1 5000 "rgb(ff1ea3)" "Gamemode [ON]"
+   #killall waybar
     exit 0
 else
     hyprctl notify 1 5000 "rgb(ff1ea3)" "Gamemode [OFF]"
     hyprctl reload
+    [ ! -z "$(ps -x | awk 'match($5,/waybar/) {print $5}')" ] || (nohup waybar >/dev/null 2>/dev/null & disown %)
     exit 0
 fi
 

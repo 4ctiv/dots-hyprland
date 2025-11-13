@@ -1,3 +1,9 @@
+/* Mocha Maroon */
+@define-color accent #eba0ac;
+@define-color txt #cad3f5;
+@define-color bg #24273a;
+@define-color bg2 #494d64;
+
 * {
     font-family: "Noto Sans";
     font-size: 14px;

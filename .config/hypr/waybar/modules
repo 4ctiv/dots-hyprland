@@ -147,8 +147,8 @@
   "disk": {
     "interval": 20,
     "format": "🖪 {free}", // 🖫 , 🖬
-    "on-click": "filelight",
-    "on-click-right": "kitty iotop -o"
+    "on-click": "filelight || (kitty -c 'yay -S filelight' && filelight)",
+    "on-click-right": "kitty pkexec sh -c 'iotop -o && exit $?'"
   },
 
   "memory": {
@@ -156,16 +156,16 @@
     "format": "  {used:0.1f}G",
     "tooltip": true,
     "tooltip-format": "{used:0.2f}G RAM used",
-    "on-click": "kitty vmstat 2",
-  //"on-click-right": "kitty free -h"
+    "on-click": "kitty less /proc/meminfo",
+    "on-click-right": "kitty vmstat 2",
   },
 
   "cpu": {
     "interval": 2,
     "format": "{icon0}{icon1}{icon2}{icon3} {usage:>2}% ",
     "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
-    "on-click": "kitty glances",
-    "on-click-right": "kitty bash -c 'echo Opening htop as administrator ... && sudo htop -u $USER'"
+    "on-click": "pkexec kitty bash -c 'htop -u $USER' || kitty bash -c 'htop -u $USER'",
+    "on-click-right": "pkexec kitty bash -c 'glances' || kitty bash -c 'glances'"
   },
 
   "network": {
@@ -178,7 +178,8 @@
     "format-disabled": "睊 Disabled",
     "format-alt": " {ipaddr}/{cidr}",
     "tooltip-format": " {ifname} via {gwaddr}",
-    "on-click-right": "~/.config/hypr/scripts/toggle_wireless.sh"
+  //"on-click": "pkexec wireshark || wireshark",
+    "on-click-right": "~/.config/hypr/scripts/toggle_wireless.sh",
   },
 
   "custom/weather": {
@@ -196,7 +197,8 @@
     "exec": "checkupdates | wc -l",
     "exec-if": "[[ $(checkupdates | wc -l) ]]",
     "interval": 7200,
-    "on-click": "~/.config/hypr/scripts/auto-upgrade -f || notify-send 'System could not update'"
+    "on-click": "~/.config/hypr/scripts/auto-upgrade -f || notify-send 'System could not update'",
+    "on-click-right": "octopi || pamac-manager || cosmic-store"
   },
 
   "custom/cycle_wall":{

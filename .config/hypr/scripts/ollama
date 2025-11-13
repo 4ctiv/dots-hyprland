@@ -21,13 +21,13 @@ If no flags are specified ollama will run in terminal
 MODEL="qwen3-vl:4b" # "gemma3:4b-it-qat" # https://ollama.com/library
 CONTAINER_NET="ollama"
 CONTAINER_NAME="ollama"
-PORT_PREFIX="127.0.0.1:"  # Only for docker with root -> will limit access to ip
+PORT_PREFIX="127.0.0.1:" # Only for docker with root -> will limit access to ip
+KEEP_NETWORK_ACCESS=""   # Empty -> Only network access while downloading models
 
 if [[ $(docker info -f "{{println .SecurityOptions}}" | grep -o rootless) ]]; then
   # Docker rootless
   PORT_PREFIX=""  # unset port prefix as it would lead to errors in rootless mode
   OLLAMA_MODELS_HOST_DIR="$HOME/.ollama/models" # Per user (docker rootless)
-  PORT_PREFIX=""  # unset port prefix as it would lead to errors in rootless mode
 else
   # Docker as root
   PORT_PREFIX="127.0.0.1:"  # Only for docker with root -> will limit access to ip
@@ -47,7 +47,7 @@ trap '
 docker ps >/dev/null 2>/dev/null
 if [ ! $? -eq 0 ]; then
   echo "Please start docker first"
-  exit 1
+  exit 3
 fi
 #################
 ### Functions ###
@@ -63,11 +63,13 @@ function open-webui_start {
     return 2;
   fi
   # Setup container network
-  docker network create --driver=bridge open-webui > /dev/null 2>/dev/null
+  if [[ -n "$(docker network ls --format '{{.Name}}' | grep -o ollama)" ]];then
+    docker network create --driver=bridge open-webui > /dev/null 2>/dev/null
+  fi
   # Update local image
   docker pull ghcr.io/open-webui/open-webui:main >/dev/null 2>/dev/null
 
-  if [[ ! -z "$(docker ps -a --format '{{.Names}}' | grep -o open-webui)" ]]; then
+  if [[ -n "$(docker ps -a --format '{{.Names}}' | grep -o open-webui)" ]]; then
     # Container exists
     docker start open-webui >/dev/null
   else
@@ -101,7 +103,7 @@ function ollama_start {
   docker network create --internal ${CONTAINER_NET:=ollama} > /dev/null
 
   # Volume (ollama config & models)
-  mkdir -p ${OLLAMA_MODELS_HOST_DIR:?not set} && echo "Created ${OLLAMA_MODELS_HOST_DIR}"
+  mkdir -p ${OLLAMA_MODELS_HOST_DIR:?not set} && [[ "$1" != "-q" ]] && echo "Created ${OLLAMA_MODELS_HOST_DIR}"
   docker volume create \
     --driver local \
     --opt type=none \
@@ -110,8 +112,8 @@ function ollama_start {
     ${CONTAINER_NAME:=ollama} >/dev/null
 
   # Check if ollama container already exists
-  # - inxi -G  # list graphical devices (human readable)
   if [ -z "$(docker ps -a --format '{{.Names}}' | grep -o -E '[O|o]llama')" ]; then
+    # - inxi -G  # list graphical devices (human readable)
     if [[ $(lsmod | grep nvidia) ]]; then
       # NVIDIA Graphics
       # -> https://hub.docker.com/r/ollama/ollama#nvidia
@@ -121,7 +123,7 @@ function ollama_start {
       docker run -d \
            --name ${CONTAINER_NAME:=ollama} \
            --hostname ${CONTAINER_NAME:=ollama} \
-           --restart=always \
+           --restart=unless-stopped \
            --device=/dev/dri \
            --gpus=all \
            --network ${CONTAINER_NET:=ollama} \
@@ -138,7 +140,7 @@ function ollama_start {
       docker run -d \
            --name ${CONTAINER_NAME:=ollama} \
            --hostname ${CONTAINER_NAME:=ollama} \
-           --restart=always \
+           --restart=unless-stopped \
            --device=/dev/dri \
            --device /dev/kfd \
            --gpus=all \
@@ -156,7 +158,7 @@ function ollama_start {
       docker run -d \
            --name ${CONTAINER_NAME:=ollama} \
            --hostname ${CONTAINER_NAME:=ollama} \
-           --restart=always \
+           --restart=unless-stopped \
            --device=/dev/dri \
            --network ${CONTAINER_NET:=ollama} \
            -v ollama:/root/.ollama/models \
@@ -179,7 +181,7 @@ function ollama_start {
       docker run -d \
         --name ${CONTAINER_NAME:=ollama} \
         --hostname ${CONTAINER_NAME:=ollama} \
-        --restart=always \
+        --restart=unless-stopped \
         --gpus all \
         --device=/dev/dri \
         --network ${CONTAINER_NET:=ollama} \
@@ -192,7 +194,7 @@ function ollama_start {
   fi
 
   # Start ollama if no already running
-  echo "Starting ollama"
+  [[ "$1" != "-q" ]] && echo "Starting ollama"
   docker start ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null &&\
   docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null # remove container networks (no network access)
   sleep 3s
@@ -215,24 +217,31 @@ function ollama_start {
 
 function ollama_pull {
   # Pull ollama model if required
-  echo "Reciving ollama $MODEL (ollam has temporary internet access)"
- #docker network connect ${CONTAINER_NET:=ollama} ${CONTAINER_NAME:=ollama} 2>/dev/null # give container network access
-  docker network connect    bridge ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null # give container network access
-  docker exec -it ${CONTAINER_NAME:=ollama} ollama pull "$MODEL" # >/dev/null
-  docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null # remove container network access
+  [[ "$1" != "-q" ]] && echo "Reciving ollama $MODEL (ollam has temporary internet access)"
+  docker network connect bridge ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null # give container network access
+  [[ "$1" != "-q" ]] && docker exec -it ${CONTAINER_NAME:=ollama} ollama pull "$MODEL" >/dev/null || docker exec -it ${CONTAINER_NAME:=ollama} ollama pull "$MODEL" # >/dev/null
+  if [[ -z "$KEEP_NETWORK_ACCESS" ]]; then
+    docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null # remove container network access
+  fi
  #docker network disconnect ${CONTAINER_NET:=ollama} ${CONTAINER_NAME:=ollama} >/dev/null # remove container network access
-  echo "Fineshed reciving ollama $MODEL (temporary network access removed)"
+  [[ "$1" != "-q" ]] && echo "Fineshed reciving ollama $MODEL (temporary network access removed)"
+}
+
+function ollama_rm {
+  # Remove ollama model
+  docker exec -it ${CONTAINER_NAME:=ollama} ollama rm "${1:?no model specified}";
+  return $?;
 }
 
 function ollama_run {
   # Run ollama model
-  echo "Starting ollama $MODEL"
+  [[ "$1" != "-q" ]] && echo "Starting ollama $MODEL"
   docker exec -it ${CONTAINER_NAME:=ollama} ollama run "$MODEL" # repeating ollama is not a typo
 }
 
 function ollama_stop {
   # Shutdown ollama
-  echo "Stopping ollama container"
+  [[ "$1" != "-q" ]] && echo "Stopping ollama container"
   docker stop ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null
   #docker container rm ollama > /dev/null 2>/dev/null
 }
@@ -260,6 +269,7 @@ if [ ! -z "$1" ]; then
   ;;
   "-d" | "--detatch" | "-b" | "--background")
     echo "Starting ollama in background"
+    KEEP_NETWORK_ACCESS="$2"
     ollama_start
     ollama_pull
     exit 0
@@ -270,6 +280,19 @@ if [ ! -z "$1" ]; then
     open-webui_start;
     exit 0;
   ;;
+  "-p"|"--pull")
+    echo "Downloading model '$2'"
+    tmp=ollama_start;
+    ollama_pull;
+    if [ "$tmp" = "2" ]; then ollama_stop; fi
+    unset tmp;
+    exit 0
+  ;;
+  "-r"|"--remove")
+    echo "Removing model '$2'";
+    ollama_rm "$2";
+    exit 0;
+    ;;
   "*") # Expect model was given
     echo "Starting ollama with user specified model: $1"
     MODEL="$(echo "$1" | awk '{print $NF}')"
@@ -291,3 +314,13 @@ else
   exit 0
 fi
 exit 1
+
+# Image generataion setup ConfyUI + Ollama + Intel ARC
+# yay -S intel-compute-runtime && lsmod | grep -i xe
+# python -m venv .venv
+# pip install comfy-cli
+# comfy --workspace=./comfy install
+# pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/xpu
+# comfy model download --url https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.safetensors --relative-path models/checkpoints
+# comfy launch --background -- --listen 0.0.0.0 --port 8080
+# OpenWebUI > Admin Pannel > Images > Select ConfyUI > URL: http://127.0.0.1:8080
