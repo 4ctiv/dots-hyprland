@@ -1,0 +1,33 @@
+# XDG default app overrides for '/etc/xdg/mimeapps.list'
+# If these do not apply run the following:
+# ``` bash
+# rm ~/.local/share/applications/mimeinfo.cache && update-desktop-database;
+# ln -s ~/.config/mimeapps.list ~/.local/share/applications/mimeapps.list;
+# ```
+
+[Added Associations]
+text/plain=code-oss.desktop
+text/markdown=code-oss.desktop
+inode/directory=nemo.desktop
+application/pdf=org.gnome.Papers.desktop
+image/svg+xml=org.inkscape.Inkscape.desktop
+image/png=gimp.desktop
+audio/mpeg=qmmp.desktop
+audio/x-m4a=qmmp.desktop
+video/mp4=org.shotcut.Shotcut.desktop
+video/x-matroska=org.shotcut.Shotcut.desktop
+
+[Removed Associations]
+
+[Default Applications]
+text/plain=code-oss.desktop
+text/markdown=code-oss.desktop
+inode/directory=nemo.desktop
+application/pdf=org.gnome.Papers.desktop
+image/svg+xml=org.inkscape.Inkscape.desktop
+image/png=gimp.desktop
+audio/mpeg=qmmp.desktop
+audio/x-m4a=qmmp.desktop
+video/mp4=org.shotcut.Shotcut.desktop
+video/x-matroska=org.shotcut.Shotcut.desktop
+
