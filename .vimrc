@@ -113,10 +113,10 @@
  nnoremap <S-F7> zR <CR>                         " Un-fold all
  nnoremap <C-F7> zR <CR>                         " Un-fold all
  
- nnoremap <C-F11> <C-O>                          "Jump back
  nnoremap <F11> gD                               " Jump to declaration
- nnoremap <C-F12> <C-O>                          "Jump back
+ nnoremap <C-F11> <C-O>                          "  Jump back (dec)
  nnoremap <F12> gd                               " Jump to definition
+ nnoremap <C-F12> <C-O>                          "  Jump back (def)
 
  " Syntax highlight overides
  " NOTE: You can use `:setfiletype` instead of `:set syntax=` to also use
@@ -132,8 +132,11 @@
 
  " Markdown viewer
  function! Open_Glow_Right_Split()
+   if !executable('glow')
+     return
+   endif
    set nolist
-   rightbelow vertical terminal watch glow %
+   rightbelow vertical terminal watch glow '%'
    wincmd h
    set list
  endfunction
