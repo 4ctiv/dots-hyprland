@@ -1,7 +1,12 @@
 function list-net-ipv4 --description "Scan local IPv4 network for open ports"
-    set -l ip_address (ip --color=never -4 addr list | awk '/inet.*brd/ {print $2}' | head -1) # | cut -d'/' -f1)
+    set -l ip_address "$argv[1]"
+
+    if test -z "$ip_address"
+      set -l ip_address (ip --color=never -4 addr list | awk '/inet.*brd/ {print $2}' | head -1) # | cut -d'/' -f1)
+    end
+
     if [ -z "$ip_address" ]
-        echo "Could not determine local IP address."
+        echo "Could not determine local IP address. $ip_address"
         return 1
     end
     echo "Scanning subnet $ip_address (this may take some time)"

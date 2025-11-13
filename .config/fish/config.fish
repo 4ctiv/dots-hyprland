@@ -46,6 +46,7 @@ if status is-interactive
     # grub
     alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
     alias grub-install-efi-tpm="sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --modules='tpm' --disable-shim-lock"
+    alias fix-brave-multi-moitor="sudo sed -i 's/brave %U/brave -disable-features=WaylandWpColorManagerV1 %U/g' /usr/share/applications/brave-browser.desktop"
 
     ###########################
     ### Software Management ###
