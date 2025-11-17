@@ -151,7 +151,7 @@ function ollama_start {
            -e OLLAMA_HOST=0.0.0.0 \
            -e no_proxy=localhost,127.0.0.1 \
            ollama/ollama:rocm
-    elif [[ $(lsmod | grep i915) ]]; then
+    elif [[ $(lsmod | grep i915) ]] && [[ ! -z $(lsmod | grep VGA | grep [Aa][Rr][Cc]) ]]; then
       # Intel Graphics (ARC)
       # -> https://dev.to/itlackey/run-ollama-on-intel-arc-gpu-ipex-4e4k
       printf "[INFO] Using INTEL GPU for running ollama\n"
@@ -160,6 +160,7 @@ function ollama_start {
            --hostname ${CONTAINER_NAME:=ollama} \
            --restart=unless-stopped \
            --device=/dev/dri \
+           --gpus=all \
            --network ${CONTAINER_NET:=ollama} \
            -v ollama:/root/.ollama/models \
            -p ${PORT_PREFIX}11434:11434 \

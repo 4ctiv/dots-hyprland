@@ -1,26 +1,68 @@
 #!/usr/bin/env bash
 # see: https://www.reddit.com/r/hyprland/comments/1bqohmd/dynamically_enabledisable_device/
 
-export TOUCH_PEN="$(hyprctl devices -j | jq -r '.[].[].name' | grep 'stylus' | head -n 1)"
-export TOUCH_SCREEN="$(hyprctl devices -j | jq -r '.[].[].name' | grep 'touchscreen' | head -n 1)"
-export TOUCH_PAD="$(hyprctl devices -j | jq -r '.[].[].name' | grep 'touchpad' | head -n 1)"
+HELP='
+# Help page of '${0}'
+This script toggles hyprland devices on/off state.
+- Usage: `'${0}' ARGUMENT`
+
+| Argument;s  | Description                 |
+| ----------- | --------------------------- |
+| -h ; --help | Show this help page         |
+| pen         | Toggle active pen (stylus)  | 
+| pad         | Toggle (laptop) touchpad    |
+| knob        | Toggle (thinkpad) mice knob |
+| touch       | Toggle touchscreen (finger) |
+'
+
+STATE_FILE="$HOME/.config/hypr/.device_states.csv"
+if [[ ! -f "${STATE_FILE:-No statefile set}" ]];then
+  mkdir -p "${STATE_FILE%/*}" && touch "${STATE_FILE}"
+  echo "Create new state file"
+fi
+
+TOUCH_PAD="$(   hyprctl devices -j | jq -r '.mice.[].name' | grep 'touchpad'    | head -n 1)"
+TOUCH_KNOB="$(  hyprctl devices -j | jq -r '.mice.[].name' | grep 'trackpoint'  | head -n 1)" # currently broken
+TOUCH_SCREEN="$(hyprctl devices -j | jq -r '.[].[].name'   | grep 'touchscreen' | head -n 1)"
+TOUCH_PEN="$(   hyprctl devices -j | jq -r '.[].[].name'   | grep 'stylus'      | head -n 1)"
 
 enable_touch() {
-    hyprctl notify 1 5000 "rgb(ff1ea3)" "Touchscreen enabled"
-    hyprctl keyword input:touchdevice:enabled true
-    hyprctl keyword "device[${1:?No device}]:enabled" true
+    hyprctl notify 1 5000 "rgb(ff1ea3)" "${2:-Device} enabled"
+    hyprctl -r -- keyword "device[${1:?No device}]:enabled" true
 }
 
 disable_touch() {
-    hyprctl notify 1 5000 "rgb(ff1ea3)" "Touchscreen disabled"
-    hyprctl keyword input:touchdevice:enabled false
-    hyprctl keyword "device[${1:?No device}]:enabled" false
+    hyprctl notify 1 5000 "rgb(ff1ea3)" "${2:-Device} disabled"
+    hyprctl -r -- keyword "device[${1:?No device}]:enabled" false
 }
 
-if [ "$(hyprctl getoption input:touchdevice:enabled | grep int | awk '{print $2}')" == "1" ]; then
-  disable_touch "$TOUCH_SCREEN"
+device="TOUCH_SCREEN"
+device_typ=""
+if [ -n "$1" ]; then
+  case "$1" in
+    "pen")    device="$TOUCH_PEN" ;   device_typ="tablet";;
+    "pad")    device="$TOUCH_PAD" ;   device_typ="touchpad";;
+    "knob")   device="$TOUCH_KNOB";   device_typ="trackpoint";;
+    "touch")  device="$TOUCH_SCREEN"; device_typ="touchscreen";;
+    "-h"|"--help") printf "$HELP"; exit 0;;
+    *)  printf "$HELP"; exit 0;;
+  esac
 else
-  enable_touch "$TOUCH_SCREEN"
+  printf "$HELP"; exit 0;
 fi
 
-unset TOUCH_DEVICE
+echo "typ $device_typ"
+echo "if $(awk -F',' -v key="${device_typ:?no typ}" '$1 == key {print $2}' "$STATE_FILE")"
+if [ -n "$(awk -F',' -v key="${device_typ:?no typ}" '$1 == key {print $2}' "$STATE_FILE")" ]; then
+  echo "Disabled $device_typ"
+  disable_touch "${device:?device not set}" "$device_typ" >/dev/null
+  sed -i "/^${device_typ:?no typ}.*$/d" $STATE_FILE >/dev/null # Remove entry
+else
+  echo "Enabled $device_typ"
+  enable_touch "${device:?device not set}" "$device_typ" >/dev/null
+  echo "${device_typ:?no typ},enabled" >> ${STATE_FILE:?no state file} # Add entry
+fi
+
+unset TOUCH_PAD TOUCH_KNOB TOUCH_SCREEN TOUCH_PEN STATE_FILE HELP
+
+exit 0
