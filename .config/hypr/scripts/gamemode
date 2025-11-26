@@ -20,7 +20,7 @@ if [ "$HYPRGAMEMODE" = 1 ] ; then
 else
     hyprctl notify 1 5000 "rgb(ff1ea3)" "Gamemode [OFF]"
     hyprctl reload
-    [ ! -z "$(ps -x | awk 'match($5,/waybar/) {print $5}')" ] || (nohup waybar >/dev/null 2>/dev/null & disown %)
+    #[ ! -z "$(ps -x | awk 'match($5,/waybar/) {print $5}')" ] || (nohup waybar >/dev/null 2>/dev/null & disown %)
     exit 0
 fi
 

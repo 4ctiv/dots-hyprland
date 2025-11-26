@@ -4,7 +4,7 @@ CONFIG="$HOME/.config/hypr/wofi/config"
 STYLE="$HOME/.config/hypr/wofi/style.css"
 COLORS="$HOME/.config/hypr/wofi/colors"
 
-which wofi && echo "wofi dependency satisfied" || yay -S wofi
+which wofi && echo "wofi dependency satisfied" || ${TERM:-kitty} -c sudo pacman -S wofi
 
 if [[ ! $(pidof wofi) ]]; then
   wofi --show drun --prompt 'Search...' --conf ${CONFIG} --style ${STYLE} --color ${COLORS}
