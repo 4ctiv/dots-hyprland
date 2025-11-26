@@ -106,7 +106,7 @@ if status is-interactive
     ################
     # Logs
     alias log-system="printf 'Showing logs of last 10 minutes\n'; sudo journalctl --no-page --since='10 minutes ago' && printf '\n%*s\n\n' (tput cols) '' | tr ' ' '=' && sudo dmesg --since '10 minutes ago'"
-    alias log-system-now="sudo dmesg --follow-new &; sudo journalctl --follow --since 'now' &;"
+    alias log-system-now="sudo fish -c 'dmesg --follow-new &; journalctl --follow --since \'now\''"
     alias log-systemd-user="systemctl status systemd-logind.service ; systemctl status user@$(id -u).service"
     alias log-calamares="tail -f /var/log/Calamares.log"
     alias log-pacman="   tail -f /var/log/pacman.log"
@@ -115,6 +115,7 @@ if status is-interactive
     alias log-sddm="     tail -f ~/.local/share/sddm/*.log"
     alias log-notifications="makoctl history # | jq '.data[0][].body.data'"
     # System info
+    alias list-battery-stats="upower -i /org/freedesktop/UPower/devices/battery_BAT0"
     alias list-system-usage="top -u nobody -bn1 | head -n 5"
     alias list-system-info="inxi"
     alias list-systemd-failed="systemctl list-units --state=failed"
@@ -169,6 +170,7 @@ if status is-interactive
     ### app fix
     alias fix-qt="export QT_QPA_PLATFORM='wayland;xcb'"
     alias fix-ssh='ssh-add -D && set TERM "vt100" && echo "Please load your ssh keys again"' # Will remove all ssh keys
+    alias fix-hyprlock-session="hyprctl --instance 0 'keyword misc:allow_session_lock_restore 1' && hyprctl --instance 0 'dispatch exec hyprlock'"
     alias fix-docker-ports="sudo sysctl -w net.ipv4.ip_unprivileged_port_start=80"
     ### system fix
     alias fix-sudo="faillock --reset" # password rejects
