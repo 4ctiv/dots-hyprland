@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ ! -f "$(which paru)" ]]; then
+  sudo acman -Syu && sudo pacman -S --needed base-devel git
+  git clone https://aur.archlinux.org/paru.git paru && cd paru && makepkg -si && cd .. && (yes | rm -r paru) || exit 1
+fi
+
 paru -Sy && paru -S --needed timeshift &&\
 sudo timeshift --create --yes --comments "$(date %Y-%m-%d %H:%M:%S) pre install" --tags D
 
@@ -15,7 +20,7 @@ while read -r row; do
 done < requirements.txt
 echo "$to_instally"
 paru -Syu --needed $to_install $@ || \
-  (echo "[ERROR] Package installation failed!"; exit 1)
+  (echo "[ERROR] Package installation failed!"; exit 1) || exit $?
 
 
 echo "Deploying config files ..."
@@ -23,6 +28,7 @@ cp -r ./.config "$HOME" &&\
 cp -r ./.icons  "$HOME" &&\
 cp -r ./.local  "$HOME" &&\
 cp -r ./.themes "$HOME" &&\
+cp -r ./.vim    "$HOME" &&\
 cp    ./.vimrc  "$HOME" &&\
 cp    ./.gtkr   "$HOME" &&\
 cp ./.gtkrc-2.0 "$HOME" &&\
@@ -69,13 +75,14 @@ sudo systemctl enable --now clamav-daemon.service &&\
 sudo systemctl enable --now clamav-freshclam-once.service &&\
 sudo systemctl enable --now libvirtd.service &&\
 sudo systemctl enable --now snapd &&\
+sudo systemctl enable       sddm.service ||\
   (echo "[ERROR] Starting systemd system services failed!"; exit 1)
 systemctl enable --now --user ssh-agent.service &&\
 systemctl enable --now --user hypridle.service &&\
 systemctl enable --now --user hyprpaper.service &&\
 systemctl enable --now --user hyprsunset.service &&\
-systemctl enable --now --user docker.service &&\
-  (echo "[ERROR] Starting user services failed!"; exit 1)
+systemctl enable --now --user docker.service ||\
+  (echo "[ERROR] Starting systemd user services failed!"; exit 1)
 
 echo "Setup themes ..."
 if [[ -d "/usr/share/themes/catppuccin-mocha" ]]; then
@@ -85,7 +92,7 @@ if [[ -d "/usr/share/themes/catppuccin-mocha" ]]; then
       (echo "[THEME]\nCurrent=catppuccin-mocha" | sudo tee -a '/etc/sddm.conf') ||\
       (echo "[ERROR] Setting sddm theme failed!")
   else
-    sudo sed -i -e 's@^[ ]*Current=.*$@Current="catppuccin-mocha"@m' /lib/sddm/sddm.conf.d/default.conf || \
+    sudo sed -i -e 's@^[ ]*Current=.*$@Current="catppuccin-mocha"@m' /usr/lib/sddm/sddm.conf.d/default.conf || \
       (echo "[ERROR] Setting sddm theme failed!")
   fi
 fi
@@ -104,6 +111,8 @@ sudo timeshift --create --yes --comments "$(date %Y-%m-%d %H:%M:%S) install fini
 
 echo "Setup finished successfully,\n A restart is recommended"
 notify-send "setup" "Setup finished successfully,\n A restart is recommended"
+
+systemctl start sddm.service
 
 exit 0
 

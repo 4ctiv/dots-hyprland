@@ -63,7 +63,7 @@ cliphist             # clipboard manager
 filezilla            # Network file browser (GUI)
 nemo                 # file browser (GUI)
 nemo-seahorse        # support encrypt & sign context-menu
-arc                  # archive manager (GUI)
+arc-bin              # archive manager (GUI)
 kitty                # terminal emulator
 fish                 # shell
 flameshot            # screenshot tool
@@ -82,7 +82,7 @@ nmap                 # network scans
 net-tools            # traceroute, arp, whois
 wireshark-qt         # sniffing
 networkmanager       # network cli
-etwork-manager-applet # network tray icon
+network-manager-applet # network tray icon
 nm-connection-editor # network manager (GUI)
 wireguard-tools      # VPN tool
 blueman              # Bluetooth manager (GUI)
@@ -111,6 +111,7 @@ cryptsetup           # Encryted partition support
 clevis               # Optional: Luks unlock methods (e.g. TPM)
 # Theme (optional)
 ttf-jetbrains-mono-nerd         # Font (nerdfont, ligatures)
+gnome-font-viewer               # font management (GUI)
 kvantum-qt5                     # Unified theme support
 qt5ct-kde                       # Optional: qt5 theme manager
 nwg-look                        # Optional: gtk theme manager
@@ -174,12 +175,13 @@ lazydocker            # Docker (TUI)
 google-chrome         # Alt: browser
 firefox               # Alt: browser
 owncloud-client       # Selfhosted Cloud
-schildichat-desktop   # Matrix chat client
+#schildichat-desktop  # Matrix chat client
 discord               # Voice/Vido chat client
 steam                 # Game store
 heroic-games-launcher # Game store
 gamemode              # Game boost
 lib32-gamemode
+usb_modeswitch        # Toggle USB device modes (e.g. Wifi USB CDROM mode)
 
 # Fun
 tea                   # Gitea cli tool
