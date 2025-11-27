@@ -21,7 +21,7 @@ case "$arg" in
   echo "-w <command> | --wait      ~ run <command> after waybar is detected"
   echo "-h           | --help      ~ show this help message"
   echo "-s           | --status    ~ return 0 if waybar is running, 1 if waybar is not detected"
-  echo "                           ~ toggle waybar on/off"
+  echo "-t           | (default)   ~ toggle waybar on/off"
  ;;
  "--wait"|"-w")
   echo "'$@' waiting for waybar"
@@ -34,6 +34,12 @@ case "$arg" in
   return $( [[ "$(top -bn1 | grep -m 1 -o waybar)" == "" ]] && return "0" || return "1" )
  ;;
  "-t"|*)
-  toggle_waybar;
+   if [[ -f "$(which caelestia)" ]]; then
+     # Note: This only works when launching via 'qs -c' command
+     # Install "caelestia-shell"/"quickshell" for it to work
+     pgrep -U "$USER" "qs" >/dev/null && killall -u "$USER" "qs" || qs -c caelestia;
+   else
+    toggle_waybar;
+   fi
  ;;
 esac
