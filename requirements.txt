@@ -30,6 +30,7 @@ downgrade            # allow downgrading packages
 # System core
 grub                 # Boot manager
 polkit               # permission management
+hyprpolkitagent      # permission management (hyprland)
 libsecret            # Secure storage interface
 gstreamer            # audio and video streams
 systemd              # Init system
@@ -168,6 +169,7 @@ remmina               # Remote Desktop (Client)
 wayvnc                # Remote desktop (local  Server)
 parsec-bin            # Remote Desktop (Global Server)
 openssh               # Remote terminal
+ethtool               # Network config (setup WOL)
 docker-rootless-extras # Container (Docker rootless)
 lazydocker            # Docker (TUI)
 
