@@ -64,7 +64,7 @@ cliphist             # clipboard manager
 filezilla            # Network file browser (GUI)
 nemo                 # file browser (GUI)
 nemo-seahorse        # support encrypt & sign context-menu
-arc-bin              # archive manager (GUI)
+ark                  # archive manager (GUI)
 kitty                # terminal emulator
 fish                 # shell
 flameshot            # screenshot tool
