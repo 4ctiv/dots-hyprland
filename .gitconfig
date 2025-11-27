@@ -1,9 +1,10 @@
 [user]
+  # NOTE: Replace all $... with your data (does not actually resolve shell var)
   name = "$USER"
   email = "noreply.$USER@example.de"
-  signingkey = "$HOME/.ssh/signing-key.pub"
-  # ssh-keygen -t ed25519 -C "noreply.$USER@example.de" -N "" -f "$HOME/.ssh/signing-key.pub"
-  # ssh-add "$HOME/.ssh/signing-key.pub"
+  signingkey = "~/.ssh/signing-key.pub"
+  # ssh-keygen -t ed25519 -C "noreply.$USER@example.de" -N "" -f "~/.ssh/signing-key.pub"
+  # ssh-add "~/.ssh/signing-key.pub"
 [credential]
   helper = /usr/lib/git-core/git-credential-libsecret
 [color]
@@ -24,4 +25,6 @@
 [safe]
   directory = "$HOME/Develop"
 [maintenance]
-	repo = 
+  repo =
+[url "ssh://git@github.com"]
+  insteadOf = https://github.com/
