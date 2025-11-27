@@ -30,7 +30,7 @@
 }
 {
     "label" : "reboot",
-    "action" : "~/.config/hypr/wlogout/grub_reboot_win.sh",
+    "action" : "chmod +x ~/.config/hypr/wlogout/grub_reboot_win.sh && ~/.config/hypr/wlogout/grub_reboot_win.sh",
     "text" : "Windows [w]",
     "keybind" : "w"
 }
