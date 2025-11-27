@@ -1,7 +1,7 @@
 * {
     border: none;
     border-radius: 5px; /* 5px */
-    font-family: "JetBrainsMono NFM:style=Bold", "Noto Sans", "Roboto Condensed", sans-serif;
+    font-family: /*"JetBrainsMono NF",*/ "Noto Sans";
     font-size: 16px;  /* default: 14px */
     min-height: 16px; /* default: 14px */
 }

@@ -111,6 +111,7 @@ aurscan-git          # Optional: Scan AUR for mailware on install
 cryptsetup           # Encryted partition support
 clevis               # Optional: Luks unlock methods (e.g. TPM)
 # Theme (optional)
+noto-fonts                      # Font (wide range of unicode support)
 ttf-jetbrains-mono-nerd         # Font (nerdfont, ligatures)
 gnome-font-viewer               # font management (GUI)
 kvantum-qt5                     # Unified theme support
