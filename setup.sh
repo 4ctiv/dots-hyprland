@@ -9,17 +9,7 @@ paru -Sy && paru -S --needed timeshift &&\
 sudo timeshift --create --yes --comments "$(date %Y-%m-%d %H:%M:%S) pre install" --tags D
 
 echo "Installing Software"
-to_install=""
-while read -r row; do
-  if [[ -z "$(echo "${row}" | grep -v "^#")" ]];then
-    continue;
-  else
-    echo "${row}"
-    to_install="${to_install} $(echo "${row}" | sed 's/#.*$//g')"
-  fi
-done < requirements.txt
-echo "$to_instally"
-paru -Syu --needed $to_install $@ || \
+[[ -f ./requirements.txt ]] && sed -r '/^#/d;s/#.*$//g;/^$/d;s/ //g' ./requirements.txt | sudo paru -S --needed --noconfirm - || \
   (echo "[ERROR] Package installation failed!"; exit 1) || exit $?
 
 
@@ -39,6 +29,7 @@ sudo cp ./etc/systemd/system/wol.service /etc/systemd/system/wol.service || \
 sudo chown -R "$USER:$USER" "$HOME/{.config,.icons,.local,.themes,.vimrc,.gtkr,.gtkrc-2.0,.profile}" &&\
 sudo chmod -R 755 "$HOME/{.config,.icons,.local,.themes,.vimrc,.gtkr,.gtkrc-2.0,.profile}" ||\
   (echo "[ERROR] Config file ownership & permissions failed!"; exit 1)
+
 
 echo "Setup defaults ..."
 # Set default shell to fish if installed (should be)
@@ -70,6 +61,7 @@ echo "Setup defaults ..."
 # Setup Snap support (allow classic mode)
 [[ -d "/var/lib/snap" ]] && sudo ln -s /var/lib/snapd/snap /snap
 
+
 echo "Setup systemd services ..."
 sudo systemctl enable --now clamav-daemon.service &&\
 sudo systemctl enable --now clamav-freshclam-once.service &&\
@@ -83,6 +75,7 @@ systemctl enable --now --user hyprpaper.service &&\
 systemctl enable --now --user hyprsunset.service &&\
 systemctl enable --now --user docker.service ||\
   (echo "[ERROR] Starting systemd user services failed!"; exit 1)
+
 
 echo "Setup themes ..."
 if [[ -d "/usr/share/themes/catppuccin-mocha" ]]; then
@@ -102,6 +95,7 @@ if [[ -f "/etc/default/grub" ]] && [[ -d /usr/share/grub/themes/catppuccin-mocha
   sudo grub-mkconfig -o /boot/grub/grub.cfg || \
   (echo "[ERROR] Setting grub2 theme failed!")
 fi
+
 
 echo "Reloading Hyprland ..."
 hyprctl reload

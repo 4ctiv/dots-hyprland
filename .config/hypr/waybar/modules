@@ -172,7 +172,7 @@
     "interval": 2,
     "family": "ipv4",
     "format-wifi": " {essid}",
-    "format-ethernet": "{bandwidthUpBits}  {bandwidthDownBits}",
+    "format-ethernet": "{bandwidthUpBits} 🖧 {bandwidthDownBits}",
     "format-linked": " {ifname} (No IP)",
     "format-disconnected": "睊 Disconnected",
     "format-disabled": "睊 Disabled",
