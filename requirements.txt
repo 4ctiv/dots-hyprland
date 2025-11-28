@@ -172,6 +172,7 @@ parsec-bin            # Remote Desktop (Global Server)
 openssh               # Remote terminal
 ethtool               # Network config (setup WOL)
 docker-rootless-extras # Container (Docker rootless)
+docker-compose        # Enable compose commands
 lazydocker            # Docker (TUI)
 
 # Nice 2 have
