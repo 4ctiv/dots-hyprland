@@ -157,7 +157,7 @@ function ollama_start {
            -e OLLAMA_HOST=0.0.0.0 \
            -e no_proxy=localhost,127.0.0.1 \
            ollama/ollama:rocm
-    elif [[ $(lsmod | grep i915) ]] && [[ ! -z $(lsmod | grep VGA | grep [Aa][Rr][Cc]) ]]; then
+    elif [[ $(lsmod | grep -E "(i915|xe)") ]] && [[ ! -z $(lspci -k | grep -EA3 'VGA|3D|Display' | grep [Aa][Rr][Cc]) ]]; then
       # Intel Graphics (ARC)
       # -> https://dev.to/itlackey/run-ollama-on-intel-arc-gpu-ipex-4e4k
       printf "[INFO] Using INTEL GPU for running ollama\n"
