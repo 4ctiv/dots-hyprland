@@ -182,6 +182,8 @@ owncloud-client       # Selfhosted Cloud
 #schildichat-desktop  # Matrix chat client
 discord               # Voice/Vido chat client
 steam                 # Game store
+vulkan-intel          # Game support (use vulkan-amd or vilkan-nvidia depending on your graphics)
+mesa                  # Game support
 heroic-games-launcher # Game store
 gamemode              # Game boost
 lib32-gamemode
@@ -202,5 +204,5 @@ ventoy-bin            # multiboot usb
 gromit-mpx            # Scren annotations
 showmethekey          # key press overlay
 wvkbd                 # virtual keyboard
-bt-dualboot           # Share bluetooth profiles with windows
+bt-synckeys           # Share bluetooth connections with windows (dual-boot)
 

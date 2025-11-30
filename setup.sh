@@ -44,7 +44,7 @@ sudo chmod -R 755 "$HOME/.{config,icons,local,themes,vim,vimrc,gtkr,gtkrc-2.0,pr
 #echo -e "export DOCKER_HOST=\"unix:///run/user/1000/docker.sock\"" >> ~/.profile # enable docker rootless
 
 
-echo -e "${CGRE}[INFO]${NCOL} Setup defaults ..."
+echo -e "${CGRE}[INFO]${NCOL} Setup software ..."
 # Set default shell to fish if installed (should be)
 [[ -f "$(which fish)" ]] && sudo chsh -s "$(which fish)" "$USER"
 [[ -f "$(which openrgb)" ]] && sudo modprobe i2c-dev
@@ -61,28 +61,21 @@ echo -e "${CGRE}[INFO]${NCOL} Setup defaults ..."
 [[ -f "$(which nemo)" ]] &&\
   gsettings set org.cinnamon.desktop.default-applications.terminal exec kitty &&\
   gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg fish
-# Setup sddm theme
-[[ -f "/lib/sddm/sddm.conf.d/default.conf" ]] &&
-    sddm_theme_folder=$(cat "/lib/sddm/sddm.conf.d/default.conf" | 
-        awk '/ThemeDir=/ {split($0,a,"="); print a[2]}')
-[[ -d "${sddm_theme_folder:?sddm theme not set}/catppuccin-mocha" ]] && \
-  sudo sed -i -e "s@Current=.*@Current=\"${sddm_theme_folder:?sddm theme not set}/catppuccin-mocha\"@" /lib/sddm/sddm.conf.d/default.conf
 
+# Add user to groups
+# DANGEROUS: User can do privilege escalation
+sudo usermod -a -G network audio video \
+                   $USER
 
-# Setup grub theme
-[[ -f "/etc/default/grub" ]] && [[ -f "/usr/share/grub/themes/catppuccin-mocha/theme.txt" ]] &&\
-  sudo sed -s -i 's@^[ #]*GRUB_THEME=.*@GRUB_THEME="/usr/share/grub/themes/catppuccin-mocha/theme.txt"@' /etc/default/grub
-# Setup virt-manager
-# sudo usermod -a -G libvirt $(whoami) # DANGEROUS: User gains some higher privileges on the system
 # Setup Snap support (allow classic mode)
 [[ -d "/var/lib/snap" ]] && sudo ln -s /var/lib/snapd/snap /snap
-
 
 echo -e "${CGRE}[INFO]${NCOL} Setup systemd services ..."
 sudo systemctl enable --now clamav-daemon.service &&\
 sudo systemctl enable --now clamav-freshclam-once.service &&\
 sudo systemctl enable --now libvirtd.service &&\
 sudo systemctl enable --now snapd &&\
+sudo systemctl enable --now libvirtd &&\
 sudo systemctl enable       sddm.service ||\
   (echo -e "${CRED}[ERROR]${NCOL} Starting systemd system services failed!")
 systemctl enable --now --user ssh-agent.service &&\
@@ -105,12 +98,18 @@ if [[ -d "/usr/share/themes/catppuccin-mocha" ]]; then
       (echo -e "${CYEL}[ERROR]${NCOL} Setting sddm theme failed!")
   fi
 fi
-if [[ -f "/etc/default/grub" ]] && [[ -d /usr/share/grub/themes/catppuccin-mocha ]] ; then
-  sudo sed -i -e 's@^[ ]*GRUB_THEME=.*$@GRUB_THEME="/usr/share/grub/themes/catppuccin-mocha/theme.txt"@m' /etc/default/grub &&\
+# sddm theme
+[[ -f "/lib/sddm/sddm.conf.d/default.conf" ]] &&
+    sddm_theme_folder=$(cat "/lib/sddm/sddm.conf.d/default.conf" | 
+        awk '/ThemeDir=/ {split($0,a,"="); print a[2]}')
+[[ -d "${sddm_theme_folder:?sddm theme not set}/catppuccin-mocha" ]] && \
+  sudo sed -i -e "s@Current=.*@Current=\"${sddm_theme_folder:?sddm theme not set}/catppuccin-mocha\"@" /lib/sddm/sddm.conf.d/default.conf
+# grub theme
+[[ -f "/etc/default/grub" ]] && [[ -f "/usr/share/grub/themes/catppuccin-mocha/theme.txt" ]] &&\
+  sudo sed -s -i 's@^[ #]*GRUB_THEME=.*@GRUB_THEME="/usr/share/grub/themes/catppuccin-mocha/theme.txt"@' /etc/default/grub &&\
   sudo os-prober &&\
   sudo grub-mkconfig -o /boot/grub/grub.cfg || \
   (echo -e "${CYEL}[WARNING]${NCOL} Setting grub2 theme failed!")
-fi
 
 
 echo -e "${CGRE}[INFO]${NCOL} Reloading Hyprland ..."
@@ -121,8 +120,6 @@ sudo timeshift --create --yes --comments "$(date %Y-%m-%d %H:%M:%S) install fini
 
 echo -e "${CGRE}[INFO]${NCOL} Setup finished successfully,\n A restart is recommended"
 notify-send "setup" "Setup finished successfully,\n A restart is recommended"
-
-systemctl enable sddm.service
 
 exit 0
 
