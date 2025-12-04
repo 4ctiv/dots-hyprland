@@ -40,13 +40,13 @@
   },
   // look and feel
   "theme": {
-    "mode": "system",
-    "light": "Ayu Light",
-    "dark": "Darker Horizon"
+    "mode": "dark",
+    "light": "Darker Horizon",
+    "dark": "Ayu Darker"
   },
   "icon_theme": {
     "mode": "system",
-    "light": "Catppuccin Latte",
+    "light": "Catppuccin Mocha",
     "dark": "Catppuccin Latte"
   },
   "ui_font_size": 16,
@@ -82,8 +82,8 @@
   },
   "auto_install_extensions": {
     "catppuccin-icons": true,
-    "darker-horizon": true,
     "catppuccin": true,
+    "ayu-darker": true,
     "markdown": true,
     "latex": true,
     "sql": true,
@@ -216,8 +216,7 @@
       }
     },
     "button": true,
-    "dock": "right",
-    "version": "1"
+    "dock": "right"
   },
   "outline_panel": {
     "button": true,
