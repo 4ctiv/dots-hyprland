@@ -62,15 +62,20 @@ if [[ ! -d "$dir" ]]; then
 fi
 
 if [[ "$1" == "--now" ]]; then
-  shotnow
+  flameshot gui -c -p "$file"
+  #shotnow
 elif [[ "$1" == "--in5" ]]; then
-  shot5
+  flameshot gui -c -p "$file"
+  #shot5
 elif [[ "$1" == "--in10" ]]; then
-  shot10
+  flameshot gui -c -p "$file"
+  #shot10
 elif [[ "$1" == "--win" ]]; then
-  shotwin
+  flameshot gui -c -p "$file"
+  #shotwin
 elif [[ "$1" == "--area" ]]; then
-  shotarea
+  flameshot gui -c -p "$file"
+  #shotarea
 else
   echo -e "Available Options : --now --in5 --in10 --win --area"
 fi

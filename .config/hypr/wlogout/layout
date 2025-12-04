@@ -12,7 +12,7 @@
 }
 {
     "label" : "logout",
-    "action" : "lsleep 1; hyprctl dispatch exit",
+    "action" : "openrgp -c 000000; hyprctl dispatch exit",
     "text" : "Logout [e]",
     "keybind" : "e"
 }
@@ -28,9 +28,16 @@
     "text" : "Suspend [q]",
     "keybind" : "q"
 }
+#{
+#    "label": "hibernate",
+#    "action": "systemctl hibernate",
+#    "text": "Hibernate",
+#    "keybind": "h"
+#}
 {
     "label" : "reboot",
     "action" : "chmod +x ~/.config/hypr/wlogout/grub_reboot_win.sh && ~/.config/hypr/wlogout/grub_reboot_win.sh",
     "text" : "Windows [w]",
     "keybind" : "w"
 }
+

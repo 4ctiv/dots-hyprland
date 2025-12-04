@@ -2,6 +2,9 @@
 
 ## Simple Script To Pick Color Quickly.
 
+which grim >/dev/null  || kitty bash -c 'echo "Installing grim" && sudo pacman -S grim';
+which slurp >/dev/null || kitty bash -c 'echo "Installing slurp" && pacman -S slurp';
+
 color=$(grim -g "$(slurp -b 1B1F2800 -p)" -t ppm - | convert - -format '%[pixel:p{0,0}]' txt:- | tail -n1 | cut -d' ' -f4)
 image=/tmp/${color}.png
 
