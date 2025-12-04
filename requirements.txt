@@ -58,6 +58,7 @@ hyprsunset           # brightness controll
 wlogout              # power menu (GUI)
 waybar               # taskbar provider (GUI)
 wofi                 # menu provider (GUI)
+nwg-drawer           # app menu (GUI)
 mako                 # notification daemon
 wl-clipboard         # clipboard tools
 cliphist             # clipboard manager
