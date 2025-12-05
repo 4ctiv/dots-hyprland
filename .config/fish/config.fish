@@ -52,7 +52,7 @@ if status is-interactive
     ### Software Management ###
     ###########################
     # should be defaults (in ineractive mode)
-    alias cp="rsync -ah --no-inc-recursive --info=progress2" # may be slower for single copies
+    alias cpr="rsync -ah --no-inc-recursive --info=progress2" # may be slower for single copies
     alias wget="wget -c"
     alias process-tree="ps auxf"
     # debugging commands
