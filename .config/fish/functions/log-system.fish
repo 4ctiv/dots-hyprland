@@ -1,0 +1,3 @@
+function log-system --wraps="printf 'Showing logs of last 10 minutes\\n'; sudo journalctl --no-page --since='10 minutes ago' && printf '\\n%*s\\n\\n' (tput cols) '' | tr ' ' '=' && sudo dmesg --since '10 minutes ago'" --description "alias log-system=printf 'Showing logs of last 10 minutes\\n'; sudo journalctl --no-page --since='10 minutes ago' && printf '\\n%*s\\n\\n' (tput cols) '' | tr ' ' '=' && sudo dmesg --since '10 minutes ago'"
+    printf 'Showing logs of last 10 minutes\n'; sudo journalctl --no-page --since='10 minutes ago' && printf '\n%*s\n\n' (tput cols) '' | tr ' ' '=' && sudo dmesg --since '10 minutes ago' $argv
+end
