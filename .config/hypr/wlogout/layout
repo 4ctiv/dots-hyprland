@@ -28,12 +28,6 @@
     "text" : "Suspend [q]",
     "keybind" : "q"
 }
-#{
-#    "label": "hibernate",
-#    "action": "systemctl hibernate",
-#    "text": "Hibernate",
-#    "keybind": "h"
-#}
 {
     "label" : "reboot",
     "action" : "chmod +x ~/.config/hypr/wlogout/grub_reboot_win.sh && ~/.config/hypr/wlogout/grub_reboot_win.sh",
