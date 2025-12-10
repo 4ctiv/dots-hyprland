@@ -66,7 +66,7 @@ function open-webui_start {
   fi
 
   # Setup container network
-  if [[ -n "$(docker network ls --format '{{.Name}}' | grep -o 'open-webui')" ]];then
+  if [[ -z "$(docker network ls --format '{{.Name}}' | grep -o 'open-webui')" ]];then
     docker network create --driver=bridge open-webui > /dev/null 2>/dev/null
   fi
 
@@ -94,19 +94,19 @@ function open-webui_start {
   fi &&\
     (timeout 500 bash -c 'while [ "$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:3000?temporary-chat=true")" != "200" ];do sleep 1s; done') &&\
     xdg-open http://localhost:3000?temporary-chat=true& >/dev/null 2>/dev/null # opens webpage
-  
+
   sleep "0.5" && echo "" # Fix prompt not returning to user input
 }
 
 function ollama_start {
 
-  if [ ! -z "$(docker ps --format '{{.Names}}' | grep -o -E '[O|o]llama')" ];then
+  if [[ -n "$(docker ps --format '{{.Names}}' | grep -o -E '[O|o]llama')" ]];then
     # Already running
     return 2;
   fi
 
   # Network (internal communication)
-  if [[ -n "$(docker network ls --format '{{.Name}}' | grep -o '${CONTAINER_NET:=ollama}')" ]];then
+  if [[ -z "$(docker network ls --format '{{.Name}}' | grep -o '${CONTAINER_NET:=ollama}')" ]];then
     docker network create --internal ${CONTAINER_NET:=ollama} > /dev/null
   fi
 
@@ -215,32 +215,17 @@ function ollama_start {
             ollama/ollama:latest
         )
     fi
+  else
+    docker start ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null
   fi
 
-  # Start ollama if no already running
-  echo "Starting ollama"
-  docker start ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null &&\
   if [[ "$1" != "--keep-net" ]]; then
     docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null # remove container networks (no network access)
   else
     echo "[INFO] Ollama port exposed on '11434' (${PORT_PREFIX})"
     docker network connect bridge ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null    # Make container port public accessable
   fi
-
-  # Start gui for easy access
-  # see: https://chatboxai.app
-  if sleep 3 && curl -s -f 'http://127.0.0.1:11434/api/status' > /dev/null; then
-    # Note: This will only work if ollama port is accessable on host
-    # To access ollama eather give ollama network access via bridge or remap port via
-    # '-v 127.0.0.1:$OLAMMA_PORT:$OLAMMA_PORT'
-    if [ -f "$(which chatbox)" ]; then
-      nohup chatbox > /dev/null 2>&1 &
-    else
-      curl -o /opt/chabox/chatbox.appimage 'https://chatboxai.app/install_chatbox/linux' &&\
-      ln -s /opt/chabox/chatbox.appimage /bin/chatbox &&\
-      /opt/chabox/chatbox.appimage;
-    fi
-  fi
+  return 0
 }
 
 function ollama_pull {
