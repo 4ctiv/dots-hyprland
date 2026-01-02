@@ -6,7 +6,7 @@ After=network.target
 
 [Service]
 # Chech flags via: `sudo ethtool eth0`
-ExecStart=/bin/bash -c "ethtool -s $(ip route show default | awk '{print $5}' | head -n 1) wol g"
+ExecStart=/bin/bash -c 'ethtool -s $(ip route show default | awk "{print \$5}" | head -n 1) wol g'
 Type=oneshot
 
 [Install]
