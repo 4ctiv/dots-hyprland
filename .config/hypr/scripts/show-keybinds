@@ -1,5 +1,5 @@
 #!/bin/bash
-KEYBINDS="/home/$USER/.config/hypr/hyprland-keybinds.conf"
+KEYBINDS="/home/$USER/.config/hypr/hyprland-input.conf"
 
 # COLORS
 NCL='\033[0m'       # Text Reset
