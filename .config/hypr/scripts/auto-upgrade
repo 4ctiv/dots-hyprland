@@ -29,7 +29,7 @@ if [[ "${PKG_MGR}" == "paru" ]] && [[ ! -f "$(which paru)" ]]; then
   rm -rf paru_setup
 fi
 
-# Verify yay is installed else install yay
+# Setup aur helper manager: yay
 if [ "${PKG_MGR}" == "yay" ] && [ ! -f "$(which yay 2>/dev/null)" ]; then
   [ ! -f $(which git) ] || pacman -S git base-devel
   git clone https://aur.archlinux.org/yay.git yay_setup &&\

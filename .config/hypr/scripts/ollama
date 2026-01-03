@@ -12,13 +12,17 @@ Usage: '$(echo $0 | sed 's|.*/|./|g')' [flag] [model]
 | -d | --detatch    ~ exposed ollama in bg     |
 | -k | --kill       ~ stop ollama container    |
 | -s | --stop       ~            "             |
+| -p | --pull       ~ download a model         |
+| -r | --remove     ~ remove   a model         |
 | -w | --web        ~ start open-webui         |
+| -u | --update     ~ update ollama version    |
 |----|-----------------------------------------|
 
 If no flags are specified ollama will run in terminal
 '
 
-MODEL="gemma3:4b-it-qat" # qwen3-vl:2b # https://ollama.com/library
+# https://ollama.com/library
+MODEL="ministral-3" # "gemma3:4b-it-qat" v "qwen3-vl:2b" 
 CONTAINER_NET="ollama"
 CONTAINER_NAME="ollama"
 PORT_PREFIX="127.0.0.1:" # Only for docker with root -> will limit access to ip
@@ -53,6 +57,32 @@ fi
 #################
 ### Functions ###
 #################
+
+function comfy-ui_start {
+  mkdir -p ~/.comfy-ui
+
+  # https://github.com/YanWenKun/ComfyUI-Docker?tab=readme-ov-file#more-image-tags
+  docker run -it -d \
+  --name comfy-ui \
+  --device=/dev/dri \
+  -p 8188:8188 \
+  -v ~/.comfy-ui/models:/root/ComfyUI/models \
+  -v ~/.comfy-ui/models/hf-hub:/root/.cache/huggingface/hub \
+  -v ~/.comfy-ui/models/torch-hub:/root/.cache/torch/hub \
+  -v ~/.comfy-ui/input:/root/ComfyUI/input \
+  -v ~/.comfy-ui/output:/root/ComfyUI/output \
+  -v ~/.comfy-ui/workflows:/root/ComfyUI/user/default/workflows \
+  -e CLI_ARGS="--enable-manager --disable-smart-memory --async-offload" \
+  yanwk/comfyui-boot:xpu >/dev/null
+
+  (timeout 500 bash -c 'while [ "$(curl -s -o /dev/null -w "%{http_code}" "http://${PORT_PREFIX:-localhost:}${PORT_COMFYUI:-8188}")" != "200" ];do sleep 1s; done') &&\
+    xdg-open http://${PORT_PREFIX:-localhost:}${PORT_COMFYUI:-8188}& >/dev/null 2>/dev/null # opens webpage
+}
+
+function comfy-ui_stop {
+  echo "Stopping comfy-ui container"
+  docker stop comfy-ui >/dev/null
+}
 
 function open-webui_stop {
   echo "Stopping open-webui container"
@@ -230,6 +260,9 @@ function ollama_start {
 
 function ollama_pull {
   # Pull ollama model if required
+  if [[ -n "$(docker ps --format '{{.Names}}' | grep -o open-webui)" ]]; then
+    ollama_start;
+  fi
   echo "Reciving ollama $MODEL (ollam has temporary internet access)"
   docker network connect bridge ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null # give container network access
   docker exec -it ${CONTAINER_NAME:=ollama} ollama pull "$MODEL" >/dev/null || docker exec -it ${CONTAINER_NAME:=ollama} ollama pull "$MODEL" # >/dev/null
@@ -244,6 +277,20 @@ function ollama_rm {
   # Remove ollama model
   docker exec -it ${CONTAINER_NAME:=ollama} ollama rm "${1:?no model specified}";
   return $?;
+}
+
+function ollama_update {
+  docker network connect bridge ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null # give container network access
+  docker exec -it ${CONTAINER_NAME:=ollama} bash -c 'curl -fsSL https://ollama.com/install.sh | sh'
+  docker exec -it ${CONTAINER_NAME:=ollama} bash -c '[ -f /usr/local/bin/ollama ] && ln -sf /usr/local/bin/ollama /llm/ollama/ollama'
+  docker exec -it ${CONTAINER_NAME:=ollama} bash -c '[ -f /usr/local/bin/ollama ] && sed -i "s@^[ \t]*lib_dir=.*@lib_dir=/usr/local/bin/ollama@" /usr/local/bin/init-ollama'
+  #docker exec -it ${CONTAINER_NAME:=ollama} bash -c '[ -f /usr/local/bin/ollama ] && sed -i "s/ollama,//" /usr/local/bin/init-ollama'
+  docker stop  ollama
+  docker start ollama
+  if [[ -z "$KEEP_NETWORK_ACCESS" ]]; then
+    docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null # remove container network access
+  fi
+  echo "Fineshed updating ollama"
 }
 
 function ollama_run {
@@ -284,7 +331,7 @@ if [ ! -z "$1" ]; then
     docker stop open-webui 2>/dev/null
     exit $?
   ;;
-  "-d" | "--detatch") 
+  "-d" | "--detatch")
     echo "Starting ollama in background"
     KEEP_NETWORK_ACCESS="$2"
     ollama_start
@@ -305,7 +352,7 @@ if [ ! -z "$1" ]; then
   "-p"|"--pull")
     echo "Downloading model '$2'"
     tmp=ollama_start;
-    ollama_pull;
+    ollama_pull $2;
     if [ "$tmp" = "2" ]; then ollama_stop; fi
     unset tmp;
     exit 0
@@ -313,6 +360,11 @@ if [ ! -z "$1" ]; then
   "-r"|"--remove")
     echo "Removing model '$2'";
     ollama_rm "$2";
+    exit 0;
+    ;;
+  "-u"|"--update")
+    echo "Updating ollama";
+    ollama_update;
     exit 0;
     ;;
   "*") # Expect model was given
@@ -339,7 +391,11 @@ else
 fi
 exit 1
 
-# Image generataion setup ConfyUI + Ollama + Intel ARC
+# Image generataion setup ConfyUI + Ollama + Intel ARC 
+# -> Docker setup: https://github.com/YanWenKun/ComfyUI-Docker
+# -> Usage:        https://unsloth.ai/docs/models/qwen-image-2512
+# -> Model:        https://huggingface.co/unsloth/Qwen-Image-Edit-2511-GGUF/resolve/main/qwen-image-edit-2511-Q3_K_M.gguf
+#
 # yay -S intel-compute-runtime && lsmod | grep -i xe
 # python -m venv .venv
 # pip install comfy-cli

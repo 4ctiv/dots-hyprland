@@ -7,14 +7,14 @@ COLORS="$HOME/.config/hypr/wofifull/colors"
 # eval $(ssh-agent) # Launched apps get ssh-agent access
 which wofi >/dev/null && echo "wofi dependency satisfied" || kitty bash -c 'yay -S wofi'
 
-if [[ -f $(which nwg-drawer) ]];then
-  if [[ ! $(pgrep -u $USER nwg-drawer) ]];then
-    nwg-drawer
-  else
-    pkill nwg-drawer
-  fi
-  exit 0
-fi
+#if [[ -f $(which nwg-drawer) ]];then
+#  if [[ ! $(pgrep -u $USER nwg-drawer) ]];then
+#    timeout -k 9 30s nwg-drawer # Auto close after 30 seconds -> if nin responsive
+#  else
+#    pkill nwg-drawer
+#  fi
+#  exit 0
+#fi
 
 if [[ ! $(pgrep -u $USER wofi) ]]; then
   wofi --modi drun,run,window --show drun --prompt 'Search...' --conf ${CONFIG} --style ${STYLE} --color ${COLORS}
