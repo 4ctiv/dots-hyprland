@@ -9,7 +9,8 @@ if status is-interactive
     ########################
     ###     Theming      ###
     ########################
-    # fish_config theme choose "Rosé\ Pine"
+    # Themes: `ls ~/.config/fish/themes/`
+    fish_config theme choose "Catppuccin Mocha"
     # set fish_color_... "0xfffffff"
 
     ##########################

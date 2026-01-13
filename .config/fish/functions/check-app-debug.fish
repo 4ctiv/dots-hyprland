@@ -1,4 +1,4 @@
-function app-debug -d "GDB debugging executable"
+function check-app-debug -d "GDB debugging executable"
  set -l help_message "
   Debug an executable using GDB with TUI interface
 
