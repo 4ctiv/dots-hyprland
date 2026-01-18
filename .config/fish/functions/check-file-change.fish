@@ -36,7 +36,7 @@ function check-file-change --wraps='auditctl -p wa -k file-change -w' --descript
   if test -z "$audit_rule"
     # If the file is not audited, run the auditctl command
     set_color red; echo "Adding audit rule..."; set_color normal;
-    sudo auditctl -w $file_to_audit -p wa -k "$USER-$key"
+    sudo auditctl -w $file_to_audit -p wa -k "$key"
   else
     # If the file is already being audited, show the audit logs
     set_color red; echo "Showing audit logs..."; set_color normal;
