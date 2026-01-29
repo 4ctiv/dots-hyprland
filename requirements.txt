@@ -64,6 +64,7 @@ wl-clipboard         # clipboard tools
 cliphist             # clipboard manager
 filezilla            # Network file browser (GUI)
 nemo                 # file browser (GUI)
+nemo-share           # Quick share folders
 nemo-seahorse        # support encrypt & sign context-menu
 ark                  # archive manager (GUI)
 kitty                # terminal emulator
@@ -201,6 +202,7 @@ yt-dlp                # Video downloader
 cbonsai               # screen saver
 glances               # hw statistics
 tty-clock             # clock
+mintstick             # usb creator (GUI)
 ventoy-bin            # multiboot usb
 gromit-mpx            # Scren annotations
 showmethekey          # key press overlay
