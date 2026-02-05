@@ -10,7 +10,7 @@ alpha='00000000'
 hyprctl dispatch dpms off
 
 use_hyprlock() {
-  hyprlock
+  hyprlock || hyprctl dispatch dpms on
 }
 
 use_sway() {

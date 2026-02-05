@@ -50,6 +50,8 @@ function start_vnc() {
   - localhost:'$VNC_PORT'
   - '$(ip -4 a | grep -o -E "([0-9]{1,3}\.){3}([0-9]{1,3})" | grep -v -E "(^127|(1|255)$)")':'$VNC_PORT'
 
+  Login:
+  - user: '$(cat .config/wayvnc/config | grep -E "^[ \t]*username=")'
   You can use the above addresses to connect to the vnc on this pc '$ADB_MSG''
 }
 
