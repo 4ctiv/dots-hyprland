@@ -28,10 +28,8 @@ if status is-interactive
     alias diskmgmt="sudo cfdisk"
     # linux   command redirection
     alias cp-recursive="rsync -ah --no-inc-recursive --info=progress2"
-    alias yay="paru"
     alias nano="vim"
     alias gtop="btop"
-    alias podman="docker"
     alias neofetch="fastfetch -l .config/neofetch/great-wave-transparent-2.png --logo-height 20"
     alias gksudo="pkexec"
 

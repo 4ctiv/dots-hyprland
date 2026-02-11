@@ -1,18 +1,34 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
 # Reboots the computer into Windows
 
-if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-    pkexec $0 && exit "$?"
-    echo "This script must be run with sudo privilages"
-    notify-send "$0 script requires sudo privilages"
+if [[ $(id -u) -ne 0 ]]; then
+    pkexec "$0" && exit 0
+    if [[ $- == *i* ]];then
+      # Interactive Shell
+      echo "This script must be run with sudo privilages"
+    else
+      notify-send "This script must be run with sudo privilages"
+    fi
     exit 1
 fi
 
-boot_num=$(/usr/bin/efibootmgr | rg "Boot(\d+)\* Windows Boot Manager" -or '$1')
-[ ! -z "$boot_num" ] && notify-send "Rebooting into windows" \
-  || (notify-send "Can not find windows boot entry" && exit 1)
+# Settings
+export filter="[Ww]indows"
+[ ! -z "$1" ] && filter="$1" || filter="[Ww]indows"
 
-/usr/bin/efibootmgr -n '${boot_num:?not set}'
-systemctl reboot
+### Systemd method (more stable)
+#boot_num=$(/usr/bin/efibootmgr | rg "${filter:?is empty}" -or '$1')
+#systemctl reboot --boot-loader-entry=${boot_num:?entry id is empty}
+#systemctl reboot --boot-loader-entry=auto-windows
 
+### Efibootmanager
+ efi_id="$(sudo efibootmgr | grep -m 1 -e '[Ww]indows' | sed 's/^Boot//;s/\*.*//')"
+ efibootmgr --bootnext "${efi_id:?entry id is empty}"  # Set to windows or default if windows is not found
+
+### Grub method (consistent user experience)
+#grub_num=$(sudo awk -F \' '$1=="menuentry " || $1=="submenu " {print i++ " : " $2}; /\smenuentry / {print "\t" i-1">"j++ " : " $2};' /boot/grub/grub.cfg \
+#                                               | grep -E "${filter}" | awk 'NR==1{print $1}')
+#sudo grub-reboot ${grub_num:?entry id not found} # Set next boot entrie
+
+  sudo systemctl reboot
 exit 0

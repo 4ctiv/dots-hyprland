@@ -9,7 +9,7 @@ function check-file-change --wraps='auditctl -p wa -k file-change -w' --descript
     end
 
     # Check if the audit rule for the file exists
-    set audit_rule (sudo auditctl -l | grep -E "($file_to_audit).*wa")
+    set -l audit_rule (sudo auditctl -l | grep -E "($file_to_audit).*wa")
     if test -z "$audit_rule"
         echo "No audit rule found for '$argv[2]'"
         return 1

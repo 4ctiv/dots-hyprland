@@ -169,6 +169,7 @@ looking-glass         # Optional: VM Hardware acceleration
 #quickgui             # vm manager (GUI, preconfigured vm's)
 #quickemu             # vm setup (pre-configured vm's)
 remmina               # Remote Desktop (Client)
+freerdp               # Allow rdp connections in remmina
 wayvnc                # Remote desktop (local  Server)
 parsec-bin            # Remote Desktop (Global Server)
 openssh               # Remote terminal
@@ -185,6 +186,7 @@ owncloud-client       # Selfhosted Cloud
 discord               # Voice/Vido chat client
 steam                 # Game store
 vulkan-intel          # Game support (use vulkan-amd or vilkan-nvidia depending on your graphics)
+intel-media-driver    # Codec support for intel (i)GPU
 mesa                  # Game support
 heroic-games-launcher # Game store
 gamemode              # Game boost
