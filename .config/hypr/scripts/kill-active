@@ -29,8 +29,8 @@ case "$(hyprctl activewindow -j | jq -r ".class" | tr '[:upper:]' '[:lower:]' )"
       hyprctl dispatch movetoworkspacesilent name:mail;
     fi
   ;;
-  "cinny")
-    hide_ws="com" # lower case, no spaces
+ "cinny"|"schildichat")
+    hide_ws="chat" # lower case, no spaces
     # Hide Main Windows via dispatcher ( https://wiki.hyprland.org/Configuring/Dispatchers/ )
     if [[ "$(hyprctl -j monitors | jq --raw-output '.[] | select(.focused==true).activeWorkspace.name' | tr '[:upper:]' '[:lower:]')" =~ "$(echo "$hide_ws" | tr '[:upper:]' '[:lower:]')" ]]; then
       notify-send "Switched to main workspace";
