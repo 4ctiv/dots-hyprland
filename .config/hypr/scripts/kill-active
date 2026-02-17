@@ -9,7 +9,7 @@ case "$(hyprctl activewindow -j | jq -r ".class" | tr '[:upper:]' '[:lower:]' )"
   notify-send "Minimizing App - $(hyprctl activewindow -j | jq -r ".class")"
   xdotool getactivewindow windowunmap
   ;;
-  "mozilla thunderbird"|"thunderbird"|"betterbird"|"org.mozilla.thunderbird"|"cinny")
+  "mozilla thunderbird"|"thunderbird"|"betterbird"|"org.mozilla.thunderbird")
     # If not main window just kill it
     if ! [[ "$(hyprctl activewindow -j | jq --raw-output '.initialTitle')" == "Mozilla Thunderbird" ]]; then
       hyprctl dispatch killactive "";
@@ -27,6 +27,21 @@ case "$(hyprctl activewindow -j | jq -r ".class" | tr '[:upper:]' '[:lower:]' )"
     else
       notify-send "Moved thunderbird to mail workspace"
       hyprctl dispatch movetoworkspacesilent name:mail;
+    fi
+  ;;
+  "cinny")
+    hide_ws="com" # lower case, no spaces
+    # Hide Main Windows via dispatcher ( https://wiki.hyprland.org/Configuring/Dispatchers/ )
+    if [[ "$(hyprctl -j monitors | jq --raw-output '.[] | select(.focused==true).activeWorkspace.name' | tr '[:upper:]' '[:lower:]')" =~ "$(echo "$hide_ws" | tr '[:upper:]' '[:lower:]')" ]]; then
+      notify-send "Switched to main workspace";
+      old_ws="$(hyprctl activeworkspace | head -n 1 | sed -E 's/^workspace ID ([-]?[0-9]+).*/\1/g')"
+      hyprctl dispatch workspace previous;
+      if [ "$(old_ws)" == "$(hyprctl activeworkspace | head -n 1 | sed -E 's/^workspace ID ([-]?[0-9]+).*/\1/g')" ]; then
+        hyprctl dispatch workspace 1
+      fi
+    else
+      notify-send "Moved $(hyprctl activewindow -j | jq -r ".class" | tr '[:upper:]' '[:lower:]' ) to $hide_ws workspace"
+      hyprctl dispatch movetoworkspacesilent name:$hide_ws;
     fi
   ;;
   *)
