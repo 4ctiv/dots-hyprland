@@ -138,7 +138,7 @@ function! Open_Glow_Right_Split()
    if !executable('glow') | return | endif
 
    set nolist
-   rightbelow vertical terminal glow %
+   rightbelow vertical terminal bash -c "glow % | less"
    let l:term = bufnr('%')
    wincmd h | set list
 
