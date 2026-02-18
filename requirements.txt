@@ -142,13 +142,11 @@ python                # Python
 jre-openjdk           # Java
 #typescript           # Typescript (Javascript)
 # Office & PDF
-masterpdfeditor       # pdf bookmarks
 onlyoffice-bin        # office suite
-pdfmixtool            # pdf stitching
-xournalpp             # handwritten notes
-#rnote                # handwritten notes
+xournalpp             # handwritten notes | rnote, saber
 obsidian              # markdown notes
 papers                # pdf reader
+pdf4qt                # pdf editor
 # Media
 qmmp                  # audio player  [`mixxx` -> DJ/Mixing]
 gimp                  # photo editing [`krita` -> drawing]
