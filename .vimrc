@@ -44,10 +44,10 @@
 
 " Highlight special characters
 " Test:   	 
- set listchars=tab:—⇥
+ set listchars=tab:>>
 "set listchars+=space:␣
- set listchars+=trail:␣,extends:…,precedes:…
-"set listchars+=eol:↵
+ set listchars+=trail:-,extends:>,precedes:<
+"set listchars+=eol:$
  set list
 
 " Syntax Highlighting
@@ -118,27 +118,32 @@
  nnoremap <F12> gd                               " Jump to definition
  nnoremap <C-F12> <C-O>                          "  Jump back (def)
 
+ " Save as admin (usefull if opened user has no rw rights)
+ " NOTE: [CTRL] + [S] + [_] is somewhat unreliable
+ nnoremap <M-S-S> :w !sudo tee % > /dev/null<CR>:e!<CR> " Save file as admin
+
  " Syntax highlight overides
  " NOTE: You can use `:setfiletype` instead of `:set syntax=` to also use
  " language features (e.g. indentation)
- noremap <C-S-r> :set syntax=ON <CR>             " Set syntax to automatic detection
- noremap <C-S-b> :set syntax=bash <CR>           " Set syntax to bash (common linux script language)
- noremap <C-S-j> :set syntax=json5 <CR>          " Set syntax to json5
- noremap <C-S-y> :set syntax=yaml <CR>           " Set syntax to yaml
- noremap <C-S-m> :set syntax=markdown <CR>       " Set syntax to markdown
- noremap <C-S-p> :set syntax=ps1 <CR>            " Set syntax to powershell
- noremap <C-S-x> :set syntax=xml <CR>            " Set syntax to xml (~html)
-"noremap <C-S-s> :w !sudo tee % > /dev/null <CR> " Save as admin
+ noremap <M-S-r> :set syntax=ON <CR>             " Set syntax to automatic detection
+ noremap <M-S-b> :set syntax=bash <CR>           " Set syntax to bash (common linux script language)
+ noremap <M-S-j> :set syntax=json5 <CR>          " Set syntax to json5
+ noremap <M-S-y> :set syntax=yaml <CR>           " Set syntax to yaml
+ noremap <M-S-m> :set syntax=markdown <CR>       " Set syntax to markdown
+ noremap <M-S-p> :set syntax=ps1 <CR>            " Set syntax to powershell
+ noremap <M-S-x> :set syntax=xml <CR>            " Set syntax to xml (~html)
 
  " Markdown viewer
  function! Open_Glow_Right_Split()
-   if !executable('glow')
-     return
-   endif
+   if !executable('glow') | return | endif
+
    set nolist
    rightbelow vertical terminal watch glow '%'
-   wincmd h
-   set list
+   let l:term = bufnr('%')
+   wincmd h | set list
+
+   execute 'autocmd BufWinLeave <buffer> if bufexists(' . l:term . ') | bd! ' . l:term . ' | endif'
  endfunction
- noremap <C-p> :call Open_Glow_Right_Split()<CR>
+
+ nnoremap <C-p> :call Open_Glow_Right_Split()<CR>
 

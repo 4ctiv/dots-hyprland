@@ -180,7 +180,7 @@ lazydocker            # Docker (TUI)
 google-chrome         # Alt: browser
 firefox               # Alt: browser
 owncloud-client       # Selfhosted Cloud
-#schildichat-desktop  # Matrix chat client
+cinny-desktop         # Matrix chat client
 discord               # Voice/Vido chat client
 steam                 # Game store
 vulkan-intel          # Game support (use vulkan-amd or vilkan-nvidia depending on your graphics)
