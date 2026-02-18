@@ -149,5 +149,5 @@ function! Open_Glow_Right_Split()
    execute 'autocmd BufWinLeave <buffer> if bufexists(' . l:term . ') | bd! ' . l:term . ' | endif'
 endfunction
 
-nnoremap <C-p> :call Open_Glow_Right_Split()<CR>
+nnoremap <C-p> :call Open_Glow_Right_Split()<CR> " Use [CTRL] + [\] -> [CTRL] + [n] to make it scrollable (removes auto update)
 
