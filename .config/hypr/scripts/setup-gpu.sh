@@ -8,7 +8,6 @@ match "$(lspci | grep -E "VGA|3D" | tr '[:upper:]' '[:lower:]' | grep -o -E "amd
     sudo pacman -S --needed libva mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon
     ;;
   case "nvidia")
-    # Open source: You may want to swap mesa for
     sudo pacman -R libdrm nvidia-open nvidia-open-lts nvidia-beta nvidia-settings nvidia-utils egl-wayland
     sudo pacman -S --needed libva mesa lib32-mesa vulkan-noveau lib32-vulkan-noveau
     # Propriatary

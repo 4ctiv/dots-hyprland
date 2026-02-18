@@ -22,7 +22,7 @@ If no flags are specified ollama will run in terminal
 '
 
 # https://ollama.com/library
-MODEL="ministral-3:3b" #"gemma3:4b-it-qat" # qwen3-vl:2b # https://ollama.com/library
+MODEL="ministral-3:3b" # "gemma3:4b-it-qat" "qwen3-vl:2b" # https://ollama.com/library
 CONTAINER_NET="ollama"
 CONTAINER_NAME="ollama"
 PORT_PREFIX="127.0.0.1:" # Only for docker with root -> will limit access to ip
