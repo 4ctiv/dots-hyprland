@@ -134,16 +134,20 @@
  noremap <M-S-x> :set syntax=xml <CR>            " Set syntax to xml (~html)
 
  " Markdown viewer
- function! Open_Glow_Right_Split()
+function! Open_Glow_Right_Split()
    if !executable('glow') | return | endif
 
    set nolist
-   rightbelow vertical terminal watch glow '%'
+   rightbelow vertical terminal glow %
    let l:term = bufnr('%')
    wincmd h | set list
 
-   execute 'autocmd BufWinLeave <buffer> if bufexists(' . l:term . ') | bd! ' . l:term . ' | endif'
- endfunction
+   " Auto refresh on save
+   execute 'autocmd BufWritePost <buffer> if bufexists(' . l:term . ') | silent! call term_sendkeys(' . l:term . ', "glow %\<CR>") | endif'
 
- nnoremap <C-p> :call Open_Glow_Right_Split()<CR>
+   " Clean up when closing
+   execute 'autocmd BufWinLeave <buffer> if bufexists(' . l:term . ') | bd! ' . l:term . ' | endif'
+endfunction
+
+nnoremap <C-p> :call Open_Glow_Right_Split()<CR>
 
