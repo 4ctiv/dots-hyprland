@@ -69,6 +69,7 @@ nemo-seahorse        # support encrypt & sign context-menu
 ark                  # archive manager (GUI)
 kitty                # terminal emulator
 fish                 # shell
+hyprpicker           # screen color picker
 flameshot            # screenshot tool
 thunderbird          # mail-client
 brave-bin            # web-brower
