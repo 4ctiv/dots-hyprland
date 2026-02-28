@@ -27,6 +27,5 @@ function web-search --description "search <arg> on the web"
     end
     set s_querry $(echo "$s_querry" | sed 's/ //g')
   end
-  echo "$browser $s_querry"
   eval "$browser $s_querry"
 end

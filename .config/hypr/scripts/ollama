@@ -63,17 +63,17 @@ function comfy-ui_start {
 
   # https://github.com/YanWenKun/ComfyUI-Docker?tab=readme-ov-file#more-image-tags
   docker run -it -d \
-  --name comfy-ui \
-  --device=/dev/dri \
-  -p 8188:8188 \
-  -v ~/.comfy-ui/models:/root/ComfyUI/models \
-  -v ~/.comfy-ui/models/hf-hub:/root/.cache/huggingface/hub \
-  -v ~/.comfy-ui/models/torch-hub:/root/.cache/torch/hub \
-  -v ~/.comfy-ui/input:/root/ComfyUI/input \
-  -v ~/.comfy-ui/output:/root/ComfyUI/output \
-  -v ~/.comfy-ui/workflows:/root/ComfyUI/user/default/workflows \
-  -e CLI_ARGS="--enable-manager --disable-smart-memory --async-offload" \
-  yanwk/comfyui-boot:xpu >/dev/null
+    --name comfy-ui \
+    --device=/dev/dri \
+    -p 8188:8188 \
+    -v ~/.comfy-ui/models:/root/ComfyUI/models \
+    -v ~/.comfy-ui/models/hf-hub:/root/.cache/huggingface/hub \
+    -v ~/.comfy-ui/models/torch-hub:/root/.cache/torch/hub \
+    -v ~/.comfy-ui/input:/root/ComfyUI/input \
+    -v ~/.comfy-ui/output:/root/ComfyUI/output \
+    -v ~/.comfy-ui/workflows:/root/ComfyUI/user/default/workflows \
+    -e CLI_ARGS="--enable-manager --disable-smart-memory --async-offload" \
+    yanwk/comfyui-boot:xpu >/dev/null
 
   (timeout 500 bash -c 'while [ "$(curl -s -o /dev/null -w "%{http_code}" "http://${PORT_PREFIX:-localhost:}${PORT_COMFYUI:-8188}")" != "200" ];do sleep 1s; done') &&\
     xdg-open http://${PORT_PREFIX:-localhost:}${PORT_COMFYUI:-8188}& >/dev/null 2>/dev/null # opens webpage
@@ -171,6 +171,7 @@ function ollama_start {
            -p ${PORT_PREFIX}11434:11434 \
            -e PATH=/llm/ollama:$PATH \
            -e OLLAMA_HOST=0.0.0.0 \
+           -e OLLAMA_API_KEY="${OLLAMA_API_KEY:-$(sha1sum $0 | awk '{print $1}')}"
            -e no_proxy=localhost,127.0.0.1 \
            ollama/ollama
     elif [[ $(lsmod | grep amdgpu) ]]; then
@@ -178,19 +179,20 @@ function ollama_start {
       # -> https://hub.docker.com/r/ollama/ollama#amd
       printf "[INFO] Using AMD GPU for running ollama\n"
       docker run -d \
-           --name ${CONTAINER_NAME:=ollama} \
-           --hostname ${CONTAINER_NAME:=ollama} \
-           --restart=unless-stopped \
-           --device=/dev/dri \
-           --device /dev/kfd \
-           --gpus=all \
-           --network ${CONTAINER_NET:=ollama} \
-           -v ollama:/root/.ollama/models \
-           -p ${PORT_PREFIX}11434:11434 \
-           -e PATH=/llm/ollama:$PATH \
-           -e OLLAMA_HOST=0.0.0.0 \
-           -e no_proxy=localhost,127.0.0.1 \
-           ollama/ollama:rocm
+        --name ${CONTAINER_NAME:=ollama} \
+        --hostname ${CONTAINER_NAME:=ollama} \
+        --restart=unless-stopped \
+        --device=/dev/dri \
+        --device /dev/kfd \
+        --gpus=all \
+        --network ${CONTAINER_NET:=ollama} \
+        -v ollama:/root/.ollama/models \
+        -p ${PORT_PREFIX}11434:11434 \
+        -e PATH=/llm/ollama:$PATH \
+        -e OLLAMA_HOST=0.0.0.0 \
+        -e OLLAMA_API_KEY="${OLLAMA_API_KEY:-$(sha1sum $0 | awk '{print $1}')}"
+        -e no_proxy=localhost,127.0.0.1 \
+        ollama/ollama:rocm
     elif [[ $(lsmod | grep -E "(i915|xe)") ]] && [[ ! -z $(lspci -k | grep -EA3 'VGA|3D|Display' | grep [Aa][Rr][Cc]) ]]; then
       # Intel Graphics (ARC)
       # -> https://dev.to/itlackey/run-ollama-on-intel-arc-gpu-ipex-4e4k
@@ -229,6 +231,7 @@ function ollama_start {
         -v ollama:/root/.ollama/models \
         -p ${PORT_PREFIX}11434:11434 \
         -e OLLAMA_HOST=0.0.0.0 \
+        -e OLLAMA_API_KEY="${OLLAMA_API_KEY:-$(sha1sum $0 | awk '{print $1}')}"
         -e no_proxy=localhost,127.0.0.1 \
         ollama/ollama:latest 2>/dev/null || (\
           docker rm ollama >/dev/null && \\

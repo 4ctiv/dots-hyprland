@@ -11,5 +11,5 @@ function list-net-ipv4 --description "Scan local IPv4 network for open ports"
     end
     echo "Scanning subnet $ip_address (this may take some time)"
     # nmap "$ip_address" -F --open -oG - | cut -d ' ' -f 2-3 | grep Ports: | sed 's/Ports://g'
-    nmap "$ip_address" -F --open -oG - | awk '{print $2"\t"$3}' | grep -v '^Nmap'
+    nmap "$ip_address" -F --open -oG - | awk '{print $2"\t"$3}' | grep -v '^Nmap' | sort -n -u
 end

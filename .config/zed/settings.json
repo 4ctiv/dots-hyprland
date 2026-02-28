@@ -42,7 +42,7 @@
   "theme": {
     "mode": "dark",
     "light": "Darker Horizon",
-    "dark": "Ayu Darker"
+    "dark": "Catppuccin Espresso (Blur) [Heavy]"
   },
   "icon_theme": {
     "mode": "system",
@@ -82,7 +82,7 @@
   },
   "auto_install_extensions": {
     "catppuccin-icons": true,
-    "catppuccin": true,
+    "catppuccin-blur": true,
     "ayu-darker": true,
     "markdown": true,
     "latex": true,
@@ -204,19 +204,29 @@
     "indent_size": 20,
     "show_diagnostics": "errors"
   },
+  "language_models": {
+    "ollama": {
+      "api_url": "http://127.0.0.1:11434"
+    }
+  },
   "agent": {
-    "provider": {
-      "name": "ollama",
-      "default_model": {
-        "supports_tools": false,
-        "name": "deepseek-coder:1.3b",
-        "display_name": null,
-        "max_tokens": 2048,
-        "keep_alive": -1
-      }
+    "default_model": {
+      "provider": "ollama",
+      "model": "qwen2.5-coder:1.5b",
+      "enable_thinking": false
     },
     "button": true,
     "dock": "right"
+  },
+  "edit_predictions": {
+    "ollama": {
+      "model": "qwen2.5-coder:1.5b"
+    },
+    "provider": "ollama",
+    "copilot": {
+      "proxy": "http://127.0.0.1:11434", // ollama port
+      "proxy_no_verify": true
+    }
   },
   "outline_panel": {
     "button": true,
@@ -262,13 +272,4 @@
   "calls": {
     "mute_on_join": true
   },
-  "edit_predictions": {
-    "copilot": {
-      "proxy": "http://localhost:11434", // ollama port
-      "proxy_no_verify": true
-    }
-  },
-  "features": {
-    "edit_prediction_provider": "supermaven"
-  }
 }

@@ -15,7 +15,7 @@ function fish_greeting
             echo ""
             echo "CPU usage: $(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {printf "%02d%%\n", int(0.5+usage)}')"
             echo "RAM usage: $(printf "%02d%%\n" $(math --scale 0 "($(grep 'MemFree' /proc/meminfo | awk '{print $2}') / $(grep 'MemTotal' /proc/meminfo | awk '{print $2}')) * 100"))"
-            echo "GPU usage: $(echo "??" 2>/dev/null)%"
+            echo "GPU usage: $(printf "%02d%%\n" $(nvtop -s | jq 'add(.[].processes[].gpu_usage | split("%").[0] | tonumber)' 2>/dev/null || echo "??"))"
             echo ""
             git status --short 2>/dev/null # Only output status if in git repo
         end
