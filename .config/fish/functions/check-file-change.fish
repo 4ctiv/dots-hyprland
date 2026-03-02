@@ -27,7 +27,7 @@ function check-file-change --wraps='auditctl -p wa -k file-change -w' --descript
       sudo rm "/var/log/audit/audit.log"
       return 0;
     case "-d" "--delete"
-      set file_to_audit "$argv[2]";
+      set file_to_audit "$(echo $argv[2] | sed "s@^~@$HOME@")"
       set -l key (if test -n "$argv[3]"; echo "$argv[3]"; else echo "$USER"; end)
       set -l audit_rule (sudo auditctl -l | grep --color=never -E "($file_to_audit)")
       # Ensure the second argument is provided (file path)
@@ -47,7 +47,7 @@ function check-file-change --wraps='auditctl -p wa -k file-change -w' --descript
       end
       return 0;
     case '*'
-      set file_to_audit "$argv[1]";
+      set file_to_audit "$(echo $argv[1] | sed "s@^~@$HOME@")"
       set key (if test -n "$argv[2]"; echo "$argv[2]"; else echo "$USER"; end)
   end
 
