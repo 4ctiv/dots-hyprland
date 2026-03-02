@@ -24,7 +24,7 @@ function check-file-change --wraps='auditctl -p wa -k file-change -w' --descript
       printf $help;
       return 0;
     case "-c" "--clear-log"
-      sudo rm "/var/log/audit/audit.log"
+      echo "" | sudo tee "/var/log/audit/audit.log"
       return 0;
     case "-d" "--delete"
       set file_to_audit "$(echo $argv[2] | sed "s@^~@$HOME@")"
@@ -58,7 +58,6 @@ function check-file-change --wraps='auditctl -p wa -k file-change -w' --descript
   end
 
   # Check if the file is already being audited
-  echo "audit_rule: $audit_rule"
   if test "$audit_rule" = "No rules" || test -z "$audit_rule"
     # If the file is not audited, run the auditctl command
     set_color red; echo "Adding audit rule..."; set_color normal;
