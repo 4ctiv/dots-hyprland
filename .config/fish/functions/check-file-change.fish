@@ -1,24 +1,55 @@
 function check-file-change --wraps='auditctl -p wa -k file-change -w' --description 'Monitor file change (wa) using auditctl'
 
-  # Check if the user wants to delete the audit rule
-  if test "$argv[1]" = "-d"; or test "$argv[1]" = "--delete"
-    # Ensure the second argument is provided (file path)
-    if test -z "$argv[2]"
-        echo "Error: Please specify the file to delete from audit."
-        exit 1
-    end
+  set -l help 'Help page for '$0'
+    Usage: '$0' [Flag] $full_file_path
 
-    # Check if the audit rule for the file exists
-    set -l audit_rule (sudo auditctl -l | grep -E "($file_to_audit).*wa")
-    if test -z "$audit_rule"
+    You can ether specify a flag or give a file path,
+    in the latter case this will eather create an audit rule
+    or list logs of a matching audit rule
+
+    | SFlag |    LFlag    | Drescription        |
+    | ----- | ----------- | ------------------- |
+    | -h    | --help      | This help message   |
+    | -d *  | --delete *  | Delete audit rule   |
+    | -c    | --clear-log | Rotate logs (clear) |
+
+    If you set auditctl in "Read only mode" you can reboot to change it
+    '
+
+  set audit_rule (sudo auditctl -l | grep -E "($file_to_audit)")
+
+  # Check if the user wants to delete the audit rule
+  switch "$argv[1]"
+    case "-h" "--help"
+      printf $help;
+      return 0;
+    case "-c" "--clear-log"
+      sudo rm "/var/log/audit/audit.log"
+      return 0;
+    case "-d" "--delete"
+      set file_to_audit "$argv[2]";
+      set -l key (if test -n "$argv[3]"; echo "$argv[3]"; else echo "$USER"; end)
+      set -l audit_rule (sudo auditctl -l | grep --color=never -E "($file_to_audit)")
+      # Ensure the second argument is provided (file path)
+      if test -z "$argv[2]"
+        echo "Error: Please specify the file to delete from audit."
+        return 1
+      end
+      # Check if the audit rule for the file exists
+      if test -z "$audit_rule"
         echo "No audit rule found for '$argv[2]'"
         return 1
-    else
+      else
         echo "Deleting audit rule for '$argv[2]'"
-        sudo auditctl -W $argv[2] -p wa -k "$USER-$key"
-    end
-    return 0
-  end # END_IF
+       #sudo auditctl -d $file_to_audit -k "$key"
+        sudo auditctl -d exit,always -F "perm=wa" -F "path=$file_to_audit" -k "$key"
+        sudo systemctl restart auditd.service >/dev/null 2>/dev/null
+      end
+      return 0;
+    case '*'
+      set file_to_audit "$argv[1]";
+      set key (if test -n "$argv[2]"; echo "$argv[2]"; else echo "$USER"; end)
+  end
 
   # Enable auditclt service if not already enabled
   if not systemctl is-active --quiet auditd
@@ -26,21 +57,17 @@ function check-file-change --wraps='auditctl -p wa -k file-change -w' --descript
     sudo systemctl enable --now auditd
   end
 
-  # Set the file path to be audited from $argv[1] and key from $argv[2] or default
-  set file_to_audit $argv[1]
-  set key (if test -n "$argv[2]"; echo "$argv[2]"; else echo "$USER"; end)
-
   # Check if the file is already being audited
-  set audit_rule (sudo auditctl -l | grep -E "($file_to_audit).*wa")
-
-  if test -z "$audit_rule"
+  echo "audit_rule: $audit_rule"
+  if test "$audit_rule" = "No rules" || test -z "$audit_rule"
     # If the file is not audited, run the auditctl command
     set_color red; echo "Adding audit rule..."; set_color normal;
-    sudo auditctl -w $file_to_audit -p wa -k "$key"
+    sudo auditctl -a exit,always -F "perm=wa" -F "path=$file_to_audit" -k "$key"
+    sudo systemctl restart auditd.service >/dev/null 2>/dev/null
   else
     # If the file is already being audited, show the audit logs
     set_color red; echo "Showing audit logs..."; set_color normal;
-    sudo ausearch -k "$USER-$key" -i
+    sudo ausearch -k "$key" -i
   end
 
   return 0

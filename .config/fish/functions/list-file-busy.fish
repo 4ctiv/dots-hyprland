@@ -1,3 +1,4 @@
 function list-file-busy --wraps='fuser -v' --description 'alias list-file-busy=fuser -v'
-    fuser -v $argv
+    sudo fuser -v $argv ||\
+         fuser -v $argv
 end
