@@ -244,6 +244,7 @@ function ollama_start {
             -v ollama:/root/.ollama/models \
             -p ${PORT_PREFIX}11434:11434 \
             -e OLLAMA_HOST=0.0.0.0 \
+            -e OLLAMA_API_KEY="${OLLAMA_API_KEY:-$(sha1sum $0 | awk '{print $1}')}"
             -e no_proxy=localhost,127.0.0.1 \
             ollama/ollama:latest
         )

@@ -113,6 +113,7 @@
  nnoremap <S-F7> zR <CR>                         " Un-fold all
  nnoremap <C-F7> zR <CR>                         " Un-fold all
  
+ nnoremap <C-F11> <C-O>                          "Jump back
  nnoremap <F11> gD                               " Jump to declaration
  nnoremap <C-F11> <C-O>                          "  Jump back (dec)
  nnoremap <F12> gd                               " Jump to definition

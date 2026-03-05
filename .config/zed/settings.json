@@ -40,8 +40,8 @@
   },
   // look and feel
   "theme": {
-    "mode": "dark",
-    "light": "Darker Horizon",
+    "mode": "system",
+    "light": "Catppuccin Latte (Blur) [Light]",
     "dark": "Catppuccin Espresso (Blur) [Heavy]"
   },
   "icon_theme": {
@@ -49,8 +49,8 @@
     "light": "Catppuccin Mocha",
     "dark": "Catppuccin Latte"
   },
-  "ui_font_size": 16,
-  "buffer_font_size": 16,
+  "ui_font_size": 16.0,
+  "buffer_font_size": 16.0,
   "ui_font_family": "JetBrainsMono Nerd Font Mono",
   "ui_font_features": {
     "ligatures": true,
@@ -83,7 +83,6 @@
   "auto_install_extensions": {
     "catppuccin-icons": true,
     "catppuccin-blur": true,
-    "ayu-darker": true,
     "markdown": true,
     "latex": true,
     "sql": true,
@@ -99,11 +98,13 @@
     "php": true,
     "go": true,
     "java": true,
+    "dart": true,
     "python": true,
     "haskell": true,
     "prolog": true,
     "dockerfile": true,
     "docker-compose": true,
+    "fish": true,
     "powershell": true,
     "git-firefly": false
   },
@@ -210,6 +211,7 @@
     }
   },
   "agent": {
+    "default_profile": "ask",
     "default_model": {
       "provider": "ollama",
       "model": "qwen2.5-coder:1.5b",
