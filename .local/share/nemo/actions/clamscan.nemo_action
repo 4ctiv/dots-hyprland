@@ -2,10 +2,10 @@
 Name=Clam Scan
 Comment=Clam Scan
 
-Exec=kitty --title "clamscan" sh -c "clamscan -r %F | less"
+Exec=clamtk '%F' || kitty --title "clamscan" sh -c 'mkdir -p ~/.clamtk/viruses && clamscan -r --infected --move="${HOME:?}/.clamtk/viruses" %F | less'
 
-Icon-Name=bug-buddy
+Icon-Name=clamtk
 
 Selection=Any
-
-Extensions=dir;exe;dll;zip;gz;7z;rar;
+Comment=Scan file/folder using clam antivirus
+Extensions=any;

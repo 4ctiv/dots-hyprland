@@ -35,6 +35,7 @@ cp    ./.vimrc  "$HOME" &&\
 cp    ./.gtkr   "$HOME" &&\
 cp ./.gtkrc-2.0 "$HOME" &&\
 cp ./.profile   "$HOME" &&\
+cat ./etc/modprobe.d/v4l2loopback.conf >> sudo tee -a ./etc/modprobe.d/v4l2loopback.conf
 sudo cp ./etc/systemd/system/wol.service /etc/systemd/system/wol.service || \
   (echo -e "${CRED}[ERROR]${NCOL} Config file deployment failed!"; exit 1)
 # Fix faulty permissions of config files
