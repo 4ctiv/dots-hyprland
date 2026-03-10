@@ -1,4 +1,6 @@
 if status is-interactive
+
+    # Import global configuration
     source ~/.profile
 
     ########################
