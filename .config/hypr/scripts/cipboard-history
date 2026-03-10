@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# eval $(ssh-agent) # Launched apps get ssh-agent access
+which wofi >/dev/null && echo "wofi dependency satisfied" || kitty bash -c 'yay -S wofi'
+
+if [[ ! $(pgrep -u $USER wofi) ]]; then
+  cliphist list | wofi --dmenu | cliphist decode | wl-copy
+else
+  pkill wofi || pkill -9 wofi &
+fi
+exit 0
+
