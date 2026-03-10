@@ -9,7 +9,7 @@ Usage: '$(echo $0 | sed 's|.*/|./|g')' [flag] [model]
 |----|-----------------------------------------|
 | -h | --help       ~ Display this message     |
 | -b | --background ~ run ollama in background |
-| -d | --detatch    ~ exposed ollama in bg     |
+| -o | --open-port  ~ exposed ollama in bg     |
 | -k | --kill       ~ stop ollama container    |
 | -s | --stop       ~            "             |
 | -p | --pull       ~ download a model         |
@@ -22,7 +22,7 @@ If no flags are specified ollama will run in terminal
 '
 
 # https://ollama.com/library
-MODEL="ministral-3:3b" # "gemma3:4b-it-qat" "qwen3-vl:2b" # https://ollama.com/library
+MODEL="ministral-3:3b" # "gemma3:4b-it-qat" "qwen2.5-coder:1.5b" # <- Other Recommendations
 CONTAINER_NET="ollama"
 CONTAINER_NAME="ollama"
 PORT_PREFIX="127.0.0.1:" # Only for docker with root -> will limit access to ip
@@ -131,7 +131,7 @@ function open-webui_start {
 function ollama_start {
 
   if [[ -n "$(docker ps --format '{{.Names}}' | grep -o -E '[O|o]llama')" ]];then
-    # Already running
+    echo "Ollama already running"
     return 2;
   fi
 
@@ -142,7 +142,7 @@ function ollama_start {
 
   # Volume (ollama config & models)
   mkdir -p ${OLLAMA_MODELS_HOST_DIR:?not set} && echo "Modes saved to ${OLLAMA_MODELS_HOST_DIR}"
-  if [ ! -z "$(docker volume ls --format '{{.Name}}' | grep -o -E '[O|o]llama')" ];then
+  if [ -z "$(docker volume ls --format '{{.Name}}' | grep -o -E '[O|o]llama')" ];then
     docker volume create \
       --opt o=bind  \
       --driver local \
@@ -153,6 +153,7 @@ function ollama_start {
 
   # Check if ollama container already exists
   if [ -z "$(docker ps -a --format '{{.Names}}' | grep -o -E '[O|o]llama')" ]; then
+    echo "API Key: ${OLLAMA_API_KEY:-$(sha1sum $0 | awk '{print $1}')}"
     # - inxi -G  # list graphical devices (human readable)
     if [[ $(lsmod | grep nvidia) ]]; then
       # NVIDIA Graphics
@@ -169,10 +170,10 @@ function ollama_start {
            --network ${CONTAINER_NET:=ollama} \
            -v ollama:/root/.ollama/models \
            -p ${PORT_PREFIX}11434:11434 \
+           -e no_proxy=localhost,127.0.0.1 \
            -e PATH=/llm/ollama:$PATH \
            -e OLLAMA_HOST=0.0.0.0 \
            -e OLLAMA_API_KEY="${OLLAMA_API_KEY:-$(sha1sum $0 | awk '{print $1}')}"
-           -e no_proxy=localhost,127.0.0.1 \
            ollama/ollama
     elif [[ $(lsmod | grep amdgpu) ]]; then
       # AMD Graphics
@@ -188,10 +189,10 @@ function ollama_start {
         --network ${CONTAINER_NET:=ollama} \
         -v ollama:/root/.ollama/models \
         -p ${PORT_PREFIX}11434:11434 \
+        -e no_proxy=localhost,127.0.0.1 \
         -e PATH=/llm/ollama:$PATH \
         -e OLLAMA_HOST=0.0.0.0 \
         -e OLLAMA_API_KEY="${OLLAMA_API_KEY:-$(sha1sum $0 | awk '{print $1}')}"
-        -e no_proxy=localhost,127.0.0.1 \
         ollama/ollama:rocm
     elif [[ $(lsmod | grep -E "(i915|xe)") ]] && [[ ! -z $(lspci -k | grep -EA3 'VGA|3D|Display' | grep [Aa][Rr][Cc]) ]]; then
       # Intel Graphics (ARC)
@@ -230,9 +231,9 @@ function ollama_start {
         --network ${CONTAINER_NET:=ollama} \
         -v ollama:/root/.ollama/models \
         -p ${PORT_PREFIX}11434:11434 \
+        -e no_proxy=localhost,127.0.0.1 \
         -e OLLAMA_HOST=0.0.0.0 \
         -e OLLAMA_API_KEY="${OLLAMA_API_KEY:-$(sha1sum $0 | awk '{print $1}')}"
-        -e no_proxy=localhost,127.0.0.1 \
         ollama/ollama:latest 2>/dev/null || (\
           docker rm ollama >/dev/null && \\
           docker run -d \
@@ -271,7 +272,7 @@ function ollama_pull {
   docker network connect bridge ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null # give container network access
   docker exec -it ${CONTAINER_NAME:=ollama} ollama pull "$MODEL" >/dev/null || docker exec -it ${CONTAINER_NAME:=ollama} ollama pull "$MODEL" # >/dev/null
   if [[ -z "$KEEP_NETWORK_ACCESS" ]]; then
-    docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null # remove container network access
+    docker network disconnect bridge ${CONTAINER_NAME:=ollama} >/dev/null        # remove container network access
   fi
  #docker network disconnect ${CONTAINER_NET:=ollama} ${CONTAINER_NAME:=ollama} >/dev/null # remove container network access
   echo "Fineshed reciving ollama $MODEL (temporary network access removed)"
@@ -335,11 +336,12 @@ if [ ! -z "$1" ]; then
     docker stop open-webui 2>/dev/null
     exit $?
   ;;
-  "-d" | "--detatch")
+  "-o" | "--open-port")
     echo "Starting ollama in background"
     KEEP_NETWORK_ACCESS="$2"
     ollama_start
     ollama_pull
+    docker network connect bridge ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null
     exit 0
   ;;
   "-b" | "--background")

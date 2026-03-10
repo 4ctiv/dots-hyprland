@@ -139,12 +139,12 @@ function! Open_Glow_Right_Split()
    if !executable('glow') | return | endif
 
    set nolist
-   rightbelow vertical terminal bash -c "glow % | less"
+   rightbelow vertical terminal bash -c "glow % | less -R"
    let l:term = bufnr('%')
    wincmd h | set list
 
    " Auto refresh on save
-   execute 'autocmd BufWritePost <buffer> if bufexists(' . l:term . ') | silent! call term_sendkeys(' . l:term . ', "glow %\<CR>") | endif'
+   execute 'autocmd BufWritePost <buffer> if bufexists(' . l:term . ') | silent! call term_sendkeys(' . l:term . ', "glow % \<CR>") | endif'
 
    " Clean up when closing
    execute 'autocmd BufWinLeave <buffer> if bufexists(' . l:term . ') | bd! ' . l:term . ' | endif'
