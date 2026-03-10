@@ -94,13 +94,13 @@ blueman              # Bluetooth manager (GUI)
 testdisk             # Data recovery tool (CLI)
 gparted              # Partititon manager (GUI)
 gnome-disk-utility   # Disk mount manager (GUI)
+btrfsmaintenance     # btrfs helper (scripts)
 btrfs-assistant      # btrfs helper (GUI)
 btrfs-progs          # btrfs tools
-grub-btrfs           # BTRFS subvolume support in grub
+grub-btrfs           # btrfs snaphot grub boot support
+snapper              # btrfs snapshot utility
 cifs-utils           # network fileshare tools
 ntfs-3g              # NTF driver
-timeshift            # snapshots tool (rollbacks)
-timeshift-autosnap   # auto snapshots
 # Security
 keepassxc            # Password manager (GUI)
 ufw                  # Firewall
