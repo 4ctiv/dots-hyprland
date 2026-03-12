@@ -1,10 +1,10 @@
 function check-file-change --wraps='auditctl -p wa -k file-change -w' --description 'Monitor file change (wa) using auditctl'
 
-  set -l help 'Help page for '$0'
-    Usage: '$0' [Flag] $full_file_path
+  set help_msg "Help page for $(status current-function)
+    Usage: `$(status current-function) [Flag] \$full_file_path`
 
     You can ether specify a flag or give a file path,
-    in the latter case this will eather create an audit rule
+    in the latter case this will ether create an audit rule
     or list logs of a matching audit rule
 
     | SFlag |    LFlag    | Drescription        |
@@ -12,21 +12,24 @@ function check-file-change --wraps='auditctl -p wa -k file-change -w' --descript
     | -h    | --help      | This help message   |
     | -d *  | --delete *  | Delete audit rule   |
     | -c    | --clear-log | Rotate logs (clear) |
+    | -l    | --list      | List active audits  |
 
     If you set auditctl in "Read only mode" you can reboot to change it
-    '
-
-  set audit_rule (sudo auditctl -l | grep -E "($file_to_audit)")
+    "
 
   # Check if the user wants to delete the audit rule
   switch "$argv[1]"
     case "-h" "--help"
-      printf $help;
+      printf $help_msg;
       return 0;
+    case "-l" "--list"
+      sudo auditctl -l
+      return 0
     case "-c" "--clear-log"
       echo "" | sudo tee "/var/log/audit/audit.log"
       return 0;
     case "-d" "--delete"
+      set audit_rule (sudo auditctl -l | grep -E "($file_to_audit)")
       set file_to_audit "$(echo $argv[2] | sed "s@^~@$HOME@")"
       set -l key (if test -n "$argv[3]"; echo "$argv[3]"; else echo "$USER"; end)
       set -l audit_rule (sudo auditctl -l | grep --color=never -E "($file_to_audit)")
@@ -47,6 +50,7 @@ function check-file-change --wraps='auditctl -p wa -k file-change -w' --descript
       end
       return 0;
     case '*'
+      set audit_rule (sudo auditctl -l | grep -E "($file_to_audit)")
       set file_to_audit "$(echo $argv[1] | sed "s@^~@$HOME@")"
       set key (if test -n "$argv[2]"; echo "$argv[2]"; else echo "$USER"; end)
   end
