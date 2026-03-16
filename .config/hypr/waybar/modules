@@ -208,8 +208,8 @@
   },
 
   "pulseaudio": {
-    /* "format": "{icon} {volume}% {format_source}", */
-    "format": "{icon} {volume}",
+    "format": "{icon} {volume}% {format_source}",
+    /*"format": "{icon} {volume}",*/
     "format-muted": "󰖁 Mute",
     "format-bluetooth": " {volume}% {format_source}",
     "format-bluetooth-muted": " Mute",

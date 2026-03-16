@@ -2,8 +2,17 @@
 
 CONFIG="$HOME/.config/hypr/mako/config"
 
+function show_mako_history() {
+  makoctl history |\
+    awk '/^Notification [0-9]+:/{if (line) print line; line=$0; next} {line=line " " $0} END{if (line) print line}' |\
+    wofi --dmenu --prompt "Notification History"
+  exit 0
+}
+
 if [[ ! $(pidof mako) ]]; then
   which mako || kitty sh -c 'yay -S mako'
-  mako --config ${CONFIG}
+  systemct start --user mako.service || mako --config ${CONFIG}
+else
+  show_mako_history
 fi
 

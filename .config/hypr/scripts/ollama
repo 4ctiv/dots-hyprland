@@ -198,25 +198,41 @@ function ollama_start {
       # Intel Graphics (ARC)
       # -> https://dev.to/itlackey/run-ollama-on-intel-arc-gpu-ipex-4e4k
       printf "[INFO] Using INTEL GPU for running ollama\n"
-      docker run -d \
-           --name ${CONTAINER_NAME:=ollama} \
-           --hostname ${CONTAINER_NAME:=ollama} \
-           --restart=unless-stopped \
-           --device=/dev/dri \
-           --network ${CONTAINER_NET:=ollama} \
-           -v ollama:/root/.ollama/models \
-           -p ${PORT_PREFIX}11434:11434 \
-           -e PATH=/llm/ollama:$PATH \
-           -e OLLAMA_HOST=0.0.0.0 \
-           -e no_proxy=localhost,127.0.0.1 \
-           -e ZES_ENABLE_SYSMAN=1 \
-           -e OLLAMA_INTEL_GPU=true \
-           -e ONEAPI_DEVICE_SELECTOR=level_zero:0 \
-           -e DEVICE=Arc \
-           --shm-size="16g" \
-           --memory="32G" \
-           intelanalytics/ipex-llm-inference-cpp-xpu:latest \
-           bash -c "cd /llm/scripts/ && source ipex-llm-init --gpu --device Arc && bash /llm/scripts/start-ollama.sh && tail -f /llm/ollama/ollama.log" >/dev/null
+      if [ "$(lspci | grep -i "Arc A770")" != "" ]; then
+        docker run -d \
+          --name ${CONTAINER_NAME:=ollama} \
+          --hostname ${CONTAINER_NAME:=ollama} \
+          --restart=unless-stopped \
+          --device=/dev/dri \
+          --network ${CONTAINER_NET:=ollama} \
+          -v ollama:/root/.ollama/models \
+          -p ${PORT_PREFIX}11434:11434 \
+          -e PATH=/llm/ollama:$PATH \
+          -e OLLAMA_HOST=0.0.0.0 \
+          -e no_proxy=localhost,127.0.0.1 \
+          -e ZES_ENABLE_SYSMAN=1 \
+          -e OLLAMA_INTEL_GPU=true \
+          -e ONEAPI_DEVICE_SELECTOR=level_zero:0 \
+          -e DEVICE=Arc \
+          --shm-size="16g" \
+          --memory="32G" \
+          intelanalytics/ipex-llm-inference-cpp-xpu:latest \
+        bash -c "cd /llm/scripts/ && source ipex-llm-init --gpu --device Arc && bash /llm/scripts/start-ollama.sh && tail -f /llm/ollama/ollama.log" >/dev/null||\
+      else
+        docker run -d \
+          --name ${CONTAINER_NAME:=ollama} \
+          --hostname ${CONTAINER_NAME:=ollama} \
+          --restart unless-stopped \
+          --device /dev/dri:/dev/dri \
+          --network ${CONTAINER_NET:=ollama} \
+          -p 11434:11434 \
+          -e OLLAMA_HOST=0.0.0.0 \
+          -e no_proxy=localhost,127.0.0.1 \
+          -e OLLAMA_INTEL_GPU=1 \
+          -e OLLAMA_API_KEY="${OLLAMA_API_KEY:-$(sha1sum $0 | awk '{print $1}')}" \
+          -v ollama:/root/.ollama/models \
+          ollama/ollama
+       fi
     else
       # Unknown GPU (may fall back to cpu)
       printf "\033[0;33m[WARNING]\033[0m Unknown GPU: Using CPU for running ollama\n"
