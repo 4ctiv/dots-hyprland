@@ -92,35 +92,6 @@
  syntax match git_conflict /^=======.*$/
  syntax match git_conflict /^>>>>>>>.*$/
 
- " Markdown viewer
- function! Open_Glow_Right_Split()
-   if !executable('glow')
-     if executable('snap')
-       " Linux
-       rightbelow vertical terminal ++close bash -c "echo 'Installing glow (via snap)' && sudo snap install glow"
-     elseif executable('winget')
-       " Windows
-       rightbelow vertical terminal ++close bash -c "winget install glow"
-     elseif executable('pkg')
-       " Android
-       rightbelow vertical terminal ++close bash -c "pkg install glow"
-     else
-       return
-     endif
-   endif
-
-   set nolist
-   rightbelow vertical terminal ++close bash -c "glow -p %"
-   let l:term = bufnr('%')
-   wincmd h | set list
-
-   " Auto refresh on save
-   execute 'autocmd BufWritePost <buffer> if bufexists(' . l:term . ') | silent! call term_sendkeys(' . l:term . ', "glow % \<CR>") | endif'
-
-   " Clean up when closing
-   execute 'autocmd BufWinLeave <buffer> if bufexists(' . l:term . ') | bd! ' . l:term . ' | endif'
- endfunction
-
 """HOTKEYS"""
 " <S-...> Shift ; <M-...> Alt ; <C-...> Strg ; <...>[1;53s AltGr
 " NOTE: MAC maynot work with <A-...>, use [ALT] + [KEY] resulting letter instead
@@ -163,4 +134,20 @@
  noremap <M-S-m> :set syntax=markdown <CR>       " Set syntax to markdown
  noremap <M-S-p> :set syntax=ps1 <CR>            " Set syntax to powershell
  noremap <M-S-x> :set syntax=xml <CR>            " Set syntax to xml (~html)
+
+ " Markdown viewer
+ function! Open_Glow_Right_Split()
+   if !executable('glow') | return | endif
+   set nolist
+   rightbelow vertical terminal bash -c "glow -p \"%\""
+   let l:term = bufnr('%')
+   wincmd h | set list
+
+   " Auto refresh on save
+   execute 'autocmd BufWritePost <buffer> if bufexists(' . l:term . ') | silent! call term_sendkeys(' . l:term . ', "glow %\<CR>") | endif'
+
+   " Clean up when closing
+   execute 'autocmd BufWinLeave <buffer> if bufexists(' . l:term . ') | bd! ' . l:term . ' | endif'
+ endfunction
+nnoremap <C-p> :call Open_Glow_Right_Split()<CR> " Use [CTRL] + [\] -> [CTRL] + [n] to make it scrollable (removes auto update)
 
