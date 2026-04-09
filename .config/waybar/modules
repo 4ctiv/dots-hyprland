@@ -1,6 +1,6 @@
 /**
  * Waybar moduels see: https://man.archlinux.org/man/waybar.5.en
-*/
+ */
 {
   "custom/separator": {
     "format": "|",
@@ -11,16 +11,25 @@
     "interval": 2,
     "align": 0,
     "rotate": 0,
-      "format": "{icon} {percent}",
-      "format-icons": ["󰃞 ", "󰃝 ", "󰃟 ", "󰃠 "],
-      "on-click": "",
-      "on-click-middle": "",
-      "on-click-right": "",
-      "on-update": "",
-      "on-scroll-up": "~/.config/hypr/scripts/brightness --inc",
-      "on-scroll-down": "~/.config/hypr/scripts/brightness --dec",
-      "smooth-scrolling-threshold": 1
-    },
+    "format": "{icon} {percent}",
+    "format-icons": ["󰃞 ", "󰃝 ", "󰃟 ", "󰃠 "],
+    "on-click": "~/.config/hypr/scripts/brightness --filter",
+    "on-update": "",
+    "on-scroll-up": "~/.config/hypr/scripts/brightness --inc",
+    "on-scroll-down": "~/.config/hypr/scripts/brightness --dec",
+    "smooth-scrolling-threshold": 1
+  },
+
+  "custom/backlight": {
+    "format": " 󰃟  {}",
+    "exec": "~/.config/hypr/scripts/brightness --get",
+    "exec-if": "exit 0",
+    "interval": 2,
+    "on-click": "~/.config/hypr/scripts/brightness --filter",
+    "on-scroll-up": "~/.config/hypr/scripts/brightness --inc",
+    "on-scroll-down": "~/.config/hypr/scripts/brightness --dec",
+    "smooth-scrolling-threshold": 1
+  },
 
   "wlr/workspaces-cn": {
     "format": "{icon}",
@@ -39,7 +48,7 @@
       "9": "九",
       "10": "十",
       "focused": "",
-      "default": ""
+      "default": "",
     },
     "on-scroll-up": "hyprctl dispatch workspace e+1",
     "on-scroll-down": "hyprctl dispatch workspace e-1"
@@ -67,7 +76,7 @@
     "on-scroll-up": "hyprctl dispatch workspace e+1",
     "on-scroll-down": "hyprctl dispatch workspace e-1"
   },
-	
+
   "battery": {
     "interval": 60,
     "align": 0,
@@ -88,9 +97,10 @@
     //"format-good": "",
     "format-alt": "{icon} {time}",
     "format-icons": ["", "", "", "", ""],
-    "format-time": "{H}h {M}min",
+    "format-time": "{H}h {M}m",
     "tooltip": true,
-  "on-click-right": "kitty bash -c 'echo \"Opening powertop ...\" && sudo powertop'"
+    "on-click-right": "kitty bash -c 'echo \"Opening powertop ...\" && sudo powertop'",
+    "on-update": "[[ -f '/sys/class/power_supply/BAT0/capacity' && ! $(cat /sys/class/power_supply/BAT0/status) =~ ^[Cc]harging ]] && case $(cat '/sys/class/power_supply/BAT0/capacity') in 20|10|5|1) notify-send --urgency=critical 'Battery low' 'Battery is < 20%';; *) :;; esac"
   },
 
   "custom/battery": {
@@ -106,7 +116,7 @@
     },
     "tooltip": false,
     "on-click": "gnome-power-statistics"
-},
+  },
 
   "clock": {
     "timezone": "Europe/Berlin",
@@ -114,55 +124,61 @@
     "align": 0,
     "rotate": 0,
     "tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>",
-    "format": "{:%d %b, %H:%M}",
+    "format": "{:%d-%m-%Y, %H:%M}",
     "format-alt": " {:%a %b %d, %G}",
     "on-click-right": "~/.config/hypr/scripts/changeWallpaper"
   },
 
-  "cpu": {
-    // "interval": 5,
-    // "format": " {usage}%",
-    "interval": 1,
-    "format": "{icon0}{icon1}{icon2}{icon3} {usage:>2}% ",
-    "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
-    "on-click": "kitty htop --user $USER"
-  },
-           
   "custom/menu": {
-    "format": " 󰍜 ",
-    "tooltip": false,
-    "on-click": "$HOME/.config/hypr/scripts/menu"
+    "format": "☰",
+    "tooltip-format": "App menu",
+    "on-click": "$HOME/.config/hypr/scripts/menu",
+    "on-click-right": "kitty"
   },
 
   "custom/power": {
     "format": " 󰐥 ",
-    "tooltip": false,
-    "on-click": "wlogout"
+    "tooltip-format": "Power menu",
+    "on-click": "wlogout",
+    "on-click-right": "kitty"
   },
 
   "disk": {
-    "interval": 30,
+    "interval": 20,
     "format": "🖪 {free}", // 🖫 , 🖬
-  "on-click": "filelight"
+    "on-click": "filelight || (kitty -c 'yay -S filelight' && filelight)",
+    "on-click-right": "kitty pkexec sh -c 'iotop -o && exit $?'"
   },
 
   "memory": {
-    "interval": 10,
+    "interval": 20,
     "format": "  {used:0.1f}G",
-    "onclick": "kitty htop"
+    "tooltip": true,
+    "tooltip-format": "{used:0.2f}G RAM used",
+    "on-click": "kitty less /proc/meminfo",
+    "on-click-right": "kitty vmstat 2",
+  },
+
+  "cpu": {
+    "interval": 2,
+    "format": "{icon0}{icon1}{icon2}{icon3} {usage:>2}% ",
+    "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
+    "on-click": "pkexec kitty bash -c 'htop -u $USER' || kitty bash -c 'htop -u $USER'",
+    "on-click-right": "pkexec kitty bash -c 'glances' || kitty bash -c 'glances'"
   },
 
   "network": {
-    "interval": 5,
+    "interval": 2,
     "family": "ipv4",
     "format-wifi": " {essid}",
-    "format-ethernet": " {ipaddr}/{cidr}",
+    "format-ethernet": "{bandwidthUpBits}  {bandwidthDownBits}",
     "format-linked": " {ifname} (No IP)",
     "format-disconnected": "睊 Disconnected",
     "format-disabled": "睊 Disabled",
-    "format-alt": " {bandwidthUpBits} |  {bandwidthDownBits}",
+    "format-alt": " {ipaddr}/{cidr}",
     "tooltip-format": " {ifname} via {gwaddr}",
-    "on-click-right": "~/.config/hypr/scripts/toggle_wireless.sh"
+  //"on-click": "pkexec wireshark || wireshark",
+    "on-click-right": "~/.config/hypr/scripts/toggle_wireless.sh",
   },
 
   "custom/weather": {
@@ -180,15 +196,8 @@
     "exec": "checkupdates | wc -l",
     "exec-if": "[[ $(checkupdates | wc -l) ]]",
     "interval": 7200,
-    "on-click": "kitty --class update -T update -o font_size=13 -e yay -Syu --noconfirm && notify-send -a 'waybar' 'The system has been updated' || notify-send -a 'waybar' 'Updates could not complete' "
-  },
-
-  "custom/updater-improved":{
-    "format": "   {}",
-    "exec": "checkupdates | wc -l",
-    "exec-if": "[[ $(checkupdates | wc -l) ]]",
-    "interval": 7200,
-    "on-click": "kitty --class update -T update -o font_size=13 -e yay -Syu; pkill -RTMIN+8 waybar"
+    "on-click": "~/.config/hypr/scripts/auto-upgrade -f || notify-send 'System could not update'",
+    "on-click-right": "octopi || pamac-manager || cosmic-store"
   },
 
   "custom/cycle_wall":{
@@ -242,7 +251,7 @@
   },
 
   "custom/touch": {
-    "format":" 🖙 ", // 🖛 
+    "format":" 🖙 ",
     "format-alt": " 🖛 ",
     "tooltip": false,
     "on-click": "bash ~/.config/hypr/scripts/toggle_touch"
@@ -256,26 +265,24 @@
   },
 
   "hyprland/window": {
-    "format": "  {}",
+    "format": "",
+    "icon": true,
     "separate-outputs": true,
-    "rewrite": {
-        "${USER}@${set_sysname}:(.*)": "$1 ",
-        "(.*) — Mozilla Firefox": "$1 󰈹",
-        "(.*)Mozilla Firefox": "Firefox 󰈹",
-        "(.*) - Visual Studio Code": "$1 󰨞",
-        "(.*)Visual Studio Code": "Code 󰨞",
-        "(.*) — Dolphin": "$1 󰉋",
-        "(.*)Spotify": "Spotify 󰓇",
-        "(.*)Steam": "Steam 󰓓"
-    },
+    "rewrite": {},
     "on-click": "~/.config/hypr/scripts/kill-active && notify-send -a 'waybar' 'Killed active window'"
+  },
+
+  "custom/wtime": {
+    "interval": 3,
+    "exec": "sh -c \"ps -p $(hyprctl activewindow -j | jq '.pid') -o etime | grep -E -o '[0-9]+(:[0-9]+)+'\"",
+    "format": "@{text}",
   },
 
   "custom/gpuinfo": {
     "exec": " ~/.config/hypr/scripts/gpuinfo.sh",
     "return-type": "json",
     "format": " {}",
-    "interval": 5, // once every 5 seconds
+    "interval": 5,
     "tooltip": true
   },
 
@@ -283,7 +290,7 @@
     "format": "{icon}",
     "icon-size": 18,
     "icon-theme": "${i_theme}",
-        "spacing": 0,
+        "spacing": 3,
     "tooltip-format": "{title}",
     "on-click": "activate",
     "on-click-middle": "close",
@@ -296,6 +303,7 @@
       "firefoxdeveloperedition": "firefox-developer-edition"
     }
   },
+
   "custom/protonmail": {
     "exec": "bar-protonmail",
     "return-type": "json",
