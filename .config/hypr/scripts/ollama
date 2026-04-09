@@ -92,15 +92,18 @@ function open-webui_stop {
 function open-webui_start {
   if [[ -n "$(docker ps --format '{{.Names}}' | grep -o open-webui)" ]]; then
     # Already running
+    echo "open-webui already running!"
     return 2;
   fi
 
   # Setup container network
   if [[ -z "$(docker network ls --format '{{.Name}}' | grep -o 'open-webui')" ]];then
+    echo "Creating open-webui network"
     docker network create --driver=bridge open-webui > /dev/null 2>/dev/null
   fi
 
   # Update local image
+  echo "Updating open-webui image ... (this may take a while)"
   docker pull ghcr.io/open-webui/open-webui:main >/dev/null 2>/dev/null
 
   if [[ -n "$(docker ps -a --format '{{.Names}}' | grep -o 'open-webui')" ]]; then
@@ -108,6 +111,7 @@ function open-webui_start {
     docker start open-webui >/dev/null
   else
     # Create container
+    echo "Creating container ..."
     docker run -d \
              -p ${PORT_PREFIX}3000:8080 \
              -v open-webui:/app/backend/data \
@@ -194,7 +198,7 @@ function ollama_start {
         -e OLLAMA_HOST=0.0.0.0 \
         -e OLLAMA_API_KEY="${OLLAMA_API_KEY:-$(sha1sum $0 | awk '{print $1}')}"
         ollama/ollama:rocm
-    elif [[ $(lsmod | grep -E "(i915|xe)") ]] && [[ ! -z $(lspci -k | grep -EA3 'VGA|3D|Display' | grep [Aa][Rr][Cc]) ]]; then
+    elif [[ $(lsmod | grep -E "(i915|xe)") ]] && [[ ! -z $(lspci | grep -EA3 'VGA|3D|Display' | grep [Aa][Rr][Cc]) ]]; then
       # Intel Graphics (ARC)
       # -> https://dev.to/itlackey/run-ollama-on-intel-arc-gpu-ipex-4e4k
       printf "[INFO] Using INTEL GPU for running ollama\n"
@@ -217,7 +221,7 @@ function ollama_start {
           --shm-size="16g" \
           --memory="32G" \
           intelanalytics/ipex-llm-inference-cpp-xpu:latest \
-        bash -c "cd /llm/scripts/ && source ipex-llm-init --gpu --device Arc && bash /llm/scripts/start-ollama.sh && tail -f /llm/ollama/ollama.log" >/dev/null||\
+        bash -c "cd /llm/scripts/ && source ipex-llm-init --gpu --device Arc && bash /llm/scripts/start-ollama.sh && tail -f /llm/ollama/ollama.log" >/dev/null
       else
         docker run -d \
           --name ${CONTAINER_NAME:=ollama} \
@@ -236,7 +240,7 @@ function ollama_start {
     else
       # Unknown GPU (may fall back to cpu)
       printf "\033[0;33m[WARNING]\033[0m Unknown GPU: Using CPU for running ollama\n"
-      lspci -k | grep -EA3 'VGA' # shows some gpu information
+      lspci | grep -EA3 'VGA' # shows some gpu information
       # NOTE: --gpus all may fail if no dedicated gpu is present
       docker run -d \
         --name ${CONTAINER_NAME:=ollama} \
@@ -261,8 +265,8 @@ function ollama_start {
             -v ollama:/root/.ollama/models \
             -p ${PORT_PREFIX}11434:11434 \
             -e OLLAMA_HOST=0.0.0.0 \
-            -e OLLAMA_API_KEY="${OLLAMA_API_KEY:-$(sha1sum $0 | awk '{print $1}')}"
-            -e no_proxy=localhost,127.0.0.1 \
+            -e OLLAMA_API_KEY="${OLLAMA_API_KEY:-$(sha1sum $0 | awk '{print $1}')}" \
+            -e no_proxy="localhost,127.0.0.1" \
             ollama/ollama:latest
         )
     fi
