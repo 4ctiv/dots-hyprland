@@ -17,7 +17,7 @@ which wofi >/dev/null && echo "wofi dependency satisfied" || kitty bash -c 'yay 
 #fi
 
 if [[ ! $(pgrep -u $USER wofi) ]]; then
-  wofi --modi drun,run,window --show drun --prompt 'Search...' --conf ${CONFIG} --style ${STYLE} --color ${COLORS}
+  wofi --modi drun,run,window --show drun --prompt 'Search...' --conf "${CONFIG}" --style "${STYLE}" --color "${COLORS}"
 else
   pkill wofi || pkill -9 wofi &
 fi
