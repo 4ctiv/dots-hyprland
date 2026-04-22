@@ -32,3 +32,23 @@
   insteadOf = https://github.com/
 [http]
   #postBuffer = 524288000 # use if errors with commit size
+[sendemail] # Send commit as mail: 
+  # - https://jade.fyi/blog/oh-no-git-send-email
+  # - https://seeminglyrandom.net/posts/git-send-email
+  #
+  # Setup: sudo pacman -S --needed perl-authen-sasl perl-io-socket-ssl msmtp
+  # Command: git send-email --to='4ctiv@4ctiv.de' --from=noreply.4ctiv@4ctiv.de HEAD^
+  # Fix commit mail: git commit --amend --reset-author
+  #
+  # local config (msmtp):
+  smtpserver = /usr/bin/msmtp # --set-from-header=on
+  # Sender via ~/.msmtprc
+ #smtpserveroption = -a
+ #smtpserveroption = work
+  # Sender via git commit mail
+  envelopeSender = auto
+  confirm = always
+  annotate = yes
+  from = $USER noreply.$USER@$hostname.local
+[format]
+  signOff = yes
