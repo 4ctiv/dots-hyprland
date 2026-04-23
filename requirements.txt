@@ -131,6 +131,7 @@ catppuccin-mocha-grub-theme-git # Optional: Grub   theme
 git                   # Version controll tool
 lazygit               # Git (TUI)
 vim                   # code-editor (cli)
+vim-ale               # vim language server
 #zed                  # code-editor
 code                  # code-editor (GUI) OSS
 code-marketplace      # code-oss enable vscode marketplace
