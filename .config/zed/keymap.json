@@ -11,6 +11,7 @@
   {
     "context": "", // Always active
     "bindings": {
+      "ctrl-p": "command_palette::Toggle",
       "alt-p": "command_palette::Toggle",
       "alt-,": "workspace::ToggleLeftDock",
       "alt-.": "workspace::ToggleBottomDock",
@@ -41,13 +42,45 @@
       "f12": "debugger::ToggleIgnoreBreakpoints",
       "ctrl-f": "vim::Search",
       "ctrl-shift-f": "project_panel::NewSearchInDirectory",
-      "ctrl-p": "command_palette::Toggle",
       "alt-v": "workspace::ToggleVimMode",
-      "alt-space": "assistant::InlineAssist"
+      "alt-space": "assistant::InlineAssist",
+      "alt-p": "pane::TogglePreviewTab",
     }
   },
   {
     "context": "Terminal",
     "bindings": {}
-  }
+  },
+  {
+    "context": "(Editor && extension == md)",
+    "bindings": {
+      "alt-p": "markdown::OpenPreview",
+      "alt-down": "editor::AcceptNextLineEditPrediction",
+      "alt-right": "editor::AcceptNextWordEditPrediction",
+      "alt-j": null,
+      "alt-k": null,
+    }
+  },
+  {
+    "context": "(Editor && edit_prediction)",
+    "bindings": {
+      "alt-tab": null,
+      "alt-space": "editor::AcceptEditPrediction",
+      "alt-l": null
+    }
+  },
+  {
+    "context": "(Editor && edit_prediction_conflict)",
+    "bindings": {
+      "alt-space": "editor::AcceptEditPrediction",
+      "alt-l": null,
+      "alt-l": null,
+      "alt-tab": null,
+      "alt-down": "editor::AcceptNextLineEditPrediction",
+      "alt-right": "editor::AcceptNextWordEditPrediction",
+      "alt-j": null,
+      "alt-k": null,
+      "alt-l": null
+    }
+  },
 ]

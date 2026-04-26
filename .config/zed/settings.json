@@ -7,6 +7,8 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "agent_servers": {},
+  "show_edit_predictions": true,
   "autosave": "on_focus_change",
   "base_keymap": "VSCode",
   "restore_on_startup": "none",
@@ -42,15 +44,15 @@
   "theme": {
     "mode": "system",
     "light": "Catppuccin Latte (Blur) [Light]",
-    "dark": "Catppuccin Espresso (Blur) [Heavy]"
+    "dark": "Ayu Dark"
   },
   "icon_theme": {
     "mode": "system",
     "light": "Catppuccin Mocha",
     "dark": "Catppuccin Latte"
   },
-  "ui_font_size": 16.0,
-  "buffer_font_size": 16.0,
+  "ui_font_size": 16,
+  "buffer_font_size": 16,
   "ui_font_family": "JetBrainsMono Nerd Font Mono",
   "ui_font_features": {
     "ligatures": true,
@@ -82,8 +84,10 @@
   },
   "auto_install_extensions": {
     "catppuccin-icons": true,
-    "catppuccin-blur": true,
+  //"catppuccin-blur": true,
+    "ayu-darker": true,
     "markdown": true,
+    "markdownlint": true,
     "latex": true,
     "sql": true,
     "json": true,
@@ -176,7 +180,15 @@
       "pro"
     ]
   },
-  "languages": {},
+  "languages": {
+    "Markdown": {
+      "colorize_brackets": true,
+      "tab_size": 1,
+      "indent_guides": {
+        "background_coloring": "disabled"
+      }
+    }
+  },
   "lsp": {},
   // Pannel configs
   "terminal": {
@@ -211,7 +223,17 @@
     }
   },
   "agent": {
-    "default_profile": "ask",
+    "inline_assistant_model": {
+      "provider": "ollama",
+      "model": "qwen2.5-coder:1.5b",
+      "enable_thinking": false
+    },
+    "show_turn_stats": true,
+    "message_editor_min_lines": 4,
+    "tool_permissions": {
+      "default": "confirm",
+      "tools": {}
+    },
     "default_model": {
       "provider": "ollama",
       "model": "qwen2.5-coder:1.5b",
@@ -221,6 +243,11 @@
     "dock": "right"
   },
   "edit_predictions": {
+    "disabled_globs": [
+      "*.env",
+      "secret.*"
+    ],
+    "mode": "subtle",
     "ollama": {
       "model": "qwen2.5-coder:1.5b"
     },
