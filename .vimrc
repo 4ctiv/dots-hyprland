@@ -82,7 +82,7 @@
 "set listchars+=space:␣,eol:$
  set list
 
-" Highlight Git Conflicts (broken)
+" Highlight Git Conflicts
 "highlight GitConflict ctermbg=red ctermfg=white guibg=#ff0000 guifg=#ffffff
 "syntax match GitConflict /^<[<]+.*$/
 "syntax match GitConflict /^=======$/
@@ -112,16 +112,31 @@ endfunction
 
 """Features"""
 
-" Markdown render view
+ " Markdown viewer
  function! Open_Glow_Right_Split()
-   if !executable('glow') | return | endif
+  "if !executable('glow') | return | endif
+   if !executable('glow')
+     if executable('snap')
+       " Linux
+       rightbelow vertical terminal ++close bash -c "echo 'Installing glow (via snap)' && sudo snap install glow"
+     elseif executable('winget')
+       " Windows
+       rightbelow vertical terminal ++close bash -c "winget install glow"
+     elseif executable('pkg')
+       " Android
+       rightbelow vertical terminal ++close bash -c "pkg install glow"
+     else
+       return
+     endif
+   endif
+
    set nolist
-   rightbelow vertical terminal bash -c "glow -p \"%\""
+   rightbelow vertical terminal ++close bash -c "glow -p \"%\""
    let l:term = bufnr('%')
    wincmd h | set list
 
    " Auto refresh on save
-   execute 'autocmd BufWritePost <buffer> if bufexists(' . l:term . ') | silent! call term_sendkeys(' . l:term . ', "glow %\<CR>") | endif'
+   execute 'autocmd BufWritePost <buffer> if bufexists(' . l:term . ') | silent! call term_sendkeys(' . l:term . ', "glow % \<CR>") | endif'
 
    " Clean up when closing
    execute 'autocmd BufWinLeave <buffer> if bufexists(' . l:term . ') | bd! ' . l:term . ' | endif'
@@ -171,7 +186,7 @@ endfunction
  nnoremap <F12> gd                               " Jump to definition
  nnoremap <C-F12> <C-O>                          "  Jump back (def)
 
- nnoremap <C-p> :call Open_Glow_Right_Split()<CR> " Render Markdown (Switch views using `[CTRL] + [W] + [W]`)
+ nnoremap <C-p> :call Open_Glow_Right_Split()<CR> " Render Markdown (Switch view via `[CTRL] + [W] + [W]`)
 
  nnoremap <M-S-S> :w !sudo tee % > /dev/null<CR>:e!<CR> " Save file as admin
 
