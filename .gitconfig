@@ -1,11 +1,11 @@
 # NOTE: $_ variables will not be replaced with shell variables automatically
 [user]
   name = "$USER"
-  email = "noreply.$USER@example.de"
-  signingkey = "~/.ssh/signing-key.pub" # ssh
-  #signingkey = "1234567890ABCDEF" # gpg --list-secret-keys --keyid-format LONG # CRYPTO-TYP/KEY_ID
-  # ssh-keygen -t ed25519 -C "noreply.$USER@example.de" -N "" -f "~/.ssh/signing-key.pub"
-  # ssh-add "~/.ssh/signing-key.pub"
+  email = "noreply.$USER@example.de"    # <- If using gpg this should be same email used for gpg
+  signingkey = "~/.ssh/signing-key.pub" # ssh (you can also use "key::$(ssh-add -L | grep -m 1 sign)" )
+ #signingkey = "1234567890ABCDEF"       # gpg --list-secret-keys --keyid-format LONG # CRYPTO-TYP/SIGNINGKEY
+  # ssh-keygen -t ed25519 -C "noreply.$USER@example.de" -N "" -f "$HOME/.ssh/signing-key"
+  # ssh-add "$HOME/.ssh/signing-key.pub"
 [credential]
   helper = /usr/lib/git-core/git-credential-libsecret
 [color]
@@ -17,11 +17,11 @@
   editor = vim
 [pull]
   rebase = true
-[gpg]
-  format = ssh # only ssh
-  #program = gpg2 # only gpg
 [commit]
   gpgsign = true
+[gpg]
+  format  = ssh      # `ssh` or `openpgp`
+  #program = gpg2    #   -   or `gpg`
 [tag]
   gpgsign = true
 [safe]
@@ -31,24 +31,18 @@
 [url "ssh://git@github.com/"]
   insteadOf = https://github.com/
 [http]
-  #postBuffer = 524288000 # use if errors with commit size
-[sendemail] # Send commit as mail: 
-  # - https://jade.fyi/blog/oh-no-git-send-email
-  # - https://seeminglyrandom.net/posts/git-send-email
-  #
+  postBuffer = 524288000
+[sendemail] # Send commit as mail:
+  # Ref.: https://git-send-email.io/
+  #       https://seeminglyrandom.net/posts/git-send-email/
   # Setup: sudo pacman -S --needed perl-authen-sasl perl-io-socket-ssl msmtp
-  # Command: git send-email --to='4ctiv@4ctiv.de' --from=noreply.4ctiv@4ctiv.de HEAD^
-  # Fix commit mail: git commit --amend --reset-author
+  # Command: git send-email --from '...@...' --to='...@...,' HEAD^
+  #   - Change past commit mail: git commit --amend --reset-author
   #
-  # local config (msmtp):
-  smtpserver = /usr/bin/msmtp # --set-from-header=on
-  # Sender via ~/.msmtprc
- #smtpserveroption = -a
- #smtpserveroption = work
-  # Sender via git commit mail
-  envelopeSender = auto
+  # Add the following to your local git config:
+  # local mail config (msmtp):
+  #smtpserver = /usr/bin/msmtp # --set-from-header=on
+  #envelopeSender = auto # use email of commit author
   confirm = always
-  annotate = yes
-  from = $USER noreply.$USER@$hostname.local
 [format]
   signOff = yes
