@@ -1,0 +1,12 @@
+# Nemo action docs:
+#   https://github.com/linuxmint/nemo/wiki/Nemo-Actions
+
+[Nemo Action]
+Name=Convert to PDF
+Exec=libreoffice --headless --convert-to pdf --outdir %P %F
+Selection=single
+
+Icon-Name=pdf
+Dependencies=libreoffice
+#Extensions=md;markdown;txt;
+Mimetypes=text/plain;text/markdown;text/x-markdown;

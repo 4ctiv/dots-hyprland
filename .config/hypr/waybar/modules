@@ -275,7 +275,7 @@
 
   "custom/wtime": {
     "interval": 3,
-    "exec": "sh -c \"ps -p $(hyprctl activewindow -j | jq '.pid') -o etime | grep -E -o '[0-9]+(:[0-9]+)+'\"",
+    "exec": "sh -c \"ps -p \"$(hyprctl activewindow -j | jq '.pid')\" -o etime | grep -E -o '[0-9]+(:[0-9]+)+'\"",
     "format": "@{text}",
   },
 

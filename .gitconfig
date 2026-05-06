@@ -17,6 +17,8 @@
   editor = vim
 [pull]
   rebase = true
+[push]
+	autoSetupRemote = true
 [commit]
   gpgsign = true
 [gpg]
@@ -46,3 +48,4 @@
   confirm = always
 [format]
   signOff = yes
+

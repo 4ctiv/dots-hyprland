@@ -74,13 +74,17 @@ flameshot            # screenshot tool
 thunderbird          # mail-client
 brave-bin            # web-brower
 jq                   # Json parser (terminal)
+# Converter
+#pandoc              # markup file conversion # (alt.: libreoffice-fresh)
+ffmpeg               # Audio/Video conversion
+imagemagick          # Image       conversion
 # Audio
 pipewire             # audio provider
 pipewire-alsa        # Optional: 
 pipewire-pulse       # Optional: 
 pavucontrol          # Optional: audio controll (GUI)
-#easyeffects         # Optional: audio effects (GUI)
-noisetorch           # Optional: noise reduction (GUI)
+#pulsemixer          # Optional: audio controll (TUI)
+easyeffects          # Optional: audio (mic & speaker) effects  (GUI)
 # Network & Connectivity
 nmap                 # network scans
 net-tools            # traceroute, arp, whois
@@ -144,7 +148,8 @@ python                # Python
 jre-openjdk           # Java
 #typescript           # Typescript (Javascript)
 # Office & PDF
-onlyoffice-bin        # office suite
+#onlyoffice-bin       # office suite (office 360 style)
+libreoffice-fresh     # office suite (open source)
 xournalpp             # handwritten notes | rnote, saber
 obsidian              # markdown notes
 papers                # pdf reader
