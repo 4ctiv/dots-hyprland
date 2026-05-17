@@ -3,11 +3,36 @@
 """Core Settings"""
 
 " Enable plugins
-"filetype plugin on
+" filetype plugin on
+  execute 'packadd YouCompleteMe'
+  execute 'packadd ale'
+
+" Specify linters
+let g:ale_linters = {
+\   'go': ['golint']
+\}
+
+" Specify formatters
+let g:ale_fixers = {
+\   'go': ['gofmt']
+\}
+
+" Enable auto-formatting on save
+let g:ale_fix_on_save = 1
 
 " Vim not reporing as "vi"
 " [Reference](https://www.youtube.com/watch?v=XA2WjJbmmoM)
  set nocompatible
+
+" Vim grep recursive on codebase
+" `:copen` ~ navigation menu for matches
+"   - `:cc nr` ~ jump to specific find
+ set grepprg=rg\ --line-number\ --column
+ set grepformat=%f:%l:%c:%m
+ command! -nargs=+ Rg
+      \ tabnew |
+      \ silent grep <args> |
+      \ copen
 
 " Default Shell
 " This is relevant for e.g. :! or :shell
@@ -46,15 +71,13 @@
 
 " Code Indentation
 " [Reference](https://vim.fandom.com/wiki/Indenting_source_code#Methods%20for20automatic20indentation)
- if has("autocmd")
-   " Load indent files, to automatically do language-dependent indenting.
-   " Configuration Files: `~/.vim/after/ftplugin/EXTENSION_TYP.vim`
-   " filetype plugin indent on
- endif
  set expandtab    " Always insert spaces instead of tabs
+ set tabstop=2    " Note: softtabstop ~ local ; tabstop ~ global
  set shiftwidth=2 " Tab ~ 2 Spaces
- set tabstop=2 " Note: softtabstop ~ local ; tabstop ~ global
-
+ if has("autocmd")
+   " Load vim config based on filetype (`~/.vim/ftplugin/*.vim`)
+   filetype plugin indent on
+ endif
 
 """Theme"""
  set termguicolors    " 24-bit color
@@ -66,7 +89,7 @@
  augroup END
 
 " Font (mono with ligerature)
- set guifont=JetBrainsMono\ Nerd\ Font\ Mono
+ set guifont=JetBrainsMono\ Nerd\ Font\ Mono:h16,monospace:h16
 
 " Line numbers
  set number
@@ -74,21 +97,14 @@
 
 " Syntax Highlighting
  syntax enable
- set syntax=on
 
 " Highlight special characters
 " Test (3 spaces,1 tab, 1 space):   	 
- set listchars=tab:>>,trail:␣,extends:>,precedes:<
+set listchars=tab:⋅⋅,trail:␣,extends:>,precedes:<
 "set listchars+=space:␣,eol:$
  set list
 
-" Highlight Git Conflicts
-"highlight GitConflict ctermbg=red ctermfg=white guibg=#ff0000 guifg=#ffffff
-"syntax match GitConflict /^<[<]+.*$/
-"syntax match GitConflict /^=======$/
-"syntax match GitConflict /^>[>]+.*$/
-
-" Conflict highlighting
+" Git Conflict highlighting
 " -> https://midnighthax.com/resolve-git-rebase-merge-conflicts-vim/
 augroup MyColors
   autocmd!
@@ -100,9 +116,9 @@ function! s:conflicts_highlight() abort
   syn region conflictMiddle start=/^||||||| .*$/ end=/^\ze=======$/
   syn region conflictEnd    start=/^=======$/     end=/^>>>>>>> .*$/
 
-  hi conflictStart  guibg=#90ee90 guifg=#000000
-  hi conflictMiddle guibg=#F49BAB guifg=#000000
-  hi conflictEnd    guibg=#ffb6c1 guifg=#000000
+  highlight conflictStart  guibg=#90ee90 guifg=#000000
+  highlight conflictMiddle guibg=#F49BAB guifg=#000000
+  highlight conflictEnd    guibg=#ffb6c1 guifg=#000000
 endfunction
 
 " Menus
@@ -164,34 +180,46 @@ endfunction
 " <S-...> Shift ; <M-...> Alt ; <C-...> Strg ; <...>[1;53s AltGr
 " NOTE: MAC maynot work with <A-...>, use [ALT] + [KEY] resulting letter instead
 
-"Remap autocomplete ([CTRL]+[N] -> [CTRL]+[SPACE])
- inoremap <C-Space> <C-n>
+"Remap vim autocomplete ([CTRL]+[N] -> [CTRL]+[Shift]+[SPACE])
+ inoremap <C-S-Space> <C-n>
 
-"nnoremap <F1> :help <CR>                        " open help page
- nnoremap <F1> :Explore <CR>                     " File browser
- nnoremap <F2> :set number! relativenumber! <CR> " toggle line numbers
- nnoremap <F3> :set wrap! <CR>                   " toggle line wrap
- nnoremap <F4> :<C-u>retab!<CR>:keepjumps keeppatterns %s/\s\+$//e<CR> " replace tabs & remove trailing whitespace
+"Quick escape insert mode ([Space]+[Space] -> [ESC])
+"Given qq is not part of natural language this should be sufficant
+"NOTE: 'nmap qq' slows down macro recording save q<Letter> -> macro -> q
+ nmap qq a
+ imap <nowait> qq <Esc>
 
- nnoremap <F5> gg=G <CR>                         " Format file
- nnoremap <F6> zc   <CR>                         " Fold
- nnoremap <S-F6> zM <CR>                         " Fold all
- nnoremap <C-F6> zM <CR>                         " Fold all
- nnoremap <F7> zo   <CR>                         " Un-fold
- nnoremap <S-F7> zR <CR>                         " Un-fold all
- nnoremap <C-F7> zR <CR>                         " Un-fold all
-
- nnoremap <F11> gD                               " Jump to declaration
- nnoremap <C-F11> <C-O>                          "  Jump back (dec)
- nnoremap <F12> gd                               " Jump to definition
- nnoremap <C-F12> <C-O>                          "  Jump back (def)
-
- nnoremap <C-p> :call Open_Glow_Right_Split()<CR> " Render Markdown (Switch view via `[CTRL] + [W] + [W]`)
-
+"Save as admin (usefull if opened user has no rw rights)
+"NOTE: [CTRL] + [S] + [_] is somewhat unreliable
  nnoremap <M-S-S> :w !sudo tee % > /dev/null<CR>:e!<CR> " Save file as admin
+
+"nnoremap   <F1> :help <CR>                      " open help page
+ nnoremap   <F1> :Explore <CR>                   " File browser
+ nnoremap <silent> <F2> :set number! relativenumber! list! <Bar> let &signcolumn = (&signcolumn ==# 'no' ? 'auto' : 'no')<CR> " hide most helper (easy select & copy)
+ nnoremap   <F3> :set wrap! <CR>                 " toggle line wrap
+ nnoremap   <F4> :<C-u>retab!<CR>:keepjumps keeppatterns %s/\s\+$//e<CR> " replace tabs & remove trailing whitespace
+
+ nnoremap   <F5>  gg=G <CR>                       " Format file
+ nnoremap   <F6> :execute 'Rg ' .. input('Search term: ')<CR>
+ nnoremap   <F7>  zc   <CR>                       " Fold
+ nnoremap <S-F7>  zM   <CR>                       " Fold all
+ nnoremap <C-F7>  zM   <CR>                       " Fold all
+ nnoremap   <F8>  zo   <CR>                       " Un-fold
+ nnoremap <S-F8>  zR   <CR>                       " Un-fold all
+ nnoremap <C-F8>  zR   <CR>                       " Un-fold all
+
+ nnoremap   <F11> gD                              " Jump to declaration
+ nnoremap <C-F11> <C-O>                           "  Jump back (dec)
+ nnoremap <S-F11> <C-O>                           "  Jump back (dec)
+ nnoremap   <F12> gd                              " Jump to definition
+ nnoremap <C-F12> <C-O>                           "  Jump back (def)
+ nnoremap <S-F12> <C-O>                           "  Jump back (def)
+
+ nnoremap <C-p>   :call Open_Glow_Right_Split()<CR> " Render Markdown (Switch view via `[CTRL] + [W] + [W]`)
 
  " Syntax highlight overides
  " NOTE: You can use `:setfiletype` instead of `:set syntax=` to also use
+ " language features (e.g. indentation)
  noremap <M-S-r> :set syntax=ON <CR>             " Set syntax to automatic detection
  noremap <M-S-b> :set syntax=bash <CR>           " Set syntax to bash (common linux script language)
  noremap <M-S-j> :set syntax=json5 <CR>          " Set syntax to json5
@@ -200,4 +228,4 @@ endfunction
  noremap <M-S-p> :set syntax=ps1 <CR>            " Set syntax to powershell
  noremap <M-S-x> :set syntax=xml <CR>            " Set syntax to xml (~html)
 
-
+ nnoremap <silent> <M-S-l> :LinuxCodingStyle<CR> " Emable Linux Coding Style plugin
