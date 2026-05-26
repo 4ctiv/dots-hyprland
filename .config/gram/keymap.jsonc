@@ -1,0 +1,84 @@
+// Gram keymap
+//
+// For information on binding keys, see the Gram
+// documentation: gram://docs/key-bindings
+//
+// To see the default key bindings run `gram: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "", // Always active
+    "bindings": {
+      "ctrl-p": "command_palette::Toggle",
+      "alt-p": "command_palette::Toggle",
+      "alt-,": "workspace::ToggleLeftDock",
+      "alt-.": "workspace::ToggleBottomDock",
+      "alt--": "workspace::ToggleRightDock"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      // "project_open": "editor::OpenFile 'README.md'"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "f1": "editor::GoToDeclarationSplit",
+      "f2": "editor::GoToDefinitionSplit",
+      "shift-f2": "pane::GoBack",
+      "f3": "editor::GoToTypeDefinitionSplit",
+      "f4": "editor::FindAllReferences",
+      "f5": "editor::Format",
+      "f6": "editor::Rename",
+      "f9": "repl::Run",
+      "f10": "debugger::Start",
+      "shift-f10": "debugger::Restart",
+      "f11": "debugger::Pause",
+      "shift-f11": "debugger::Stop",
+      "f12": "debugger::ToggleIgnoreBreakpoints",
+      "ctrl-f": "vim::Search",
+      "ctrl-shift-f": "project_panel::NewSearchInDirectory",
+      "alt-v": "workspace::ToggleVimMode",
+    //"alt-space": "assistant::InlineAssist",
+      "alt-p": "pane::TogglePreviewTab",
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {}
+  },
+  {
+    "context": "(Editor && extension == md)",
+    "bindings": {
+      "alt-p": "markdown::OpenPreview",
+    //"alt-down": "editor::AcceptNextLineEditPrediction",
+    //"alt-right": "editor::AcceptNextWordEditPrediction",
+      "alt-j": null,
+      "alt-k": null,
+    }
+  },
+  {
+    "context": "(Editor && edit_prediction)",
+    "bindings": {
+      "alt-tab": null,
+    //"alt-space": "editor::AcceptEditPrediction",
+      "alt-l": null
+    }
+  },
+  {
+    "context": "(Editor && edit_prediction_conflict)",
+    "bindings": {
+    //"alt-space": "editor::AcceptEditPrediction",
+      "alt-l": null,
+      "alt-l": null,
+      "alt-tab": null,
+    //"alt-down": "editor::AcceptNextLineEditPrediction",
+    //"alt-right": "editor::AcceptNextWordEditPrediction",
+      "alt-j": null,
+      "alt-k": null,
+      "alt-l": null
+    }
+  },
+]
