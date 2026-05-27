@@ -6,6 +6,7 @@
 " filetype plugin on
   execute 'packadd YouCompleteMe'
   execute 'packadd ale'
+  execute 'packadd linuxsty'
 
 " Specify linters
 let g:ale_linters = {
@@ -31,7 +32,7 @@ let g:ale_fix_on_save = 1
  set grepformat=%f:%l:%c:%m
  command! -nargs=+ Rg
       \ tabnew |
-      \ silent grep <args> |
+      \ execute 'silent grep ' . <q-args> |
       \ copen
 
 " Default Shell
@@ -59,6 +60,16 @@ let g:ale_fix_on_save = 1
  set incsearch            " Sow matches while typing
  set ignorecase
  set smartcase            " Upper cases enforced in search
+
+ function! s:SearchGitRepo()
+   let l:root = system('git rev-parse --show-toplevel 2>/dev/null')->trim()
+   if empty(l:root)
+     let l:root = getcwd()
+   endif
+
+   execute 'lcd' fnameescape(l:root)
+   execute 'Rg ' . shellescape(input('Search term: '))
+ endfunction
 
 " Auto Indentation
 "" Folding  https://www.vimfromscratch.com/articles/vim-folding
@@ -178,7 +189,7 @@ endfunction
 
 """HOTKEYS"""
 " <S-...> Shift ; <M-...> Alt ; <C-...> Strg ; <...>[1;53s AltGr
-" NOTE: MAC maynot work with <A-...>, use [ALT] + [KEY] resulting letter instead
+"NOTE: MAC maynot work with <A-...>, use [ALT] + [KEY] resulting letter instead
 
 "Remap vim autocomplete ([CTRL]+[N] -> [CTRL]+[Shift]+[SPACE])
  inoremap <C-S-Space> <C-n>
@@ -199,8 +210,9 @@ endfunction
  nnoremap   <F3> :set wrap! <CR>                 " toggle line wrap
  nnoremap   <F4> :<C-u>retab!<CR>:keepjumps keeppatterns %s/\s\+$//e<CR> " replace tabs & remove trailing whitespace
 
- nnoremap   <F5>  gg=G <CR>                       " Format file
- nnoremap   <F6> :execute 'Rg ' .. input('Search term: ')<CR>
+"nnoremap   <F5>  gg=G <CR>                       " Format file
+ nnoremap   <F6> :call <SID>SearchGitRepo()<CR>
+ xnoremap   <F6> :call <SID>SearchGitRepo()<CR>
  nnoremap   <F7>  zc   <CR>                       " Fold
  nnoremap <S-F7>  zM   <CR>                       " Fold all
  nnoremap <C-F7>  zM   <CR>                       " Fold all
@@ -217,9 +229,9 @@ endfunction
 
  nnoremap <C-p>   :call Open_Glow_Right_Split()<CR> " Render Markdown (Switch view via `[CTRL] + [W] + [W]`)
 
- " Syntax highlight overides
- " NOTE: You can use `:setfiletype` instead of `:set syntax=` to also use
- " language features (e.g. indentation)
+ " Language & Codeing Style overides
+ "NOTE: You can use `:setfiletype` instead of `:set syntax=` to also use
+ "      language features (e.g. indentation)
  noremap <M-S-r> :set syntax=ON <CR>             " Set syntax to automatic detection
  noremap <M-S-b> :set syntax=bash <CR>           " Set syntax to bash (common linux script language)
  noremap <M-S-j> :set syntax=json5 <CR>          " Set syntax to json5
@@ -229,3 +241,4 @@ endfunction
  noremap <M-S-x> :set syntax=xml <CR>            " Set syntax to xml (~html)
 
  nnoremap <silent> <M-S-l> :LinuxCodingStyle<CR> " Emable Linux Coding Style plugin
+
