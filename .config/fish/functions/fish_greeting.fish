@@ -15,8 +15,8 @@ function fish_greeting
             glxinfo           | sed 's/Device:/          GPU:/'                | grep -m 1 --no-ignore-case 'GPU'
             echo "Currently $(who -u | wc -l) sessions are active" | grep '[0-9]'
             echo ""
-            echo "CPU usage: $(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {printf "%02d%%\n", int(0.5+usage)}')"
-            echo "RAM usage: $(printf "%02d%%\n" $(math --scale 0 "($(grep 'MemFree' /proc/meminfo | awk '{print $2}') / $(grep 'MemTotal' /proc/meminfo | awk '{print $2}')) * 100"))"
+            echo "CPU usage: $(awk '/cpu /{printf "%.2f%%\n", ($2+$4)*100/($2+$4+$5) } '                          /proc/stat)"
+            echo "RAM usage: $(awk '/MemTotal/ {t=$2} /MemAvailable/ {a=$2} END {printf "%.2f%%\n", (t-a)/t*100}' /proc/meminfo)"
             echo "GPU usage: $(printf "%02d%%\n" $(nvtop -s | jq 'add(.[].processes[].gpu_usage | split("%").[0] | tonumber)' 2>/dev/null || echo "??"))" 2>/dev/null
             echo ""
             git status --short 2>/dev/null # Only output status if in git repo

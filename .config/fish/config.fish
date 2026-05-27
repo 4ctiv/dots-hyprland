@@ -1,7 +1,9 @@
 if status is-interactive
 
-    # Import global configuration
-    source ~/.profile
+    # Import user profile config
+   #source ~/.profile 2>/dev/null
+    fenv source ~/.profile
+   #bass source ~/.profile
 
     ########################
     ###     Paths      ###

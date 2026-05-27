@@ -1,15 +1,20 @@
 function web-search --description "search <arg> on the web"
   # This will use below cmd web browser to search specified querrys via cmd.
-  set browser 'lynx' # 'browsh'(rendered),'lynx','links'
-  
+  set browser 'lynx' # 'browsh'(rendered),'vimb','lynx','links','surf'
+
   if not type -q $browser
-    echo "[WARN] `$browser` cmd-browser not found, installing via `yay`" 
+    echo "[WARN] `$browser` cmd-browser not found, installing via `yay`"
     yay -S $browser || return 1
   end
 
-  # Lynx auto accept all cookies (still non persistent)
-  if string match "$browser" "lynx" >/dev/null
-    set browser 'lynx -accept_all_cookies'
+  switch ($browser)
+   #case '[Bb]rowsh'
+   #  set browser 'browsh'
+    case '[Ll]ynx'
+      # Lynx auto accept all cookies (still non persistent)
+      set browser 'lynx -accept_all_cookies'
+   #case '[Vv]imb'
+   #  set browser 'vimb'
   end
 
   # Set base url
