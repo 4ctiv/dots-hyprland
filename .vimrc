@@ -4,9 +4,9 @@
 
 " Enable plugins
 " filetype plugin on
-  execute 'packadd YouCompleteMe'
-  execute 'packadd ale'
-  execute 'packadd linuxsty'
+ execute 'packadd YouCompleteMe'
+ execute 'packadd ale'
+ execute 'packadd linuxsty'
 
 " Specify linters
 let g:ale_linters = {
@@ -174,11 +174,11 @@ endfunction
 
 " Line number color based on vim mode
 " Note: Visual mode has no events on enter/leave
- autocmd InsertLeave * highlight LineNr ctermfg=NONE   guibg=black
-"autocmd VisualLeave * highlight LineNr ctermfg=yellow guibg=black
+ autocmd InsertLeave * highlight LineNr ctermfg=NONE    guibg=black
+"autocmd VisualLeave * highlight LineNr ctermfg=yellow  guibg=black
 
- autocmd InsertEnter * highlight LineNr ctermfg=red    guibg=red
-"autocmd VisualEnter * highlight LineNr ctermfg=cyan   guibg=darkcyan
+ autocmd InsertEnter * highlight LineNr ctermfg=darkred guibg=darkred
+"autocmd VisualEnter * highlight LineNr ctermfg=cyan    guibg=darkcyan
 
 " File Read Only (warning)
  set confirm
@@ -220,12 +220,12 @@ endfunction
  nnoremap <S-F8>  zR   <CR>                       " Un-fold all
  nnoremap <C-F8>  zR   <CR>                       " Un-fold all
 
- nnoremap   <F11> gD                              " Jump to declaration
- nnoremap <C-F11> <C-O>                           "  Jump back (dec)
- nnoremap <S-F11> <C-O>                           "  Jump back (dec)
- nnoremap   <F12> gd                              " Jump to definition
- nnoremap <C-F12> <C-O>                           "  Jump back (def)
- nnoremap <S-F12> <C-O>                           "  Jump back (def)
+ nnoremap   <F10> gD                              " Jump to declaration
+ nnoremap <C-F10> <C-O>                           "  Jump back (dec)
+ nnoremap <S-F10> <C-O>                           "  Jump back (dec)
+ nnoremap   <F11> gd                              " Jump to definition
+ nnoremap <C-F11> <C-O>                           "  Jump back (def)
+ nnoremap <S-F11> <C-O>                           "  Jump back (def)
 
  nnoremap <C-p>   :call Open_Glow_Right_Split()<CR> " Render Markdown (Switch view via `[CTRL] + [W] + [W]`)
 
