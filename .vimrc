@@ -206,7 +206,7 @@ endfunction
 
 "nnoremap   <F1> :help <CR>                      " open help page
  nnoremap   <F1> :Explore <CR>                   " File browser
- nnoremap <silent> <F2> :set number! relativenumber! list! <Bar> let &signcolumn = (&signcolumn ==# 'no' ? 'auto' : 'no')<CR> " hide most helper (easy select & copy)
+ nnoremap <silent> <F2> :set number! relativenumber! list! <Bar> let &signcolumn = (&signcolumn ==# 'no' ? 'auto' : 'no') <Bar> ALEToggle <CR> " hide most helper (easy select & copy)
  nnoremap   <F3> :set wrap! <CR>                 " toggle line wrap
  nnoremap   <F4> :<C-u>retab!<CR>:keepjumps keeppatterns %s/\s\+$//e<CR> " replace tabs & remove trailing whitespace
 
