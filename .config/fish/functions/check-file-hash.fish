@@ -1,4 +1,4 @@
-function check-hash --description 'Validate a file against a checksum'
+function check-file-hash --description 'Validate a file against a checksum'
 
    #Arguments: protocoll checksum file
    # Note: Error number match argument, (-1) decodes failed verification
@@ -51,7 +51,7 @@ function check-hash --description 'Validate a file against a checksum'
     end
 
     # Calculate file checksum
-    set file_csm "$(openssl $algo $file | sed 's/.*= //g;' | head -n 1)"
+    set file_csm "$(openssl "$algo" "$file" | sed 's/.*= //g;' | head -n 1)"
 
     # Verify user checksum
     if test "$file_csm" = "$usr_csm"
