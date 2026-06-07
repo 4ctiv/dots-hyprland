@@ -19,7 +19,7 @@ if [[ "$1" == "--force" ]] || [[ "$1" == "-f" ]];then
   shift 1;
 fi
 
-# Setup aur helper manager: paru
+# Setup aur helper: paru
 if [[ "${PKG_MGR}" == "paru" ]] && [[ ! -f "$(which paru)" ]]; then
   [[ ! -f "$(which git)" ]] || pacman -S git
   git clone https://aur.archlinux.org/paru.git paru_setup &&\
@@ -29,7 +29,7 @@ if [[ "${PKG_MGR}" == "paru" ]] && [[ ! -f "$(which paru)" ]]; then
   rm -rf paru_setup
 fi
 
-# Setup aur helper manager: yay
+# Setup aur helper: yay
 if [ "${PKG_MGR}" == "yay" ] && [ ! -f "$(which yay 2>/dev/null)" ]; then
   [ ! -f $(which git) ] || pacman -S git base-devel
   git clone https://aur.archlinux.org/yay.git yay_setup &&\
