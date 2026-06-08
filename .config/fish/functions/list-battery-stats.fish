@@ -1,4 +1,4 @@
 function list-battery-stats --wraps='upower -i /org/freedesktop/UPower/devices/battery_BAT0' --description 'alias list-battery-stats=upower -i /org/freedesktop/UPower/devices/battery_BAT0'
     upower -b
-    # upower -i /org/freedesktop/UPower/devices/battery_BAT0 $argv
+  # upower -i /org/freedesktop/UPower/devices/battery_BAT0 $argv
 end

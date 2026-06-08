@@ -1,4 +1,4 @@
-function cleanup-packs --wraps='pacman -Scc && sudo pacman -Rns $(pacman -Qqtd)' --description 'alias packs-cleanup=pacman -Scc && sudo pacman -Rns $(pacman -Qqtd)'
+function cleanup-packs --description 'alias to cleanup linux packages (native,snap,flatpak)'
     pacman -Scc && sudo pacman -Rns $(pacman -Qqtd) $argv
     pacman -Qdtq | sudo pacman -Rns - 2>/dev/null
 
@@ -17,4 +17,8 @@ function cleanup-packs --wraps='pacman -Scc && sudo pacman -Rns $(pacman -Qqtd)'
     # Flatpak
     sudo flatpak uninstall --unused # `--all` to delete all
     #sudo rm -rfv /var/tmp/flatpak-cache-* 2>/dev/null
+end
+
+function packs-cleanup --wraps 'cleanup-packs' --description 'alias for cleanup-packs'
+  cleanup-packs $argv
 end

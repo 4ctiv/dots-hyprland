@@ -43,6 +43,7 @@ if status is-interactive
     # Colorize (will break grep due to color escape characters)
     alias ip="ip -c"
     alias ls='ls --color=auto'
+    alias less='less -R'
     alias pacman='sudo pacman --color auto'
     alias grep='  grep --color=auto'
     alias egrep='egrep --color=auto'

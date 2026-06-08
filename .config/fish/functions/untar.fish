@@ -1,6 +1,7 @@
 function untar --wraps='tar -xf' --description 'alias untar=tar -xf'
-    set flags "-vxf"
-    if string match -- "*.tar.gz" "$argv[1]" or string match -- "*.tgz" "$argv[1]"
+    set flags "vxf"
+    if string match -- "*.tar.gz" "$argv[1]" or \
+       string match -- "*.tgz" "$argv[1]" or \
       set flags (string join "" $flags "z")
     end
 
