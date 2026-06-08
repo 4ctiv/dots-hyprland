@@ -8,6 +8,7 @@
  execute 'packadd ale'
  execute 'packadd linuxsty'
 
+ set updatetime=1500 " in ms
 " Specify linters
 let g:ale_linters = {
 \   'go': ['golint']
@@ -220,12 +221,14 @@ endfunction
  nnoremap <S-F8>  zR   <CR>                       " Un-fold all
  nnoremap <C-F8>  zR   <CR>                       " Un-fold all
 
- nnoremap   <F10> gD                              " Jump to declaration
- nnoremap <C-F10> <C-O>                           "  Jump back (dec)
- nnoremap <S-F10> <C-O>                           "  Jump back (dec)
- nnoremap   <F11> gd                              " Jump to definition
- nnoremap <C-F11> <C-O>                           "  Jump back (def)
- nnoremap <S-F11> <C-O>                           "  Jump back (def)
+"NOTE: ALE... looks up references on whole (git) project
+ nnoremap   <F9>  :ALEGoToTypeDefinition   <CR>   " Type     Declaration
+ nnoremap   <F10> :ALEGoToDefinition       <CR>   " Var/Func Declaration
+ nnoremap   <F11> :ALEFindReferences       <CR>   " List usages
+"nnoremap <C-F10> <C-O>                           "  Jump back (decl)
+"nnoremap <S-F10> <C-O>                           "  Jump back (decl)
+"nnoremap <C-F11> <C-O>                           "  Jump back (def)
+"nnoremap <S-F11> <C-O>                           "  Jump back (def)
 
  nnoremap <C-p>   :call Open_Glow_Right_Split()<CR> " Render Markdown (Switch view via `[CTRL] + [W] + [W]`)
 
