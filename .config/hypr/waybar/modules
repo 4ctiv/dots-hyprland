@@ -101,7 +101,7 @@
     "format-time": "{H}h {M}m",
     "tooltip": true,
     "on-click-right": "kitty bash -c 'echo \"Opening powertop ...\" && sudo powertop'",
-    "on-update": "[[ -f '/sys/class/power_supply/BAT0/capacity' && ! $(cat /sys/class/power_supply/BAT0/status) =~ ^[Cc]harging ]] && case $(cat '/sys/class/power_supply/BAT0/capacity') in 20|10|5|1) notify-send --urgency=critical 'Battery low' 'Battery is < 20%';; *) :;; esac"
+    "on-update": "[[ -f '/sys/class/power_supply/BAT0/capacity' && ! $(cat /sys/class/power_supply/BAT0/status) =~ ^[Cc]harging ]] && case $(cat '/sys/class/power_supply/BAT0/capacity') in 20|10|5|1) notify-send -a waybar --urgency=critical 'Battery low' 'Battery is < 20%';; *) :;; esac"
   },
 
   "custom/battery": {
@@ -197,7 +197,7 @@
     "exec": "checkupdates | wc -l",
     "exec-if": "[[ $(checkupdates | wc -l) ]]",
     "interval": 7200,
-    "on-click": "~/.config/hypr/scripts/auto-upgrade -f || notify-send 'System could not update'",
+    "on-click": "~/.config/hypr/scripts/auto-upgrade -f || notify-send -a waybar 'System could not update'",
     "on-click-right": "octopi || pamac-manager || cosmic-store"
   },
 

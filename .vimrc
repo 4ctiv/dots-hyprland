@@ -8,7 +8,10 @@
  execute 'packadd ale'
  execute 'packadd linuxsty'
 
+" ALE Settings
+ let g:ale_hover_to_preview = 1
  set updatetime=1500 " in ms
+
 " Specify linters
 let g:ale_linters = {
 \   'go': ['golint']
@@ -99,6 +102,9 @@ let g:ale_fix_on_save = 1
    autocmd!
    autocmd ColorScheme * hi Normal guibg=NONE ctermbg=NONE
  augroup END
+
+" ALE Hover memu
+ highlight Pmenu guibg=#3a3a3a guifg=#efefef
 
 " Font (mono with ligerature)
  set guifont=JetBrainsMono\ Nerd\ Font\ Mono:h16,monospace:h16
@@ -224,7 +230,7 @@ endfunction
 "NOTE: ALE... looks up references on whole (git) project
  nnoremap   <F9>  :ALEGoToTypeDefinition   <CR>   " Type     Declaration
  nnoremap   <F10> :ALEGoToDefinition       <CR>   " Var/Func Declaration
- nnoremap   <F11> :ALEFindReferences       <CR>   " List usages
+ nnoremap   <F11> :tab split<CR> :ALEFindReferences <CR>   " List usages
 "nnoremap <C-F10> <C-O>                           "  Jump back (decl)
 "nnoremap <S-F10> <C-O>                           "  Jump back (decl)
 "nnoremap <C-F11> <C-O>                           "  Jump back (def)
