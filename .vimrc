@@ -12,18 +12,22 @@
  let g:ale_hover_to_preview = 1
  set updatetime=1500 " in ms
 
-" Specify linters
+" Specify linters -> `:ALEInfo`
 let g:ale_linters = {
-\   'go': ['golint']
+\   'c':  ['clangd'],
+\   'go': ['golint'],
 \}
 
 " Specify formatters
 let g:ale_fixers = {
-\   'go': ['gofmt']
+\   'c': ['clang-format','clangtidy'],
+\   'go': ['gofmt'],
 \}
 
 " Enable auto-formatting on save
 let g:ale_fix_on_save = 1
+ let g:ale_completion_enabled = 1
+ let g:ale_warn_about_trailing_whitespace = 1
 
 " Vim not reporing as "vi"
 " [Reference](https://www.youtube.com/watch?v=XA2WjJbmmoM)
@@ -72,7 +76,13 @@ let g:ale_fix_on_save = 1
    endif
 
    execute 'lcd' fnameescape(l:root)
-   execute 'Rg ' . shellescape(input('Search term: '))
+   let search = input('Search term: ')
+   if search == ''
+     echo "\nERROR: Empty search string"
+     return
+   endif
+
+   execute 'Rg ' . shellescape(search)
  endfunction
 
 " Auto Indentation
@@ -95,9 +105,18 @@ let g:ale_fix_on_save = 1
  endif
 
 """Theme"""
- set termguicolors    " 24-bit color
- colorscheme sorbet   " rosepine -> ~/.vim/colors/THEME.vim
- let g:disable_bg=1                " transparent background
+ set termguicolors     " 24-bit color
+ let hour = strftime("%H")
+ if (7 <= hour && hour <= 17)
+   " blueish colors day-time
+   colorscheme sorbet   " sorbet -> built in
+  "colorscheme rosepine " rosepine -> custom (~/.vim/colors/rosepine.vim)
+ else
+   " redish colors night-time
+   colorscheme ayu      " ayu -> custom (~/.vim/colors/ayu.vim)
+ endif
+
+ let g:disable_bg=1    " transparent background
  augroup TransparentBG
    autocmd!
    autocmd ColorScheme * hi Normal guibg=NONE ctermbg=NONE
@@ -228,9 +247,11 @@ endfunction
  nnoremap <C-F8>  zR   <CR>                       " Un-fold all
 
 "NOTE: ALE... looks up references on whole (git) project
- nnoremap   <F9>  :ALEGoToTypeDefinition   <CR>   " Type     Declaration
- nnoremap   <F10> :ALEGoToDefinition       <CR>   " Var/Func Declaration
- nnoremap   <F11> :tab split<CR> :ALEFindReferences <CR>   " List usages
+ nnoremap <C-F9>  :ALEGoToTypeDefinition   <CR>   " Type     Declaration
+ nnoremap   <F9> :ALEGoToDefinition       <CR>   " Var/Func Declaration
+ nnoremap   <F10> :ALEFindReferences       <CR>   " List usages
+ nnoremap   <F11> :call <SID>SearchGitRepo()<CR>
+ nnoremap   <F12> :execute 'FZF ' . system('git rev-parse --show-toplevel 2>/dev/null')[:-2] <CR> " requires 'fzf' to be installed
 "nnoremap <C-F10> <C-O>                           "  Jump back (decl)
 "nnoremap <S-F10> <C-O>                           "  Jump back (decl)
 "nnoremap <C-F11> <C-O>                           "  Jump back (def)
