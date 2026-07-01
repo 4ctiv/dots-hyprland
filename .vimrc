@@ -25,7 +25,7 @@ let g:ale_fixers = {
 \}
 
 " Enable auto-formatting on save
-let g:ale_fix_on_save = 1
+ let g:ale_fix_on_save = 1
  let g:ale_completion_enabled = 1
  let g:ale_warn_about_trailing_whitespace = 1
 
@@ -69,20 +69,26 @@ let g:ale_fix_on_save = 1
  set ignorecase
  set smartcase            " Upper cases enforced in search
 
- function! s:SearchGitRepo()
+ function! s:SearchGitRepo(s_type)
+   " goto git root
    let l:root = system('git rev-parse --show-toplevel 2>/dev/null')->trim()
    if empty(l:root)
      let l:root = getcwd()
    endif
 
    execute 'lcd' fnameescape(l:root)
-   let search = input('Search term: ')
-   if search == ''
-     echo "\nERROR: Empty search string"
-     return
-   endif
 
-   execute 'Rg ' . shellescape(search)
+   " str compare: https://vimhelp.org/eval.txt.html#expr-%3C
+   if trim(a:s_type) is? "rg" || empty(a:s_type)
+     let search = input('Search string: ')
+     if search == ''
+       echo "\nERROR: Empty search string"
+       return
+     endif
+     execute 'Rg ' . shellescape(search)
+   elseif trim(a:s_type) is? "fzf"
+     execute 'FZF ' . system('git rev-parse --show-toplevel 2>/dev/null')[:-2]
+   endif
  endfunction
 
 " Auto Indentation
@@ -237,8 +243,7 @@ endfunction
  nnoremap   <F4> :<C-u>retab!<CR>:keepjumps keeppatterns %s/\s\+$//e<CR> " replace tabs & remove trailing whitespace
 
 "nnoremap   <F5>  gg=G <CR>                       " Format file
- nnoremap   <F6> :call <SID>SearchGitRepo()<CR>
- xnoremap   <F6> :call <SID>SearchGitRepo()<CR>
+ nnoremap   <F6> :call <SID>SearchGitRepo('rg')<CR>
  nnoremap   <F7>  zc   <CR>                       " Fold
  nnoremap <S-F7>  zM   <CR>                       " Fold all
  nnoremap <C-F7>  zM   <CR>                       " Fold all
@@ -247,15 +252,15 @@ endfunction
  nnoremap <C-F8>  zR   <CR>                       " Un-fold all
 
 "NOTE: ALE... looks up references on whole (git) project
- nnoremap <C-F9>  :ALEGoToTypeDefinition   <CR>   " Type     Declaration
- nnoremap   <F9> :ALEGoToDefinition       <CR>   " Var/Func Declaration
- nnoremap   <F10> :ALEFindReferences       <CR>   " List usages
- nnoremap   <F11> :call <SID>SearchGitRepo()<CR>
- nnoremap   <F12> :execute 'FZF ' . system('git rev-parse --show-toplevel 2>/dev/null')[:-2] <CR> " requires 'fzf' to be installed
-"nnoremap <C-F10> <C-O>                           "  Jump back (decl)
-"nnoremap <S-F10> <C-O>                           "  Jump back (decl)
-"nnoremap <C-F11> <C-O>                           "  Jump back (def)
-"nnoremap <S-F11> <C-O>                           "  Jump back (def)
+ nnoremap <C-F9>  :ALEInfo                       <CR>
+ nnoremap   <F9>  :ALEGoToDefinition             <CR>
+ nnoremap   <F10> :ALEFindReferences             <CR>
+ nnoremap   <F11> :call <SID>SearchGitRepo('rg') <CR>
+ nnoremap   <F12> :call <SID>SearchGitRepo('fzf')<CR>
+ nnoremap <C-F10> <C-O>                           "  Jump back (decl)
+ nnoremap <S-F10> <C-O>                           "  Jump back (decl)
+ nnoremap <C-F11> <C-O>                           "  Jump back (def)
+ nnoremap <S-F11> <C-O>                           "  Jump back (def)
 
  nnoremap <C-p>   :call Open_Glow_Right_Split()<CR> " Render Markdown (Switch view via `[CTRL] + [W] + [W]`)
 
