@@ -15,7 +15,7 @@
 " Specify linters -> `:ALEInfo`
 let g:ale_linters = {
 \   'c':  ['clangd'],
-\   'go': ['golint'],
+\   'go': ['gopls','gofmt'],
 \}
 
 " Specify formatters
@@ -252,15 +252,13 @@ endfunction
  nnoremap <C-F8>  zR   <CR>                       " Un-fold all
 
 "NOTE: ALE... looks up references on whole (git) project
- nnoremap <C-F9>  :ALEInfo                       <CR>
  nnoremap   <F9>  :ALEGoToDefinition             <CR>
+ nnoremap <C-F9>  :ALEGoToTypeDefinition         <CR>
  nnoremap   <F10> :ALEFindReferences             <CR>
+ nnoremap <S-F10> <C-O>                           "  Jump back
  nnoremap   <F11> :call <SID>SearchGitRepo('rg') <CR>
+ nnoremap <S-F11> <C-O>                           "  Jump back
  nnoremap   <F12> :call <SID>SearchGitRepo('fzf')<CR>
- nnoremap <C-F10> <C-O>                           "  Jump back (decl)
- nnoremap <S-F10> <C-O>                           "  Jump back (decl)
- nnoremap <C-F11> <C-O>                           "  Jump back (def)
- nnoremap <S-F11> <C-O>                           "  Jump back (def)
 
  nnoremap <C-p>   :call Open_Glow_Right_Split()<CR> " Render Markdown (Switch view via `[CTRL] + [W] + [W]`)
 

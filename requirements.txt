@@ -28,6 +28,7 @@ octopi               # GUI package manager
 paru                 # alt.: yay
 downgrade            # allow downgrading packages
 # System core
+apparmor             # More security settings
 grub                 # Boot manager
 polkit               # permission management
 hyprpolkitagent      # permission management (hyprland)
@@ -123,7 +124,8 @@ noto-fonts                      # Font (wide range of unicode support)
 ttf-jetbrains-mono-nerd         # Font (nerdfont, ligatures)
 gnome-font-viewer               # font management (GUI)
 kvantum-qt5                     # Unified theme support
-qt5ct-kde                       # Optional: qt5 theme manager
+qt5ct                           # Optional: qt5 theme manager
+qt6ct                           # Optional: qt6 theme manager
 nwg-look                        # Optional: gtk theme manager
 #kvantummanager                 # Optional: kvantum theme manager
 dracula-icons                   # Optional: Icon   theme
