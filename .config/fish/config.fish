@@ -31,6 +31,7 @@ if status is-interactive
     alias ipconfig="ip a"
     alias diskmgmt="sudo cfdisk"
     # linux   command redirection
+    alias pdf="tdf" # terminal pdf viewer
     alias cp-recursive="rsync -ah --no-inc-recursive --info=progress2"
     alias nano="vim"
     alias gtop="btop"

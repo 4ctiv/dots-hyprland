@@ -1,5 +1,5 @@
 function cleanup-packs --description 'alias to cleanup linux packages (native,snap,flatpak)'
-    pacman -Scc && sudo pacman -Rns $(pacman -Qqtd) $argv
+    yay -Scc || paru -Scc || pacman -Scc ; sudo pacman -Rns $(pacman -Qqtd) $argv
     pacman -Qdtq | sudo pacman -Rns - 2>/dev/null
 
     # Snap
