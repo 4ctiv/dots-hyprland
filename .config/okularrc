@@ -1,0 +1,16 @@
+MenuBar=Disabled
+
+[Desktop Entry]
+FullScreen=false
+
+[General]
+LockSidebar=true
+ShowSidebar=false
+
+[MainWindow][Toolbar mainToolBar]
+IconSize=16
+
+[Recent Files]
+
+[Toolbar mainToolBar]
+IconSize=16
