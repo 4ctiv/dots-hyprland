@@ -1,12 +1,22 @@
 " 4ctiv's vim config (Note: " marks a comment)
+"
+" NOTICE FOR NEW VIM USERS
+" vim Script Syntax has only full line comments
+" meaning e.g. `:someCommand " descripton` would
+" have NO comment but is a single command
+" In most cases this is still fine but sometimes
+" breaks functionality and introduces wered behaviour
+" you have ben warned ;)
 
 """Core Settings"""
 
 " Enable plugins
 " filetype plugin on
- execute 'packadd YouCompleteMe'
  execute 'packadd ale'
+"execute 'packadd fugitive'
  execute 'packadd linuxsty'
+ execute 'packadd YouCompleteMe'
+"execute 'packadd vim-outline'
 
 " ALE Settings
  let g:ale_hover_to_preview = 1
@@ -15,7 +25,6 @@
 " Specify linters -> `:ALEInfo`
 let g:ale_linters = {
 \   'c':  ['clangd'],
-\   'go': ['gopls','gofmt'],
 \}
 
 " Specify formatters
@@ -237,12 +246,12 @@ endfunction
  nnoremap <M-S-S> :w !sudo tee % > /dev/null<CR>:e!<CR> " Save file as admin
 
 "nnoremap   <F1> :help <CR>                      " open help page
- nnoremap   <F1> :Explore <CR>                   " File browser
+ nnoremap   <F1> :Texplore <CR>                  " File browser (new tab)
  nnoremap <silent> <F2> :set number! relativenumber! list! <Bar> let &signcolumn = (&signcolumn ==# 'no' ? 'auto' : 'no') <Bar> ALEToggle <CR> " hide most helper (easy select & copy)
  nnoremap   <F3> :set wrap! <CR>                 " toggle line wrap
- nnoremap   <F4> :<C-u>retab!<CR>:keepjumps keeppatterns %s/\s\+$//e<CR> " replace tabs & remove trailing whitespace
+ nnoremap   <F4> :<C-u>retab!<CR>:keepjumps keeppatterns %s/\s\+$//e<CR>
 
-"nnoremap   <F5>  gg=G <CR>                       " Format file
+"nnoremap   <F5>  gg=G <CR>
  nnoremap   <F6> :call <SID>SearchGitRepo('rg')<CR>
  nnoremap   <F7>  zc   <CR>                       " Fold
  nnoremap <S-F7>  zM   <CR>                       " Fold all
@@ -260,7 +269,10 @@ endfunction
  nnoremap <S-F11> <C-O>                           "  Jump back
  nnoremap   <F12> :call <SID>SearchGitRepo('fzf')<CR>
 
- nnoremap <C-p>   :call Open_Glow_Right_Split()<CR> " Render Markdown (Switch view via `[CTRL] + [W] + [W]`)
+" Render Markdown (Switch view via `[CTRL] + [W] + [W]`)
+ nnoremap <C-p>   :call Open_Glow_Right_Split()<CR>
+" Toggle file outline
+ nnoremap <C-o>   :OutlineToggle <CR>
 
  " Language & Codeing Style overides
  "NOTE: You can use `:setfiletype` instead of `:set syntax=` to also use
@@ -271,7 +283,7 @@ endfunction
  noremap <M-S-y> :set syntax=yaml <CR>           " Set syntax to yaml
  noremap <M-S-m> :set syntax=markdown <CR>       " Set syntax to markdown
  noremap <M-S-p> :set syntax=ps1 <CR>            " Set syntax to powershell
- noremap <M-S-x> :set syntax=xml <CR>            " Set syntax to xml (~html)
+ noremap <M-S-x> :set syntax=xml <CR>            " Set syntax to xml
 
  nnoremap <silent> <M-S-l> :LinuxCodingStyle<CR> " Emable Linux Coding Style plugin
 
