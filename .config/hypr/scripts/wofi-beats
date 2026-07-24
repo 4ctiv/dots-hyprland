@@ -22,10 +22,10 @@ notification(){
 menu(){
   printf "00. Gute Musik\n"
   printf "01. 1Live\n"
-  printf "02. Lo-Fi Loft\n"
+  printf "02. Chillhop\n"
+  printf "03. Blues\n"
   printf "11. Study\n"
   printf "12. Vibe\n"
-  printf "13. Relax\n"
   printf "14. Rebel\n"
   printf "21. Bar\n"
   printf "22. Fantasy\n"
@@ -53,7 +53,13 @@ main() {
       ;;
     02)
       notification ;
-      ${BASE_CMD:-mpv --vid=no} "https://music.youtube.com/playlist?list=RDCLAK5uy_kb7EBi6y3GrtJri4_ZH56Ms786DFEimbM&playnext=1&si=slttHtVgY0CgVTsR"
+      ${BASE_CMD:-mpv --vid=no} "https://youtu.be/5yx6BWlEVcY"
+      return
+      ;;
+    03)
+      # Blues
+      notification
+      ${BASE_CMD:-mpv --vid=no} "https://youtu.be/HzQnvF6smik"
       return
       ;;
     11)
@@ -66,12 +72,6 @@ main() {
       # Vibe
       notification
       ${BASE_CMD:-mpv --vid=no} "https://music.youtube.com/playlist?list=PLhb3OfKIelBD16ngVY4A7Lk8N6gcsmRLD&si=atefCVnCPzWCJEGO"
-      return
-      ;;
-    13)
-      # Relax
-      notification
-      ${BASE_CMD:-mpv --vid=no} "https://music.youtube.com/playlist?list=PLhb3OfKIelBAeH90uhlkRqZCTokSE7MPa&si=YOlulMVX-tfFm0Ax"
       return
       ;;
     14)
