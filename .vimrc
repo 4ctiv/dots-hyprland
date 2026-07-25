@@ -8,7 +8,8 @@
 " breaks functionality and introduces wered behaviour
 " you have ben warned ;)
 
-"""Core Settings"""
+"==============================================================================
+" CORE SETTINGS
 
 " Enable plugins
 " filetype plugin on
@@ -16,7 +17,6 @@
 "execute 'packadd fugitive'
  execute 'packadd linuxsty'
  execute 'packadd YouCompleteMe'
-"execute 'packadd vim-outline'
 
 " ALE Settings
  let g:ale_hover_to_preview = 1
@@ -30,7 +30,6 @@ let g:ale_linters = {
 " Specify formatters
 let g:ale_fixers = {
 \   'c': ['clang-format','clangtidy'],
-\   'go': ['gofmt'],
 \}
 
 " Enable auto-formatting on save
@@ -54,7 +53,11 @@ let g:ale_fixers = {
 
 " Default Shell
 " This is relevant for e.g. :! or :shell
- set shell=/bin/bash
+if executable('fish')
+ set shell=/bin/fish
+else
+ let &shell = exepath('fish')
+endif
 
 " Show status bar
  set laststatus=2
@@ -119,7 +122,9 @@ let g:ale_fixers = {
    filetype plugin indent on
  endif
 
-"""Theme"""
+"==============================================================================
+" THEME
+
  set termguicolors     " 24-bit color
  let hour = strftime("%H")
  if (7 <= hour && hour <= 17)
@@ -178,7 +183,8 @@ endfunction
  set path+=**
 
 
-"""Features"""
+"==============================================================================
+" HELPER FUNCTIONS
 
  " Markdown viewer
  function! Open_Glow_Right_Split()
@@ -210,8 +216,8 @@ endfunction
    execute 'autocmd BufWinLeave <buffer> if bufexists(' . l:term . ') | bd! ' . l:term . ' | endif'
  endfunction
 
-
-"""WARNINGS"""
+"==============================================================================
+" WARNINGS
 
 " Line number color based on vim mode
 " Note: Visual mode has no events on enter/leave
@@ -228,7 +234,12 @@ endfunction
    autocmd BufReadPost * if filereadable(expand('%')) && !filewritable(expand('%')) | echohl WarningMsg | echo "Warning: File is not writable!" | echohl None | endif
  augroup END
 
-"""HOTKEYS"""
+"==============================================================================
+" HOTKEYS
+
+
+"======================================
+" Special behaviours
 " <S-...> Shift ; <M-...> Alt ; <C-...> Strg ; <...>[1;53s AltGr
 "NOTE: MAC maynot work with <A-...>, use [ALT] + [KEY] resulting letter instead
 
@@ -241,9 +252,20 @@ endfunction
  nmap qq a
  imap <nowait> qq <Esc>
 
+"======================================
+" Special behaviour
+
+"Copy selection to clipboard (wayland)
+"-> https://stackoverflow.com/questions/61379318
+ xnoremap <silent> <C-c> :w !wl-copy <CR> <CR>
+ xnoremap <silent> <C-x> y:call system('wl-copy', @@)<CR>gvd
+
 "Save as admin (usefull if opened user has no rw rights)
 "NOTE: [CTRL] + [S] + [_] is somewhat unreliable
  nnoremap <M-S-S> :w !sudo tee % > /dev/null<CR>:e!<CR> " Save file as admin
+
+"======================================
+" Function Keys
 
 "nnoremap   <F1> :help <CR>                      " open help page
  nnoremap   <F1> :Texplore <CR>                  " File browser (new tab)
@@ -261,20 +283,26 @@ endfunction
  nnoremap <C-F8>  zR   <CR>                       " Un-fold all
 
 "NOTE: ALE... looks up references on whole (git) project
- nnoremap   <F9>  :ALEGoToDefinition             <CR>
- nnoremap <C-F9>  :ALEGoToTypeDefinition         <CR>
- nnoremap   <F10> :ALEFindReferences             <CR>
+ nnoremap   <F9>  :ALEGoToDefinition -split      <CR>
+ nnoremap <C-F9>  :ALEGoToTypeDefinition -split  <CR>
+ nnoremap   <F10> :ALEFindReferences -split      <CR>
  nnoremap <S-F10> <C-O>                           "  Jump back
  nnoremap   <F11> :call <SID>SearchGitRepo('rg') <CR>
  nnoremap <S-F11> <C-O>                           "  Jump back
  nnoremap   <F12> :call <SID>SearchGitRepo('fzf')<CR>
 
+"======================================
+" Visual Extensions
+
 " Render Markdown (Switch view via `[CTRL] + [W] + [W]`)
  nnoremap <C-p>   :call Open_Glow_Right_Split()<CR>
-" Toggle file outline
- nnoremap <C-o>   :OutlineToggle <CR>
 
- " Language & Codeing Style overides
+" Toggle file outline (required plugin: tagbar)
+ nnoremap <C-o>   :TagbarToggle <CR>
+
+"======================================
+" Language & Codeing Style overides
+
  "NOTE: You can use `:setfiletype` instead of `:set syntax=` to also use
  "      language features (e.g. indentation)
  noremap <M-S-r> :set syntax=ON <CR>             " Set syntax to automatic detection
@@ -287,3 +315,5 @@ endfunction
 
  nnoremap <silent> <M-S-l> :LinuxCodingStyle<CR> " Emable Linux Coding Style plugin
 
+"===============================================================================
+" Other
