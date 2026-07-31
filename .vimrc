@@ -6,7 +6,7 @@
 " have NO comment but is a single command
 " In most cases this is still fine but sometimes
 " breaks functionality and introduces wered behaviour
-" you have ben warned ;)
+" you have been warned ;)
 
 "==============================================================================
 " CORE SETTINGS
@@ -21,6 +21,9 @@
 " ALE Settings
  let g:ale_hover_to_preview = 1
  set updatetime=1500 " in ms
+
+"YCM Completion-menu
+set completeopt=menuone
 
 " Specify linters -> `:ALEInfo`
 let g:ale_linters = {
@@ -186,6 +189,17 @@ endfunction
 "==============================================================================
 " HELPER FUNCTIONS
 
+ " Toggle CursorHold Commands
+ " e.g. YCM info popup
+ function! ToggleCursorHold()
+    if &eventignore =~# '\<CursorHold\>'
+        set eventignore-=CursorHold
+    else
+        set eventignore+=CursorHold
+    endif
+ endfunction
+ command! ToggleCursorHold call ToggleCursorHold()
+
  " Markdown viewer
  function! Open_Glow_Right_Split()
   "if !executable('glow') | return | endif
@@ -236,24 +250,30 @@ endfunction
 
 "==============================================================================
 " HOTKEYS
-
+" <S-...> Shift ; <A-...> Alt(gr) ; <M-...> Meta (= Alt); <C-...> Strg
 
 "======================================
-" Special behaviours
-" <S-...> Shift ; <M-...> Alt ; <C-...> Strg ; <...>[1;53s AltGr
+" Visual Extensions
+
+" Render Markdown (Switch view via `[CTRL] + [W] + [W]`)
+ nnoremap <C-p>   :call Open_Glow_Right_Split()<CR>
+
+" Toggle file outline (required plugin: tagbar)
+ nnoremap <C-l>   :TagbarToggle <CR>
+
+"======================================
+" Special behaviour
+
 "NOTE: MAC maynot work with <A-...>, use [ALT] + [KEY] resulting letter instead
 
 "Remap vim autocomplete ([CTRL]+[N] -> [CTRL]+[Shift]+[SPACE])
  inoremap <C-S-Space> <C-n>
 
 "Quick escape insert mode ([Space]+[Space] -> [ESC])
-"Given qq is not part of natural language this should be sufficant
+"Given qq is not part of natural language this should be ok
 "NOTE: 'nmap qq' slows down macro recording save q<Letter> -> macro -> q
  nmap qq a
  imap <nowait> qq <Esc>
-
-"======================================
-" Special behaviour
 
 "Copy selection to clipboard (wayland)
 "-> https://stackoverflow.com/questions/61379318
@@ -269,36 +289,32 @@ endfunction
 
 "nnoremap   <F1> :help <CR>                      " open help page
  nnoremap   <F1> :Texplore <CR>                  " File browser (new tab)
- nnoremap <silent> <F2> :set number! relativenumber! list! <Bar> let &signcolumn = (&signcolumn ==# 'no' ? 'auto' : 'no') <Bar> ALEToggle <CR> " hide most helper (easy select & copy)
- nnoremap   <F3> :set wrap! <CR>                 " toggle line wrap
- nnoremap   <F4> :<C-u>retab!<CR>:keepjumps keeppatterns %s/\s\+$//e<CR>
-
-"nnoremap   <F5>  gg=G <CR>
- nnoremap   <F6> :call <SID>SearchGitRepo('rg')<CR>
- nnoremap   <F7>  zc   <CR>                       " Fold
- nnoremap <S-F7>  zM   <CR>                       " Fold all
- nnoremap <C-F7>  zM   <CR>                       " Fold all
- nnoremap   <F8>  zo   <CR>                       " Un-fold
- nnoremap <S-F8>  zR   <CR>                       " Un-fold all
- nnoremap <C-F8>  zR   <CR>                       " Un-fold all
-
+ " hide most helper (easy select & copy)
+ nnoremap <silent> <F2> :set number! relativenumber! list! <Bar>
+       \ let &signcolumn = (&signcolumn ==# 'no' ? 'auto' : 'no') <Bar>
+       \ ALEToggle <Bar> ToggleCursorHold <CR>
+ " toggle line wrap
+ nnoremap <silent> <F3> :set wrap! <CR>
+ " Fix common formatting issues
+ nnoremap <silent> <F4> :<C-u>retab!<CR>:keepjumps keeppatterns %s/\s\+$//e<CR>
+"=====
+"Folding (At Cursor: [ZA]lternate, [ZC]lose, [ZO]pen ; [zM]fold [zR]unfold)
+ nnoremap   <F5>  zc   <CR>
+ nnoremap <S-F5>  zM   <CR>
+ nnoremap   <F6>  zo   <CR>
+ nnoremap <S-F6>  zR   <CR>
+" Jump (o: back ; i: forward)
+ nnoremap   <F7> <C-o>
+ nnoremap   <F8> <C-i>
+"=====
 "NOTE: ALE... looks up references on whole (git) project
  nnoremap   <F9>  :ALEGoToDefinition -split      <CR>
+ nnoremap <S-F9>  :ALEGoToDefinition             <CR>
  nnoremap <C-F9>  :ALEGoToTypeDefinition -split  <CR>
  nnoremap   <F10> :ALEFindReferences -split      <CR>
- nnoremap <S-F10> <C-O>                           "  Jump back
+ nnoremap <S-F10> :ALEFindReferences             <CR>
  nnoremap   <F11> :call <SID>SearchGitRepo('rg') <CR>
- nnoremap <S-F11> <C-O>                           "  Jump back
  nnoremap   <F12> :call <SID>SearchGitRepo('fzf')<CR>
-
-"======================================
-" Visual Extensions
-
-" Render Markdown (Switch view via `[CTRL] + [W] + [W]`)
- nnoremap <C-p>   :call Open_Glow_Right_Split()<CR>
-
-" Toggle file outline (required plugin: tagbar)
- nnoremap <C-o>   :TagbarToggle <CR>
 
 "======================================
 " Language & Codeing Style overides
