@@ -7,3 +7,18 @@ git clone --depth 1 https://github.com/ycm-core/YouCompleteMe ~/.vim/pack/plugin
 # STARTUP
 git clone --depth 1 https://github.com/tpope/vim-fugitive  ~/.vim/pack/plugins/start/fugitive
 git clone --depth 1 https://github.com/ubaldot/vim-outline ~/.vim/pack/plugins/start/outline
+
+OLD_DIR="$(pwd)"
+
+echo "Installing YCM Module"
+cd '~/.vim/pack/plugins/opt/YouCompleteMe'
+git submodule update --init --recursive
+python3 install.py --all
+
+[[ -x $(which ctags) ]] || ( \
+  echo "Installing ctags"; \
+  sudo snap install universal-ctags; \
+)
+
+cd "${OLD_DIR:?}"
+exit 0
