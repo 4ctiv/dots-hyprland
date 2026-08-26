@@ -170,7 +170,7 @@ hl.bind(mainMod .. " + M", hl.dsp.exec_cmd('notify-send -e -t 2500 -c "hyprland"
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(files))
 hl.bind(mainMod .. " + O", hl.dsp.exec_cmd("obsidian || (kitty sh -c 'yay -S obsidian' && obsidian)"))
 hl.bind(mainMod .. " + P", hl.dsp.window.pin())
-hl.bind(mainMod .. " + Q", hl.dsp.window.close()) -- hl.dsp.exec_cmd(kill_active))
+hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(kill_active))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(wofi_beats))
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(scriptsDir.. "/toggle_touch touch"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd(clip_hist))

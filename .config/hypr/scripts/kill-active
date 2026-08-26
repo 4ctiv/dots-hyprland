@@ -12,7 +12,7 @@ case "$(hyprctl activewindow -j | jq -r ".class" | tr '[:upper:]' '[:lower:]' )"
   "mozilla thunderbird"|"thunderbird"|"betterbird"|"org.mozilla.thunderbird")
     # If not main window just kill it
     if ! [[ "$(hyprctl activewindow -j | jq --raw-output '.initialTitle')" == "Mozilla Thunderbird" ]]; then
-      hyprctl dispatch killactive "";
+      hyprctl dispatch "hl.dsp.window.close()";
       exit 0
     fi
 
@@ -20,32 +20,32 @@ case "$(hyprctl activewindow -j | jq -r ".class" | tr '[:upper:]' '[:lower:]' )"
     if [[ "$(hyprctl -j monitors | jq --raw-output '.[] | select(.focused==true).activeWorkspace.name')" =~ [M|m]ail ]]; then
       notify-send "Switched to main workspace";
       old_ws="$(hyprctl activeworkspace | head -n 1 | sed -E 's/^workspace ID ([-]?[0-9]+).*/\1/g')"
-      hyprctl dispatch workspace previous;
+      hyprctl dispatch "hl.dsp.focus({ workspace = 'previous_per_monitor' })";
       if [ "$(old_ws)" == "$(hyprctl activeworkspace | head -n 1 | sed -E 's/^workspace ID ([-]?[0-9]+).*/\1/g')" ]; then
-        hyprctl dispatch workspace 1
+        hyprctl dispatch "hl.dsp.focus({ workspace = 1 })"
       fi
     else
       notify-send "Moved thunderbird to mail workspace"
-      hyprctl dispatch movetoworkspacesilent name:mail;
+      hyprctl dispatch "hl.dsp.window.move({ workspace = mail , follow = false})";
     fi
   ;;
  "cinny"|"schildichat")
-    hide_ws="chat" # lower case, no spaces
+    ws="chat"
     # Hide Main Windows via dispatcher ( https://wiki.hyprland.org/Configuring/Dispatchers/ )
-    if [[ "$(hyprctl -j monitors | jq --raw-output '.[] | select(.focused==true).activeWorkspace.name' | tr '[:upper:]' '[:lower:]')" =~ "$(echo "$hide_ws" | tr '[:upper:]' '[:lower:]')" ]]; then
+    if [[ "$(hyprctl -j monitors | jq --raw-output '.[] | select(.focused==true).activeWorkspace.name' | tr '[:upper:]' '[:lower:]')" =~ "$(echo "$ws" | tr '[:upper:]' '[:lower:]')" ]]; then
       notify-send "Switched to main workspace";
       old_ws="$(hyprctl activeworkspace | head -n 1 | sed -E 's/^workspace ID ([-]?[0-9]+).*/\1/g')"
-      hyprctl dispatch workspace previous;
+      hyprctl dispatch "hl.dsp.focus({ workspace = 'previous_per_monitor' })";
       if [ "$(old_ws)" == "$(hyprctl activeworkspace | head -n 1 | sed -E 's/^workspace ID ([-]?[0-9]+).*/\1/g')" ]; then
-        hyprctl dispatch workspace 1
+        hyprctl dispatch "hl.dsp.focus({ workspace = 1 })"
       fi
     else
-      notify-send "Moved $(hyprctl activewindow -j | jq -r ".class" | tr '[:upper:]' '[:lower:]' ) to $hide_ws workspace"
-      hyprctl dispatch movetoworkspacesilent name:$hide_ws;
+      notify-send "Moved $(hyprctl activewindow -j | jq -r ".class" | tr '[:upper:]' '[:lower:]' ) to $ws workspace"
+      hyprctl dispatch "hl.dsp.window.move({ workspace = 'name:$ws' , follow = false})";
     fi
   ;;
   *)
-    hyprctl dispatch killactive ""
+    hyprctl dispatch "hl.dsp.window.close()"
   ;;
 esac
 
