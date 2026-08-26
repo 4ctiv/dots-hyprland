@@ -19,7 +19,7 @@
 # 200 means double height. Accepts only non-negative values.
 ; sensitivity = 100
 
-# The number of bars (0-200). 0 sets it to auto (fill up console).
+# The number of bars (0-512). 0 sets it to auto (fill up console).
 # Bars' width and space between bars in number of characters.
 ; bars = 0
 ; bar_width = 2
@@ -47,18 +47,33 @@
 
 [input]
 
-# Audio capturing method. Possible methods are: 'pulse', 'alsa', 'fifo', 'sndio' or 'shmem'
-# Defaults to 'pulse', 'alsa' or 'fifo', in that order, dependent on what support cava was built with.
+# Audio capturing method. Possible methods are: 'fifo', 'portaudio', 'pipewire', 'alsa', 'pulse', 'sndio', 'oss', 'jack' or 'shmem'
+# Defaults to 'oss', 'pipewire', 'sndio', 'jack', 'pulse', 'alsa', 'portaudio' or 'fifo', in that order, dependent on what support cava was built with.
+# On Mac it defaults to 'portaudio' or 'fifo'
+# On windows this is automatic and no input settings are needed.
 #
 # All input methods uses the same config variable 'source'
 # to define where it should get the audio.
 #
-# For pulseaudio 'source' will be the source. Default: 'auto', which uses the monitor source of the default sink
+# For pulseaudio and pipewire 'source' will be the source. Default: 'auto', which uses the monitor source of the default sink
 # (all pulseaudio sinks(outputs) have 'monitor' sources(inputs) associated with them).
+#
+# For pipewire 'source' will be the object name or object.serial of the device to capture from.
+# Both input and output devices are supported. To capture the monitor source of a sink node, append '.monitor' to the sink's object name.
 #
 # For alsa 'source' will be the capture device.
 # For fifo 'source' will be the path to fifo-file.
 # For shmem 'source' will be /squeezelite-AA:BB:CC:DD:EE:FF where 'AA:BB:CC:DD:EE:FF' will be squeezelite's MAC address
+#
+# For sndio 'source' will be a raw recording audio descriptor or a monitoring sub-device, e.g. 'rsnd/2' or 'snd/1'. Default: 'default'.
+# README.md contains further information on how to setup CAVA for sndio.
+#
+# For oss 'source' will be the path to a audio device, e.g. '/dev/dsp2'. Default: '/dev/dsp', i.e. the default audio device.
+# README.md contains further information on how to setup CAVA for OSS on FreeBSD.
+#
+# For jack 'source' will be the name of the JACK server to connect to, e.g. 'foobar'. Default: 'default'.
+# README.md contains further information on how to setup CAVA for JACK.
+#
 ; method = pulse
 ; source = auto
 
