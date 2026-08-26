@@ -16,14 +16,15 @@ require("hyprland-var")
 -- @Style Guide: https://github.com/catppuccin/catppuccin/blob/main/docs/style-guide.md
 --                rgb(rrggbb)
 
--- redish
+--red tone
 local cat_yellow = "rgb(f9e2af)"
 local cat_peach = "rgb(fab387)"
---red tone
 local cat_red = "rgb(f38ba8)"
 local cat_maroon = "rgb(eba0ac)"
 local cat_flamingo = "rgb(f2cdcd)"
 local cat_rosewater = "rgb(f5e0dc)"
+-- green tone
+local cat_green = "rgb(a6e3a1)"
 local cat_pink = "rgb(f5c2e7)"
 -- blue tone
 local cat_mauve = "rgb(cba6f7)"
@@ -32,8 +33,6 @@ local cat_lavender = "rgb(b4befe)"
 local cat_sky = "rgb(89dceb)"
 local cat_sapphire = "rgb(74c7ec)"
 local cat_teal = "rgb(94e2d5)"
--- green tone
-local cat_green = "rgb(a6e3a1)"
 -- white -> black
 local cat_text = "rgb(cdd6f4)"
 local cat_subtext1 = "rgb(bac2de)"
@@ -47,26 +46,6 @@ local cat_surface0 = "rgb(313244)"
 local cat_base = "rgb(1e1e2e)"
 local cat_mantle = "rgb(181825)"
 local cat_crust = "rgb(11111b)"
-
---   ###########################################
---  ### Rose-Pine Theme by @jishnurajendran ###
--- ###########################################
--- @Style Guide: https://rosepinetheme.com/palette/
-local rose_base = 0xff191724
-local rose_surface = 0xff1f1d2e
-local rose_overlay = 0xff26233a
-local rose_muted = 0xff6e6a86
-local rose_subtle = 0xff908caa
-local rose_text = 0xffe0def4 -- light purple
-local rose_love = 0xffeb6f92 -- dark pink
-local rose_gold = 0xfff6c177 -- yellow
-local rose_rose = 0xffebbcba -- light pink
-local rose_pine = 0xff31748f -- ocean blue
-local rose_foam = 0xff9ccfd8 -- red
-local rose_iris = 0xffc4a7e7 -- dark purple
-local rose_highlightLow = 0xff21202e
-local rose_highlightMed = 0xff403d52
-local rose_highlightHigh = 0xff524f67
 
 --   ##########################################################################
 --  ###    Active Theme                                                    ###
@@ -90,7 +69,7 @@ hl.window_rule({
     match = {
         float = 0,
     },
-  --border_color = cat_sky .. ' ' .. cat_crust .. ' ' .. cat_crust .. ' ' .. cat_sky .. " 45deg",
+    border_color = {colors = {cat_sky, cat_crust,  cat_crust, cat_sky, angle = 45}}
 })
 
 hl.window_rule({
@@ -98,7 +77,7 @@ hl.window_rule({
     match = {
         float = 1,
     },
-  --border_color = cat_maroon .. ' ' .. cat_crust .. ' ' .. cat_crust  .. ' ' .. cat_maroon .. " 45deg",
+    border_color = {colors = {cat_maroon, cat_crust,  cat_crust, cat_maroon, angle = 45}}
 })
 
 hl.window_rule({
@@ -106,7 +85,7 @@ hl.window_rule({
     match = {
         pin = 1,
     },
-  --border_color = cat_red .. ' ' .. cat_crust .. ' ' .. cat_crust .. ' ' .. cat_red .. " 45deg",
+    border_color = {colors = {cat_red, cat_crust,  cat_crust, cat_red, angle = 45}}
 })
 
 hl.window_rule({
@@ -114,7 +93,7 @@ hl.window_rule({
     match = {
         fullscreen = 1,
     },
-  --border_color = cat_flamingo .. ' ' .. cat_crust .. ' ' .. cat_crust .. ' ' .. cat_flamingo .. " 45deg",
+    border_color = {colors = {cat_flamingo, cat_crust,  cat_crust, cat_flamingo, angle = 45}}
 })
 
 hl.window_rule({
@@ -123,7 +102,7 @@ hl.window_rule({
         fullscreen_state_internal = 0,
         fullscreen_state_client = 2,
     },
-  --border_color = cat_rosewater .. ' ' .. cat_crust .. ' ' .. cat_crust .. ' ' .. cat_rosewater .. " 45deg",
+    border_color = {colors = {cat_rosewater, cat_crust,  cat_crust, cat_rosewater, angle = 45}}
     --only = on
 })
 
@@ -132,7 +111,7 @@ hl.window_rule({
     match = {
         xwayland = 1,
     },
-  --border_color = cat_mauve .. ' ' .. cat_crust .. ' ' .. cat_crust .. ' ' .. cat_mauve .. " 45deg",
+    border_color = {colors = {cat_mauve, cat_crust,  cat_crust, cat_mauve, angle = 45}}
 })
 
 hl.window_rule({
@@ -140,7 +119,7 @@ hl.window_rule({
     match = {
         workspace = "special",
     },
-  --border_color = cat_lavender .. ' ' .. cat_crust .. ' ' .. cat_crust .. ' ' .. cat_lavender .. " 45deg",
+    border_color = {colors = {cat_lavender, cat_crust,  cat_crust, cat_lavender, angle = 45}}
 })
 
 hl.curve("linear", { type = "bezier", points = { { 0.0, 0.0 }, { 1.0, 1.0 } } })
@@ -197,16 +176,11 @@ hl.config({
     },
     -- Wallpaper (now done in hyprpaper)
     --exec-once = mpvpaper '*' '~/.config/hypr/bg/smoke.mp4' -f -s -o 'mute=yes --panscan=1.0 --loop-playlist shuffle'
-    --   #############################
-    --  # Hyprland (window) theming #
-    -- #############################
-    -- Custom window borders (processed bottom to top)
-    -- Window stack (bar) theme
     group = {
-      --col = {
-          --border_active = cat_teal .. " " .. cat_crust .. " " .. cat_crust .. " " .. cat_teal .. " 45deg",
-          --border_inactive = cat_overlay0 .. " " .. cat_crust .. " " .. cat_crust .. " " .. cat_overlay0 .. " 45deg",
-      --},
+        col = {
+          border_active   = {colors = {cat_pink, cat_crust,  cat_crust, cat_teal}, angle = 45},
+          border_inactive = {colors = {cat_overlay0, cat_crust,  cat_crust, cat_overlay0}, angle = 45},
+        },
         groupbar = {
             text_color = cat_text,
             col = {
@@ -225,10 +199,9 @@ hl.config({
         --Animated window border
         -- see: https://wiki.hypr.land/Configuring/Animations/#animation-tree
         col = {
-            --active_border = cat_sky .. " " .. cat_crust .. " " .. cat_crust .. " " .. cat_sky .. " 45deg",
-            --inactive_border = cat_overlay0 .. " " .. cat_crust .. " " .. cat_crust .. " " .. cat_overlay0 .. " 45deg",
+          active_border   = {colors = {cat_sky, cat_crust,  cat_crust, cat_teal}, angle = 45},
+          inactive_border = {colors = {cat_overlay0, cat_crust,  cat_crust, cat_overlay0}, angle = 45},
         },
-        layout = "dwindle", -- or master
     },
     misc = {
         font_family = "JetBrainsMono Nerd Font Mono",
@@ -253,10 +226,10 @@ hl.config({
         },
     },
     -- General window opacity
-    --windowrulev2 = opacity 0.965 override 0.95 override 1 override,class:.*
-    --windowrulev2 = opacity 1, fullscreenstate:0 2, class:.*
+    hl.window_rule({ opacity = 0.965 }),
+    hl.window_rule({ match = { fullscreen_state_client = 0, fullscreen_state_internal = 2 }, opacity = 1 }),
     animations = {
-        -- See https://wiki.hyprland.org/Configuring/Animations/
+        -- See https://wiki.hyprland.org/Configuring/Animations
         enabled = true,
     },
     -- ######################

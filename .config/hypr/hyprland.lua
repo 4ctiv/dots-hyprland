@@ -4,7 +4,7 @@
 -- Please note not all available settings / options are not set here.
 -- For more managable files this configuration is split into:
 -- - hyprland.conf: This file, holds the main configuration
--- - hyprland-var.conf: Hyprland settings variables (for use in configs) 
+-- - hyprland-var.conf: Hyprland settings variables (for use in configs)
 -- - hyprland-theme.conf: This file holds theme related configurations
 -- - hyprland-keybinds.conf: This file holds all keybindings
 -- - hyprland-autostart.conf: This file holds startup rules and autostart apps
@@ -26,99 +26,78 @@ require("hyprland-var")
 -- Source: ~/.config/hypr/hyprland-theme.conf — convert this file to Lua and ensure it is on Lua's package.path.
 require("hyprland-theme")
 
---   #############################
---  ### Environment variables ###
--- #############################
--- See: https://wiki.hyprland.org/Configuring/Environment-variables/
---debug{
---  disable_logs = false
---  disable_time = false
---  enable_stdout_logs = true
---  colored_stdout_logs = true
---}
+--   ###################
+--  ### Environment ###
+-- ###################
+-- See: https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables
 
--- Hyprland settings
+-- Hyprland
 hl.env("HYPRCURSOR_SIZE", "24")
-hl.env("HYPRLAND_TRACE", "1")
-hl.env("HYPRLAND_LOG_WLR", "1")
--- XDG settings
+  --hl.env("HYPRLAND_NO_RT", "1"
+  --hl.env("HYPRLAND_TRACE", "1")
+  --hl.env("HYPRLAND_NO_SD_NOTIFY", "1")
+  --hl.env("HYPRLAND_NO_SD_VARS", "1")
+  --hl.env("HYPRLAND_CONFIG", "~/.config/hypr/hyprland.lua")
+-- XDG (if not uwsm session)
 hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
 hl.env("XDG_CONFIG_HOME", "$HOME/.config")
--- GTK settings
-hl.env("GTK_THEME", "gtk_catppuccin-mocha-maroon")
-hl.env("GDK_BACKEND", "wayland,x11")
--- QT settings
-hl.env("QT_CURSOR_SIZE", "24")
-hl.env("QT_AUTO_SCREEN_SCALE_FACTOR", "1")
-hl.env("QT_QPA_PLATFORM", "wayland;xcb")
-hl.env("QT_QPA_PLATFORMTHEME", "qt5ct")
-hl.env("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1")
--- Clutter settings
-hl.env("CLUTTER_BACKEND", "wayland")
--- Electron settings
--- (> Electron 28) "--enable-features=UseOzonePlatform --ozone-platform=wayland"
-hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
--- XWayland setting
+-- XWayland
 hl.env("XCURSOR_SIZE", "24")
 
---   ###################
---  # Default software #
--- ####################
---            xdg-mime default PROGRAM.desktop          mime/type
---exec-once = xdg-mime default nemo.desktop             inode/directory
---exec-once = xdg-mime default inkscape.desktop         image/svg+xml
---exec-once = xdg-mime default gimp.desktop             image/png
---exec-once = xdg-mime default org.gnome.Papers.desktop application/pdf
---                            #com.github.xournalpp.xournalpp.desktop application/pdf
---exec-once = xdg-mime default google-chrome.desktop    x-scheme-handler/zoommtg
+-- GTK/GDK
+hl.env("GDK_SCALE", "1")
+hl.env("GDK_BACKEND", "wayland,x11,*")
+hl.env("GTK_THEME", "gtk_catppuccin-mocha-maroon")
+-- QT
+hl.env("QT_CURSOR_SIZE", "24")
+hl.env("QT_QPA_PLATFORM", "wayland;xcb")
+hl.env("QT_QPA_PLATFORMTHEME", "qt5ct") -- qt5ct if using quantum
+hl.env("QT_AUTO_SCREEN_SCALE_FACTOR", "1")
+hl.env("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1")
+-- Electron
+hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
+-- Clutter
+hl.env("CLUTTER_BACKEND", "wayland")
 
---   ################
---  # Hyprland GPU #
--- ################
--- lspci -k | grep VGA && wlr-randr --dryrun # Show avalable GPU's ID
+-- SSH-Agent
+  --hl.env("SSH_AUTH_SOCK", os.getenv("XDG_RUNTIME_DIR").."/ssh-agent.socket")
 
--- Select GPU
--- env = WLR_DRM_DEVICES,"/dev/dri/card1:/dev/dri/card0" # gpu usage policy: gpu0 > gpu1
+-----------
+--- GPU ---
+-----------
+-- lspci -k | grep VGA # Show avalable GPUs & IDs
 
--- GPU: Intel Arc hw-raytracing support
-hl.env("VKD3D_CONFIG", "dxr11,dxr")
-
--- GPU: SDL2 applications on Wayland
+-- SDL2 acceleration
 hl.env("SDL_VIDEODRIVER", "wayland")
 
--- GPU: NVIDIA Settings
---env = GBM_BACKEND,nvidia-drm
---env = __GLX_VENDOR_LIBRARY_NAME,nvidia
---env = LIBVA_DRIVER_NAME,nvidia
---env = __GL_GSYNC_ALLOWED,1
---env = __GL_VRR_ALLOWED,0
---env = WLR_DRM_NO_ATOMIC,1
+-- Select GPU
+-- env = WLR_DRM_DEVICES,"/dev/dri/card1:/dev/dri/card0"
 
---   ################
---  #  Text Input  #
--- ################
--- IME Support: fcitx (need to be installed)
---env = GTK_IM_MODULE=fcitx
---env = QT_IM_MODULE=fcitx
---env = XMODIFIERS=@im=fcitx
---env = SDL_IM_MODULE=fcitx
---env = GLFW_IM_MODULE=ibus
+-- GPU: Intel (Arc) Settings
+hl.env("VKD3D_CONFIG", "dxr11,dxr")
+
+-- GPU: NVIDIA Settings
+-- hl.env("GBM_BACKEND", "nvidia-drm")
+-- hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
+-- hl.env("LIBVA_DRIVER_NAME","nvidia")
+
+--hl.env("__GL_GSYNC_ALLOWED",1)
+--hl.env("__GL_VRR_ALLOWED"  ,0)
+--hl.env("WLR_DRM_NO_ATOMIC" ,1)
 
 --   ##########################################################################
 --  ###    Monitors, Displays, etc.                                        ###
 -- ##########################################################################
--- Configure your Display resolution, offset, scale and Monitors here, use `hyprctl monitors` to get the info.
 -- See https://wiki.hyprland.org/Configuring/Monitors/
--- Source: ~/.config/hypr/hyprland-displays.conf — convert this file to Lua and ensure it is on Lua's package.path.
 require("hyprland-displays")
 
---   #####################
---  # Special Workspace #
--- #####################
+-------------------------
+--- Special Workspace ---
+-------------------------
 
--- special workspace (Scratchpad)
+-- Scratchpad
 hl.workspace_rule({
     workspace = "special:special",
     on_created_empty = "[workspace special:special; float; size 1900 324; move 10 40; silent; opacity 0.7;] " .. term,
@@ -132,7 +111,8 @@ hl.animation({
     bezier = "overshoot",
     style = "slidefadevert -20%",
 })
--- overlay  workspace
+
+-- Drawing
 hl.workspace_rule({
     workspace = "special:draw",
     gaps_in = 0,
@@ -140,6 +120,7 @@ hl.workspace_rule({
     on_created_empty = "[workspace special:draw] which gromit-mpx || " .. term .. " bash -c \"paru -S gromit-mpx\" ; gromit-mpx --active",
   })
 
+-- Screenshot
 hl.workspace_rule({
     workspace = "special:screenshot",
     gaps_in = 0,
@@ -147,7 +128,7 @@ hl.workspace_rule({
     on_created_empty = screenshot,
 })
 
--- mail workspace
+-- Mail
 hl.workspace_rule({
     workspace = "name:mail",
     gaps_in = 0,
@@ -155,9 +136,9 @@ hl.workspace_rule({
     on_created_empty = "thunderbird",
 })
 
---   ##########################################################################
---  ###    Hyprland basic configurations                                   ###
--- ##########################################################################
+--------------------------------------------------------------------------------
+---                       Hyprland basic configuration                       ---
+--------------------------------------------------------------------------------
 
 hl.window_rule({
     match = {
@@ -401,12 +382,43 @@ hl.window_rule({
     float = false,
 })
 
--- Source: ~/.config/hypr/hyprland-input.conf — convert this file to Lua and ensure it is on Lua's package.path.
+
+---------------------------------------
+---       Input Configuration       ---
+---------------------------------------
 require("hyprland-input")
 
--- Source: ~/.config/hypr/hyprland-autostart.conf — convert this file to Lua and ensure it is on Lua's package.path.
+---------------------------------------
+---      Startup Configuration      ---
+---------------------------------------
 require("hyprland-autostart")
 
+---------------------------------------
+---      General configuration      ---
+---------------------------------------
+hl.config({
+    general = {
+        layout = "dwindle", -- dwindle/master/scrolling/monocle
+        no_focus_fallback = true,
+    },
+    -- Per Layout Configuration
+    -- See https://wiki.hyprland.org/Configuring/LAYOUT-Layout
+    dwindle = {
+        preserve_split = true,
+    },
+    master = {
+        -- See https://wiki.hyprland.org/Configuring/Master-Layout
+        new_on_top = true,
+        mfact = 0.5,
+    },
+    scrolling = {
+        fullscreen_on_one_column = true,
+    },
+})
+
+---------------------------------------
+---        MISC Configuration       ---
+---------------------------------------
 hl.config({
     misc = {
         -- Battery optimisation: enable vfr (variable refresh rate)
@@ -417,80 +429,6 @@ hl.config({
         on_focus_under_fullscreen = 2,
         enable_anr_dialog = false, -- Disabe "App not responding" prompts
     },
-    --   ######################
-    --  ### Window layouts ###
-    -- ######################
-    general = {
-        layout = "dwindle",
-        --layout = master
-    },
-    dwindle = {
-        -- See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
-        preserve_split = true,
-        --no_gaps_when_only = 1
-    },
-    master = {
-        -- See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-        -- new_is_master = true
-        new_on_top = true, -- New window in stack view if true else new window focused on left
-        mfact = 0.5,
-    },
-    --   ##########################################################################
-    --  ###    HW/Device specific rules (window rules)                         ###
-    -- ##########################################################################
-    -- See https://wiki.hyprland.org/Configuring/Variables/#input
-    --
-    -- Example per-device config
-    -- See https://wiki.hyprland.org/Configuring/Keywords/#executing for more
-    --device:epic mouse V1 {
-    --  sensitivity = -0.5
-    --}
-    -- Wired Keyboard
-    --device {
-    --  name       = keyboard
-    --  kb_model   =
-    --  kb_layout  = de,us
-    --  kb_variant =
-    --  kb_options = grp:caps_toggle,fkeys:basic_13-24
-    --  kb_rules   =
-    --  kb_file    =
-    --}
-    --   ###########################################################################
-    --  ###    Application specific rules (window rules)                        ###
-    -- ##########################################################################
-    -- See https://wiki.hyprland.org/Configuring/Window-Rules/
-    -- Setup firefox, chrome Picture-in-Picture media
-    -- Setup quickgui
-    -- Setup keepassxc
-    --windowrule = float on, center on, size (monitor_w*0.667) (monitor_h*0.667), no_screen_share on, match:class ^((org.keepassxc.)?KeePassXC)$
-    -- Setup showmethekeys overlay
-    -- Setup livecaptions overlay
-    -- floating window rules
-    -- specific window centering
-    -- system update (waybar termnal)
-    -- waydroid
-    -- ttyclock
-    -- calculator
-    -- XDG File-selector
-    -- gromit-mpx
-    -- Note: Also enable shortcuts otherwise usage will be difficult
-    -- Flameshot
-    --windowrule = monitor $lMon, match:class ^(flameshot)$ # Screenshot all monitors
-    -- Papers
-    -- Godot
-    -- nwg-drawer
-    --windowrulev2 = noanim, class:^(nwg-drawer)$
-    --   ##########################################################################
-    --  ###    Keybindings, etc.                                               ###
-    -- ##########################################################################
-    -- See https://wiki.hypr.land/Configuring/Binds
-    --   ##########################################################################
-    --  ###    Startup rules, etc.                                             ###
-    -- ##########################################################################
-    -- See https://wiki.hyprland.org/Configuring/Keywords
 })
 
-hl.on("hyprland.start", function()
-    hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme \"prefer-dark\"")
-end)
 
