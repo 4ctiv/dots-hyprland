@@ -1,4 +1,4 @@
-function list-net-ipv4 --description "Scan local IPv4 network for open ports"
+function list-net-ipv4 --description "Scan local IPv4 network for open ports" --wraps 'nmap'
     set -l ip_address "$argv[1]"
 
     if test -z "$ip_address"
