@@ -31,17 +31,17 @@ virtualMonitor(){
 }
 
 cleanup(){
-  for monitor in $(hyprctl monitors | grep HEADLESS | awk '{print $2}')
-    hyprctl output remove $monitor;
+  for monitor in $(hyprctl monitors | grep HEADLESS | awk '{print $2}'); do
+    hyprctl output remove "$monitor";
   done
   adb reverse --remove tcp:5900;
-  unset VNC_PORT;
+  unset "VNC_PORT";
 }
 
 main() {
   virtMonitor
-  vncServer $VNC_PORT
-  adbReverse $VNC_PORT
+  vncServer  "$VNC_PORT"
+  adbReverse "$VNC_PORT"
   echo "Connect to vnc via $CON_IP on port $CON_PORT";
   read usr_input
   cleanup

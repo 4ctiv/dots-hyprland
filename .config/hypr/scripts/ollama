@@ -288,7 +288,7 @@ function ollama_pull {
   if [[ -n "$(docker ps --format '{{.Names}}' | grep -o open-webui)" ]]; then
     ollama_start;
   fi
-  echo "Reciving ollama $MODEL (ollam has temporary internet access)"
+  echo "Reciving ollama $MODEL (ollama has temporary internet access)"
   docker network connect bridge ${CONTAINER_NAME:=ollama} >/dev/null 2>/dev/null # give container network access
   docker exec -it ${CONTAINER_NAME:=ollama} ollama pull "$MODEL" >/dev/null || docker exec -it ${CONTAINER_NAME:=ollama} ollama pull "$MODEL" # >/dev/null
   if [[ -z "$KEEP_NETWORK_ACCESS" ]]; then

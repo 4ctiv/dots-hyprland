@@ -51,8 +51,8 @@ hl.gesture({
 hl.config({
   input = {
       -- Keyboard
-      kb_layout  = "us,de",           -- `localectl list-keymaps`
-      kb_variant = "euro,nodeadkeys", -- `localectl list-x11-keymap-variants $LAYOUT`
+      kb_layout  = "de,us",           -- `localectl list-keymaps`
+      kb_variant = "nodeadkeys,euro", -- `localectl list-x11-keymap-variants $LAYOUT`
       kb_options = "grp:caps_toggle,fkeys:basic_13-24",
       numlock_by_default = true,
       resolve_binds_by_sym = 1,       -- kb_layout -1 -> affect keybinds

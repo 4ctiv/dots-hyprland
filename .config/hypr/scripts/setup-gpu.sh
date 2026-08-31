@@ -23,7 +23,7 @@ match "$(lspci | grep -E "VGA|3D" | tr '[:upper:]' '[:lower:]' | grep -o -E "amd
     ;;
 esac
 
-# sudo pacman -S openrgb # RGP controll
+# sudo pacman -S openrgb # RGB controll
 sudo pacman -S --needed nvtop vulkan-tools && vulkaninfo | grep -A 2 -e "^GPU[ ]*id[ ]*:"
 
  # modinfo -p video # <- Show loaded video modules

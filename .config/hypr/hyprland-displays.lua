@@ -90,14 +90,15 @@ hl.workspace_rule({
 --bindl = , switch:off:Lid Switch,exec,hyprctl keyword monitor "eDP-1, 1920x1080, 0x0, 1"
 
 -- Enable auto-rotation (requires iio-hyprland)
-hl.exec_cmd("iio-hyprland") -- laptop: monitor auto-rotation
+-- NOTE: Use custom fork that supports lua config
+hl.dsp.exec_cmd("iio-hyprland") -- laptop: monitor auto-rotation
 
 ------------
 --- MISC ---
 ------------
 
 -- Focus Primary monitor (startup)
-hl.exec_cmd("hyprctl dispatch focusmonitor " .. mMon)
+hl.dsp.exec_cmd("hyprctl dispatch focusmonitor " .. mMon)
 
 -- Screen sharing
 -- See https://wiki.hypr.land/Hypr-Ecosystem/xdg-desktop-portal-hyprland
