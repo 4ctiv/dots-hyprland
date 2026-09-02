@@ -116,8 +116,9 @@ hl.device({
     kb_options = "fkeys:basic_13-24",
 })
 hl.device({
-    name = "keychron-keychron-q11-keyboard",
+    name = "keychron-keychron-q11",
     kb_layout = "us",
+    kb_variant = "euro",
     kb_options = "fkeys:basic_13-24"
 })
 
@@ -125,7 +126,7 @@ hl.device({
 --- Keybinds ---
 ----------------
 -- Function keys
-hl.bind(mainMod .. " + F1", hl.dsp.exec_cmd("kitty " .. scriptsDir .. "/show-keybinds"))
+hl.bind(mainMod .. " + F1", hl.dsp.exec_cmd("kitty " .. scriptsDir .. "/show-keybinds")) --TODO: Update to work with lua
 hl.bind(mainMod .. " + F2", hl.dsp.exec_cmd(files))
 hl.bind(mainMod .. " + F3", hl.dsp.exec_cmd(editor))
 hl.bind(mainMod .. " + F4", hl.dsp.exec_cmd(browser))
@@ -185,7 +186,15 @@ hl.bind(mainMod .. " + SHIFT + A", hl.dsp.exec_cmd("killall easyeffects && easye
 hl.bind(mainMod .. " + SHIFT + C", hl.dsp.window.center())
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd(files))
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.close())
-hl.bind(mainMod .. " + SHIFT + W", hl.dsp.window.float({ action = "set" }))
+hl.bind(mainMod .. " + SHIFT + W", function()
+    local win = hl.get_active_window()
+    if not win then return end
+    hl.dispatch(hl.dsp.window.fullscreen({action = "unset", window = win}))
+    hl.dispatch(hl.dsp.window.float({ action = "on", window = win}))
+    hl.dispatch(hl.dsp.window.center({window = win}))
+    hl.dispatch(hl.dsp.window.resize({ x = 1280, y = 720, window = win}))
+    hl.dispatch(hl.dsp.window.move({ workspace = "special:special", nofocus = false, window = win }))
+  end)
 hl.bind(mainMod .. " + SHIFT + Y", hl.dsp.exec_cmd(term .. " --class clock -T clock -e tty-clock -c -C 7 -r -s -f \"%A, %B, %d\""))
 
 -- [SUPER] + [CTRL] + [?]
@@ -199,6 +208,17 @@ hl.bind(mainMod .. " + CTRL + P", hl.dsp.exec_cmd("pin"))
 hl.bind(mainMod .. " + CTRL + Q", hl.dsp.exec_cmd("killall wlogout; wlogout -l ~/.config/hypr/wlogout/layout -c ~/.config/hypr/wlogout/style.css"))
 hl.bind(mainMod .. " + CTRL + S", hl.dsp.exec_cmd("exec hyprctl dispatch movewindoworgroup r"))
 hl.bind(mainMod .. " + CTRL + V", hl.dsp.exec_cmd("cliphist list | wofi --dmenu | cliphist decode | wl-copy"))
+hl.bind(mainMod .. " + CTRL + W", function()
+    -- test via `hyprctl repl ' ... '`
+    local win = hl.get_active_window()
+    if not win then return end
+    -- https://wiki.hypr.land/configuring/core/dispatchers/#:~:text=inside%20a%20function
+    hl.dispatch(hl.dsp.window.fullscreen({action = "unset", window = win}))
+    hl.dispatch(hl.dsp.window.float({ action = "on", window = win}))
+    hl.dispatch(hl.dsp.window.resize({ x = 1280, y = 720, window = win}))
+    hl.dispatch(hl.dsp.window.center({window = win}))
+    hl.dispatch(hl.dsp.window.move({ workspace = "special:special", nofocus = true, window = win }))
+  end)
 hl.bind(mainMod .. " + CTRL + T", hl.dsp.exec_cmd(scriptsDir .. "/toggle_touch knob"))
 
 -- [SUPER] + [ALT] + [?]
@@ -249,7 +269,14 @@ hl.bind(mainMod .. " + ALT + right",   hl.dsp.focus({ workspace = "+1" }))
 hl.bind(mainMod .. " + CTRL + left",   hl.dsp.window.move({ direction = "l"            }))
 hl.bind(mainMod .. " + CTRL + down",   hl.dsp.window.move({ direction = "d"            }))
 hl.bind(mainMod .. " + CTRL + up",     hl.dsp.window.move({ direction = "u"            }))
-hl.bind(mainMod .. " + CTRL + right",  hl.dsp.window.move({ into_or_create_group = "r" }))
+hl.bind(mainMod .. " + CTRL + right",  function()
+                                         local win = hl.get_active_window()
+                                         if win and win.group then
+                                           hl.dispatch(hl.dsp.window.move({ out_of_group = "r" }))
+                                         else
+                                           hl.dispatch(hl.dsp.window.move({ direction = "r" }))
+                                         end
+                                       end)
 hl.bind(mainMod .. " + SHIFT + up",    hl.dsp.window.resize({ x =  00, y = -50, relative = true }), { repeating = true })
 hl.bind(mainMod .. " + SHIFT + down",  hl.dsp.window.resize({ x =  00, y =  50, relative = true }), { repeating = true })
 hl.bind(mainMod .. " + SHIFT + left",  hl.dsp.window.resize({ x = -50, y =  00, relative = true }), { repeating = true })
@@ -265,30 +292,30 @@ hl.bind(mainMod .. " + 6", hl.dsp.focus({ workspace = 6 }))
 hl.bind(mainMod .. " + 7", hl.dsp.focus({ workspace = 7 }))
 hl.bind(mainMod .. " + 8", hl.dsp.focus({ workspace = 8 }))
 hl.bind(mainMod .. " + 9", hl.dsp.focus({ workspace = 9 }))
-hl.bind(mainMod .. " + SHIFT + minus", hl.dsp.window.move({ workspace = "-1", follow = false}))
-hl.bind(mainMod .. " + SHIFT + 1",     hl.dsp.window.move({ workspace = 1   , follow = false}))
-hl.bind(mainMod .. " + SHIFT + 2",     hl.dsp.window.move({ workspace = 2   , follow = false}))
-hl.bind(mainMod .. " + SHIFT + 3",     hl.dsp.window.move({ workspace = 3   , follow = false}))
-hl.bind(mainMod .. " + SHIFT + 4",     hl.dsp.window.move({ workspace = 4   , follow = false}))
-hl.bind(mainMod .. " + SHIFT + 5",     hl.dsp.window.move({ workspace = 5   , follow = false}))
-hl.bind(mainMod .. " + SHIFT + 6",     hl.dsp.window.move({ workspace = 6   , follow = false}))
-hl.bind(mainMod .. " + SHIFT + 7",     hl.dsp.window.move({ workspace = 7   , follow = false}))
-hl.bind(mainMod .. " + SHIFT + 8",     hl.dsp.window.move({ workspace = 8   , follow = false}))
-hl.bind(mainMod .. " + SHIFT + 9",     hl.dsp.window.move({ workspace = 9   , follow = false}))
-hl.bind(mainMod .. " + SHIFT + plus",  hl.dsp.window.move({ workspace = "+1", follow = false}))
-hl.bind(mainMod .. " + SHIFT + equal", hl.dsp.window.move({ workspace = "+1", follow = false}))
-hl.bind(mainMod .. " + CTRL + minus",  hl.dsp.window.move({ workspace = "-1", follow = true }))
-hl.bind(mainMod .. " + CTRL + 1",      hl.dsp.window.move({ workspace = 1   , follow = true }))
-hl.bind(mainMod .. " + CTRL + 2",      hl.dsp.window.move({ workspace = 2   , follow = true }))
-hl.bind(mainMod .. " + CTRL + 3",      hl.dsp.window.move({ workspace = 3   , follow = true }))
-hl.bind(mainMod .. " + CTRL + 4",      hl.dsp.window.move({ workspace = 4   , follow = true }))
-hl.bind(mainMod .. " + CTRL + 5",      hl.dsp.window.move({ workspace = 5   , follow = true }))
-hl.bind(mainMod .. " + CTRL + 6",      hl.dsp.window.move({ workspace = 6   , follow = true }))
-hl.bind(mainMod .. " + CTRL + 7",      hl.dsp.window.move({ workspace = 7   , follow = true }))
-hl.bind(mainMod .. " + CTRL + 8",      hl.dsp.window.move({ workspace = 8   , follow = true }))
-hl.bind(mainMod .. " + CTRL + 9",      hl.dsp.window.move({ workspace = 9   , follow = true }))
-hl.bind(mainMod .. " + CTRL + plus",   hl.dsp.window.move({ workspace = "+1", follow = true }))
-hl.bind(mainMod .. " + CTRL + equal",  hl.dsp.window.move({ workspace = "+1", follow = true }))
+hl.bind(mainMod .. " + SHIFT + minus", hl.dsp.window.move({ workspace = "-1", follow = true }))
+hl.bind(mainMod .. " + SHIFT + 1",     hl.dsp.window.move({ workspace = 1   , follow = true }))
+hl.bind(mainMod .. " + SHIFT + 2",     hl.dsp.window.move({ workspace = 2   , follow = true }))
+hl.bind(mainMod .. " + SHIFT + 3",     hl.dsp.window.move({ workspace = 3   , follow = true }))
+hl.bind(mainMod .. " + SHIFT + 4",     hl.dsp.window.move({ workspace = 4   , follow = true }))
+hl.bind(mainMod .. " + SHIFT + 5",     hl.dsp.window.move({ workspace = 5   , follow = true }))
+hl.bind(mainMod .. " + SHIFT + 6",     hl.dsp.window.move({ workspace = 6   , follow = true }))
+hl.bind(mainMod .. " + SHIFT + 7",     hl.dsp.window.move({ workspace = 7   , follow = true }))
+hl.bind(mainMod .. " + SHIFT + 8",     hl.dsp.window.move({ workspace = 8   , follow = true }))
+hl.bind(mainMod .. " + SHIFT + 9",     hl.dsp.window.move({ workspace = 9   , follow = true }))
+hl.bind(mainMod .. " + SHIFT + plus",  hl.dsp.window.move({ workspace = "+1", follow = true }))
+hl.bind(mainMod .. " + SHIFT + equal", hl.dsp.window.move({ workspace = "+1", follow = true }))
+hl.bind(mainMod .. " + CTRL + minus",  hl.dsp.window.move({ workspace = "-1", follow = false}))
+hl.bind(mainMod .. " + CTRL + 1",      hl.dsp.window.move({ workspace = 1   , follow = false}))
+hl.bind(mainMod .. " + CTRL + 2",      hl.dsp.window.move({ workspace = 2   , follow = false}))
+hl.bind(mainMod .. " + CTRL + 3",      hl.dsp.window.move({ workspace = 3   , follow = false}))
+hl.bind(mainMod .. " + CTRL + 4",      hl.dsp.window.move({ workspace = 4   , follow = false}))
+hl.bind(mainMod .. " + CTRL + 5",      hl.dsp.window.move({ workspace = 5   , follow = false}))
+hl.bind(mainMod .. " + CTRL + 6",      hl.dsp.window.move({ workspace = 6   , follow = false}))
+hl.bind(mainMod .. " + CTRL + 7",      hl.dsp.window.move({ workspace = 7   , follow = false}))
+hl.bind(mainMod .. " + CTRL + 8",      hl.dsp.window.move({ workspace = 8   , follow = false}))
+hl.bind(mainMod .. " + CTRL + 9",      hl.dsp.window.move({ workspace = 9   , follow = false}))
+hl.bind(mainMod .. " + CTRL + plus",   hl.dsp.window.move({ workspace = "+1", follow = false}))
+hl.bind(mainMod .. " + CTRL + equal",  hl.dsp.window.move({ workspace = "+1", follow = false}))
 
 -- Media Keys
 hl.bind("xf86audiomute", hl.dsp.exec_cmd(sound_toggle))

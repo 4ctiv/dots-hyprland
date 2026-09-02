@@ -12,7 +12,7 @@
 }
 {
     "label" : "logout",
-    "action" : "openrgp -c 000000; hyprctl dispatch exit",
+    "action" : "openrgp -c 000000; hyprctl dispatch 'hl.dsp.exit()'",
     "text" : "Logout [e]",
     "keybind" : "e"
 }

@@ -3,12 +3,16 @@
 --
 -- Please note not all available settings / options are not set here.
 -- For more managable files this configuration is split into:
--- - hyprland.conf: This file, holds the main configuration
--- - hyprland-var.conf: Hyprland settings variables (for use in configs)
--- - hyprland-theme.conf: This file holds theme related configurations
--- - hyprland-keybinds.conf: This file holds all keybindings
--- - hyprland-autostart.conf: This file holds startup rules and autostart apps
--- Info @ https://wiki.hyprland.org/
+-- - hyprland.conf: Main config, contains window rules
+-- - hyprland-var.conf: Global Variables, contains `env` settings
+-- - hyprland-displays.lua: Monitor config and workspace definitions
+-- - hyprland-autostart.lua: Callbacks (via `hl.on`) e.g. startup apps & services
+-- - hyprland-theme.conf: Theme related config
+-- - hyprland-keybinds.conf: Keybindings, Devices, Language settings
+--
+-- TIP:
+-- You can run config code adhoc from terminal using `hyprctl repl '...'`
+-- This can be especiall usefull for debugging and adding commands.
 
 --   ##########################################################################
 --  ###    Variables, Definitions, etc.                                    ###
@@ -140,6 +144,9 @@ hl.workspace_rule({
 ---                       Hyprland basic configuration                       ---
 --------------------------------------------------------------------------------
 
+---------------------------------------
+---      Special Window Rules       ---
+---------------------------------------
 hl.window_rule({
     match = {
         class = "^(Emulator)$",
@@ -382,6 +389,13 @@ hl.window_rule({
     float = false,
 })
 
+-------------------
+---    Games    ---
+-------------------
+-- hl.window_rule.immediate -> always enable tearing
+hl.window_rule({
+  match = { class = "^steam_app_.*$" }, immediate = true
+})
 
 ---------------------------------------
 ---       Input Configuration       ---
@@ -400,6 +414,7 @@ hl.config({
     general = {
         layout = "dwindle", -- dwindle/master/scrolling/monocle
         no_focus_fallback = true,
+        allow_tearing = true,
     },
     -- Per Layout Configuration
     -- See https://wiki.hyprland.org/Configuring/LAYOUT-Layout
