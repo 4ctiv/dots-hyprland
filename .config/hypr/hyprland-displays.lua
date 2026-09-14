@@ -17,10 +17,11 @@ require("hyprland-var")
 
 hl.bind("switch:off:Lid Switch", hl.dsp.exec_cmd("hyprlock"), { locked = true })
 
+local uMon = "VNC"
 local lMon = "DP-3" -- $(hyprctl monitors -j | jq -r 'min_by(.x).name')
 local mMon = "DP-2"
 local rMon = "DP-4" -- $(hyprctl monitors -j | jq -r 'max_by(.x).name')
-local vMon = "VNC"
+local dMon = "VNC2"
 
 ----------------
 --- Monitors ---
@@ -36,6 +37,14 @@ hl.monitor({
     cm = "auto",
 })
 hl.monitor({
+    output = uMon,
+  --mode = "auto",
+    position = "auto-up",
+    scale = "1",
+    transform = 0,
+    vrr = 1,
+})
+hl.monitor({
     output = mMon,
     mode = "1920x1080@60",
     position = "0x0",
@@ -46,9 +55,9 @@ hl.monitor({
 })
 hl.exec_cmd("xrandr --output " .. mMon .. " --primary")
 hl.monitor({
-    output = vMon,
+    output = dMon,
     mode = "1280x720@30",
-    position = "auto-up",
+    position = "auto-down",
     scale = "1",
     transform = 0,
     vrr = 1,
@@ -91,7 +100,7 @@ hl.workspace_rule({
 
 -- Enable auto-rotation (requires iio-hyprland)
 -- NOTE: Use custom fork that supports lua config
-hl.exec_cmd("iio-hyprland") -- laptop: monitor auto-rotation
+-- hl.dsp.exec_cmd("iio-hyprland") -- laptop: monitor auto-rotation, set in autostart
 
 ------------
 --- MISC ---

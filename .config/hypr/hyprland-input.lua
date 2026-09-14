@@ -19,7 +19,7 @@ hl.config({
         -- Touch screen (tablet)
         workspace_swipe_touch = true,
         workspace_swipe_invert = false,
-        workspace_swipe_cancel_ratio = 0.5,
+        workspace_swipe_cancel_ratio = 0.33,
         -- Trackpad (laptop)
         workspace_swipe_invert = true,
         workspace_swipe_distance = 100,
@@ -342,3 +342,37 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize())
 
 hl.bind(mainMod .. " + period", hl.dsp.workspace.toggle_special(""))
 
+-- [Hyprgrass Touch Plugin](https://github.com/horriblename/hyprgrass/blob/main/docs/configuration.md)
+-- ```bash
+-- hyprpm add https://github.com/horriblename/hyprgrass
+-- hyprpm enable hyprgrass
+-- ```
+--
+--hl.config({
+--    plugin = {
+--        hyprgrass = {
+--            -- The default sensitivity is probably too low on tablet screens,
+--            -- I recommend turning it up to 4.0
+--            sensitivity = 1.0,
+
+--            -- in milliseconds
+--            long_press_delay = 400,
+
+--            -- resize windows by long-pressing on window borders and gaps.
+--            -- If general:resize_on_border is enabled,
+--            -- general:extend_border_grab_area is used for floating windows
+--            resize_on_border_long_press = true,
+
+--            -- in pixels, the distance from the edge that is considered an edge
+--            edge_margin = 10,
+--        }
+--    }
+--})
+--hl.plugin.hyprgrass.gesture {
+--    pattern = {kind = "swipe", fingers = 3, direction = "up"},
+--    action = hl.dsp.exec_cmd("pidof wvkbd-deskintl && pkill wvkbd-deskintl || wvkbd-deskintl -L 300"),
+--}
+--hl.plugin.hyprgrass.gesture {
+--    pattern = {kind = "swipe", fingers = 3, direction = "down"},
+--    action = hl.dsp.exec_cmd(fullmenu),
+--}

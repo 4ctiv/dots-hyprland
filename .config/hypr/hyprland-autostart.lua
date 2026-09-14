@@ -32,5 +32,8 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("cinny", { workspace = "name:chat silent" })
     hl.exec_cmd(scriptsDir .. "/autostart_desktop.sh")
     hl.exec_cmd(scriptsDir .. "/auto-upgrade")
+    -- Laptop & Toch device
+    --hl.exec_cmd(scriptsDir .. "/gamemode")
+    hl.exec_cmd("iio-hyprland") -- laptop: monitor auto-rotation
 end)
 

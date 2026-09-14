@@ -241,7 +241,7 @@
   "custom/keyboard": {
     "format":" ⌨ ",
     "tooltip": false,
-    "on-click": "pidof wvkbd-mobintl && pkill wvkbd-mobintl || wvkbd-mobintl -L 300"
+    "on-click": "pidof wvkbd-deskintl && pkill wvkbd-deskintl || wvkbd-deskintl -L 300"
   },
 
   "custom/pen": {
