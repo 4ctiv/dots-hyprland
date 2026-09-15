@@ -18,24 +18,34 @@
  execute 'packadd linuxsty'
  execute 'packadd YouCompleteMe'
 
-" ALE Settings
+" YCM Completion-menu
+set completeopt=menuone
+
+" =====================================
+" ALE Settings -> `:ALEInfo`
  let g:ale_hover_to_preview = 1
  set updatetime=1500 " in ms
 
-"YCM Completion-menu
-set completeopt=menuone
+" ALE Specify formatters
+ let g:ale_fixers = {
+ \   'c': ['clang-format','clangtidy'],
+ \}
 
-" Specify linters -> `:ALEInfo`
-let g:ale_linters = {
-\   'c':  ['clangd'],
-\}
+" ALE Specify linters -> `:ALEInfo`
+ let g:ale_linters = {
+ \   'c':  ['clangd'],
+ \   'cpp' : ['gcc', 'clang'],
+ \   'yaml': ['yamllint'],
+ \   'python': ['ruff'],
+ \}
+" ALE linter args
+ let g:ale_yaml_yamllint_options = '-d "{extends: default, rules: {line-length: {level: warning}}}"'
+ let g:ale_python_ruff_type_map = {'E501': 'W'}
+ let cpp_opts = '-std=c++20 -Wall -Wextra'
+ let g:ale_cpp_clang_options = cpp_opts
+ let g:ale_cpp_gcc_options = cpp_opts
 
-" Specify formatters
-let g:ale_fixers = {
-\   'c': ['clang-format','clangtidy'],
-\}
-
-" Enable auto-formatting on save
+" ALE auto-format on save
  let g:ale_fix_on_save = 1
  let g:ale_completion_enabled = 1
  let g:ale_warn_about_trailing_whitespace = 1
