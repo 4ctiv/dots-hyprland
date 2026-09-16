@@ -24,7 +24,7 @@ set completeopt=menuone
 " =====================================
 " ALE Settings -> `:ALEInfo`
  let g:ale_hover_to_preview = 1
- set updatetime=1500 " in ms
+ set updatetime=3000 " in ms
 
 " ALE Specify formatters
  let g:ale_fixers = {
@@ -66,18 +66,14 @@ set completeopt=menuone
 
 " Default Shell
 " This is relevant for e.g. :! or :shell
-if executable('fish')
+ if executable('/bin/fish')
  set shell=/bin/fish
 else
- let &shell = exepath('fish')
+   set shell=/bin/bash
 endif
 
 " Show status bar
  set laststatus=2
-
-" Show code ruler
- set colorcolumn=81
- highlight ColorColumn ctermbg=232
 
 " Splits
  set splitbelow " open on bottom
@@ -135,6 +131,7 @@ endif
    filetype plugin indent on
  endif
 
+
 "==============================================================================
 " THEME
 
@@ -165,11 +162,14 @@ endif
  set number
  set relativenumber " relavive line Nr.
 
+" Line width ruler(-s)
+ set colorcolumn=81,101,121
+ highlight ColorColumn ctermbg=232
+
 " Syntax Highlighting
  syntax enable
 
 " Highlight special characters
-" Test (3 spaces,1 tab, 1 space):   	 
 set listchars=tab:⋅⋅,trail:␣,extends:>,precedes:<
 "set listchars+=space:␣,eol:$
  set list
@@ -240,6 +240,7 @@ endfunction
    execute 'autocmd BufWinLeave <buffer> if bufexists(' . l:term . ') | bd! ' . l:term . ' | endif'
  endfunction
 
+
 "==============================================================================
 " WARNINGS
 
@@ -273,7 +274,6 @@ endfunction
 
 "======================================
 " Special behaviour
-
 "NOTE: MAC maynot work with <A-...>, use [ALT] + [KEY] resulting letter instead
 
 "Remap vim autocomplete ([CTRL]+[N] -> [CTRL]+[Shift]+[SPACE])
@@ -284,6 +284,9 @@ endfunction
 "NOTE: 'nmap qq' slows down macro recording save q<Letter> -> macro -> q
  nmap qq a
  imap <nowait> qq <Esc>
+
+"======================================
+" Special behaviour
 
 "Copy selection to clipboard (wayland)
 "-> https://stackoverflow.com/questions/61379318
@@ -324,6 +327,7 @@ endfunction
  nnoremap   <F10> :ALEFindReferences -split      <CR>
  nnoremap <S-F10> :ALEFindReferences             <CR>
  nnoremap   <F11> :call <SID>SearchGitRepo('rg') <CR>
+ nnoremap <S-F11> <C-O>
  nnoremap   <F12> :call <SID>SearchGitRepo('fzf')<CR>
 
 "======================================
@@ -337,9 +341,10 @@ endfunction
  noremap <M-S-y> :set syntax=yaml <CR>           " Set syntax to yaml
  noremap <M-S-m> :set syntax=markdown <CR>       " Set syntax to markdown
  noremap <M-S-p> :set syntax=ps1 <CR>            " Set syntax to powershell
- noremap <M-S-x> :set syntax=xml <CR>            " Set syntax to xml
+ noremap <M-S-x> :set syntax=xml <CR>            " Set syntax to xml (~html)
 
  nnoremap <silent> <M-S-l> :LinuxCodingStyle<CR> " Emable Linux Coding Style plugin
 
 "===============================================================================
 " Other
+

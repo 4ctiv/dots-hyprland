@@ -42,7 +42,11 @@ fi
 # Only update if >= X packages are out of date (idea: stabe system intervalls)
 if [[ $out_of_date_packs -ge $OUTDATED_ALLOWED ]] || [[ $FORCE_UPDATE > 0 ]]; then
   kitty --name "Auto_Update" --title "Auto_Update" sh -c \
-   "echo 'Requesting System upgrade ($out_of_date_packs packages)'; ${PKG_MGR:-pacman} -Syu --noconfirm; read -n 1 -s -p 'Press [ANY] key to continue ...' dummy; exit 0" \
+   "echo 'Requesting System upgrade ($out_of_date_packs packages)'; \
+   pacman -Syu --noconfirm; \
+   ${PKG_MGR:-pacman} -Syu; \
+   read -n 1 -s -p 'Press [ANY] key to continue ...' dummy;
+   exit 0" \
    > /dev/null
   [ $(checkupdates | wc -l) -eq 0 ] && echo "Auto Update Success" || (echo "Auto Update Failed")
 else
