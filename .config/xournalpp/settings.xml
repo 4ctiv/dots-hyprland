@@ -18,13 +18,14 @@
   <property name="mainWndHeight" value="720"/>
   <property name="maximized" value="true"/>
   <property name="showToolbar" value="true"/>
-  <property name="showSidebar" value="true"/>
+  <property name="showSidebar" value="false"/>
   <property name="sidebarWidth" value="144"/>
   <property name="sidebarNumberingStyle" value="3"/>
   <property name="sidebarOnRight" value="false"/>
   <property name="scrollbarOnLeft" value="true"/>
   <property name="menubarVisible" value="true"/>
   <property name="filepathShownInTitlebar" value="true"/>
+  <property name="pageNumberShownInTitlebar" value="false"/>
   <property name="numColumns" value="1"/>
   <property name="numRows" value="1"/>
   <property name="viewFixedRows" value="false"/>
@@ -37,9 +38,9 @@
   <property name="emptyLastPageAppend" value="onScrollOfLastPage"/>
   <property name="presentationMode" value="false"/>
   <!--Which GUI elements are shown in default view mode, separated by a colon (,)-->
-  <property name="defaultViewModeAttributes" value="showMenubar,showToolbar,showSidebar"/>
+  <property name="defaultViewModeAttributes" value="showMenubar,showToolbar"/>
   <!--Which GUI elements are shown in fullscreen view mode, separated by a colon (,)-->
-  <property name="fullscreenViewModeAttributes" value="goFullscren,showToolbar,showSidebar"/>
+  <property name="fullscreenViewModeAttributes" value="goFullscren,showToolbar"/>
   <!--Which GUI elements are shown in presentation view mode, separated by a colon (,)-->
   <property name="presentationViewModeAttributes" value="showToolbar,showSidebar"/>
   <!--The cursor icon used with a stylus, allowed values are "none", "dot", "big", "arrow"-->
@@ -67,23 +68,31 @@
   <property name="autosaveEnabled" value="true"/>
   <property name="autosaveTimeout" value="3"/>
   <property name="addHorizontalSpace" value="false"/>
-  <property name="addHorizontalSpaceAmount" value="150"/>
-  <property name="addVerticalSpace" value="false"/>
-  <property name="addVerticalSpaceAmount" value="400"/>
+  <property name="addHorizontalSpaceAmountRight" value="200"/>
+  <property name="addHorizontalSpaceAmountLeft" value="200"/>
+  <property name="addVerticalSpace" value="true"/>
+  <property name="addVerticalSpaceAmountAbove" value="150"/>
+  <property name="addVerticalSpaceAmountBelow" value="150"/>
+  <property name="unlimitedScrolling" value="false"/>
   <property name="drawDirModsEnabled" value="false"/>
   <property name="drawDirModsRadius" value="50"/>
   <property name="snapRotation" value="true"/>
   <property name="snapRotationTolerance" value="0.2"/>
-  <property name="snapGrid" value="false"/>
+  <property name="snapGrid" value="true"/>
   <property name="snapGridTolerance" value="0.25"/>
   <property name="snapGridSize" value="14.17"/>
   <property name="strokeRecognizerMinSize" value="40"/>
   <property name="touchDrawing" value="false"/>
-  <property name="gtkTouchInertialScrolling" value="true"/>
+  <property name="gtkTouchInertialScrolling" value="false"/>
   <property name="pressureGuessing" value="false"/>
+  <property name="recolor.enabled" value="false"/>
+  <property name="recolor.sidebar" value="false"/>
+  <property name="recolor.dark" value="4281349190"/>
+  <property name="recolor.light" value="4291219701"/>
   <property name="selectionBorderColor" value="4294336849"/>
   <property name="backgroundColor" value="4279900698"/>
   <property name="selectionMarkerColor" value="4285702095"/>
+  <property name="activeSelectionColor" value="4286381056"/>
   <property name="touchZoomStartThreshold" value="0"/>
   <property name="pageRerenderThreshold" value="5"/>
   <!--The count of rendered PDF pages which will be cached.-->
@@ -98,7 +107,7 @@
   <property name="audioInputDevice" value="-1"/>
   <property name="audioOutputDevice" value="-1"/>
   <property name="audioSampleRate" value="44100"/>
-  <property name="audioGain" value="1"/>
+  <property name="audioGain" value="2"/>
   <property name="defaultSeekTime" value="5"/>
   <property name="pluginEnabled" value=""/>
   <property name="pluginDisabled" value=""/>
@@ -114,6 +123,9 @@
   <property name="inputSystemTPCButton" value="false"/>
   <property name="inputSystemDrawOutsideWindow" value="false"/>
   <property name="preferredLocale" value=""/>
+  <property name="useSpacesForTab" value="false"/>
+  <property name="numberOfSpacesForTab" value="4"/>
+  <property name="laserPointerFadeOutTime" value="500"/>
   <property name="stabilizerAveragingMethod" value="2"/>
   <property name="stabilizerPreprocessor" value="0"/>
   <property name="stabilizerBuffersize" value="20"/>
@@ -123,29 +135,38 @@
   <property name="stabilizerMass" value="5"/>
   <property name="stabilizerCuspDetection" value="true"/>
   <property name="stabilizerFinalizeStroke" value="true"/>
+  <property name="colorPalette" value="/usr/share/xournalpp/palettes/xournal.gpl"/>
   <property name="latexSettings.autoCheckDependencies" value="true"/>
   <property name="latexSettings.defaultText" value="x^2"/>
   <property name="latexSettings.globalTemplatePath" value="/usr/share/xournalpp/resources/default_template.tex"/>
   <property name="latexSettings.genCmd" value="pdflatex -halt-on-error -interaction=nonstopmode '{}'"/>
-  <property name="latexSettings.sourceViewThemeId" value=""/>
+  <property name="latexSettings.sourceViewThemeId" value="classic"/>
   <property name="latexSettings.editorFont" value="Monospace 12"/>
   <property name="latexSettings.useCustomEditorFont" value="false"/>
   <property name="latexSettings.editorWordWrap" value="true"/>
   <property name="latexSettings.sourceViewAutoIndent" value="true"/>
   <property name="latexSettings.sourceViewSyntaxHighlight" value="true"/>
   <property name="latexSettings.sourceViewShowLineNumbers" value="false"/>
+  <property name="latexSettings.useExternalEditor" value="false"/>
+  <property name="latexSettings.externalEditorAutoConfirm" value="false"/>
+  <property name="latexSettings.externalEditorCmd" value=""/>
+  <property name="latexSettings.temporaryFileExt" value="tex"/>
   <property name="font" font="Sans" size="12"/>
   <data name="buttonConfig">
     <data name="default">
       <attribute name="color" type="hex" value="ff000000"/>
       <attribute name="drawingType" type="string" value="strokeRecognizer"/>
       <attribute name="size" type="string" value="thick"/>
+      <attribute name="strokeType" type="string" value="none"/>
       <attribute name="tool" type="string" value="pen"/>
     </data>
     <data name="eraser">
       <attribute name="eraserMode" type="string" value="none"/>
       <attribute name="size" type="string" value="none"/>
       <attribute name="tool" type="string" value="eraser"/>
+    </data>
+    <data name="left">
+      <attribute name="tool" type="string" value="none"/>
     </data>
     <data name="middle">
       <attribute name="tool" type="string" value="selectRegion"/>
@@ -166,6 +187,10 @@
     </data>
   </data>
   <data name="deviceClasses">
+    <data name="">
+      <attribute name="deviceClass" type="int" value="0"/>
+      <attribute name="deviceSource" type="int" value="0"/>
+    </data>
     <data name="MSFT0001:00 06CB:7F27 Mouse">
       <attribute name="deviceClass" type="int" value="1"/>
       <attribute name="deviceSource" type="int" value="0"/>
@@ -253,92 +278,64 @@
   </data>
   <data name="tools">
     <attribute name="current" type="string" value="pen"/>
-    <data name="drawArrow">
-      <attribute name="drawingType" type="string" value="default"/>
-    </data>
-    <data name="drawCoordinateSystem">
-      <attribute name="drawingType" type="string" value="default"/>
-    </data>
-    <data name="drawDoubleArrow">
-      <attribute name="drawingType" type="string" value="default"/>
-    </data>
-    <data name="drawEllipse">
-      <attribute name="drawingType" type="string" value="default"/>
-    </data>
-    <data name="drawRect">
-      <attribute name="drawingType" type="string" value="default"/>
-    </data>
-    <data name="drawSpline">
-      <attribute name="drawingType" type="string" value="default"/>
-    </data>
+    <data name="drawArrow"/>
+    <data name="drawCoordinateSystem"/>
+    <data name="drawDoubleArrow"/>
+    <data name="drawEllipse"/>
+    <data name="drawRect"/>
+    <data name="drawSpline"/>
     <data name="eraser">
-      <attribute name="drawingType" type="string" value="default"/>
-      <attribute name="size" type="string" value="THIN"/>
+      <attribute name="size" type="string" value="VERY_FINE"/>
       <attribute name="type" type="string" value="deleteStroke"/>
     </data>
-    <data name="hand">
-      <attribute name="drawingType" type="string" value="default"/>
-    </data>
+    <data name="hand"/>
     <data name="highlighter">
-      <attribute name="color" type="hex" value="ffffff"/>
+      <attribute name="color" type="hex" value="ff8000"/>
       <attribute name="drawingType" type="string" value="rectangle"/>
       <attribute name="fill" type="int" value="1"/>
       <attribute name="fillAlpha" type="int" value="128"/>
       <attribute name="size" type="string" value="MEDIUM"/>
     </data>
-    <data name="image">
-      <attribute name="drawingType" type="string" value="default"/>
+    <data name="image"/>
+    <data name="laserPointerHighlighter">
+      <attribute name="color" type="hex" value="ffff0000"/>
+      <attribute name="size" type="string" value="MEDIUM"/>
+    </data>
+    <data name="laserPointerPen">
+      <attribute name="color" type="hex" value="ffff0000"/>
+      <attribute name="size" type="string" value="MEDIUM"/>
     </data>
     <data name="pen">
-      <attribute name="color" type="hex" value="ffffffff"/>
+      <attribute name="color" type="hex" value="ff808080"/>
       <attribute name="drawingType" type="string" value="strokeRecognizer"/>
       <attribute name="fill" type="int" value="0"/>
       <attribute name="fillAlpha" type="int" value="128"/>
       <attribute name="size" type="string" value="MEDIUM"/>
       <attribute name="style" type="string" value="plain"/>
     </data>
-    <data name="playObject">
-      <attribute name="drawingType" type="string" value="default"/>
-    </data>
-    <data name="selectMultiLayerRect">
-      <attribute name="drawingType" type="string" value="default"/>
-    </data>
-    <data name="selectMultiLayerRegion">
-      <attribute name="drawingType" type="string" value="default"/>
-    </data>
-    <data name="selectObject">
-      <attribute name="drawingType" type="string" value="default"/>
-    </data>
+    <data name="playObject"/>
+    <data name="selectMultiLayerRect"/>
+    <data name="selectMultiLayerRegion"/>
+    <data name="selectObject"/>
     <data name="selectPdfTextLinear">
       <attribute name="color" type="hex" value="ff000000"/>
-      <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="selectPdfTextRect">
       <attribute name="color" type="hex" value="ff000000"/>
-      <attribute name="drawingType" type="string" value="default"/>
     </data>
-    <data name="selectRect">
-      <attribute name="drawingType" type="string" value="default"/>
-    </data>
-    <data name="selectRegion">
-      <attribute name="drawingType" type="string" value="default"/>
-    </data>
-    <data name="showFloatingToolbox">
-      <attribute name="drawingType" type="string" value="default"/>
-    </data>
+    <data name="selectRect"/>
+    <data name="selectRegion"/>
+    <data name="showFloatingToolbox"/>
     <data name="text">
-      <attribute name="color" type="hex" value="ff000000"/>
-      <attribute name="drawingType" type="string" value="default"/>
+      <attribute name="color" type="hex" value="3333cc"/>
     </data>
-    <data name="verticalSpace">
-      <attribute name="drawingType" type="string" value="default"/>
-    </data>
+    <data name="verticalSpace"/>
   </data>
   <data name="touch">
     <attribute name="cmdDisable" type="string" value=""/>
     <attribute name="cmdEnable" type="string" value=""/>
     <attribute name="disableTouch" type="boolean" value="true"/>
     <attribute name="method" type="string" value="auto"/>
-    <attribute name="timeout" type="int" value="1000"/>
+    <attribute name="timeout" type="int" value="1300"/>
   </data>
 </settings>
