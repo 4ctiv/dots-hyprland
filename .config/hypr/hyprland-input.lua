@@ -73,12 +73,12 @@ hl.config({
       -- Touchscreen
       touchdevice = {
           enabled = true,
-          output = "auto",                -- name of display to bind to
+          output = "eDP-1", -- "auto"     -- name of display to bind to
       },
       -- Active Pen (Wacom)
       tablet = {
-          relative_input = false,         -- relative to ?
           output = "eDP-1",
+          relative_input = false,         -- relative to ?
           absolute_region_position = true,-- top left of tablet is (0,0)
       },
       tablettool = {
@@ -164,10 +164,24 @@ hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen", actio
 hl.bind(mainMod .. " + G", hl.dsp.workspace.toggle_special("draw"))
 hl.bind(mainMod .. " + H", hl.dsp.exec_cmd(notify_hist))
 hl.bind(mainMod .. " + S", hl.dsp.group.toggle())
-hl.bind(mainMod .. " + I", hl.dsp.exec_cmd('notify-send -e -t 2500 -c "hyprland" "Window" "$(hyprctl activewindow -j | jq -r \'"\\(.title[0:12])\\(if (.title | length) > 12 then "..." else "   " end) [\\(.class)]\\n  PID: \\(.pid)\\n  WS: \\(.workspace.name)[\\(.workspace.id)]"\')"'))
+hl.bind(mainMod .. " + I", function()
+                             local win = hl.get_active_window()
+                             local ws  = hl.get_active_workspace()
+                             hl.dispatch(hl.dsp.exec_cmd(
+                               string.format(
+                                 'notify-send -e -t 2500 -c "hyprland" "Window" "%s [%s]\n  PID:  %s\n WS: %s [%s]"',
+                                 string.sub(win.title,1,12), win.class, win.pid, ws.name, ws.id
+                           ))) end )
 hl.bind(mainMod .. " + K", hl.dsp.exec_cmd(keylogger))
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd(scriptsDir .. "/ollama"))
-hl.bind(mainMod .. " + M", hl.dsp.exec_cmd('notify-send -e -t 2500 -c "hyprland" "Montor" "$(hyprctl monitors -j | jq -r \'.[0] | "\\(.name) [\\(.id)]\\n  WS:  \\(.activeWorkspace.name) [\\(.activeWorkspace.id)]\\n  RES: \\(.width)x\\(.height)@\\(.refreshRate | tostring | split(".")[0])"\')"'))
+hl.bind(mainMod .. " + M", function()
+                             local mon = hl.get_active_monitor()
+                             local ws  = hl.get_active_workspace()
+                             hl.dispatch(hl.dsp.exec_cmd(
+                               string.format(
+                                 'notify-send -e -t 2500 -c "hyprland" "Monitor" "%s [%s]\n  WS:  %s [%s]\n  RES: %sx%s@%s"',
+                                 mon.name, mon.id, ws.name, ws.id, mon.width, mon.height, mon.refreshRate
+                           ))) end )
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(files))
 hl.bind(mainMod .. " + O", hl.dsp.exec_cmd("obsidian || (kitty sh -c 'yay -S obsidian' && obsidian)"))
 hl.bind(mainMod .. " + P", hl.dsp.window.pin())
