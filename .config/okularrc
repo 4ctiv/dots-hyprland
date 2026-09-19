@@ -1,11 +1,14 @@
-MenuBar=Disabled
-
 [Desktop Entry]
 FullScreen=false
+shouldShowMenuBarComingFromFullScreen=false
+shouldShowToolBarComingFromFullScreen=true
 
 [General]
-LockSidebar=true
+LockSidebar=false
 ShowSidebar=false
+
+[MainWindow]
+ToolBarsMovable=Enabled
 
 [MainWindow][Toolbar mainToolBar]
 IconSize=16
@@ -14,3 +17,6 @@ IconSize=16
 
 [Toolbar mainToolBar]
 IconSize=16
+
+[UiSettings]
+ColorScheme=CosmicDark

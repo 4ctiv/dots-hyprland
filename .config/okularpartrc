@@ -1,5 +1,25 @@
+[Dlg Accessibility]
+RecolorBackground=27,27,41
+RecolorForeground=229,229,229
+
+[Dlg Presentation]
+SlidesShowSummary=true
+
+[Document]
+ChangeColors=true
+PaperColor=167,167,167
+RenderMode=Recolor
+
 [Main View]
 ShowLeftPanel=false
 
+[PageView]
+BackgroundColor=27,27,41
+UseCustomBackgroundColor=true
+
 [Reviews]
-QuickAnnotationTools=<tool id="1" name="Important" type="highlight"><engine color="#ffff557f" type="TextSelector"><annotation color="#ffff557f" opacity="0.5" type="Highlight"/></engine><shortcut>1</shortcut></tool>,<tool id="2" name="Topic/Keywords" type="highlight"><engine color="#ff00aaff" type="TextSelector"><annotation color="#ff00aaff" opacity="0.5" type="Highlight"/></engine><shortcut>2</shortcut></tool>,<tool id="3" name="Additional Info" type="highlight"><engine color="#ff55557f" type="TextSelector"><annotation color="#ff55557f" opacity="0.5" type="Highlight"/></engine><shortcut>3</shortcut></tool>,<tool id="4" name="Usage/Application" type="highlight"><engine color="#ffffff00" type="TextSelector"><annotation color="#ffffff00" opacity="0.5" type="Highlight"/></engine><shortcut>4</shortcut></tool>,<tool id="5" type="underline"><engine color="#ff00557f" type="TextSelector"><annotation color="#ff00557f" opacity="0.8" type="Underline"/></engine><shortcut>5</shortcut></tool>,<tool id="6" type="note-linked"><engine color="#ff00557f" hoverIcon="tool-note" type="PickPoint"><annotation color="#ff00557f" icon="Note" type="Text"/></engine><shortcut>6</shortcut></tool>
+QuickAnnotationDefaultAction=4
+QuickAnnotationTools=<tool id="1" name="Keyword" type="highlight"><engine color="#ff0073ad" type="TextSelector"><annotation color="#ff0073ad" opacity="0.5" type="Highlight"/></engine><shortcut>1</shortcut></tool>,<tool id="2" name="Context" type="highlight"><engine color="#ffa16ba1" type="TextSelector"><annotation color="#ffa16ba1" opacity="0.5" type="Highlight"/></engine><shortcut>2</shortcut></tool>,<tool id="3" name="Attention" type="highlight"><engine color="#ffb63d5b" type="TextSelector"><annotation color="#ffb63d5b" opacity="0.5" type="Highlight"/></engine><shortcut>3</shortcut></tool>,<tool id="4" type="underline"><engine color="#ff55557f" type="TextSelector"><annotation color="#ff55557f" type="Underline"/></engine><shortcut>4</shortcut></tool>,<tool id="5" name="Pen" type="ink"><engine color="#ffbd0000" type="SmoothLine"><annotation color="#ffbd0000" opacity="0.8" type="Ink" width="1.5"/></engine><shortcut>5</shortcut></tool>,<tool id="6" name="Note" type="note-inline"><engine block="true" color="#ff007ebd" hoverIcon="tool-note-inline" type="PickPoint"><annotation color="#ff007ebd" type="FreeText" width="1"/></engine><shortcut>6</shortcut></tool>,<tool id="7" name="Pop-up" type="note-linked"><engine color="#ff006394" hoverIcon="tool-note" type="PickPoint"><annotation color="#ff006394" icon="Note" type="Text"/></engine><shortcut>7</shortcut></tool>
+
+[Zoom]
+ZoomMode=2
