@@ -1,0 +1,67 @@
+theme = 'ayu_evolve_transparent'
+      # "modus_operandi_tinted" -> light mode
+
+[editor]
+line-number = 'relative'
+cursorline = true
+rulers = [80,100,120]
+trim-trailing-whitespace = true
+trim-final-newlines = true
+
+[editor.auto-save]
+after-delay.timeout = 3000
+after-delay.enable = true
+
+[editor.whitespace.render]
+space = "none"
+tab = "all"
+nbsp = "none"
+nnbsp = "none"
+newline = "none"
+[editor.whitespace.characters]
+space = "·"
+nbsp = "⍽"
+nnbsp = "␣"
+tab = "⤇"
+newline = "⏎"
+tabpad = "·"
+[editor.indent-guides]
+render = true
+character = "┆"
+
+[editor.gutters]
+layout = ["diff", "diagnostics", "line-numbers", "spacer"]
+
+[editor.soft-wrap]
+enable = false
+max-wrap = 25
+max-indent-retain = 0
+wrap-indicator = "▷"
+wrap-at-text-width = true
+
+[editor.inline-diagnostics]
+cursor-line = "warning"
+prefix-len = 1
+
+[editor.statusline]
+
+[editor.lsp]
+enable = true
+display-messages = true
+display-inlay-hints = true
+
+[keys.normal]
+F9 = "goto_definition"
+F10 = "goto_reference"
+F11 = "global_search"
+F12 = "file_picker"
+
+d = { d = ["extend_to_line_bounds", "yank_to_clipboard", "delete_selection"] } # vim dd
+
+C-s = ":write"
+
+[keys.select]
+F11 = ["search_selection", "global_search"] # press enter to search selection
+
+[keys.insert]
+q = { q = "normal_mode" }
