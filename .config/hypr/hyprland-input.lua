@@ -72,7 +72,7 @@ hl.config({
       },
       -- Touchscreen
       touchdevice = {
-          enabled = true,
+          enabled = TOUCH_ENABLED,
           output = "eDP-1", -- "auto"     -- name of display to bind to
       },
       -- Active Pen (Wacom)

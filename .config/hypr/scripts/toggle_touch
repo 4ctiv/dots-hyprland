@@ -28,12 +28,12 @@ TOUCH_PEN="$(   hyprctl devices -j | jq -r '.[].[].name'   | grep 'stylus'      
 
 enable_touch() {
     hyprctl notify 1 5000 "rgb(ff1ea3)" "${2:-Device} enabled"
-    hyprctl -r -- keyword "device[${1:?No device}]:enabled" true
+    hyprctl -r eval "hl.device({ name = \"${1:?No device}\", enabled = true })"
 }
 
 disable_touch() {
     hyprctl notify 1 5000 "rgb(ff1ea3)" "${2:-Device} disabled"
-    hyprctl -r -- keyword "device[${1:?No device}]:enabled" false
+    hyprctl -r eval "hl.device({ name = \"${1:?No device}\", enabled = false })"
 }
 
 device="TOUCH_SCREEN"
