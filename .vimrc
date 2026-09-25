@@ -12,17 +12,16 @@
 " CORE SETTINGS
 
 " Enable plugins
-" filetype plugin on
- execute 'packadd ale'
-"execute 'packadd fugitive'
- execute 'packadd linuxsty'
- execute 'packadd YouCompleteMe'
+"filetype plugin on
+"execute 'packadd linuxsty' " linuix kernel formatting
 
 " YCM Completion-menu
 set completeopt=menuone
 
 " =====================================
-" ALE Settings -> `:ALEInfo`
+" Plugin Settings
+
+" ALE preview
  let g:ale_hover_to_preview = 1
  set updatetime=3000 " in ms
 
@@ -31,6 +30,8 @@ set completeopt=menuone
  \   'c': ['clang-format','clangtidy'],
  \   'cpp': ['clang-format','clangtidy'],
  \}
+" ALE formatter args
+let g:ale_cpp_clangformat_options = '-style="{BasedOnStyle: llvm, ColumnLimit: 80, TabWidth: 4}"'
 
 " ALE Specify linters -> `:ALEInfo`
  let g:ale_linters = {
@@ -49,19 +50,18 @@ set completeopt=menuone
  let g:ale_completion_enabled = 1
  let g:ale_warn_about_trailing_whitespace = 1
 
+" FZF
+ let g:fzf_preview_window = ['right:60%', 'ctrl-/']
+ let g:fzf_layout = {
+  \ 'window': {
+    \ 'width': 0.95,
+    \ 'height': 0.85
+  \ }
+  \}
+
 " Vim not reporing as "vi"
 " [Reference](https://www.youtube.com/watch?v=XA2WjJbmmoM)
  set nocompatible
-
-" Vim grep recursive on codebase
-" `:copen` ~ navigation menu for matches
-"   - `:cc nr` ~ jump to specific find
- set grepprg=rg\ --line-number\ --column
- set grepformat=%f:%l:%c:%m
- command! -nargs=+ Rg
-      \ tabnew |
-      \ execute 'silent grep ' . <q-args> |
-      \ copen
 
 " Default Shell
 " This is relevant for e.g. :! or :shell
@@ -89,28 +89,6 @@ endif
  set ignorecase
  set smartcase            " Upper cases enforced in search
 
- function! s:SearchGitRepo(s_type)
-   " goto git root
-   let l:root = system('git rev-parse --show-toplevel 2>/dev/null')->trim()
-   if empty(l:root)
-     let l:root = getcwd()
-   endif
-
-   execute 'lcd' fnameescape(l:root)
-
-   " str compare: https://vimhelp.org/eval.txt.html#expr-%3C
-   if trim(a:s_type) is? "rg" || empty(a:s_type)
-     let search = input('Search string: ')
-     if search == ''
-       echo "\nERROR: Empty search string"
-       return
-     endif
-     execute 'Rg ' . shellescape(search)
-   elseif trim(a:s_type) is? "fzf"
-     execute 'FZF ' . system('git rev-parse --show-toplevel 2>/dev/null')[:-2]
-   endif
- endfunction
-
 " Auto Indentation
 "" Folding  https://www.vimfromscratch.com/articles/vim-folding
  setlocal foldmethod=indent "syntax marker indent
@@ -129,7 +107,6 @@ endif
    " Load vim config based on filetype (`~/.vim/ftplugin/*.vim`)
    filetype plugin indent on
  endif
-
 
 "==============================================================================
 " THEME
@@ -198,6 +175,30 @@ endfunction
 "==============================================================================
 " HELPER FUNCTIONS
 
+ function! s:SearchGitRepo(s_type)
+   " goto git root
+   let l:root = system('git rev-parse --show-toplevel 2>/dev/null')->trim()
+   if empty(l:root)
+     let l:root = getcwd()
+   endif
+
+   execute 'lcd' fnameescape(l:root)
+
+   " str compare: https://vimhelp.org/eval.txt.html#expr-%3C
+   if trim(a:s_type) is? "rg" || empty(a:s_type)
+    "let search = input('Search string: ')
+    "if search == ''
+    "  echo "\nERROR: Empty search string"
+    "  return
+    "endif
+    "execute 'Rg ' . shellescape(search)
+     execute 'RG '
+   elseif trim(a:s_type) is? "fzf"
+     " execute 'FZF ' . system('git rev-parse --show-toplevel 2>/dev/null')[:-2]
+     execute 'Files '
+   endif
+ endfunction
+
  " Toggle CursorHold Commands
  " e.g. YCM info popup
  function! ToggleCursorHold()
@@ -239,7 +240,6 @@ endfunction
    execute 'autocmd BufWinLeave <buffer> if bufexists(' . l:term . ') | bd! ' . l:term . ' | endif'
  endfunction
 
-
 "==============================================================================
 " WARNINGS
 
@@ -273,6 +273,7 @@ endfunction
 
 "======================================
 " Special behaviour
+
 "NOTE: MAC maynot work with <A-...>, use [ALT] + [KEY] resulting letter instead
 
 "Remap vim autocomplete ([CTRL]+[N] -> [CTRL]+[Shift]+[SPACE])
@@ -283,9 +284,6 @@ endfunction
 "NOTE: 'nmap qq' slows down macro recording save q<Letter> -> macro -> q
  nmap qq a
  imap <nowait> qq <Esc>
-
-"======================================
-" Special behaviour
 
 "Copy selection to clipboard (wayland)
 "-> https://stackoverflow.com/questions/61379318
@@ -299,8 +297,8 @@ endfunction
 "======================================
 " Function Keys
 
-"nnoremap   <F1> :help <CR>                      " open help page
  nnoremap   <F1> :Texplore <CR>                  " File browser (new tab)
+ nnoremap <S-F1> :Explore  <CR>                  " File browser (same tab)
  " hide most helper (easy select & copy)
  nnoremap <silent> <F2> :set number! relativenumber! list! <Bar>
        \ let &signcolumn = (&signcolumn ==# 'no' ? 'auto' : 'no') <Bar>
@@ -328,6 +326,7 @@ endfunction
  nnoremap   <F11> :call <SID>SearchGitRepo('rg') <CR>
  nnoremap <S-F11> <C-O>
  nnoremap   <F12> :call <SID>SearchGitRepo('fzf')<CR>
+ nnoremap <S-F12> <C-O>
 
 "======================================
 " Language & Codeing Style overides
