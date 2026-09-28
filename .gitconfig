@@ -1,11 +1,11 @@
 # NOTE: $_ variables will not be replaced with shell variables automatically
 [user]
   name = "$USER"
-  email = "noreply.$USER@example.de"    # <- If using gpg this should be same email used for gpg
-  signingkey = "~/.ssh/signing-key.pub" # ssh (you can also use "key::$(ssh-add -L | grep -m 1 sign)" )
+  email = "noreply.$USER@$HOSTNAME"     # same email used for gpg/ssh
  #signingkey = "1234567890ABCDEF"       # gpg --list-secret-keys --keyid-format LONG # CRYPTO-TYP/SIGNINGKEY
-  # ssh-keygen -t ed25519 -C "noreply.$USER@example.de" -N "" -f "$HOME/.ssh/signing-key"
-  # ssh-add "$HOME/.ssh/signing-key.pub"
+ #signingkey = "~/.ssh/signing-key.pub" # ssh (you can also use "key::$(ssh-add -L | grep -m 1 .)" )
+ #  ssh-keygen -t ed25519 -C "noreply.$USER@example.de" -N "" -f "$HOME/.ssh/signing-key"
+ #  ssh-add "$HOME/.ssh/signing-key.pub"
 [credential]
   helper = /usr/lib/git-core/git-credential-libsecret
 [color]
@@ -30,8 +30,8 @@
   directory = "$HOME/Develop"
 [maintenance]
   repo =
-[url "ssh://git@github.com/"]
-  insteadOf = https://github.com/
+#[url "ssh://git@github.com/"]  # if set requires ssh-key to be present for anything
+#  insteadOf = https://github.com/
 [http]
   postBuffer = 524288000
 [sendemail] # Send commit as mail:

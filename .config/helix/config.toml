@@ -31,7 +31,6 @@ character = "┆"
 
 [editor.gutters]
 layout = ["diff", "diagnostics", "line-numbers", "spacer"]
-
 [editor.soft-wrap]
 enable = false
 max-wrap = 25
@@ -42,23 +41,28 @@ wrap-at-text-width = true
 [editor.inline-diagnostics]
 cursor-line = "warning"
 prefix-len = 1
-
-[editor.statusline]
-
 [editor.lsp]
 enable = true
 display-messages = true
 display-inlay-hints = true
+[editor.statusline]
 
 [keys.normal]
-F9 = "goto_definition"
-F10 = "goto_reference"
-F11 = "global_search"
-F12 = "file_picker"
+  F1  = "file_explorer_in_current_buffer_directory"
+  F3  = ":toggle soft-wrap.enable"
+  F9  = "goto_definition"
+C-F9  = ["vsplit", "jump_view_left", "goto_definition"]
+S-F9  = "jump_backward"
+  F10 = "goto_reference"
+S-F10 = "jump_backward"
+  F11 = "global_search"
+  F12 = "file_picker"
 
 d = { d = ["extend_to_line_bounds", "yank_to_clipboard", "delete_selection"] } # vim dd
 
 C-s = ":write"
+C-home = "goto_file_start"
+C-end = "goto_file_end"
 
 [keys.select]
 F11 = ["search_selection", "global_search"] # press enter to search selection
