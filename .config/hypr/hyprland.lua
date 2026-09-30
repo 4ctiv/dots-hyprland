@@ -299,6 +299,13 @@ hl.window_rule({
 })
 
 hl.window_rule({
+    ["fullscreen_state"] = "0 0",
+    ["match"] = {
+    ["class"] = "kitty"
+  }
+})
+
+hl.window_rule({
     match = {
         class = "^(.*[Ww]aydroid.*)$",
     },
@@ -455,5 +462,3 @@ hl.config({
         enable_anr_dialog = false, -- Disabe "App not responding" prompts
     },
 })
-
-

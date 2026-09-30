@@ -126,7 +126,7 @@ hl.device({
 --- Keybinds ---
 ----------------
 -- Function keys
-hl.bind(mainMod .. " + F1", hl.dsp.exec_cmd("kitty " .. scriptsDir .. "/show-keybinds")) --TODO: Update to work with lua
+hl.bind(mainMod .. " + F1", hl.dsp.exec_cmd(term .. " " .. scriptsDir .. "/show-keybinds")) --TODO: Update to work with lua
 hl.bind(mainMod .. " + F2", hl.dsp.exec_cmd(files))
 hl.bind(mainMod .. " + F3", hl.dsp.exec_cmd(editor))
 hl.bind(mainMod .. " + F4", hl.dsp.exec_cmd(browser))
