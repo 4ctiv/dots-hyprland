@@ -44,7 +44,7 @@ sudo chown -R "$USER:$USER" "$HOME/.{config,icons,local,themes,vim,vimrc,gtkr,gt
 sudo chmod -R 755 "$HOME/.{config,icons,local,themes,vim,vimrc,gtkr,gtkrc-2.0,profile}" ||\
   (echo -e "${CYEL}[WARNING]${NCOL} Config file ownership & permissions failed!")
 #echo -e "export DOCKER_HOST=\"unix:///run/user/1000/docker.sock\"" >> ~/.profile # enable docker rootless
-
+gsettings set org.gnome.desktop.interface icon-theme "Dracula"
 
 echo -e "${CGRE}[INFO]${NCOL} Setup software ..."
 # Set default shell to fish if installed (should be)

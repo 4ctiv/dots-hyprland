@@ -49,6 +49,7 @@ xorg-xhost           # Optional: X11 compatability (permissions)
 xf86-input-libinput  # Optional: Touch input
 v4l2loopback-dkms    # Optional: obs virtual webcam
 usb_modeswitch       # Toggle USB device modes (e.g. Wifi USB CDROM mode)
+tpm2-tools
 qt5-wayland
 qt6-wayland
 ntp                  # Network time syncronisation
@@ -200,6 +201,7 @@ steam                 # Game store
 heroic-games-launcher # Game store (epic & gog)
 gamemode              # Game boost
 lib32-gamemode        #
+filelight             # Disk usage analys
 
 # Fun
 #mintstick             # usb creator (GUI) || Alt.: ventoy-bin
