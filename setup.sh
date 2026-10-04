@@ -13,7 +13,8 @@ CCYA='\033[0;36m'         # Cyan
 CWHI='\033[0;37m'        # White
 
 if [[ ! -f "$(which paru)" ]]; then
-  sudo pacman -Syu && sudo pacman -S --needed base-devel git
+  sudo pacman -Syu && sudo pacman -S --needed base-devel git rustup
+  rustup default stable
   git clone https://aur.archlinux.org/paru.git paru && cd paru && makepkg -si && cd .. && (yes | rm -r paru) || exit 1
 fi
 

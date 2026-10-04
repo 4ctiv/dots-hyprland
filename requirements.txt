@@ -2,55 +2,67 @@
 # A list of common utilities can be found here:
 # https://wiki.archlinux.org/title/List_of_applications/Utilities
 
-#to_install=""
-#while read row; do
+#to_install=""; while read row; do
 #  if [[ -z "$(echo ${row} | grep -v '^#')" ]];then
 #    continue;
 #  else
 #    to_install="${to_install} $(echo "${row}" | sed 's/#.*$//g')"
 #  fi
-#done < requirements.txt
-#paru -Syu --needed --noconfirm $to_install;
-#exit 0
+#done < requirements.txt; paru -Syu --needed --noconfirm $to_install;
+
+# Linux Kernel
+linux
+linux-headers
+linux-firmware
 
 # Intel ARC + AMD CPU
-# amd-ucode
-# libva-utils
-# libva-intel-driver
-# libvdpau-va-gl
-# vulkan-intel
-# lib32-vulkan-intel
-# intel-compute-runtime
+amd-ucode
+libva-utils
+libva-intel-driver
+libvdpau-va-gl
+mesa
+lib32-mesa
+vulkan-intel          # || Alt.: vulkan-amd, vulkan-nvidia
+lib32-vulkan-intel
+intel-compute-runtime
+intel-media-driver    # Codec support for intel (i)GPU
 
 # Package manager
-snapd                # System independend snap packages
-octopi               # GUI package manager
-paru                 # alt.: yay
+archlinux-keyring    # Install to refresh keys
+snapd
+flatpak
+paru                 # aur package manager || Alt.: yay
 downgrade            # allow downgrading packages
 # System core
-apparmor             # More security settings
 grub                 # Boot manager
-polkit               # permission management
-hyprpolkitagent      # permission management (hyprland)
-libsecret            # Secure storage interface
-gstreamer            # audio and video streams
+grub-btrfs           #
 systemd              # Init system
+apparmor             # More security settings
+polkit               # permission management
+libsecret            # Secure storage interface
 gnome-keyring        # keyring (session secrets) -> Code-OSS: add `"password-store": "gnome-libsecret"` in `~/.vscode-oss/argv.json`
-sddm                 # display manager
+ly                   # display manager
 wayland              # window manager backend
 lib32-wayland        # Optional: Support 32-Bit (recommended)
 xorg-xwayland        # Optional: X11 compatability (render)
 xorg-xhost           # Optional: X11 compatability (permissions)
-hyprland             # window manager
-iio-hyprland-git     # Optional: Screen rotation
 xf86-input-libinput  # Optional: Touch input
-xdg-desktop-portal-hyprland
+v4l2loopback-dkms    # Optional: obs virtual webcam
+usb_modeswitch       # Toggle USB device modes (e.g. Wifi USB CDROM mode)
+qt5-wayland
+qt6-wayland
 ntp                  # Network time syncronisation
 htop                 # task manager (TUI,CPU)
 nvtop                # task manager (TUI,GPU)
-gdb                  # Debugger
+kitty                # terminal emulator
+fish                 # shell
 
 # Hyprland desktop core
+uwsm                 # wayland session manager
+hyprland             # window manager
+xdg-desktop-portal-hyprland
+hyprpolkitagent      # permission management (hyprland)
+iio-hyprland-git     # Optional: Screen rotation
 hypridle             # idle manager
 hyprlock             # lockscreen (GUI)
 hyprpaper            # wallpaper manager
@@ -58,26 +70,21 @@ mpvpaper             # Optional: video wallpaper
 hyprsunset           # brightness controll
 wlogout              # power menu (GUI)
 waybar               # taskbar provider (GUI)
-wofi                 # menu provider (GUI)
-nwg-drawer           # app menu (GUI)
+wofi                 # menu provider (GUI)   || Alt.: nwg-drawer
 mako                 # notification daemon
 wl-clipboard         # clipboard tools
 cliphist             # clipboard manager
 filezilla            # Network file browser (GUI)
-file-roller          # Archive manager (GUI)
 nemo                 # file browser (GUI)
-nemo-share           # Quick share folders
-nemo-seahorse        # support encrypt & sign context-menu
-ark                  # archive manager (GUI)
-kitty                # terminal emulator
-fish                 # shell
+nemo-share           #
+nemo-seahorse        #
+ark                  # archive manager (GUI) || Alt.: file-roller
 hyprpicker           # screen color picker
 flameshot            # screenshot tool
 thunderbird          # mail-client
-brave-bin            # web-brower
 jq                   # Json parser (terminal)
 # Converter
-#pandoc              # markup file conversion # (alt.: libreoffice-fresh)
+#pandoc              # markup file conversion || Alt.: libreoffice-fresh
 ffmpeg               # Audio/Video conversion
 imagemagick          # Image       conversion
 # Audio
@@ -103,14 +110,12 @@ gnome-disk-utility   # Disk mount manager (GUI)
 btrfsmaintenance     # btrfs helper (scripts)
 btrfs-assistant      # btrfs helper (GUI)
 btrfs-progs          # btrfs tools
-grub-btrfs           # btrfs snaphot grub boot support
 snapper              # btrfs snapshot utility
 cifs-utils           # network fileshare tools
 ntfs-3g              # NTF driver
 # Security
 keepassxc            # Password manager (GUI)
-ufw                  # Firewall
-#gufw                # Optional: UFW manager (GUI)
+#ufw                 # Firewall || Alt.: systemd
 seahorse             # Keyring manager (GUI)
 gnupg                # GPG manager
 kleopatra            # Optional: GPG manager (GUI)
@@ -124,100 +129,89 @@ noto-fonts                      # Font (wide range of unicode support)
 ttf-jetbrains-mono-nerd         # Font (nerdfont, ligatures)
 gnome-font-viewer               # font management (GUI)
 kvantum-qt5                     # Unified theme support
-qt5ct                           # Optional: qt5 theme manager
-qt6ct                           # Optional: qt6 theme manager
-nwg-look                        # Optional: gtk theme manager
+#qt5ct                           # Optional: qt5 theme manager
+#qt6ct                           # Optional: qt6 theme manager
+#nwg-look                        # Optional: gtk theme manager
 #kvantummanager                 # Optional: kvantum theme manager
-dracula-icons                   # Optional: Icon   theme
-dracula-cursors                 # Optional: Cursor theme
-catppuccin-qt5ct-git            # Optional: Color  theme
-catppuccin-sddm-theme-mocha     # Optional: Login  theme
-catppuccin-mocha-grub-theme-git # Optional: Grub   theme
+#dracula-icons                   # Optional: Icon   theme
+#dracula-cursors                 # Optional: Cursor theme
+#catppuccin-qt5ct-git            # Optional: Color  theme
+#catppuccin-sddm-theme-mocha     # Optional: Login  theme
+#catppuccin-mocha-grub-theme-git # Optional: Grub   theme
 
 # Development and Text
+gdb                  # Debugger
 git                   # Version controll tool
 lazygit               # Git (TUI)
-vim                   # code-editor (cli)
-#vim-ale               # vim language server
-#vim-youcompleteme-git # vim auto completion
-#zed                  # code-editor (GUI) ai
-gram                  # code editor (GUI) no ai
-code                  # code-editor (GUI) OSS
-code-marketplace      # code-oss enable vscode marketplace
+vim                   # code-editor (cli) || Alt.: helix
+gram                  # code editor (GUI) || Alt.: zed
+code                  # code-editor (GUI) || Alt.: visual-studio-code code-oss
+fzf                   # fuzzy finder (cli)
+ripgrep               # full text search
+meld                  # diff tool
+#code-marketplace     # code-oss enable vscode marketplace
 go                    # Golang
 ghc                   # Haskell
 gcc                   # C, C++, ...
-rust                  # Rust
+rustup                # Rust
 miktex                # LaTeX
 python                # Python
 jre-openjdk           # Java
-#typescript           # Typescript (Javascript)
 # Office & PDF
-#onlyoffice-bin       # office suite (office 360 style)
-libreoffice-fresh     # office suite (open source)
-xournalpp             # handwritten notes | rnote, saber
+libreoffice-fresh     # office suite || Alt.: onlyoffice-bin
+xournalpp             # handwritten notes ||Alt.: rnote, saber, linwood-butterfly-bin
 obsidian              # markdown notes
-papers                # pdf reader
-pdf4qt                # pdf editor
+okular                # pdf reader        || Alt.: papers
+pdf4qt                # pdf editor        || Alt.: masterpdf
 # Media
-qmmp                  # audio player  [`mixxx` -> DJ/Mixing]
+rhythmbox             # audio player  || Alt.: qmmp
+audacity              # audio editor  || Alt.: ardour, mixxx
 gimp                  # photo editing [`krita` -> drawing]
 inkscape              # photo editing (vector graphics)
-mpv                   # video player
-shotcut               # video editor
+mpv                   # video player  || Alt.: vlc
+shotcut               # video editor  || Alt.: kdenlive, davinci-resolve-studio
 handbrake             # video transcoder
 obs-studio            # Video recorder
 obs-backgroundremoval # Optional: obs cam backgeound removal
-v4l2loopback-dkms     # Optional: obs virtual webcam
-#wlrobs-hg             # Optional: Wayland Desktop capture
+#wlrobs-hg            # Optional: Wayland Desktop capture
 obs-vaapi             # Optional: Extend recording formats
 blender               # 3D modeling
 # Virtualization & Remote
 qemu-desktop          # vm hypervisor (GUI)
 virt-manager          # vm manager
-looking-glass         # Optional: VM Hardware acceleration
-#quickgui             # vm manager (GUI, preconfigured vm's)
-#quickemu             # vm setup (pre-configured vm's)
+#looking-glass        # Optional: VM Hardware acceleration
 remmina               # Remote Desktop (Client)
 freerdp               # Allow rdp connections in remmina
 wayvnc                # Remote desktop (local  Server)
 parsec-bin            # Remote Desktop (Global Server)
 openssh               # Remote terminal
 ethtool               # Network config (setup WOL)
-docker-rootless-extras # Container (Docker rootless)
-docker-compose        # Enable compose commands
-lazydocker            # Docker (TUI)
+podman-desktop        # Container || Alt.: docker-rootless-extras
+#lazydocker            # Docker (TUI)
 
 # Nice 2 have
+brave-bin             # web-brower
 google-chrome         # Alt: browser
 firefox               # Alt: browser
-owncloud-client       # Selfhosted Cloud
+#owncloud-client      # Selfhosted Cloud
 cinny-desktop         # Matrix chat client
 discord               # Voice/Vido chat client
 steam                 # Game store
-vulkan-intel          # Game support (use vulkan-amd or vilkan-nvidia depending on your graphics)
-intel-media-driver    # Codec support for intel (i)GPU
-mesa                  # Game support
-heroic-games-launcher # Game store
+heroic-games-launcher # Game store (epic & gog)
 gamemode              # Game boost
-lib32-gamemode
-usb_modeswitch        # Toggle USB device modes (e.g. Wifi USB CDROM mode)
+lib32-gamemode        #
 
 # Fun
-tea                   # Gitea cli tool
-fzf                   # fuzzy finder (cli)
+#mintstick             # usb creator (GUI) || Alt.: ventoy-bin
+lynx                  # terminal browser
 glow                  # Markdown viwer (cli)
 cava                  # msuic equalizer
-meld                  # difference tool
-lynx                  # terminal browser
 yt-dlp                # Video downloader
-cbonsai               # screen saver
+#cbonsai              # screen saver
 glances               # hw statistics
 tty-clock             # clock
-mintstick             # usb creator (GUI)
-ventoy-bin            # multiboot usb
 gromit-mpx            # Scren annotations
-showmethekey          # key press overlay
 wvkbd                 # virtual keyboard
+showmethekey          # key press overlay
 bt-synckeys           # Share bluetooth connections with windows (dual-boot)
 
