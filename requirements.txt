@@ -50,6 +50,7 @@ xf86-input-libinput  # Optional: Touch input
 v4l2loopback-dkms    # Optional: obs virtual webcam
 usb_modeswitch       # Toggle USB device modes (e.g. Wifi USB CDROM mode)
 tpm2-tools
+dnsmasq
 qt5-wayland
 qt6-wayland
 ntp                  # Network time syncronisation
@@ -90,11 +91,15 @@ ffmpeg               # Audio/Video conversion
 imagemagick          # Image       conversion
 # Audio
 pipewire             # audio provider
-pipewire-alsa        # Optional: 
-pipewire-pulse       # Optional: 
-pavucontrol          # Optional: audio controll (GUI)
-#pulsemixer          # Optional: audio controll (TUI)
-easyeffects          # Optional: audio (mic & speaker) effects  (GUI)
+#pipewire-alsa       #
+#pipewire-pulse      #
+pavucontrol          # audio controll (GUI)
+pulsemixer           # audio controll (TUI)
+easyeffects          # audio (mic & speaker) effects  (GUI)
+calf
+lsp-plugins-lv2
+
+
 # Network & Connectivity
 nmap                 # network scans
 net-tools            # traceroute, arp, whois
@@ -187,14 +192,21 @@ wayvnc                # Remote desktop (local  Server)
 parsec-bin            # Remote Desktop (Global Server)
 openssh               # Remote terminal
 ethtool               # Network config (setup WOL)
+podman
 podman-desktop        # Container || Alt.: docker-rootless-extras
+fuse-overlayfs
 #lazydocker            # Docker (TUI)
+
+# Cloud & Services
+opencloud-desktop     # Cloud Storage sync
+#owncloud-client
+#nextcloud-desktop
+#delfin               # Jellyfin media streaming
 
 # Nice 2 have
 brave-bin             # web-brower
 google-chrome         # Alt: browser
 firefox               # Alt: browser
-#owncloud-client      # Selfhosted Cloud
 cinny-desktop         # Matrix chat client
 discord               # Voice/Vido chat client
 steam                 # Game store
@@ -202,6 +214,7 @@ heroic-games-launcher # Game store (epic & gog)
 gamemode              # Game boost
 lib32-gamemode        #
 filelight             # Disk usage analys
+grilo-plugins         # rhythmbox extension for browsing e.g. youtube
 
 # Fun
 #mintstick             # usb creator (GUI) || Alt.: ventoy-bin
@@ -216,4 +229,5 @@ gromit-mpx            # Scren annotations
 wvkbd                 # virtual keyboard
 showmethekey          # key press overlay
 bt-synckeys           # Share bluetooth connections with windows (dual-boot)
-
+ansible               # Configure servers remotely
+ansible-lint
