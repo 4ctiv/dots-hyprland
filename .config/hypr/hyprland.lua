@@ -301,7 +301,7 @@ hl.window_rule({
 hl.window_rule({
     ["fullscreen_state"] = "0 0",
     ["match"] = {
-    ["class"] = "kitty"
+    ["class"] = "[Kk]itty"
   }
 })
 
