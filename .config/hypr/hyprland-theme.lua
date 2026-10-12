@@ -65,7 +65,7 @@ local cat_crust = "rgb(11111b)"
 --env = HYPRCURSOR_SIZE , 24
 
 hl.window_rule({
-    name = "windowrule-1",
+    name = "normal-border",
     match = {
         float = 0,
     },
@@ -73,7 +73,7 @@ hl.window_rule({
 })
 
 hl.window_rule({
-    name = "windowrule-2",
+    name = "floating-border",
     match = {
         float = 1,
     },
@@ -81,7 +81,7 @@ hl.window_rule({
 })
 
 hl.window_rule({
-    name = "purple-border",
+    name = "pinned-border",
     match = {
         pin = 1,
     },
@@ -89,7 +89,7 @@ hl.window_rule({
 })
 
 hl.window_rule({
-    name = "gold-border",
+    name = "fullscreen-border",
     match = {
         fullscreen = 1,
     },
@@ -97,7 +97,7 @@ hl.window_rule({
 })
 
 hl.window_rule({
-    name = "red-border",
+    name = "fakefullscreen-border",
     match = {
         fullscreen_state_internal = 0,
         fullscreen_state_client = 2,
@@ -107,7 +107,7 @@ hl.window_rule({
 })
 
 hl.window_rule({
-    name = "salamon-border",
+    name = "xwayland-border",
     match = {
         xwayland = 1,
     },
@@ -115,7 +115,7 @@ hl.window_rule({
 })
 
 hl.window_rule({
-    name = "blue-border",
+    name = "specialws-border",
     match = {
         workspace = "special",
     },

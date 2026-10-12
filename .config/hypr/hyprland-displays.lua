@@ -38,10 +38,11 @@ hl.monitor({
 })
 hl.monitor({
     output = uMon,
-  --mode = "auto",
+  --mirror = mMon,
+    mode = "preferred",
+    transform = 0,
     position = "auto-up",
     scale = "1",
-    transform = 0,
     vrr = 1,
 })
 hl.monitor({
@@ -64,7 +65,7 @@ hl.monitor({
 })
 hl.monitor({
     output = lMon,
-    mode = "1920x1080@60",
+    mode = "preferred", -- "1920x1080@60",
     position = "auto-left",
     scale = "1",
     transform = 0,
@@ -73,7 +74,7 @@ hl.monitor({
 })
 hl.monitor({
     output = rMon,
-    mode = "1920x1080@60",
+    mode = "preferred", -- "1920x1080@60",
     position = "auto-right",
     scale = "1",
     transform = 0,

@@ -255,7 +255,7 @@
     "format":" 🖙 ",
     "format-alt": " 🖛 ",
     "tooltip": false,
-    "on-click": "bash ~/.config/hypr/scripts/toggle_touch"
+    "on-click": "bash ~/.config/hypr/scripts/toggle_touch touch"
   },
 
   "tray": {

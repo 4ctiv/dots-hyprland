@@ -367,6 +367,13 @@ hl.window_rule({
 
 hl.window_rule({
     match = {
+        class = "^([Kk]itty)$",
+    },
+    suppress_event = "fullscreen",
+})
+
+hl.window_rule({
+    match = {
         class = "^(flameshot)$",
     },
     workspace = "special:screenshot",
