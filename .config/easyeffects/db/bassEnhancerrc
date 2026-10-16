@@ -1,0 +1,9 @@
+[sie][BassEnhancer#0]
+blend=5
+bypass=true
+floorActive=true
+
+[soe][BassEnhancer#0]
+amount=4.2
+blend=6
+floorActive=true

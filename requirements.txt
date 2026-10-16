@@ -97,8 +97,9 @@ pipewire             # audio provider
 pavucontrol          # audio controll (GUI)
 pulsemixer           # audio controll (TUI)
 easyeffects          # audio (mic & speaker) effects  (GUI)
-calf
-lsp-plugins-lv2
+calf                 # - limiter, bass enhancer
+lsp-plugins-lv2      # - equalizer, compressor, loudness
+deepfilternet-ladspa # - Deep noise filter
 
 
 # Network & Connectivity
