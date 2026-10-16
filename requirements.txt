@@ -82,6 +82,7 @@ nemo-share           #
 nemo-seahorse        #
 ark                  # archive manager (GUI) || Alt.: file-roller
 hyprpicker           # screen color picker
+grim                 # screenshot support (flameshot backend)
 flameshot            # screenshot tool
 thunderbird          # mail-client
 jq                   # Json parser (terminal)
@@ -202,6 +203,11 @@ opencloud-desktop     # Cloud Storage sync
 #owncloud-client
 #nextcloud-desktop
 #delfin               # Jellyfin media streaming
+
+# Printer support
+cups
+gutenprint
+system-config-printer
 
 # Nice 2 have
 brave-bin             # web-brower

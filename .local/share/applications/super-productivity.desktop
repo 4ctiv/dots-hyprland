@@ -1,0 +1,22 @@
+[Desktop Entry]
+Categories=Utility;
+Type=Application
+Exec=/opt/super-productivity/super-productivity.AppImage %u
+Name=Super Productivity
+Comment=Task Management Utility
+GenericName=Todo App
+Icon=checkmark-symbolic
+Keywords=productivity;super;todo;task;schedule;issue;tracker;
+X-GNOME-Autostart-Delay=3
+#MimeType=application/todo;
+SingleMainWindow=true
+Actions=Quit;
+
+# Translations
+Implements=Office;ProjectManagement;
+Name[en_US]=super-productivity
+
+#[Desktop Action Quit]
+#Exec=syncin --quit
+#Name=Quit Syncin
+#Icon=syncin
