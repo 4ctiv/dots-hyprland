@@ -6,13 +6,14 @@ function cleanup-packs --description 'alias to cleanup linux packages (native,sn
     # CLOSE ALL SNAPS BEFORE RUNNING THIS
     for snapname in (snap list | tail -n +2 | awk '{print $1}')
         echo "Stopping $snapname..."
-        sudo snap stop $snapname
+        sudo snap stop $snapname 2>/dev/null
     end
     for line in (snap list --all | grep disabled)
       set fields (string split -n ' ' $line)
       set snapname $fields[1]
       set revision $fields[3]
-      sudo snap remove "$snapname" --revision="$revision"
+      # NOTE: `--purge` (optional) may remove important data
+      sudo snap remove "$snapname" --revision="$revision" --purge
     end
     # Flatpak
     sudo flatpak uninstall --unused # `--all` to delete all
