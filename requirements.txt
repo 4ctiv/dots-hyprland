@@ -68,6 +68,7 @@ iio-hyprland-git     # Optional: Screen rotation
 hypridle             # idle manager
 hyprlock             # lockscreen (GUI)
 hyprpaper            # wallpaper manager
+hypr-rdp
 mpvpaper             # Optional: video wallpaper
 hyprsunset           # brightness controll
 wlogout              # power menu (GUI)
@@ -78,9 +79,10 @@ wl-clipboard         # clipboard tools
 cliphist             # clipboard manager
 filezilla            # Network file browser (GUI)
 nemo                 # file browser (GUI)
-nemo-share           #
-nemo-seahorse        #
+nemo-share           # - allow link share
+nemo-seahorse        # - allow en-/de-cryption
 ark                  # archive manager (GUI) || Alt.: file-roller
+unzip                # - CLI archive utility
 hyprpicker           # screen color picker
 grim                 # screenshot support (flameshot backend)
 flameshot            # screenshot tool
@@ -92,8 +94,8 @@ ffmpeg               # Audio/Video conversion
 imagemagick          # Image       conversion
 # Audio
 pipewire             # audio provider
-#pipewire-alsa       #
-#pipewire-pulse      #
+#pipewire-alsa       # - 
+#pipewire-pulse      # - 
 pavucontrol          # audio controll (GUI)
 pulsemixer           # audio controll (TUI)
 easyeffects          # audio (mic & speaker) effects  (GUI)
@@ -109,6 +111,7 @@ wireshark-qt         # sniffing
 networkmanager       # network cli
 network-manager-applet # network tray icon
 nm-connection-editor # network manager (GUI)
+networkmanager-openconnect # - Exnteded VPN Support
 wireguard-tools      # VPN tool
 blueman              # Bluetooth manager (GUI)
 # File system
