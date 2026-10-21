@@ -8,7 +8,7 @@ CTRL = "SHIFT"
 STRG = "CTRL"
 
 -- Constants
-TOUCH_ENABLED = false
+TOUCH_ENABLED = true
 KNOB_ENABLED = true
 PAD_ENABLED = true
 

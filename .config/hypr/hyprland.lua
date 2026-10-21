@@ -299,13 +299,6 @@ hl.window_rule({
 })
 
 hl.window_rule({
-    ["fullscreen_state"] = "0 0",
-    ["match"] = {
-    ["class"] = "[Kk]itty"
-  }
-})
-
-hl.window_rule({
     match = {
         class = "^(.*[Ww]aydroid.*)$",
     },
@@ -369,7 +362,8 @@ hl.window_rule({
     match = {
         class = "^([Kk]itty)$",
     },
-    suppress_event = "fullscreen",
+    ["suppress_event"] = "fullscreen",
+    ["fullscreen_state"] = "0 0",
 })
 
 hl.window_rule({

@@ -1,6 +1,7 @@
 require("hyprland-var")
 
 hl.on("hyprland.start", function()
+    hl.exec_cmd("hyprpm reload -n") -- enable plugins
     hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme \"prefer-dark\"")
     -- Services
     hl.exec_cmd("systemctl start --user xdg-desktop-portal-hyprland.service")

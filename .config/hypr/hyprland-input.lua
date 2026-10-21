@@ -34,13 +34,17 @@ hl.gesture({
 })
 hl.gesture({
     fingers = 3,
-    direction = "up",
-    action = function() hl.dsp.exec_cmd(fullmenu, { stay_focused = true }) end,
+    direction = "down",
+    action = function()
+                hl.dispatch(hl.dsp.exec_cmd(fullmenu, { stay_focused = true }))
+             end,
 })
 hl.gesture({
     fingers = 3,
-    direction = "down",
-    action = "special",
+    direction = "up",
+    action = function()
+                 hl.dispatch(hl.dsp.exec_cmd(keyboard, { no_focus = true }))
+             end,
 })
 
 ---------------------------------------
@@ -358,35 +362,49 @@ hl.bind(mainMod .. " + period", hl.dsp.workspace.toggle_special(""))
 
 -- [Hyprgrass Touch Plugin](https://github.com/horriblename/hyprgrass/blob/main/docs/configuration.md)
 -- ```bash
+-- # Install plugin
+-- sudo pacman -S hyprpm
+-- hyprpm update
 -- hyprpm add https://github.com/horriblename/hyprgrass
 -- hyprpm enable hyprgrass
 -- ```
---
---hl.config({
---    plugin = {
---        hyprgrass = {
---            -- The default sensitivity is probably too low on tablet screens,
---            -- I recommend turning it up to 4.0
---            sensitivity = 1.0,
+-- You may want to check compatability with multi touch `sudo libinput debug-events`
+if hl.plugin.hyprgrass then
+  hl.dsp.exec_cmd('gksudo modprobe wacom', {})
+  hl.config({
+    plugin = {
+        hyprgrass = {
+            -- The default sensitivity is probably too low on tablet screens,
+            -- I recommend turning it up to 4.0
+            sensitivity = 1.0,
 
---            -- in milliseconds
---            long_press_delay = 400,
+            -- in milliseconds
+            long_press_delay = 400,
 
---            -- resize windows by long-pressing on window borders and gaps.
---            -- If general:resize_on_border is enabled,
---            -- general:extend_border_grab_area is used for floating windows
---            resize_on_border_long_press = true,
+            -- resize windows by long-pressing on window borders and gaps.
+            -- If general:resize_on_border is enabled,
+            -- general:extend_border_grab_area is used for floating windows
+            resize_on_border_long_press = true,
 
---            -- in pixels, the distance from the edge that is considered an edge
---            edge_margin = 10,
---        }
---    }
---})
---hl.plugin.hyprgrass.gesture {
---    pattern = {kind = "swipe", fingers = 3, direction = "up"},
---    action = hl.dsp.exec_cmd("pidof wvkbd-deskintl && pkill wvkbd-deskintl || wvkbd-deskintl -L 300"),
---}
---hl.plugin.hyprgrass.gesture {
---    pattern = {kind = "swipe", fingers = 3, direction = "down"},
---    action = hl.dsp.exec_cmd(fullmenu),
---}
+            -- in pixels, the distance from the edge that is considered an edge
+            edge_margin = 10,
+        }
+    },
+  })
+
+  hl.plugin.hyprgrass.bind {
+    pattern = {kind = "swipe", fingers = 3, direction = "up"}, -- broken using more than 1 finger
+    action = function()
+                --hl.dispatch(hl.dsp.exec_cmd('notify-send "Swipe Up"', {}))
+                hl.dispatch(hl.dsp.exec_cmd(keyboard, { no_focus = true }))
+             end,
+  }
+  hl.plugin.hyprgrass.gesture {
+    pattern = {kind = "swipe", fingers = 3, direction = "down"}, -- broken using more than 1 finger
+    action = function()
+                --hl.dispatch(hl.dsp.exec_cmd('notify-send "Swipe Down"', {}))
+                hl.dispatch(hl.dsp.exec_cmd(fullmenu, { stay_focused = true }))
+             end,
+  }
+end
+

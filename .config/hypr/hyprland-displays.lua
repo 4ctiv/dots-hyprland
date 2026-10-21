@@ -108,7 +108,7 @@ hl.workspace_rule({
 ------------
 
 -- Focus Primary monitor (startup)
-hl.exec_cmd("hyprctl dispatch focusmonitor " .. mMon)
+hl.dsp.exec_cmd("hyprctl dispatch focusmonitor " .. mMon)
 
 -- Screen sharing
 -- See https://wiki.hypr.land/Hypr-Ecosystem/xdg-desktop-portal-hyprland
